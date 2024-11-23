@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "668846190001",
+    "project_id": "better-a-day",
+    "storage_bucket": "better-a-day.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:668846190001:android:3dee2297b65128f478e190",
+        "android_client_info": {
+          "package_name": "com.example.one_better_a_day"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwF_PthxzSNUiIlN-XpAIPJj4oMCKEALI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
