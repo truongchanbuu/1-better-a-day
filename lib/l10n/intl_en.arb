@@ -1,3 +1,34 @@
 {
-  "@@locale": "en"
+  "@@locale": "en",
+
+  "@__DRAWER__": "",
+  "settings": "Settings",
+  "notifications": "Notifications",
+
+  "@__SETTING__": "",
+  "general_section": "General",
+  "language_tile": "Language",
+  "english_choice": "English",
+  "vietnamese_choice": "Vietnamese",
+
+  "theme_tile": "Theme",
+  "dark_theme": "Dark Theme",
+  "light_theme": "Light Theme",
+
+  "measurement_unit_title": "Measurement Unit",
+  "metric_unit": "Metric Unit",
+  "imperial_unit": "Imperial Unit",
+
+  "account_section": "Account",
+  "authentication_choice": "Sign in/Sign up",
+  "manage_account": "Manage Account",
+
+  "app_info_section": "Additional Information",
+  "terms_and_conditions": "Terms & Conditions",
+  "help_tile": "Help",
+
+  "time_of_day_section": "Time of day",
+  "dawn_tile": "Dawn",
+  "afternoon_tile": "Afternoon",
+  "dusk_tile": "Dusk"
 }

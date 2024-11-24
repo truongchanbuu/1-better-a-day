@@ -21,5 +21,34 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{};
+  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "account_section": MessageLookupByLibrary.simpleMessage("Account"),
+        "afternoon_tile": MessageLookupByLibrary.simpleMessage("Afternoon"),
+        "app_info_section":
+            MessageLookupByLibrary.simpleMessage("Additional Information"),
+        "authentication_choice":
+            MessageLookupByLibrary.simpleMessage("Sign in/Sign up"),
+        "dark_theme": MessageLookupByLibrary.simpleMessage("Dark Theme"),
+        "dawn_tile": MessageLookupByLibrary.simpleMessage("Dawn"),
+        "dusk_tile": MessageLookupByLibrary.simpleMessage("Dusk"),
+        "english_choice": MessageLookupByLibrary.simpleMessage("English"),
+        "general_section": MessageLookupByLibrary.simpleMessage("General"),
+        "help_tile": MessageLookupByLibrary.simpleMessage("Help"),
+        "imperial_unit": MessageLookupByLibrary.simpleMessage("Imperial Unit"),
+        "language_tile": MessageLookupByLibrary.simpleMessage("Language"),
+        "light_theme": MessageLookupByLibrary.simpleMessage("Light Theme"),
+        "manage_account":
+            MessageLookupByLibrary.simpleMessage("Manage Account"),
+        "measurement_unit_title":
+            MessageLookupByLibrary.simpleMessage("Measurement Unit"),
+        "metric_unit": MessageLookupByLibrary.simpleMessage("Metric Unit"),
+        "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
+        "settings": MessageLookupByLibrary.simpleMessage("Settings"),
+        "terms_and_conditions":
+            MessageLookupByLibrary.simpleMessage("Terms & Conditions"),
+        "theme_tile": MessageLookupByLibrary.simpleMessage("Theme"),
+        "time_of_day_section":
+            MessageLookupByLibrary.simpleMessage("Time of day"),
+        "vietnamese_choice": MessageLookupByLibrary.simpleMessage("Vietnamese")
+      };
 }
