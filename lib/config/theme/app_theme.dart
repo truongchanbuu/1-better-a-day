@@ -7,6 +7,7 @@ import '../../core/constants/app_spacing.dart';
 class AppTheme {
   static ThemeData lightTheme() {
     return ThemeData(
+      useMaterial3: true,
       brightness: Brightness.light,
       appBarTheme: _appBarTheme(isLight: true),
       colorScheme: const ColorScheme.light(
@@ -14,6 +15,21 @@ class AppTheme {
         secondary: AppColors.secondary,
       ),
       textTheme: _textTheme(isLight: true),
+      elevatedButtonTheme: _elevatedButtonTheme(),
+      cardTheme: _cardTheme(),
+    );
+  }
+
+  static ThemeData darkTheme() {
+    return ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.dark,
+      appBarTheme: _appBarTheme(isLight: false),
+      colorScheme: const ColorScheme.dark(
+        primary: AppColors.primary,
+        secondary: AppColors.secondary,
+      ),
+      textTheme: _textTheme(isLight: false),
       elevatedButtonTheme: _elevatedButtonTheme(),
       cardTheme: _cardTheme(),
     );

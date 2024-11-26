@@ -1,3 +1,5 @@
+import '../../generated/l10n.dart';
+
 abstract class AuthFailure implements Exception {
   static const String invalidEmail = 'invalid-email';
   static const String userDisabled = 'user-disabled';
@@ -23,10 +25,11 @@ abstract class AuthFailure implements Exception {
 }
 
 class SignUpWithEmailAndPasswordFailure extends AuthFailure {
-  const SignUpWithEmailAndPasswordFailure([super.message]);
+  const SignUpWithEmailAndPasswordFailure([super.code, super.message]);
   factory SignUpWithEmailAndPasswordFailure.fromCode(String code) {
     return SignUpWithEmailAndPasswordFailure(
-      _authErrorMessages[code] ?? 'An unknown exception occurred.',
+      code,
+      _authErrorMessages[code] ?? S.current.unknown_exception,
     );
   }
 }
@@ -37,27 +40,29 @@ class LogInWithEmailAndPasswordFailure extends AuthFailure {
   factory LogInWithEmailAndPasswordFailure.fromCode(String code) {
     return LogInWithEmailAndPasswordFailure(
       code,
-      _authErrorMessages[code] ?? 'An unknown exception occurred.',
+      _authErrorMessages[code] ?? S.current.unknown_exception,
     );
   }
 }
 
 class LogInWithGoogleFailure extends AuthFailure {
-  const LogInWithGoogleFailure([super.message]);
+  const LogInWithGoogleFailure([super.code, super.message]);
 
   factory LogInWithGoogleFailure.fromCode(String code) {
     return LogInWithGoogleFailure(
-      _authErrorMessages[code] ?? 'An unknown exception occurred.',
+      code,
+      _authErrorMessages[code] ?? S.current.unknown_exception,
     );
   }
 }
 
 class UpdateAccountFailure extends AuthFailure {
-  const UpdateAccountFailure([super.message]);
+  const UpdateAccountFailure([super.code, super.message]);
 
   factory UpdateAccountFailure.fromCode(String code) {
     return UpdateAccountFailure(
-      _authErrorMessages[code] ?? 'An unknown exception occurred.',
+      code,
+      _authErrorMessages[code] ?? S.current.unknown_exception,
     );
   }
 }
@@ -66,22 +71,28 @@ class LogOutFailure extends AuthFailure {
   const LogOutFailure([super.message]);
 }
 
-const Map<String, String> _authErrorMessages = {
-  AuthFailure.invalidEmail: 'Email is not valid or badly formatted.',
-  AuthFailure.userDisabled:
-      'This user has been disabled. Please contact support for help.',
-  AuthFailure.emailAlreadyInUse: 'An account already exists for that email.',
-  AuthFailure.operationNotAllowed:
-      'Operation is not allowed. Please contact support.',
-  AuthFailure.weakPassword: 'Please enter a stronger password.',
-  AuthFailure.userNotFound: 'Email is not found, please create an account.',
-  AuthFailure.wrongPassword: 'Incorrect password, please try again.',
+class PasswordResetFailure extends AuthFailure {
+  const PasswordResetFailure([super.code, super.message]);
+
+  factory PasswordResetFailure.fromCode(String code) {
+    return PasswordResetFailure(
+      code,
+      _authErrorMessages[code] ?? S.current.unknown_exception,
+    );
+  }
+}
+
+final Map<String, String> _authErrorMessages = {
+  AuthFailure.invalidEmail: S.current.invalid_email,
+  AuthFailure.userDisabled: S.current.user_disabled,
+  AuthFailure.emailAlreadyInUse: S.current.email_already_in_use,
+  AuthFailure.operationNotAllowed: S.current.operation_not_allowed,
+  AuthFailure.weakPassword: S.current.weak_password,
+  AuthFailure.userNotFound: S.current.user_not_found,
+  AuthFailure.wrongPassword: S.current.wrong_password,
   AuthFailure.accountExistsWithDifferentCredential:
-      'Account exists with different credentials.',
-  AuthFailure.invalidCredential:
-      'The credential received is malformed or has expired.',
-  AuthFailure.invalidVerificationCode:
-      'The credential verification code received is invalid.',
-  AuthFailure.invalidVerificationId:
-      'The credential verification ID received is invalid.',
+      S.current.account_exists_with_different_credential,
+  AuthFailure.invalidCredential: S.current.invalid_credential,
+  AuthFailure.invalidVerificationCode: S.current.invalid_verification_code,
+  AuthFailure.invalidVerificationId: S.current.invalid_verification_id,
 };

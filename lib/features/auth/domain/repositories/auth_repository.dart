@@ -1,4 +1,3 @@
-import '../../../../core/resources/data_state.dart';
 import '../../data/models/user.dart';
 
 abstract interface class AuthRepository {
@@ -6,22 +5,24 @@ abstract interface class AuthRepository {
   UserModel get currentUser;
   Future<void> reload();
 
-  Future<DataState<void>> signUp({
+  Future<void> signUp({
     required String email,
     required String password,
   });
-  Future<DataState<void>> logInWithGoogle();
-  Future<DataState<void>> logInWithEmailAndPassword({
+  Future<void> logInWithGoogle();
+  Future<void> logInWithEmailAndPassword({
     required String email,
     required String password,
   });
-  Future<DataState<void>> logInWithPhone(String phoneNumber);
-  Future<DataState<void>> logOut();
-  Future<DataState<void>> reAuthenticate(
-      {required String email, required String password});
+  Future<void> logOut();
+  Future<void> reAuthenticate({
+    required String email,
+    required String password,
+  });
+
+  Future<void> sendPasswordResetEmail(String email);
 
   Future<void> uploadPhotoUrl(String photoUrl);
   Future<void> updateEmail(String email);
   Future<void> updatePassword(String password);
-  Future<void> updatePhoneNumber(String phoneNumber);
 }

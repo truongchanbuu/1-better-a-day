@@ -1,6 +1,30 @@
 {
   "@@locale": "en",
 
+  "@__COMMON__": "",
+  "term_and_condition_statement": "By signing in/signing up, you accept our Terms and Conditions and consent to our Privacy Policy",
+
+  "@__AUTHENTICATION__": "",
+  "logout_button": "Log out",
+  "recovery_description": "An reset-password mail will be sent to your email",
+
+  "@__ACCOUNT_VALIDATION__": "",
+  "empty_field": "Please do not empty the field",
+  "invalid_form": "Please check your information again",
+  "invalid_password": "Password must have at least 6 characters",
+  "invalid_email": "Email is not valid or badly formatted.",
+  "user_disabled": "This user has been disabled. Please contact support for help.",
+  "email_already_in_use": "An account already exists for that email.",
+  "operation_not_allowed": "Operation is not allowed. Please contact support.",
+  "weak_password": "Please enter a stronger password.",
+  "user_not_found": "Email is not found, please create an account.",
+  "wrong_password": "Incorrect password, please try again.",
+  "account_exists_with_different_credential": "Account exists with different credentials.",
+  "invalid_credential": "Invalid email or password.",
+  "invalid_verification_code": "The credential verification code received is invalid.",
+  "invalid_verification_id": "The credential verification ID received is invalid.",
+  "unknown_exception": "An unknown exception occurred.",
+
   "@__DRAWER__": "",
   "settings": "Settings",
   "notifications": "Notifications",
@@ -21,7 +45,7 @@
 
   "account_section": "Account",
   "authentication_choice": "Sign in/Sign up",
-  "manage_account": "Manage Account",
+  "manage_account_choice": "Manage Account",
 
   "app_info_section": "Additional Information",
   "terms_and_conditions": "Terms & Conditions",

@@ -21,7 +21,7 @@ class DrawerSlider extends StatelessWidget {
       child: ListView(
         children: TabType.values
             .map((tab) => DrawerItem(
-                  onTap: () => onChanged(tab),
+                  onTap: currentTab != tab ? () => onChanged(tab) : null,
                   iconData: tab.icon,
                   title: tab.title,
                   isSelected: currentTab == tab,

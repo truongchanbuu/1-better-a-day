@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_settings_ui/flutter_settings_ui.dart';
+import 'package:page_transition/page_transition.dart';
 
 import '../../../../core/constants/app_color.dart';
 import '../../../../core/constants/app_font_size.dart';
 import '../../../../generated/l10n.dart';
+import '../../../../injection_container.dart';
+import '../../../auth/presentations/bloc/auth_bloc/auth_bloc.dart';
+import '../../../auth/presentations/bloc/login/login_cubit.dart';
+import '../../../auth/presentations/bloc/signup/signup_cubit.dart';
+import '../../../auth/presentations/pages/auth_page.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -16,6 +23,9 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentUser =
+        context.select((AuthBloc authBloc) => authBloc.state.user);
+
     return SettingsList(
       sections: [
         // Time of day
@@ -96,17 +106,32 @@ class SettingsPage extends StatelessWidget {
         SettingsSection(
           title: Text(S.current.account_section, style: _sectionTextStyle),
           tiles: [
-            SettingsTile.navigation(
-              title:
-                  Text(S.current.authentication_choice, style: _titleTextStyle),
-              leading: const Icon(Icons.login, color: Colors.blue),
-              trailing: const Icon(
-                Icons.keyboard_arrow_right,
-                color: AppColors.primary,
-              ),
-              backgroundColor: AppColors.lightText,
-              onPressed: (BuildContext context) {},
-            ),
+            !currentUser.isLoggedIn
+                ? SettingsTile.navigation(
+                    title: Text(
+                      S.current.authentication_choice,
+                      style: _titleTextStyle,
+                    ),
+                    leading: const Icon(Icons.login, color: Colors.blue),
+                    trailing: const Icon(
+                      Icons.keyboard_arrow_right,
+                      color: AppColors.primary,
+                    ),
+                    backgroundColor: AppColors.lightText,
+                    onPressed: _authPage,
+                  )
+                : SettingsTile.navigation(
+                    title: Text(S.current.manage_account_choice,
+                        style: _titleTextStyle),
+                    leading:
+                        const Icon(Icons.manage_accounts, color: Colors.blue),
+                    trailing: const Icon(
+                      Icons.keyboard_arrow_right,
+                      color: AppColors.primary,
+                    ),
+                    backgroundColor: AppColors.lightText,
+                    onPressed: (BuildContext context) {},
+                  ),
           ],
         ),
 
@@ -133,7 +158,50 @@ class SettingsPage extends StatelessWidget {
             ),
           ],
         ),
+
+        // Logout
+        if (currentUser.isLoggedIn)
+          SettingsSection(
+            tiles: [
+              SettingsTile.navigation(
+                title: Text(
+                  S.current.logout_button,
+                  style: const TextStyle(
+                    color: AppColors.error,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                backgroundColor: AppColors.lightText,
+                onPressed: _logout,
+              ),
+            ],
+          ),
       ],
     );
+  }
+
+  void _logout(BuildContext context) {
+    context.read<AuthBloc>().add(LogoutRequest());
+  }
+
+  void _authPage(BuildContext context) {
+    Navigator.push(
+        context,
+        PageTransition(
+          ctx: context,
+          type: PageTransitionType.fade,
+          child: MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => getIt.get<LoginCubit>(),
+              ),
+              BlocProvider(
+                create: (context) => getIt.get<SignUpCubit>(),
+              ),
+            ],
+            child: const AuthPage(),
+          ),
+          duration: const Duration(milliseconds: 500),
+        ));
   }
 }

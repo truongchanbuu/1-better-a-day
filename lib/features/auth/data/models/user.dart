@@ -15,7 +15,6 @@ class UserModel extends UserEntity {
     super.dateOfBirth,
     super.createdAt,
     super.updatedAt,
-    super.isVerified,
   });
 
   UserEntity toEntity() {
@@ -25,7 +24,6 @@ class UserModel extends UserEntity {
       username: username,
       avatarUrl: avatarUrl,
       phoneNumber: phoneNumber,
-      isVerified: isVerified,
       createdAt: createdAt,
       dateOfBirth: dateOfBirth,
       updatedAt: updatedAt,
@@ -40,7 +38,6 @@ class UserModel extends UserEntity {
     DateTime? dateOfBirth,
     String? avatarUrl,
     String? phoneNumber,
-    bool? isVerified,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -51,7 +48,6 @@ class UserModel extends UserEntity {
       dateOfBirth: dateOfBirth ?? this.dateOfBirth,
       avatarUrl: avatarUrl ?? this.avatarUrl,
       phoneNumber: phoneNumber ?? this.phoneNumber,
-      isVerified: isVerified ?? this.isVerified,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -64,7 +60,6 @@ class UserModel extends UserEntity {
       username: entity.username,
       avatarUrl: entity.avatarUrl,
       phoneNumber: entity.phoneNumber,
-      isVerified: entity.isVerified,
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt,
       dateOfBirth: entity.dateOfBirth,

@@ -7,7 +7,6 @@ class UserEntity extends Equatable {
   final DateTime? dateOfBirth;
   final String? avatarUrl;
   final String? phoneNumber;
-  final bool isVerified;
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
@@ -18,7 +17,6 @@ class UserEntity extends Equatable {
     this.dateOfBirth,
     this.avatarUrl,
     this.phoneNumber,
-    this.isVerified = false,
     this.createdAt,
     this.updatedAt,
   });
@@ -34,7 +32,6 @@ class UserEntity extends Equatable {
     DateTime? dateOfBirth,
     String? avatarUrl,
     String? phoneNumber,
-    bool? isVerified,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -47,7 +44,6 @@ class UserEntity extends Equatable {
       phoneNumber: phoneNumber ?? this.phoneNumber,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
-      isVerified: isVerified ?? this.isVerified,
     );
   }
 
@@ -59,7 +55,6 @@ class UserEntity extends Equatable {
         avatarUrl,
         dateOfBirth,
         phoneNumber,
-        isVerified,
         createdAt,
         updatedAt
       ];
@@ -70,7 +65,6 @@ class UserEntity extends Equatable {
   static const String dateOfBirthFieldName = 'dateOfBirth';
   static const String avatarUrlFieldName = 'avatarUrl';
   static const String phoneNumberFieldName = 'phoneNumber';
-  static const String isVerifiedFieldName = 'isVerified';
   static const String createdAtFieldName = 'createdAt';
   static const String updatedAtFieldName = 'updatedAt';
 }
