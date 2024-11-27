@@ -3,4 +3,7 @@ class AppStorageKey {
   static const String appThemeCachedKey = '__app_dark_theme__';
   static const String appMeasurementUnitCachedKey = '__app_measurement_unit__';
   static const String appUserCachedKey = '__app_user_key__';
+  static const String appDawnTimeCachedKey = '__app_dawn_time__';
+  static const String appAfternoonTimeCachedKey = '__app_afternoon_time__';
+  static const String appDuskTimeCachedKey = '__app_dusk_time__';
 }

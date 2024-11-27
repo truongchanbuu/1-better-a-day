@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'config/theme/app_theme.dart';
 import 'core/constants/app_common.dart';
 import 'features/auth/presentations/bloc/auth_bloc/auth_bloc.dart';
+import 'features/settings/presentations/bloc/settings_cubit.dart';
 import 'features/shared/presentations/pages/app_view.dart';
 import 'firebase_options.dart';
 import 'generated/l10n.dart';
@@ -14,7 +15,7 @@ import 'injection_container.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  initializeDependencies();
+  await initializeDependencies();
   runApp(const MyApp());
 }
 
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
           create: (_) =>
               getIt.get<AuthBloc>()..add(AuthUserSubscriptionRequest()),
         ),
+        BlocProvider(create: (context) => getIt.get<SettingsCubit>())
       ],
       child: const AppContainer(),
     );
@@ -43,8 +45,12 @@ class AppContainer extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: AppCommons.appName,
+      themeMode: context.select((SettingsCubit settings) =>
+          settings.isDarkMode ? ThemeMode.dark : ThemeMode.light),
       theme: AppTheme.lightTheme(),
       darkTheme: AppTheme.darkTheme(),
+      locale:
+          context.select((SettingsCubit settings) => settings.currentLocale),
       supportedLocales: S.delegate.supportedLocales,
       localizationsDelegates: const [
         S.delegate,

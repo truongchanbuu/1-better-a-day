@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:one_better_a_day/config/log/app_logger.dart';
-import 'package:one_better_a_day/injection_container.dart';
+import '../../config/log/app_logger.dart';
+import '../../injection_container.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CacheClient {

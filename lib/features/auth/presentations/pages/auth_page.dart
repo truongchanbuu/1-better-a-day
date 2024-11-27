@@ -7,7 +7,6 @@ import '../../../../core/constants/app_color.dart';
 import '../../../../core/constants/app_common.dart';
 import '../../../../core/constants/app_font_size.dart';
 import '../../../../generated/l10n.dart';
-import '../bloc/auth_bloc/auth_bloc.dart';
 import '../bloc/login/login_cubit.dart';
 import '../bloc/signup/signup_cubit.dart';
 

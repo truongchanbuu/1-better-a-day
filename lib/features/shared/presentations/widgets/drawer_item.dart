@@ -22,7 +22,7 @@ class DrawerItem extends StatelessWidget {
     final Color textColor = isSelected ? Colors.white : AppColors.primary;
     return Container(
       decoration: BoxDecoration(
-        color: isSelected ? AppColors.primary : Colors.white,
+        color: isSelected ? AppColors.primary : Colors.transparent,
         borderRadius: const BorderRadius.all(
           Radius.circular(AppSpacing.radiusS),
         ),

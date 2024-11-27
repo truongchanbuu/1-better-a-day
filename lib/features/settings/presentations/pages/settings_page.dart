@@ -5,12 +5,17 @@ import 'package:page_transition/page_transition.dart';
 
 import '../../../../core/constants/app_color.dart';
 import '../../../../core/constants/app_font_size.dart';
+import '../../../../core/constants/app_storage_key.dart';
+import '../../../../core/extensions/string_extension.dart';
+import '../../../../core/helpers/setting_helper.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../injection_container.dart';
 import '../../../auth/presentations/bloc/auth_bloc/auth_bloc.dart';
 import '../../../auth/presentations/bloc/login/login_cubit.dart';
 import '../../../auth/presentations/bloc/signup/signup_cubit.dart';
 import '../../../auth/presentations/pages/auth_page.dart';
+import '../bloc/settings_cubit.dart';
+import '../widgets/multi_choice_setting_item.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -25,6 +30,8 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final currentUser =
         context.select((AuthBloc authBloc) => authBloc.state.user);
+    final defaultSettings =
+        context.select((SettingsCubit settings) => settings.state);
 
     return SettingsList(
       sections: [
@@ -37,27 +44,33 @@ class SettingsPage extends StatelessWidget {
           tiles: [
             SettingsTile.navigation(
               title: Text(S.current.dawn_tile, style: _titleTextStyle),
-              value: const Text('6:00'),
-              description: const Text('6:00', style: _subTitleTextStyle),
+              value: Text(defaultSettings.dawn),
+              description:
+                  Text(defaultSettings.dawn, style: _subTitleTextStyle),
               leading: const Icon(Icons.wb_sunny, color: Colors.orange),
               backgroundColor: AppColors.lightText,
-              onPressed: (BuildContext context) {},
+              onPressed: (context) => _onSelectTimeOfDay(
+                  context, AppStorageKey.appDawnTimeCachedKey),
             ),
             SettingsTile.navigation(
               title: Text(S.current.afternoon_tile, style: _titleTextStyle),
-              value: const Text('12:00'),
-              description: const Text('12:00', style: _subTitleTextStyle),
+              value: Text(defaultSettings.afternoon),
+              description:
+                  Text(defaultSettings.afternoon, style: _subTitleTextStyle),
               leading: const Icon(Icons.cloud, color: Colors.blueAccent),
               backgroundColor: AppColors.lightText,
-              onPressed: (BuildContext context) {},
+              onPressed: (context) => _onSelectTimeOfDay(
+                  context, AppStorageKey.appAfternoonTimeCachedKey),
             ),
             SettingsTile.navigation(
               title: Text(S.current.dusk_tile, style: _titleTextStyle),
-              value: const Text('18:00'),
-              description: const Text('18:00', style: _subTitleTextStyle),
+              value: Text(defaultSettings.dusk),
+              description:
+                  Text(defaultSettings.dusk, style: _subTitleTextStyle),
               leading: const Icon(Icons.brightness_2, color: Colors.yellow),
               backgroundColor: AppColors.lightText,
-              onPressed: (BuildContext context) {},
+              onPressed: (context) => _onSelectTimeOfDay(
+                  context, AppStorageKey.appDuskTimeCachedKey),
             ),
           ],
         ),
@@ -71,33 +84,49 @@ class SettingsPage extends StatelessWidget {
           tiles: [
             SettingsTile.navigation(
               title: Text(S.current.language_tile, style: _titleTextStyle),
-              value: Text(S.current.english_choice),
-              description:
-                  Text(S.current.english_choice, style: _subTitleTextStyle),
+              value: Text(
+                  SettingHelper.langCodeToFullName(defaultSettings.language)),
+              description: Text(
+                  SettingHelper.langCodeToFullName(defaultSettings.language),
+                  style: _subTitleTextStyle),
               leading: const Icon(Icons.language, color: Colors.blue),
               backgroundColor: AppColors.lightText,
-              onPressed: (BuildContext context) {},
+              onPressed: _onLangChanged,
             ),
             SettingsTile.navigation(
               title: Text(S.current.theme_tile, style: _titleTextStyle),
-              value: Text(S.current.light_theme),
-              description:
-                  Text(S.current.light_theme, style: _subTitleTextStyle),
-              leading: const Icon(Icons.light_mode, color: Colors.amber),
+              value: Text(defaultSettings.isDarkMode
+                  ? S.current.dark_theme
+                  : S.current.light_theme),
+              description: Text(
+                  defaultSettings.isDarkMode
+                      ? S.current.dark_theme
+                      : S.current.light_theme,
+                  style: _subTitleTextStyle),
+              leading: defaultSettings.isDarkMode
+                  ? const Icon(Icons.dark_mode, color: Colors.amber)
+                  : const Icon(Icons.light_mode, color: Colors.amber),
               backgroundColor: AppColors.lightText,
-              onPressed: (BuildContext context) {},
+              onPressed: _onThemeChanged,
             ),
             SettingsTile.navigation(
               title: Text(
                 S.current.measurement_unit_title,
                 style: _titleTextStyle,
               ),
-              value: Text(S.current.metric_unit),
-              description:
-                  Text(S.current.metric_unit, style: _subTitleTextStyle),
+              value: Text(defaultSettings.measurementSystem ==
+                      MeasurementSystem.metric.name
+                  ? S.current.metric_unit
+                  : S.current.imperial_unit),
+              description: Text(
+                  defaultSettings.measurementSystem ==
+                          MeasurementSystem.metric.name
+                      ? S.current.metric_unit
+                      : S.current.imperial_unit,
+                  style: _subTitleTextStyle),
               leading: const Icon(Icons.straighten, color: Colors.orange),
               backgroundColor: AppColors.lightText,
-              onPressed: (BuildContext context) {},
+              onPressed: _onMeasurementSystemChanged,
             ),
           ],
         ),
@@ -203,5 +232,61 @@ class SettingsPage extends StatelessWidget {
           ),
           duration: const Duration(milliseconds: 500),
         ));
+  }
+
+  void _onSelectTimeOfDay(BuildContext context, String cachedKey) async {
+    final settingCubit = context.read<SettingsCubit>();
+    final selectedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+
+    if (selectedTime == null) return;
+
+    final selectedTimeString = '${selectedTime.hour}:${selectedTime.minute}';
+    settingCubit.timeChanged(cachedKey, selectedTimeString);
+  }
+
+  void _onLangChanged(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => SettingSelectionBottomSheet<String>(
+        choices: SettingHelper.supportedLanguages,
+        selected: context.select((SettingsCubit settings) =>
+            SettingHelper.langCodeToFullName(
+                settings.currentLocale.languageCode)),
+        onSelected: context.read<SettingsCubit>().languageChanged,
+      ),
+    );
+  }
+
+  void _onThemeChanged(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => SettingSelectionBottomSheet<String>(
+        choices: [S.current.light_theme, S.current.dark_theme],
+        selected: context.select((SettingsCubit settings) =>
+            settings.isDarkMode ? S.current.dark_theme : S.current.light_theme),
+        onSelected: (choice) => context
+            .read<SettingsCubit>()
+            .themeChanged(choice == S.current.dark_theme),
+      ),
+    );
+  }
+
+  void _onMeasurementSystemChanged(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => SettingSelectionBottomSheet<String>(
+        choices: MeasurementSystem.values
+            .map((system) => system.name.toUpperCaseFirstLetter)
+            .toList(),
+        selected: context.select((SettingsCubit settings) =>
+            settings.state.measurementSystem.toUpperCaseFirstLetter),
+        onSelected: (choice) => context
+            .read<SettingsCubit>()
+            .measurementSystemChanged(choice.toLowerCase()),
+      ),
+    );
   }
 }

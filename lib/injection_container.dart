@@ -12,6 +12,7 @@ import 'features/auth/domain/repositories/auth_repository.dart';
 import 'features/auth/presentations/bloc/auth_bloc/auth_bloc.dart';
 import 'features/auth/presentations/bloc/login/login_cubit.dart';
 import 'features/auth/presentations/bloc/signup/signup_cubit.dart';
+import 'features/settings/presentations/bloc/settings_cubit.dart';
 import 'features/user/data/repositories/user_repository_impl.dart';
 import 'features/user/domain/repositories/user_repository.dart';
 import 'services/api_service.dart';
@@ -60,6 +61,7 @@ Future<void> initializeDependencies() async {
   getIt.registerSingleton<AuthBloc>(AuthBloc(getIt()));
 
   // Cubit
+  getIt.registerSingleton<SettingsCubit>(SettingsCubit(getIt()));
   getIt.registerFactory<LoginCubit>(() => LoginCubit(getIt()));
   getIt.registerFactory<SignUpCubit>(() => SignUpCubit(getIt()));
 }

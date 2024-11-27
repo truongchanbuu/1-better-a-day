@@ -1,0 +1,58 @@
+{
+  "@@locale": "vi",
+
+  "@__COMMON__": "",
+  "term_and_condition_statement": "Bằng cách đăng nhập/đăng ký, bạn chấp nhận Điều khoản và Điều kiện của chúng tôi và đồng ý với Chính sách Quyền riêng tư",
+
+  "@__AUTHENTICATION__": "",
+  "logout_button": "Đăng xuất",
+  "recovery_description": "Một email đặt lại mật khẩu sẽ được gửi tới email của bạn",
+
+  "@__ACCOUNT_VALIDATION__": "",
+  "empty_field": "Vui lòng không để trống trường này",
+  "invalid_form": "Vui lòng kiểm tra lại thông tin của bạn",
+  "invalid_password": "Mật khẩu phải có ít nhất 6 ký tự",
+  "invalid_email": "Email không hợp lệ hoặc được định dạng sai.",
+  "user_disabled": "Người dùng này đã bị vô hiệu hóa. Vui lòng liên hệ hỗ trợ để được giúp đỡ.",
+  "email_already_in_use": "Đã có tài khoản sử dụng email này.",
+  "operation_not_allowed": "Hoạt động không được phép. Vui lòng liên hệ hỗ trợ.",
+  "weak_password": "Vui lòng nhập mật khẩu mạnh hơn.",
+  "user_not_found": "Email không được tìm thấy, vui lòng tạo tài khoản.",
+  "wrong_password": "Mật khẩu không chính xác, vui lòng thử lại.",
+  "account_exists_with_different_credential": "Tài khoản đã tồn tại với thông tin đăng nhập khác.",
+  "invalid_credential": "Email hoặc mật khẩu không hợp lệ.",
+  "invalid_verification_code": "Mã xác minh nhận được không hợp lệ.",
+  "invalid_verification_id": "ID xác minh nhận được không hợp lệ.",
+  "unknown_exception": "Đã xảy ra lỗi không xác định.",
+
+  "@__DRAWER__": "",
+  "settings": "Cài đặt",
+  "notifications": "Thông báo",
+
+  "@__SETTING__": "",
+  "general_section": "Chung",
+  "language_tile": "Ngôn ngữ",
+  "english_choice": "Tiếng Anh",
+  "vietnamese_choice": "Tiếng Việt",
+
+  "theme_tile": "Giao diện",
+  "dark_theme": "Chế độ tối",
+  "light_theme": "Chế độ sáng",
+
+  "measurement_unit_title": "Đơn vị đo lường",
+  "metric_unit": "Hệ mét",
+  "imperial_unit": "Hệ Anh",
+
+  "account_section": "Tài khoản",
+  "authentication_choice": "Đăng nhập/Đăng ký",
+  "manage_account_choice": "Quản lý tài khoản",
+
+  "app_info_section": "Thông tin bổ sung",
+  "terms_and_conditions": "Điều khoản & Điều kiện",
+  "help_tile": "Trợ giúp",
+
+  "time_of_day_section": "Thời gian trong ngày",
+  "dawn_tile": "Bình minh",
+  "afternoon_tile": "Buổi chiều",
+  "dusk_tile": "Hoàng hôn"
+}

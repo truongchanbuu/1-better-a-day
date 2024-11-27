@@ -17,6 +17,7 @@ class AppTheme {
       textTheme: _textTheme(isLight: true),
       elevatedButtonTheme: _elevatedButtonTheme(),
       cardTheme: _cardTheme(),
+      bottomSheetTheme: _bottomSheetTheme(),
     );
   }
 
@@ -32,6 +33,7 @@ class AppTheme {
       textTheme: _textTheme(isLight: false),
       elevatedButtonTheme: _elevatedButtonTheme(),
       cardTheme: _cardTheme(),
+      bottomSheetTheme: _bottomSheetTheme(),
     );
   }
 
@@ -109,6 +111,14 @@ class AppTheme {
         borderRadius: BorderRadius.circular(AppSpacing.radiusM),
       ),
       clipBehavior: Clip.antiAlias,
+    );
+  }
+
+  static BottomSheetThemeData _bottomSheetTheme() {
+    return const BottomSheetThemeData(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(AppSpacing.radiusS)),
+      ),
     );
   }
 }

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_login/flutter_login.dart';
 import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:one_better_a_day/core/constants/app_font_size.dart';
 
 import '../../../../core/constants/app_color.dart';
 import '../../../../core/enums/tab_type.dart';
+import '../../../settings/presentations/bloc/settings_cubit.dart';
 import '../widgets/drawer_slider.dart';
 
 class AppView extends StatefulWidget {
@@ -36,6 +39,8 @@ class _AppViewState extends State<AppView> {
             drawerIconColor: AppColors.lightText,
             title: Text(
               _currentTab.title,
+              locale: context
+                  .select((SettingsCubit settings) => settings.currentLocale),
               style: const TextStyle(
                 color: AppColors.lightText,
                 fontSize: AppFontSize.appBarTitle,
