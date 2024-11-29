@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../../../../core/exceptions/auth_exception.dart';
 import '../../../../core/resources/data_state.dart';
 import '../../../../services/api_service.dart';
 import '../../../auth/data/models/user.dart';
@@ -53,7 +54,7 @@ class UserRepositoryImpl implements UserRepository {
     }
 
     return DataFailure(FirebaseException(
-      code: 'not-found',
+      code: FirebaseFailure.userNotFound,
       plugin: 'user',
       message: 'Not found',
     ));
@@ -70,12 +71,12 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<DataState<void>> updateUser(UserModel user) async {
+  Future<DataState<UserModel>> updateUser(UserModel user) async {
     return await apiService.update(id: user.id, updated: user.toJson());
   }
 
   @override
-  Future<DataState<void>> updateUserField(
+  Future<DataState<UserModel>> updateUserField(
       String userId, Map<String, dynamic> fields) async {
     return await apiService.update(id: userId, updated: fields);
   }

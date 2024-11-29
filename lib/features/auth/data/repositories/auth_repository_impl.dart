@@ -22,9 +22,9 @@ class AuthRepositoryImpl implements AuthRepository {
   final UserRepository userRepository;
 
   final _userController = StreamController<UserModel>();
-  UserModel? _cachedUser;
+  UserModel _cachedUser = UserModel.fromEntity(UserEntity.empty);
 
-  static const int _maxRetries = 5;
+  static const int _maxRetries = 3;
   static const Duration _retryDelay = Duration(seconds: 1);
 
   AuthRepositoryImpl({
@@ -38,15 +38,55 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   void _initUserStream() {
-    firebaseAuth.authStateChanges().listen((firebaseUser) {
-      final user = firebaseUser == null
-          ? UserModel.fromEntity(UserEntity.empty)
-          : UserModel.fromEntity(firebaseUser.toUser);
+    firebaseAuth.authStateChanges().listen(
+          _handleAuthStateChange,
+          onError: (error) => appLogger.e('Auth state change error: $error'),
+        );
+  }
 
-      _updateCachedUser(user);
-    }, onError: (error) {
-      appLogger.e('Auth state change error: $error');
-    });
+  Future<void> _handleAuthStateChange(User? firebaseUser) async {
+    if (firebaseUser == null) {
+      await _handleNullUser();
+      return;
+    }
+
+    await _processUserData(firebaseUser);
+  }
+
+  Future<void> _handleNullUser() async {
+    await _updateCachedUser(UserModel.fromEntity(UserEntity.empty));
+  }
+
+  Future<void> _processUserData(User firebaseUser) async {
+    try {
+      final userFromAuth = firebaseUser.toUser;
+      final userData = await _fetchUserData(firebaseUser.uid);
+      if (userData == null) {
+        await _handleNullUser();
+        return;
+      }
+
+      final combinedUser = _combineUserData(userFromAuth, userData);
+      await _updateCachedUser(UserModel.fromEntity(combinedUser));
+    } catch (error) {
+      appLogger.e('Failed to get user data from database: $error');
+      await _updateCachedUser(UserModel.fromEntity(firebaseUser.toUser));
+    }
+  }
+
+  Future<UserEntity?> _fetchUserData(String userId) async {
+    final userDataState = await userRepository.getUserById(userId);
+    return userDataState is DataSuccess ? userDataState.data : null;
+  }
+
+  UserEntity _combineUserData(UserEntity userFromAuth, UserEntity? userFromDB) {
+    return userFromAuth.copyWith(
+      gender: userFromDB?.gender ?? userFromAuth.gender,
+      dateOfBirth: userFromDB?.dateOfBirth ?? userFromAuth.dateOfBirth,
+      username: userFromDB?.username ?? userFromAuth.username,
+      phoneNumber: userFromDB?.phoneNumber ?? userFromAuth.phoneNumber,
+      avatarUrl: userFromDB?.avatarUrl ?? userFromAuth.avatarUrl,
+    );
   }
 
   Future<void> _updateCachedUser(UserModel user) async {
@@ -59,20 +99,22 @@ class AuthRepositoryImpl implements AuthRepository {
   Stream<UserModel> get user => _userController.stream;
 
   @override
-  UserModel get currentUser {
-    if (_cachedUser != null) return _cachedUser!;
+  Future<UserModel> get currentUser async {
+    if (_cachedUser != UserModel.fromEntity(UserEntity.empty)) {
+      return _cachedUser;
+    }
 
     try {
       final data = cache.getJson(AppStorageKey.appUserCachedKey);
       if (data != null) {
         _cachedUser = UserModel.fromJson(data);
-        return _cachedUser!;
+        return _cachedUser;
       }
 
       if (firebaseAuth.currentUser != null) {
         _cachedUser = UserModel.fromEntity(firebaseAuth.currentUser!.toUser);
-        _updateCachedUser(_cachedUser!);
-        return _cachedUser!;
+        await _updateCachedUser(_cachedUser);
+        return _cachedUser;
       }
     } catch (error) {
       appLogger.e("Failed to get current user: $error");
@@ -114,10 +156,14 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<void> logInWithGoogle() async {
     try {
-      if (kIsWeb) {
-        await _handleWebGoogleSignIn();
-      } else {
-        await _handleMobileGoogleSignIn();
+      final userCredential = await (kIsWeb
+          ? _handleWebGoogleSignIn()
+          : _handleMobileGoogleSignIn());
+
+      if (userCredential.user != null) {
+        await addUserDatabase(userCredential.user!.toUser);
+        await _updateCachedUser(
+            UserModel.fromEntity(userCredential.user!.toUser));
       }
     } on FirebaseAuthException catch (e) {
       throw LogInWithGoogleFailure.fromCode(e.code);
@@ -126,17 +172,13 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
-  Future<void> _handleWebGoogleSignIn() async {
+  Future<UserCredential> _handleWebGoogleSignIn() async {
     final googleProvider = GoogleAuthProvider();
     final userCredential = await firebaseAuth.signInWithPopup(googleProvider);
-
-    if (userCredential.credential != null) {
-      await firebaseAuth.signInWithCredential(userCredential.credential!);
-      await addUserDatabase(userCredential.user!.toUser);
-    }
+    return userCredential;
   }
 
-  Future<void> _handleMobileGoogleSignIn() async {
+  Future<UserCredential> _handleMobileGoogleSignIn() async {
     final googleUser = await googleSignIn.signIn();
     if (googleUser == null) throw const LogInWithGoogleFailure();
 
@@ -146,8 +188,7 @@ class AuthRepositoryImpl implements AuthRepository {
       idToken: googleAuth.idToken,
     );
 
-    await firebaseAuth.signInWithCredential(credential);
-    await addUserDatabase(googleUser.toUser);
+    return await firebaseAuth.signInWithCredential(credential);
   }
 
   @override
@@ -164,14 +205,8 @@ class AuthRepositoryImpl implements AuthRepository {
         );
 
         final user = userCredential.user!.toUser;
-        final dataState =
-            await userRepository.createUser(UserModel.fromEntity(user));
-
-        if (dataState is DataFailure) {
-          throw const SignUpWithEmailAndPasswordFailure();
-        }
-
-        await _updateCachedUser(UserModel.fromEntity(user));
+        await addUserDatabase(user);
+        await _processUserData(userCredential.user!);
       }, 'sign up');
     } on FirebaseAuthException catch (e) {
       throw SignUpWithEmailAndPasswordFailure.fromCode(e.code);
@@ -184,7 +219,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<void> logOut() async {
     try {
       await cache.remove(AppStorageKey.appUserCachedKey);
-      _cachedUser = null;
+      _cachedUser = UserModel.fromEntity(UserEntity.empty);
 
       await Future.wait([
         firebaseAuth.signOut(),
@@ -219,11 +254,14 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> reAuthenticate({
-    required String email,
-    required String password,
-  }) async {
+  Future<void> reAuthWithEmail({required String password}) async {
     try {
+      final email = firebaseAuth.currentUser?.email;
+      if (email == null) {
+        throw LogInWithEmailAndPasswordFailure.fromCode(
+            FirebaseFailure.invalidEmail);
+      }
+
       final credential = EmailAuthProvider.credential(
         email: email,
         password: password,
@@ -242,26 +280,55 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> uploadPhotoUrl(String photoUrl) =>
-      _updateProfile(() => firebaseAuth.currentUser!.updatePhotoURL(photoUrl));
-
-  @override
-  Future<void> updateEmail(String email) => _updateProfile(
-      () => firebaseAuth.currentUser!.verifyBeforeUpdateEmail(email));
-
-  @override
-  Future<void> updatePassword(String password) =>
-      _updateProfile(() => firebaseAuth.currentUser!.updatePassword(password));
-
-  Future<void> _updateProfile(Future<void> Function() updateFn) async {
+  Future<void> reAuthWithGoogle() async {
     try {
-      await _retryOperation(updateFn, 'update profile');
+      final user = firebaseAuth.currentUser;
+      if (user == null) {
+        throw LogInWithGoogleFailure.fromCode(FirebaseFailure.userTokenExpired);
+      }
+
+      final isGoogleProvider = user.providerData
+          .any((provider) => provider.providerId == 'google.com');
+      if (!isGoogleProvider) {
+        throw LogInWithGoogleFailure.fromCode(
+            FirebaseFailure.invalidCredential);
+      }
+
+      final userCredential = await (kIsWeb
+          ? _handleWebGoogleSignIn()
+          : _handleMobileGoogleSignIn());
+
+      final credential = userCredential.credential;
+      if (credential == null) {
+        throw LogInWithGoogleFailure.fromCode(
+            FirebaseFailure.invalidCredential);
+      }
+
+      await _retryOperation(
+        () =>
+            firebaseAuth.currentUser!.reauthenticateWithCredential(credential),
+        're-authenticate',
+      );
     } on FirebaseAuthException catch (e) {
-      throw UpdateAccountFailure.fromCode(e.code);
+      throw LogInWithGoogleFailure.fromCode(e.code);
     } catch (_) {
-      throw const UpdateAccountFailure();
+      throw const LogInWithGoogleFailure();
     }
   }
+
+  @override
+  Future<void> uploadPhotoUrl(String photoUrl) async => await _updateProfile(
+      () => firebaseAuth.currentUser!.updatePhotoURL(photoUrl));
+
+  @override
+  Future<void> updateEmail(String email) async {
+    await _updateProfile(
+        () => firebaseAuth.currentUser!.verifyBeforeUpdateEmail(email));
+  }
+
+  @override
+  Future<void> updatePassword(String password) async => await _updateProfile(
+      () => firebaseAuth.currentUser!.updatePassword(password));
 
   @override
   Future<void> sendPasswordResetEmail(String email) async {
@@ -274,16 +341,114 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
-  void dispose() {
-    _userController.close();
+  @override
+  Future<void> updateDisplayName(String displayName) async {
+    try {
+      if (firebaseAuth.currentUser == null) {
+        throw UpdateInfoFailure.fromCode(FirebaseFailure.invalidCredential);
+      }
+
+      await _updateProfile(
+        () => firebaseAuth.currentUser!.updateDisplayName(displayName),
+      );
+      await userRepository.updateUserField(
+        firebaseAuth.currentUser!.uid,
+        {UserEntity.usernameFieldName: displayName},
+      );
+      await _updateCachedUser(
+          UserModel.fromEntity(firebaseAuth.currentUser!.toUser));
+    } on FirebaseAuthException catch (e) {
+      throw UpdateInfoFailure.fromCode(e.code);
+    } catch (_) {
+      throw const UpdateInfoFailure();
+    }
+  }
+
+  @override
+  Future<void> updateGender(String gender) async {
+    try {
+      if (firebaseAuth.currentUser == null) {
+        throw UpdateInfoFailure.fromCode(FirebaseFailure.invalidCredential);
+      }
+
+      await _updateProfile(() => userRepository.updateUserField(
+            firebaseAuth.currentUser!.uid,
+            {UserEntity.genderFieldName: gender},
+          ));
+      await _processUserData(firebaseAuth.currentUser!);
+    } on FirebaseAuthException catch (e) {
+      throw UpdateInfoFailure.fromCode(e.code);
+    } catch (_) {
+      throw const UpdateInfoFailure();
+    }
+  }
+
+  @override
+  Future<void> updateBirthDate(DateTime birthDate) async {
+    try {
+      if (firebaseAuth.currentUser == null) {
+        throw UpdateInfoFailure.fromCode(FirebaseFailure.invalidCredential);
+      }
+
+      await _updateProfile(() => userRepository.updateUserField(
+            firebaseAuth.currentUser!.uid,
+            {UserEntity.dateOfBirthFieldName: birthDate.toIso8601String()},
+          ));
+      await _processUserData(firebaseAuth.currentUser!);
+    } on FirebaseAuthException catch (e) {
+      throw UpdateInfoFailure.fromCode(e.code);
+    } catch (_) {
+      throw const UpdateInfoFailure();
+    }
+  }
+
+  @override
+  Future<void> updatePhoneNumber(String phoneNumber) async {
+    try {
+      if (firebaseAuth.currentUser == null) {
+        throw UpdateInfoFailure.fromCode(FirebaseFailure.invalidCredential);
+      }
+
+      await _updateProfile(() => userRepository.updateUserField(
+            firebaseAuth.currentUser!.uid,
+            {UserEntity.phoneNumberFieldName: phoneNumber},
+          ));
+      await _processUserData(firebaseAuth.currentUser!);
+    } on FirebaseAuthException catch (e) {
+      throw UpdateInfoFailure.fromCode(e.code);
+    } catch (_) {
+      throw const UpdateInfoFailure();
+    }
+  }
+
+  Future<void> _updateProfile(Future<void> Function() updateFn) async {
+    try {
+      await _retryOperation(updateFn, 'update profile');
+    } on FirebaseAuthException catch (e) {
+      throw UpdateAccountFailure.fromCode(e.code);
+    } catch (_) {
+      throw const UpdateAccountFailure();
+    }
   }
 
   Future<void> addUserDatabase(UserEntity user) async {
     final existedUserDataState =
         await userRepository.getUserByEmail(user.email!);
+
     if (existedUserDataState is! DataSuccess) {
       await userRepository.createUser(UserModel.fromEntity(user));
+    } else {
+      final existedUser = existedUserDataState.data!;
+      if (user.id != existedUser.id) {
+        await userRepository.deleteUser(existedUser.id);
+        await userRepository.createUser(UserModel.fromEntity(user));
+      }
     }
+  }
+
+  @override
+  void dispose() {
+    _userController.close();
   }
 }
 
@@ -295,17 +460,8 @@ extension on User {
       avatarUrl: photoURL,
       username: displayName,
       phoneNumber: phoneNumber,
-    );
-  }
-}
-
-extension on GoogleSignInAccount {
-  UserEntity get toUser {
-    return UserEntity(
-      id: id,
-      email: email,
-      avatarUrl: photoUrl,
-      username: displayName,
+      provider:
+          providerData.isNotEmpty ? providerData.first.providerId : 'password',
     );
   }
 }

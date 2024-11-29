@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/constants/app_color.dart';
 import '../../core/constants/app_font_size.dart';
+import '../../core/constants/app_size.dart';
 import '../../core/constants/app_spacing.dart';
 
 class AppTheme {
@@ -14,10 +15,12 @@ class AppTheme {
         primary: AppColors.primary,
         secondary: AppColors.secondary,
       ),
+      snackBarTheme: _snackBarTheme(),
       textTheme: _textTheme(isLight: true),
       elevatedButtonTheme: _elevatedButtonTheme(),
       cardTheme: _cardTheme(),
       bottomSheetTheme: _bottomSheetTheme(),
+      inputDecorationTheme: _inputDecorationTheme(),
     );
   }
 
@@ -32,16 +35,18 @@ class AppTheme {
       ),
       textTheme: _textTheme(isLight: false),
       elevatedButtonTheme: _elevatedButtonTheme(),
+      snackBarTheme: _snackBarTheme(),
       cardTheme: _cardTheme(),
       bottomSheetTheme: _bottomSheetTheme(),
+      inputDecorationTheme: _inputDecorationTheme(),
     );
   }
 
   static AppBarTheme _appBarTheme({required bool isLight}) {
     return AppBarTheme(
-      backgroundColor: isLight ? AppColors.primary : AppColors.primaryDark,
-      elevation: 10,
-    );
+        backgroundColor: isLight ? AppColors.primary : AppColors.primaryDark,
+        elevation: 10,
+        iconTheme: const IconThemeData(color: AppColors.lightText));
   }
 
   static TextTheme _textTheme({required bool isLight}) {
@@ -100,6 +105,12 @@ class AppTheme {
             Radius.circular(AppSpacing.radiusS),
           ),
         ),
+        backgroundColor: AppColors.primary,
+        minimumSize: const Size.fromHeight(AppSize.defaultButtonHeight),
+        textStyle: const TextStyle(
+          color: AppColors.lightText,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }
@@ -119,6 +130,23 @@ class AppTheme {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(AppSpacing.radiusS)),
       ),
+    );
+  }
+
+  static SnackBarThemeData _snackBarTheme() {
+    return const SnackBarThemeData(
+      elevation: 0,
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: Colors.transparent,
+    );
+  }
+
+  static InputDecorationTheme _inputDecorationTheme() {
+    return const InputDecorationTheme(
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: AppColors.primary),
+      ),
+      hintStyle: TextStyle(color: AppColors.grayText),
     );
   }
 }

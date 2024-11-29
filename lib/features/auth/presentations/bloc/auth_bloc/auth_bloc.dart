@@ -18,9 +18,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     AuthUserSubscriptionRequest event,
     Emitter<AuthState> emit,
   ) async =>
-      emit.onEach(
+      await emit.onEach(
         authRepository.user,
-        onData: (user) {
+        onData: (user) async {
           final entity = user.toEntity();
           emit(AppAuthState(user: entity));
         },
@@ -32,5 +32,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) {
     authRepository.logOut();
+  }
+
+  @override
+  Future<void> close() {
+    authRepository.dispose();
+    return super.close();
   }
 }

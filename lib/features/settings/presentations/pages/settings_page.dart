@@ -1,11 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_settings_ui/flutter_settings_ui.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../../../core/constants/app_color.dart';
+import '../../../../core/constants/app_common.dart';
 import '../../../../core/constants/app_font_size.dart';
 import '../../../../core/constants/app_storage_key.dart';
+import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/string_extension.dart';
 import '../../../../core/helpers/setting_helper.dart';
 import '../../../../generated/l10n.dart';
@@ -14,8 +17,10 @@ import '../../../auth/presentations/bloc/auth_bloc/auth_bloc.dart';
 import '../../../auth/presentations/bloc/login/login_cubit.dart';
 import '../../../auth/presentations/bloc/signup/signup_cubit.dart';
 import '../../../auth/presentations/pages/auth_page.dart';
+import '../../../user/presentations/bloc/update_info_cubit.dart';
+import '../../../user/presentations/pages/profile_page.dart';
 import '../bloc/settings_cubit.dart';
-import '../widgets/multi_choice_setting_item.dart';
+import '../widgets/setting_selection_bottom_sheet.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -48,7 +53,8 @@ class SettingsPage extends StatelessWidget {
               description:
                   Text(defaultSettings.dawn, style: _subTitleTextStyle),
               leading: const Icon(Icons.wb_sunny, color: Colors.orange),
-              backgroundColor: AppColors.lightText,
+              backgroundColor:
+                  context.isDarkMode ? AppColors.darkText : AppColors.lightText,
               onPressed: (context) => _onSelectTimeOfDay(
                   context, AppStorageKey.appDawnTimeCachedKey),
             ),
@@ -58,7 +64,8 @@ class SettingsPage extends StatelessWidget {
               description:
                   Text(defaultSettings.afternoon, style: _subTitleTextStyle),
               leading: const Icon(Icons.cloud, color: Colors.blueAccent),
-              backgroundColor: AppColors.lightText,
+              backgroundColor:
+                  context.isDarkMode ? AppColors.darkText : AppColors.lightText,
               onPressed: (context) => _onSelectTimeOfDay(
                   context, AppStorageKey.appAfternoonTimeCachedKey),
             ),
@@ -68,7 +75,8 @@ class SettingsPage extends StatelessWidget {
               description:
                   Text(defaultSettings.dusk, style: _subTitleTextStyle),
               leading: const Icon(Icons.brightness_2, color: Colors.yellow),
-              backgroundColor: AppColors.lightText,
+              backgroundColor:
+                  context.isDarkMode ? AppColors.darkText : AppColors.lightText,
               onPressed: (context) => _onSelectTimeOfDay(
                   context, AppStorageKey.appDuskTimeCachedKey),
             ),
@@ -87,10 +95,12 @@ class SettingsPage extends StatelessWidget {
               value: Text(
                   SettingHelper.langCodeToFullName(defaultSettings.language)),
               description: Text(
-                  SettingHelper.langCodeToFullName(defaultSettings.language),
-                  style: _subTitleTextStyle),
+                SettingHelper.langCodeToFullName(defaultSettings.language),
+                style: _subTitleTextStyle,
+              ),
               leading: const Icon(Icons.language, color: Colors.blue),
-              backgroundColor: AppColors.lightText,
+              backgroundColor:
+                  context.isDarkMode ? AppColors.darkText : AppColors.lightText,
               onPressed: _onLangChanged,
             ),
             SettingsTile.navigation(
@@ -106,7 +116,8 @@ class SettingsPage extends StatelessWidget {
               leading: defaultSettings.isDarkMode
                   ? const Icon(Icons.dark_mode, color: Colors.amber)
                   : const Icon(Icons.light_mode, color: Colors.amber),
-              backgroundColor: AppColors.lightText,
+              backgroundColor:
+                  context.isDarkMode ? AppColors.darkText : AppColors.lightText,
               onPressed: _onThemeChanged,
             ),
             SettingsTile.navigation(
@@ -125,7 +136,8 @@ class SettingsPage extends StatelessWidget {
                       : S.current.imperial_unit,
                   style: _subTitleTextStyle),
               leading: const Icon(Icons.straighten, color: Colors.orange),
-              backgroundColor: AppColors.lightText,
+              backgroundColor:
+                  context.isDarkMode ? AppColors.darkText : AppColors.lightText,
               onPressed: _onMeasurementSystemChanged,
             ),
           ],
@@ -146,7 +158,9 @@ class SettingsPage extends StatelessWidget {
                       Icons.keyboard_arrow_right,
                       color: AppColors.primary,
                     ),
-                    backgroundColor: AppColors.lightText,
+                    backgroundColor: context.isDarkMode
+                        ? AppColors.darkText
+                        : AppColors.lightText,
                     onPressed: _authPage,
                   )
                 : SettingsTile.navigation(
@@ -158,8 +172,10 @@ class SettingsPage extends StatelessWidget {
                       Icons.keyboard_arrow_right,
                       color: AppColors.primary,
                     ),
-                    backgroundColor: AppColors.lightText,
-                    onPressed: (BuildContext context) {},
+                    backgroundColor: context.isDarkMode
+                        ? AppColors.darkText
+                        : AppColors.lightText,
+                    onPressed: _onManageAccount,
                   ),
           ],
         ),
@@ -176,13 +192,15 @@ class SettingsPage extends StatelessWidget {
                 Icons.keyboard_arrow_right,
                 color: AppColors.primary,
               ),
-              backgroundColor: AppColors.lightText,
+              backgroundColor:
+                  context.isDarkMode ? AppColors.darkText : AppColors.lightText,
               onPressed: (BuildContext context) {},
             ),
             SettingsTile.navigation(
               title: Text(S.current.help_tile, style: _titleTextStyle),
               leading: const Icon(Icons.help, color: Colors.deepPurpleAccent),
-              backgroundColor: AppColors.lightText,
+              backgroundColor:
+                  context.isDarkMode ? AppColors.darkText : AppColors.lightText,
               onPressed: (BuildContext context) {},
             ),
           ],
@@ -194,13 +212,15 @@ class SettingsPage extends StatelessWidget {
             tiles: [
               SettingsTile.navigation(
                 title: Text(
-                  S.current.logout_button,
+                  S.current.logout_button.toUpperCase(),
                   style: const TextStyle(
                     color: AppColors.error,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                backgroundColor: AppColors.lightText,
+                backgroundColor: context.isDarkMode
+                    ? AppColors.darkText
+                    : AppColors.lightText,
                 onPressed: _logout,
               ),
             ],
@@ -230,7 +250,7 @@ class SettingsPage extends StatelessWidget {
             ],
             child: const AuthPage(),
           ),
-          duration: const Duration(milliseconds: 500),
+          duration: AppCommons.pageTransitionDuration,
         ));
   }
 
@@ -288,5 +308,18 @@ class SettingsPage extends StatelessWidget {
             .measurementSystemChanged(choice.toLowerCase()),
       ),
     );
+  }
+
+  void _onManageAccount(BuildContext context) {
+    Navigator.push(
+        context,
+        PageTransition(
+          duration: AppCommons.pageTransitionDuration,
+          child: BlocProvider(
+            create: (context) => getIt.get<UpdateInfoCubit>(),
+            child: const ProfilePage(),
+          ),
+          type: PageTransitionType.leftToRight,
+        ));
   }
 }

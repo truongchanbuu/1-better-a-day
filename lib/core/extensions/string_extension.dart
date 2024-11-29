@@ -1,3 +1,5 @@
+import 'dart:math';
+
 extension StringExtension on String {
   String get obscure {
     if (length <= 4) {
@@ -18,10 +20,12 @@ extension StringExtension on String {
     String start = substring(0, startLength);
     String end = substring(length - endLength);
 
-    String obscured = start + '*' * (length - startLength - endLength) + end;
+    String obscured = start + '*' * min(length, 5) + end;
 
     return obscured;
   }
+
+  String lastNLetter(int n) => substring(length - n);
 
   String get toUpperCaseFirstLetter {
     if (isEmpty) {

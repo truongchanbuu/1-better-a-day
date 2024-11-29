@@ -60,6 +60,76 @@ class S {
     );
   }
 
+  /// `Success`
+  String get success_title {
+    return Intl.message(
+      'Success',
+      name: 'success_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failure`
+  String get failure_title {
+    return Intl.message(
+      'Failure',
+      name: 'failure_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Warning`
+  String get warning_title {
+    return Intl.message(
+      'Warning',
+      name: 'warning_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Loading...`
+  String get loading_title {
+    return Intl.message(
+      'Loading...',
+      name: 'loading_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send`
+  String get send_button {
+    return Intl.message(
+      'Send',
+      name: 'send_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Accept`
+  String get accept_button {
+    return Intl.message(
+      'Accept',
+      name: 'accept_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get cancel_button {
+    return Intl.message(
+      'Cancel',
+      name: 'cancel_button',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Log out`
   String get logout_button {
     return Intl.message(
@@ -75,6 +145,86 @@ class S {
     return Intl.message(
       'An reset-password mail will be sent to your email',
       name: 'recovery_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Re-authenticate with Google`
+  String get re_auth_with_google {
+    return Intl.message(
+      'Re-authenticate with Google',
+      name: 're_auth_with_google',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Re-authenticate with Email`
+  String get re_auth_with_email {
+    return Intl.message(
+      'Re-authenticate with Email',
+      name: 're_auth_with_email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login Failure`
+  String get login_failure_title {
+    return Intl.message(
+      'Login Failure',
+      name: 'login_failure_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login Success`
+  String get login_success_title {
+    return Intl.message(
+      'Login Success',
+      name: 'login_success_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Update Failure`
+  String get update_failure_title {
+    return Intl.message(
+      'Update Failure',
+      name: 'update_failure_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Update Success`
+  String get update_success_title {
+    return Intl.message(
+      'Update Success',
+      name: 'update_success_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `A mail has been sent to your new email`
+  String get verify_email_sent {
+    return Intl.message(
+      'A mail has been sent to your new email',
+      name: 'verify_email_sent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please try again later`
+  String get try_again {
+    return Intl.message(
+      'Please try again later',
+      name: 'try_again',
       desc: '',
       args: [],
     );
@@ -115,6 +265,16 @@ class S {
     return Intl.message(
       'Email is not valid or badly formatted.',
       name: 'invalid_email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Phone number is not valid`
+  String get invalid_phone {
+    return Intl.message(
+      'Phone number is not valid',
+      name: 'invalid_phone',
       desc: '',
       args: [],
     );
@@ -230,6 +390,26 @@ class S {
     );
   }
 
+  /// `Please select a valid age`
+  String get invalid_age {
+    return Intl.message(
+      'Please select a valid age',
+      name: 'invalid_age',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password does not match`
+  String get passwords_do_not_match {
+    return Intl.message(
+      'Password does not match',
+      name: 'passwords_do_not_match',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Settings`
   String get settings {
     return Intl.message(
@@ -245,6 +425,16 @@ class S {
     return Intl.message(
       'Notifications',
       name: 'notifications',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All Habits`
+  String get habits {
+    return Intl.message(
+      'All Habits',
+      name: 'habits',
       desc: '',
       args: [],
     );
@@ -380,6 +570,96 @@ class S {
     );
   }
 
+  /// `Reset Password`
+  String get reset_password {
+    return Intl.message(
+      'Reset Password',
+      name: 'reset_password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Birthdate`
+  String get birth_date {
+    return Intl.message(
+      'Birthdate',
+      name: 'birth_date',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Personal Information`
+  String get personal_info_section {
+    return Intl.message(
+      'Personal Information',
+      name: 'personal_info_section',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Age`
+  String get age_field {
+    return Intl.message(
+      'Age',
+      name: 'age_field',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Display Name`
+  String get display_name {
+    return Intl.message(
+      'Display Name',
+      name: 'display_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Phone`
+  String get phone_number {
+    return Intl.message(
+      'Phone',
+      name: 'phone_number',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gender`
+  String get gender_field {
+    return Intl.message(
+      'Gender',
+      name: 'gender_field',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password`
+  String get password_field {
+    return Intl.message(
+      'Password',
+      name: 'password_field',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm Password`
+  String get confirm_password_field {
+    return Intl.message(
+      'Confirm Password',
+      name: 'confirm_password_field',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Additional Information`
   String get app_info_section {
     return Intl.message(
@@ -445,6 +725,26 @@ class S {
     return Intl.message(
       'Dusk',
       name: 'dusk_tile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No Date Selected`
+  String get no_date_selected {
+    return Intl.message(
+      'No Date Selected',
+      name: 'no_date_selected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Statics`
+  String get static_section {
+    return Intl.message(
+      'Statics',
+      name: 'static_section',
       desc: '',
       args: [],
     );

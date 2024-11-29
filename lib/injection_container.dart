@@ -15,6 +15,7 @@ import 'features/auth/presentations/bloc/signup/signup_cubit.dart';
 import 'features/settings/presentations/bloc/settings_cubit.dart';
 import 'features/user/data/repositories/user_repository_impl.dart';
 import 'features/user/domain/repositories/user_repository.dart';
+import 'features/user/presentations/bloc/update_info_cubit.dart';
 import 'services/api_service.dart';
 import 'services/impl/api_service_impl.dart';
 
@@ -22,7 +23,7 @@ final getIt = GetIt.I;
 
 Future<void> initializeDependencies() async {
   // Logger
-  getIt.registerLazySingleton(() => AppLogger());
+  getIt.registerSingleton(AppLogger());
 
   // Firebase
   getIt.registerSingleton<FirebaseAuth>(FirebaseAuth.instance);
@@ -44,6 +45,7 @@ Future<void> initializeDependencies() async {
       collectionPath: 'users',
       firestore: getIt(),
       fromJson: UserModel.fromJson,
+      appLogger: getIt(),
     ),
   );
 
@@ -64,4 +66,5 @@ Future<void> initializeDependencies() async {
   getIt.registerSingleton<SettingsCubit>(SettingsCubit(getIt()));
   getIt.registerFactory<LoginCubit>(() => LoginCubit(getIt()));
   getIt.registerFactory<SignUpCubit>(() => SignUpCubit(getIt()));
+  getIt.registerFactory<UpdateInfoCubit>(() => UpdateInfoCubit(getIt()));
 }

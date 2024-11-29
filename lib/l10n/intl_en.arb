@@ -3,16 +3,32 @@
 
   "@__COMMON__": "",
   "term_and_condition_statement": "By signing in/signing up, you accept our Terms and Conditions and consent to our Privacy Policy",
+  "success_title": "Success",
+  "failure_title": "Failure",
+  "warning_title": "Warning",
+  "loading_title": "Loading...",
+  "send_button": "Send",
+  "accept_button": "Accept",
+  "cancel_button": "Cancel",
 
   "@__AUTHENTICATION__": "",
   "logout_button": "Log out",
   "recovery_description": "An reset-password mail will be sent to your email",
+  "re_auth_with_google": "Re-authenticate with Google",
+  "re_auth_with_email": "Re-authenticate with Email",
+  "login_failure_title": "Login Failure",
+  "login_success_title": "Login Success",
+  "update_failure_title": "Update Failure",
+  "update_success_title": "Update Success",
+  "verify_email_sent": "A mail has been sent to your new email",
 
   "@__ACCOUNT_VALIDATION__": "",
+  "try_again": "Please try again later",
   "empty_field": "Please do not empty the field",
   "invalid_form": "Please check your information again",
   "invalid_password": "Password must have at least 6 characters",
   "invalid_email": "Email is not valid or badly formatted.",
+  "invalid_phone": "Phone number is not valid",
   "user_disabled": "This user has been disabled. Please contact support for help.",
   "email_already_in_use": "An account already exists for that email.",
   "operation_not_allowed": "Operation is not allowed. Please contact support.",
@@ -24,10 +40,13 @@
   "invalid_verification_code": "The credential verification code received is invalid.",
   "invalid_verification_id": "The credential verification ID received is invalid.",
   "unknown_exception": "An unknown exception occurred.",
+  "invalid_age": "Please select a valid age",
+  "passwords_do_not_match": "Password does not match",
 
   "@__DRAWER__": "",
   "settings": "Settings",
   "notifications": "Notifications",
+  "habits": "All Habits",
 
   "@__SETTING__": "",
   "general_section": "General",
@@ -46,6 +65,15 @@
   "account_section": "Account",
   "authentication_choice": "Sign in/Sign up",
   "manage_account_choice": "Manage Account",
+  "reset_password": "Reset Password",
+  "birth_date": "Birthdate",
+  "personal_info_section": "Personal Information",
+  "age_field": "Age",
+  "display_name": "Display Name",
+  "phone_number": "Phone",
+  "gender_field": "Gender",
+  "password_field": "Password",
+  "confirm_password_field": "Confirm Password",
 
   "app_info_section": "Additional Information",
   "terms_and_conditions": "Terms & Conditions",
@@ -54,5 +82,10 @@
   "time_of_day_section": "Time of day",
   "dawn_tile": "Dawn",
   "afternoon_tile": "Afternoon",
-  "dusk_tile": "Dusk"
+  "dusk_tile": "Dusk",
+
+  "no_date_selected": "No Date Selected",
+
+  "@__HABIT__": "",
+  "static_section": "Statics"
 }

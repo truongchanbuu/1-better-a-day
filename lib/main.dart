@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 
 import 'config/theme/app_theme.dart';
 import 'core/constants/app_common.dart';
@@ -44,6 +45,8 @@ class AppContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      navigatorObservers: [FlutterSmartDialog.observer],
+      builder: FlutterSmartDialog.init(),
       title: AppCommons.appName,
       themeMode: context.select((SettingsCubit settings) =>
           settings.isDarkMode ? ThemeMode.dark : ThemeMode.light),

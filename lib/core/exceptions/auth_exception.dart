@@ -1,6 +1,6 @@
 import '../../generated/l10n.dart';
 
-abstract class AuthFailure implements Exception {
+abstract class FirebaseFailure implements Exception {
   static const String invalidEmail = 'invalid-email';
   static const String userDisabled = 'user-disabled';
   static const String userNotFound = 'user-not-found';
@@ -14,17 +14,19 @@ abstract class AuthFailure implements Exception {
   static const String invalidVerificationCode = 'invalid-verification-code';
   static const String invalidVerificationId = 'invalid-verification-id';
   static const String userTokenExpired = 'user-token-expired';
+  static const String notFound = 'not-found';
+  static const String invalidArgument = 'invalid-argument';
 
   final String? code;
   final String message;
 
-  const AuthFailure([
+  const FirebaseFailure([
     this.code,
     this.message = 'An unknown exception occurred.',
   ]);
 }
 
-class SignUpWithEmailAndPasswordFailure extends AuthFailure {
+class SignUpWithEmailAndPasswordFailure extends FirebaseFailure {
   const SignUpWithEmailAndPasswordFailure([super.code, super.message]);
   factory SignUpWithEmailAndPasswordFailure.fromCode(String code) {
     return SignUpWithEmailAndPasswordFailure(
@@ -34,7 +36,7 @@ class SignUpWithEmailAndPasswordFailure extends AuthFailure {
   }
 }
 
-class LogInWithEmailAndPasswordFailure extends AuthFailure {
+class LogInWithEmailAndPasswordFailure extends FirebaseFailure {
   const LogInWithEmailAndPasswordFailure([super.code, super.message]);
 
   factory LogInWithEmailAndPasswordFailure.fromCode(String code) {
@@ -45,7 +47,7 @@ class LogInWithEmailAndPasswordFailure extends AuthFailure {
   }
 }
 
-class LogInWithGoogleFailure extends AuthFailure {
+class LogInWithGoogleFailure extends FirebaseFailure {
   const LogInWithGoogleFailure([super.code, super.message]);
 
   factory LogInWithGoogleFailure.fromCode(String code) {
@@ -56,7 +58,7 @@ class LogInWithGoogleFailure extends AuthFailure {
   }
 }
 
-class UpdateAccountFailure extends AuthFailure {
+class UpdateAccountFailure extends FirebaseFailure {
   const UpdateAccountFailure([super.code, super.message]);
 
   factory UpdateAccountFailure.fromCode(String code) {
@@ -67,11 +69,21 @@ class UpdateAccountFailure extends AuthFailure {
   }
 }
 
-class LogOutFailure extends AuthFailure {
+class LogOutFailure extends FirebaseFailure {
   const LogOutFailure([super.message]);
 }
 
-class PasswordResetFailure extends AuthFailure {
+class UpdateInfoFailure extends FirebaseFailure {
+  const UpdateInfoFailure([super.code, super.message]);
+  factory UpdateInfoFailure.fromCode(String code) {
+    return UpdateInfoFailure(
+      code,
+      _authErrorMessages[code] ?? S.current.unknown_exception,
+    );
+  }
+}
+
+class PasswordResetFailure extends FirebaseFailure {
   const PasswordResetFailure([super.code, super.message]);
 
   factory PasswordResetFailure.fromCode(String code) {
@@ -83,16 +95,16 @@ class PasswordResetFailure extends AuthFailure {
 }
 
 final Map<String, String> _authErrorMessages = {
-  AuthFailure.invalidEmail: S.current.invalid_email,
-  AuthFailure.userDisabled: S.current.user_disabled,
-  AuthFailure.emailAlreadyInUse: S.current.email_already_in_use,
-  AuthFailure.operationNotAllowed: S.current.operation_not_allowed,
-  AuthFailure.weakPassword: S.current.weak_password,
-  AuthFailure.userNotFound: S.current.user_not_found,
-  AuthFailure.wrongPassword: S.current.wrong_password,
-  AuthFailure.accountExistsWithDifferentCredential:
+  FirebaseFailure.invalidEmail: S.current.invalid_email,
+  FirebaseFailure.userDisabled: S.current.user_disabled,
+  FirebaseFailure.emailAlreadyInUse: S.current.email_already_in_use,
+  FirebaseFailure.operationNotAllowed: S.current.operation_not_allowed,
+  FirebaseFailure.weakPassword: S.current.weak_password,
+  FirebaseFailure.userNotFound: S.current.user_not_found,
+  FirebaseFailure.wrongPassword: S.current.wrong_password,
+  FirebaseFailure.accountExistsWithDifferentCredential:
       S.current.account_exists_with_different_credential,
-  AuthFailure.invalidCredential: S.current.invalid_credential,
-  AuthFailure.invalidVerificationCode: S.current.invalid_verification_code,
-  AuthFailure.invalidVerificationId: S.current.invalid_verification_id,
+  FirebaseFailure.invalidCredential: S.current.invalid_credential,
+  FirebaseFailure.invalidVerificationCode: S.current.invalid_verification_code,
+  FirebaseFailure.invalidVerificationId: S.current.invalid_verification_id,
 };

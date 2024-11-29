@@ -2,10 +2,13 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../../config/log/app_logger.dart';
+import '../../core/exceptions/auth_exception.dart';
 import '../../core/resources/data_state.dart';
 import '../api_service.dart';
 
 class ApiServiceImpl<T> implements ApiService<T> {
+  final AppLogger appLogger;
   final String collectionPath;
   final FirebaseFirestore firestore;
   final T Function(Map<String, dynamic> json) fromJson;
@@ -14,6 +17,7 @@ class ApiServiceImpl<T> implements ApiService<T> {
     required this.collectionPath,
     required this.firestore,
     required this.fromJson,
+    required this.appLogger,
   });
 
   @override
@@ -75,6 +79,26 @@ class ApiServiceImpl<T> implements ApiService<T> {
     ));
   }
 
+  DataFailure<T> _handleNotFound(String id) {
+    final String errorMessage = 'There is no document with id $id';
+    appLogger.e(errorMessage);
+    return _handleError(FirebaseException(
+      code: FirebaseFailure.notFound,
+      message: errorMessage,
+      plugin: 'data_error',
+    ));
+  }
+
+  DataFailure<T> _handleInvalidId() {
+    const String errorMessage = 'ID cannot be empty';
+    appLogger.e(errorMessage);
+    return _handleError(FirebaseException(
+      code: FirebaseFailure.invalidArgument,
+      message: errorMessage,
+      plugin: 'data_error',
+    ));
+  }
+
   @override
   Future<DataState<T>> createById({
     required String id,
@@ -82,14 +106,11 @@ class ApiServiceImpl<T> implements ApiService<T> {
   }) async {
     assert(id.isNotEmpty);
     if (id.isEmpty) {
-      return _handleError(FirebaseException(
-        code: 'insufficient-data',
-        message: 'ID cannot be empty',
-        plugin: 'data_error',
-      ));
+      return _handleInvalidId();
     }
 
     try {
+      data.addAll({'createdAt': DateTime.now().toIso8601String()});
       await collection.doc(id).set(data);
 
       final result = await getById(id: id);
@@ -100,6 +121,7 @@ class ApiServiceImpl<T> implements ApiService<T> {
 
       return DataSuccess(result.data as T);
     } catch (e) {
+      appLogger.e(e);
       return _handleError(e);
     }
   }
@@ -111,21 +133,14 @@ class ApiServiceImpl<T> implements ApiService<T> {
   }) async {
     assert(id.isNotEmpty && updated.isNotEmpty);
     if (id.isEmpty) {
-      return _handleError(FirebaseException(
-        code: 'insufficient-data',
-        message: 'ID cannot be empty',
-        plugin: 'data_error',
-      ));
+      return _handleInvalidId();
     }
 
     if (updated.isEmpty) {
-      return _handleError(FirebaseException(
-        code: 'insufficient-data',
-        message: 'Data cannot be empty',
-        plugin: 'data_error',
-      ));
+      return _handleInvalidId();
     }
 
+    updated.addAll({'updatedAt': DateTime.now().toIso8601String()});
     try {
       final docQuery = collection.doc(id);
       await docQuery.update(updated);
@@ -138,6 +153,7 @@ class ApiServiceImpl<T> implements ApiService<T> {
 
       return DataSuccess(result.data as T);
     } catch (e) {
+      appLogger.e(e);
       return _handleError(e);
     }
   }
@@ -145,11 +161,7 @@ class ApiServiceImpl<T> implements ApiService<T> {
   @override
   Future<DataState<T>> delete({required String id}) async {
     if (id.isEmpty) {
-      return _handleError(FirebaseException(
-        code: 'insufficient-data',
-        message: 'ID cannot be empty',
-        plugin: 'data_error',
-      ));
+      return _handleInvalidId();
     }
 
     try {
@@ -157,16 +169,13 @@ class ApiServiceImpl<T> implements ApiService<T> {
       final docSnap = await docQuery.get();
 
       if (!docSnap.exists) {
-        return _handleError(FirebaseException(
-          code: 'not-found',
-          message: 'There is no document with id $id',
-          plugin: 'data_error',
-        ));
+        return _handleNotFound(id);
       }
 
       await docQuery.delete();
       return DataSuccess(fromJson(docSnap.data() as Map<String, dynamic>));
     } catch (e) {
+      appLogger.e(e);
       return _handleError(e);
     }
   }
@@ -216,6 +225,7 @@ class ApiServiceImpl<T> implements ApiService<T> {
 
       return DataSuccess(data);
     } catch (e) {
+      appLogger.e(e);
       return _handleError(e);
     }
   }
@@ -224,27 +234,20 @@ class ApiServiceImpl<T> implements ApiService<T> {
   Future<DataState<T>> getById({required String id}) async {
     assert(id.isNotEmpty);
     if (id.isEmpty) {
-      return _handleError(FirebaseException(
-        code: 'insufficient-data',
-        message: 'ID cannot be empty',
-        plugin: 'data_error',
-      ));
+      return _handleInvalidId();
     }
 
     try {
       final docSnap = await collection.doc(id).get();
 
       if (!docSnap.exists) {
-        return _handleError(FirebaseException(
-          code: 'not-found',
-          message: 'There is no document with id $id',
-          plugin: 'data_error',
-        ));
+        return _handleNotFound(id);
       }
 
       final data = docSnap.data() as Map<String, dynamic>;
       return DataSuccess(fromJson(data));
     } catch (e) {
+      appLogger.e(e);
       return _handleError(e);
     }
   }
@@ -282,6 +285,7 @@ class ApiServiceImpl<T> implements ApiService<T> {
         return DataSuccess(data);
       });
     } catch (e) {
+      appLogger.e(e);
       return Stream.error(_handleError(e));
     }
   }
@@ -295,6 +299,7 @@ class ApiServiceImpl<T> implements ApiService<T> {
         return DataSuccess(fromJson(data));
       });
     } catch (e) {
+      appLogger.e(e);
       return Stream.error(_handleError(e));
     }
   }

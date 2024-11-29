@@ -22,26 +22,38 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "accept_button": MessageLookupByLibrary.simpleMessage("Accept"),
         "account_exists_with_different_credential":
             MessageLookupByLibrary.simpleMessage(
                 "Account exists with different credentials."),
         "account_section": MessageLookupByLibrary.simpleMessage("Account"),
         "afternoon_tile": MessageLookupByLibrary.simpleMessage("Afternoon"),
+        "age_field": MessageLookupByLibrary.simpleMessage("Age"),
         "app_info_section":
             MessageLookupByLibrary.simpleMessage("Additional Information"),
         "authentication_choice":
             MessageLookupByLibrary.simpleMessage("Sign in/Sign up"),
+        "birth_date": MessageLookupByLibrary.simpleMessage("Birthdate"),
+        "cancel_button": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "confirm_password_field":
+            MessageLookupByLibrary.simpleMessage("Confirm Password"),
         "dark_theme": MessageLookupByLibrary.simpleMessage("Dark Theme"),
         "dawn_tile": MessageLookupByLibrary.simpleMessage("Dawn"),
+        "display_name": MessageLookupByLibrary.simpleMessage("Display Name"),
         "dusk_tile": MessageLookupByLibrary.simpleMessage("Dusk"),
         "email_already_in_use": MessageLookupByLibrary.simpleMessage(
             "An account already exists for that email."),
         "empty_field": MessageLookupByLibrary.simpleMessage(
             "Please do not empty the field"),
         "english_choice": MessageLookupByLibrary.simpleMessage("English"),
+        "failure_title": MessageLookupByLibrary.simpleMessage("Failure"),
+        "gender_field": MessageLookupByLibrary.simpleMessage("Gender"),
         "general_section": MessageLookupByLibrary.simpleMessage("General"),
+        "habits": MessageLookupByLibrary.simpleMessage("All Habits"),
         "help_tile": MessageLookupByLibrary.simpleMessage("Help"),
         "imperial_unit": MessageLookupByLibrary.simpleMessage("Imperial Unit"),
+        "invalid_age":
+            MessageLookupByLibrary.simpleMessage("Please select a valid age"),
         "invalid_credential":
             MessageLookupByLibrary.simpleMessage("Invalid email or password."),
         "invalid_email": MessageLookupByLibrary.simpleMessage(
@@ -50,24 +62,48 @@ class MessageLookup extends MessageLookupByLibrary {
             "Please check your information again"),
         "invalid_password": MessageLookupByLibrary.simpleMessage(
             "Password must have at least 6 characters"),
+        "invalid_phone":
+            MessageLookupByLibrary.simpleMessage("Phone number is not valid"),
         "invalid_verification_code": MessageLookupByLibrary.simpleMessage(
             "The credential verification code received is invalid."),
         "invalid_verification_id": MessageLookupByLibrary.simpleMessage(
             "The credential verification ID received is invalid."),
         "language_tile": MessageLookupByLibrary.simpleMessage("Language"),
         "light_theme": MessageLookupByLibrary.simpleMessage("Light Theme"),
+        "loading_title": MessageLookupByLibrary.simpleMessage("Loading..."),
+        "login_failure_title":
+            MessageLookupByLibrary.simpleMessage("Login Failure"),
+        "login_success_title":
+            MessageLookupByLibrary.simpleMessage("Login Success"),
         "logout_button": MessageLookupByLibrary.simpleMessage("Log out"),
         "manage_account_choice":
             MessageLookupByLibrary.simpleMessage("Manage Account"),
         "measurement_unit_title":
             MessageLookupByLibrary.simpleMessage("Measurement Unit"),
         "metric_unit": MessageLookupByLibrary.simpleMessage("Metric Unit"),
+        "no_date_selected":
+            MessageLookupByLibrary.simpleMessage("No Date Selected"),
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
         "operation_not_allowed": MessageLookupByLibrary.simpleMessage(
             "Operation is not allowed. Please contact support."),
+        "password_field": MessageLookupByLibrary.simpleMessage("Password"),
+        "passwords_do_not_match":
+            MessageLookupByLibrary.simpleMessage("Password does not match"),
+        "personal_info_section":
+            MessageLookupByLibrary.simpleMessage("Personal Information"),
+        "phone_number": MessageLookupByLibrary.simpleMessage("Phone"),
+        "re_auth_with_email":
+            MessageLookupByLibrary.simpleMessage("Re-authenticate with Email"),
+        "re_auth_with_google":
+            MessageLookupByLibrary.simpleMessage("Re-authenticate with Google"),
         "recovery_description": MessageLookupByLibrary.simpleMessage(
             "An reset-password mail will be sent to your email"),
+        "reset_password":
+            MessageLookupByLibrary.simpleMessage("Reset Password"),
+        "send_button": MessageLookupByLibrary.simpleMessage("Send"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
+        "static_section": MessageLookupByLibrary.simpleMessage("Statics"),
+        "success_title": MessageLookupByLibrary.simpleMessage("Success"),
         "term_and_condition_statement": MessageLookupByLibrary.simpleMessage(
             "By signing in/signing up, you accept our Terms and Conditions and consent to our Privacy Policy"),
         "terms_and_conditions":
@@ -75,13 +111,22 @@ class MessageLookup extends MessageLookupByLibrary {
         "theme_tile": MessageLookupByLibrary.simpleMessage("Theme"),
         "time_of_day_section":
             MessageLookupByLibrary.simpleMessage("Time of day"),
+        "try_again":
+            MessageLookupByLibrary.simpleMessage("Please try again later"),
         "unknown_exception": MessageLookupByLibrary.simpleMessage(
             "An unknown exception occurred."),
+        "update_failure_title":
+            MessageLookupByLibrary.simpleMessage("Update Failure"),
+        "update_success_title":
+            MessageLookupByLibrary.simpleMessage("Update Success"),
         "user_disabled": MessageLookupByLibrary.simpleMessage(
             "This user has been disabled. Please contact support for help."),
         "user_not_found": MessageLookupByLibrary.simpleMessage(
             "Email is not found, please create an account."),
+        "verify_email_sent": MessageLookupByLibrary.simpleMessage(
+            "A mail has been sent to your new email"),
         "vietnamese_choice": MessageLookupByLibrary.simpleMessage("Vietnamese"),
+        "warning_title": MessageLookupByLibrary.simpleMessage("Warning"),
         "weak_password": MessageLookupByLibrary.simpleMessage(
             "Please enter a stronger password."),
         "wrong_password": MessageLookupByLibrary.simpleMessage(

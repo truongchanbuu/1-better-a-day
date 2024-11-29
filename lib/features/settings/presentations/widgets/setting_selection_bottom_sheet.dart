@@ -25,10 +25,12 @@ class SettingSelectionBottomSheet<T> extends StatelessWidget {
   }
 
   Widget _buildChoice(BuildContext context, T data) {
-    print('DATA: $data - $selected');
     return ListTile(
       onTap: () {
-        onSelected?.call(data);
+        if (selected != data) {
+          onSelected?.call(data);
+        }
+
         Navigator.pop(context);
       },
       title: Text(data.toString()),
