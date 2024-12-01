@@ -36,4 +36,6 @@ class UpdateInfoCubit extends Cubit<UpdateInfoState> {
 
   Future<void> updatePhoneNumber(String phoneNumber) =>
       _updateInfo(() => authRepository.updatePhoneNumber(phoneNumber));
+
+  Future<void> updatePhotoUrl(String photoUrl) => _updateInfo(() => authRepository.updatePhotoUrl(photoUrl));
 }

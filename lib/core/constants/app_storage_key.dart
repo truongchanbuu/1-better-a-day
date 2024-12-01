@@ -6,4 +6,5 @@ class AppStorageKey {
   static const String appDawnTimeCachedKey = '__app_dawn_time__';
   static const String appAfternoonTimeCachedKey = '__app_afternoon_time__';
   static const String appDuskTimeCachedKey = '__app_dusk_time__';
+  static const String avatarRepositoryName = 'avatar_image_repository';
 }

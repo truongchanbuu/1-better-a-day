@@ -27,6 +27,7 @@ abstract interface class AuthRepository {
   Future<void> updateGender(String gender);
   Future<void> updateBirthDate(DateTime birthDate);
   Future<void> updatePhoneNumber(String phoneNumber);
+  Future<void> updatePhotoUrl(String photoUrl);
 
   void dispose();
 }

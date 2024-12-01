@@ -55,7 +55,10 @@ class _AppViewState extends State<AppView> {
               _sliderKey.currentState?.closeSlider();
             },
           ),
-          child: _currentTab.page,
+          child: IndexedStack(
+            index: _currentTab.index,
+            children: TabType.values.map((tab) => tab.page).toList(),
+          ),
         ),
       ),
     );

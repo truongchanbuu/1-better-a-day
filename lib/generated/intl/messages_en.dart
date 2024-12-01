@@ -20,6 +20,12 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
+  static String m0(completedTasks, totalTasks) =>
+      "${completedTasks}/${totalTasks}";
+
+  static String m1(count) =>
+      "${Intl.plural(count, zero: 'No habits', one: '1 habit', other: '${count} habits')}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "accept_button": MessageLookupByLibrary.simpleMessage("Accept"),
@@ -27,8 +33,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "Account exists with different credentials."),
         "account_section": MessageLookupByLibrary.simpleMessage("Account"),
+        "achievement_done": MessageLookupByLibrary.simpleMessage("Achievement"),
         "afternoon_tile": MessageLookupByLibrary.simpleMessage("Afternoon"),
         "age_field": MessageLookupByLibrary.simpleMessage("Age"),
+        "all_habits": MessageLookupByLibrary.simpleMessage("All Habits"),
         "app_info_section":
             MessageLookupByLibrary.simpleMessage("Additional Information"),
         "authentication_choice":
@@ -37,9 +45,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "cancel_button": MessageLookupByLibrary.simpleMessage("Cancel"),
         "confirm_password_field":
             MessageLookupByLibrary.simpleMessage("Confirm Password"),
+        "current_streak": MessageLookupByLibrary.simpleMessage("Streak"),
         "dark_theme": MessageLookupByLibrary.simpleMessage("Dark Theme"),
         "dawn_tile": MessageLookupByLibrary.simpleMessage("Dawn"),
         "display_name": MessageLookupByLibrary.simpleMessage("Display Name"),
+        "done_tasks": m0,
         "dusk_tile": MessageLookupByLibrary.simpleMessage("Dusk"),
         "email_already_in_use": MessageLookupByLibrary.simpleMessage(
             "An account already exists for that email."),
@@ -49,7 +59,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "failure_title": MessageLookupByLibrary.simpleMessage("Failure"),
         "gender_field": MessageLookupByLibrary.simpleMessage("Gender"),
         "general_section": MessageLookupByLibrary.simpleMessage("General"),
-        "habits": MessageLookupByLibrary.simpleMessage("All Habits"),
+        "habits": m1,
         "help_tile": MessageLookupByLibrary.simpleMessage("Help"),
         "imperial_unit": MessageLookupByLibrary.simpleMessage("Imperial Unit"),
         "invalid_age":
@@ -102,7 +112,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Reset Password"),
         "send_button": MessageLookupByLibrary.simpleMessage("Send"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
-        "static_section": MessageLookupByLibrary.simpleMessage("Statics"),
+        "statistic_section": MessageLookupByLibrary.simpleMessage("Statistics"),
         "success_title": MessageLookupByLibrary.simpleMessage("Success"),
         "term_and_condition_statement": MessageLookupByLibrary.simpleMessage(
             "By signing in/signing up, you accept our Terms and Conditions and consent to our Privacy Policy"),
@@ -111,6 +121,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "theme_tile": MessageLookupByLibrary.simpleMessage("Theme"),
         "time_of_day_section":
             MessageLookupByLibrary.simpleMessage("Time of day"),
+        "today_tasks": MessageLookupByLibrary.simpleMessage("Today Tasks"),
         "try_again":
             MessageLookupByLibrary.simpleMessage("Please try again later"),
         "unknown_exception": MessageLookupByLibrary.simpleMessage(

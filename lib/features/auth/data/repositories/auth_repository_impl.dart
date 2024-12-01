@@ -421,6 +421,24 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
+  @override
+  Future<void> updatePhotoUrl(String photoUrl) async {
+    try {
+      if (firebaseAuth.currentUser == null) {
+        throw UpdateInfoFailure.fromCode(FirebaseFailure.invalidCredential);
+      }
+      await _updateProfile(() => userRepository.updateUserField(
+            firebaseAuth.currentUser!.uid,
+            {UserEntity.avatarUrlFieldName: photoUrl},
+          ));
+      await _processUserData(firebaseAuth.currentUser!);
+    } on FirebaseAuthException catch (e) {
+      throw UpdateInfoFailure.fromCode(e.code);
+    } catch (_) {
+      throw const UpdateInfoFailure();
+    }
+  }
+
   Future<void> _updateProfile(Future<void> Function() updateFn) async {
     try {
       await _retryOperation(updateFn, 'update profile');

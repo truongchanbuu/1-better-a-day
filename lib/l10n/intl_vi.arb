@@ -46,7 +46,7 @@
   "@__DRAWER__": "",
   "settings": "Cài đặt",
   "notifications": "Thông báo",
-  "habits": "Tất cả thói quen",
+  "all_habits": "Tất cả thói quen",
 
   "@__SETTING__": "",
   "general_section": "Chung",
@@ -87,5 +87,21 @@
   "no_date_selected": "Chưa ngày nào được chọn",
 
   "@__HABIT__": "",
-  "static_section": "Statics"
+  "statistic_section": "Thống kê",
+  "habits": "{count, plural, =0{0 thói quen} =1{1 thói quen} other{{count} thói quen}}",
+  "current_streak":  "Chuỗi",
+  "today_tasks": "Nhiệm vụ hôm nay",
+  "done_tasks": "{completedTasks}/{totalTasks}",
+  "@done_tasks": {
+    "description": "Số nhiệm vụ đã hoàn thành của một ngày",
+    "placeholders": {
+      "completedTasks": {
+        "type": "int"
+      },
+      "totalTasks": {
+        "type": "int"
+      }
+    }
+  },
+  "achievement_done": "Thành tựu"
 }

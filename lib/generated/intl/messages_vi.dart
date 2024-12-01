@@ -20,6 +20,12 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'vi';
 
+  static String m0(completedTasks, totalTasks) =>
+      "${completedTasks}/${totalTasks}";
+
+  static String m1(count) =>
+      "${Intl.plural(count, zero: '0 thói quen', one: '1 thói quen', other: '${count} thói quen')}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "accept_button": MessageLookupByLibrary.simpleMessage("Chấp nhận"),
@@ -27,8 +33,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "Tài khoản đã tồn tại với thông tin đăng nhập khác."),
         "account_section": MessageLookupByLibrary.simpleMessage("Tài khoản"),
+        "achievement_done": MessageLookupByLibrary.simpleMessage("Thành tựu"),
         "afternoon_tile": MessageLookupByLibrary.simpleMessage("Buổi chiều"),
         "age_field": MessageLookupByLibrary.simpleMessage("Tuổi"),
+        "all_habits": MessageLookupByLibrary.simpleMessage("Tất cả thói quen"),
         "app_info_section":
             MessageLookupByLibrary.simpleMessage("Thông tin bổ sung"),
         "authentication_choice":
@@ -37,9 +45,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "cancel_button": MessageLookupByLibrary.simpleMessage("Hủy bỏ"),
         "confirm_password_field":
             MessageLookupByLibrary.simpleMessage("Xác nhận mật khẩu"),
+        "current_streak": MessageLookupByLibrary.simpleMessage("Chuỗi"),
         "dark_theme": MessageLookupByLibrary.simpleMessage("Chế độ tối"),
         "dawn_tile": MessageLookupByLibrary.simpleMessage("Bình minh"),
         "display_name": MessageLookupByLibrary.simpleMessage("Tên"),
+        "done_tasks": m0,
         "dusk_tile": MessageLookupByLibrary.simpleMessage("Hoàng hôn"),
         "email_already_in_use": MessageLookupByLibrary.simpleMessage(
             "Đã có tài khoản sử dụng email này."),
@@ -49,7 +59,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "failure_title": MessageLookupByLibrary.simpleMessage("Thất bại"),
         "gender_field": MessageLookupByLibrary.simpleMessage("Giới tính"),
         "general_section": MessageLookupByLibrary.simpleMessage("Chung"),
-        "habits": MessageLookupByLibrary.simpleMessage("Tất cả thói quen"),
+        "habits": m1,
         "help_tile": MessageLookupByLibrary.simpleMessage("Trợ giúp"),
         "imperial_unit": MessageLookupByLibrary.simpleMessage("Hệ Anh"),
         "invalid_age": MessageLookupByLibrary.simpleMessage(
@@ -102,7 +112,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Đặt lại mật khẩu"),
         "send_button": MessageLookupByLibrary.simpleMessage("Gửi"),
         "settings": MessageLookupByLibrary.simpleMessage("Cài đặt"),
-        "static_section": MessageLookupByLibrary.simpleMessage("Statics"),
+        "statistic_section": MessageLookupByLibrary.simpleMessage("Thống kê"),
         "success_title": MessageLookupByLibrary.simpleMessage("Thành công"),
         "term_and_condition_statement": MessageLookupByLibrary.simpleMessage(
             "Bằng cách đăng nhập/đăng ký, bạn chấp nhận Điều khoản và Điều kiện của chúng tôi và đồng ý với Chính sách Quyền riêng tư"),
@@ -111,6 +121,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "theme_tile": MessageLookupByLibrary.simpleMessage("Giao diện"),
         "time_of_day_section":
             MessageLookupByLibrary.simpleMessage("Thời gian trong ngày"),
+        "today_tasks": MessageLookupByLibrary.simpleMessage("Nhiệm vụ hôm nay"),
         "try_again":
             MessageLookupByLibrary.simpleMessage("Vui lòng thử lại sau"),
         "unknown_exception": MessageLookupByLibrary.simpleMessage(

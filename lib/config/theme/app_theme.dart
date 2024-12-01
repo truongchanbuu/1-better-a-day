@@ -49,6 +49,7 @@ class AppTheme {
         iconTheme: const IconThemeData(color: AppColors.lightText));
   }
 
+  static const defaultOverflow = TextOverflow.ellipsis;
   static TextTheme _textTheme({required bool isLight}) {
     Color textColor = isLight ? AppColors.darkText : AppColors.lightText;
     return TextTheme(
@@ -56,43 +57,52 @@ class AppTheme {
         color: textColor,
         fontSize: AppFontSize.h1,
         fontWeight: FontWeight.bold,
+        overflow: defaultOverflow,
       ),
       displayMedium: TextStyle(
         color: textColor,
         fontSize: AppFontSize.h2,
         fontWeight: FontWeight.bold,
+        overflow: defaultOverflow,
       ),
       displaySmall: TextStyle(
         color: textColor,
         fontSize: AppFontSize.h3,
         fontWeight: FontWeight.bold,
+        overflow: defaultOverflow,
       ),
       headlineLarge: TextStyle(
         color: textColor,
         fontSize: AppFontSize.labelLarge,
         fontWeight: FontWeight.w600,
+        overflow: defaultOverflow,
       ),
       headlineMedium: TextStyle(
         color: textColor,
         fontSize: AppFontSize.labelMedium,
         fontWeight: FontWeight.w600,
+        overflow: defaultOverflow,
       ),
       headlineSmall: TextStyle(
         color: textColor,
         fontSize: AppFontSize.labelSmall,
         fontWeight: FontWeight.w600,
+        overflow: defaultOverflow,
       ),
       bodyLarge: TextStyle(
         color: textColor,
         fontSize: AppFontSize.bodyLarge,
+        overflow: defaultOverflow,
       ),
       bodyMedium: TextStyle(
         color: textColor,
         fontSize: AppFontSize.bodyMedium,
+        overflow: defaultOverflow,
       ),
       bodySmall: TextStyle(
         color: textColor,
         fontSize: AppFontSize.bodySmall,
+        overflow: defaultOverflow,
       ),
     );
   }

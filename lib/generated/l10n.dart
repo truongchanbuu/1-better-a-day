@@ -431,10 +431,10 @@ class S {
   }
 
   /// `All Habits`
-  String get habits {
+  String get all_habits {
     return Intl.message(
       'All Habits',
-      name: 'habits',
+      name: 'all_habits',
       desc: '',
       args: [],
     );
@@ -740,11 +740,64 @@ class S {
     );
   }
 
-  /// `Statics`
-  String get static_section {
+  /// `Statistics`
+  String get statistic_section {
     return Intl.message(
-      'Statics',
-      name: 'static_section',
+      'Statistics',
+      name: 'statistic_section',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{count, plural, =0{No habits} =1{1 habit} other{{count} habits}}`
+  String habits(num count) {
+    return Intl.plural(
+      count,
+      zero: 'No habits',
+      one: '1 habit',
+      other: '$count habits',
+      name: 'habits',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Streak`
+  String get current_streak {
+    return Intl.message(
+      'Streak',
+      name: 'current_streak',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Today Tasks`
+  String get today_tasks {
+    return Intl.message(
+      'Today Tasks',
+      name: 'today_tasks',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{completedTasks}/{totalTasks}`
+  String done_tasks(int completedTasks, int totalTasks) {
+    return Intl.message(
+      '$completedTasks/$totalTasks',
+      name: 'done_tasks',
+      desc: 'The done tasks for today',
+      args: [completedTasks, totalTasks],
+    );
+  }
+
+  /// `Achievement`
+  String get achievement_done {
+    return Intl.message(
+      'Achievement',
+      name: 'achievement_done',
       desc: '',
       args: [],
     );

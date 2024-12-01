@@ -46,7 +46,7 @@
   "@__DRAWER__": "",
   "settings": "Settings",
   "notifications": "Notifications",
-  "habits": "All Habits",
+  "all_habits": "All Habits",
 
   "@__SETTING__": "",
   "general_section": "General",
@@ -87,5 +87,21 @@
   "no_date_selected": "No Date Selected",
 
   "@__HABIT__": "",
-  "static_section": "Statics"
+  "statistic_section": "Statistics",
+  "habits": "{count, plural, =0{No habits} =1{1 habit} other{{count} habits}}",
+  "current_streak": "Streak",
+  "today_tasks": "Today Tasks",
+  "done_tasks": "{completedTasks}/{totalTasks}",
+  "@done_tasks": {
+    "description": "The done tasks for today",
+    "placeholders": {
+      "completedTasks": {
+        "type": "int"
+      },
+      "totalTasks": {
+        "type": "int"
+      }
+    }
+  },
+  "achievement_done": "Achievement"
 }

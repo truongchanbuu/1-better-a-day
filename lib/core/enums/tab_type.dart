@@ -14,7 +14,7 @@ extension TabTypeExtension on TabType {
       case TabType.settings:
         return S.current.settings;
       case TabType.habits:
-        return S.current.habits;
+        return S.current.all_habits;
     }
   }
 
