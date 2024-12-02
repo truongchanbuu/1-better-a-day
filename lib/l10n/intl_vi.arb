@@ -7,9 +7,12 @@
   "failure_title": "Thất bại",
   "warning_title": "Cảnh báo",
   "loading_title": "Đang tải...",
+  "searching_title": "Tìm kiếm...",
   "send_button": "Gửi",
   "accept_button": "Chấp nhận",
   "cancel_button": "Hủy bỏ",
+  "delete_button": "Xóa",
+  "edit_button": "Chỉnh sửa",
 
   "@__AUTHENTICATION__": "",
   "logout_button": "Đăng xuất",

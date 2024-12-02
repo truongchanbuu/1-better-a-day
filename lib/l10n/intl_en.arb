@@ -7,9 +7,12 @@
   "failure_title": "Failure",
   "warning_title": "Warning",
   "loading_title": "Loading...",
+  "searching_title": "Searching...",
   "send_button": "Send",
   "accept_button": "Accept",
   "cancel_button": "Cancel",
+  "delete_button": "Delete",
+  "edit_button": "Edit",
 
   "@__AUTHENTICATION__": "",
   "logout_button": "Log out",

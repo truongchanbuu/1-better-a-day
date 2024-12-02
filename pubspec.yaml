@@ -85,6 +85,7 @@ dependencies:
   syncfusion_flutter_datepicker: ^27.2.4
   dashed_circular_progress_bar: ^0.0.6
   simple_progress_indicators: ^0.2.0
+  dropdown_button2: ^2.3.9
 
   # Form
   formz: ^0.8.0
@@ -95,6 +96,7 @@ dependencies:
   # Animation
   page_transition: ^2.1.0
   flutter_bounce: ^1.1.0
+  flutter_slidable: ^3.1.1
 
 dev_dependencies:
   flutter_test:

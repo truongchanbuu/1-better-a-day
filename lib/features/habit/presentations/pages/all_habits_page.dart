@@ -3,11 +3,13 @@ import 'package:flutter_bounce/flutter_bounce.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../core/constants/app_color.dart';
+import '../../../../core/constants/app_common.dart';
 import '../../../../core/constants/app_font_size.dart';
 import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../generated/l10n.dart';
 import '../widgets/habit_list.dart';
+import '../widgets/habit_search_filter_bar.dart';
 
 class AllHabitsPage extends StatefulWidget {
   const AllHabitsPage({super.key});
@@ -118,6 +120,8 @@ class _AllHabitsPageState extends State<AllHabitsPage> {
                         ),
                       ],
                     ),
+                    const SizedBox(height: AppSpacing.marginM),
+                    const HabitSearchFilterBar(),
                   ],
                 ),
               ),
@@ -181,7 +185,7 @@ class _StatisticItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Bounce(
-      duration: const Duration(milliseconds: 500),
+      duration: AppCommons.buttonBounceDuration,
       onPressed: onTap,
       child: Container(
         decoration: BoxDecoration(

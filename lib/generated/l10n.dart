@@ -100,6 +100,16 @@ class S {
     );
   }
 
+  /// `Searching...`
+  String get searching_title {
+    return Intl.message(
+      'Searching...',
+      name: 'searching_title',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Send`
   String get send_button {
     return Intl.message(
@@ -125,6 +135,26 @@ class S {
     return Intl.message(
       'Cancel',
       name: 'cancel_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete`
+  String get delete_button {
+    return Intl.message(
+      'Delete',
+      name: 'delete_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit`
+  String get edit_button {
+    return Intl.message(
+      'Edit',
+      name: 'edit_button',
       desc: '',
       args: [],
     );

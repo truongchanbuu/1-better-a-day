@@ -48,9 +48,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "current_streak": MessageLookupByLibrary.simpleMessage("Streak"),
         "dark_theme": MessageLookupByLibrary.simpleMessage("Dark Theme"),
         "dawn_tile": MessageLookupByLibrary.simpleMessage("Dawn"),
+        "delete_button": MessageLookupByLibrary.simpleMessage("Delete"),
         "display_name": MessageLookupByLibrary.simpleMessage("Display Name"),
         "done_tasks": m0,
         "dusk_tile": MessageLookupByLibrary.simpleMessage("Dusk"),
+        "edit_button": MessageLookupByLibrary.simpleMessage("Edit"),
         "email_already_in_use": MessageLookupByLibrary.simpleMessage(
             "An account already exists for that email."),
         "empty_field": MessageLookupByLibrary.simpleMessage(
@@ -110,6 +112,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "An reset-password mail will be sent to your email"),
         "reset_password":
             MessageLookupByLibrary.simpleMessage("Reset Password"),
+        "searching_title": MessageLookupByLibrary.simpleMessage("Searching..."),
         "send_button": MessageLookupByLibrary.simpleMessage("Send"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
         "statistic_section": MessageLookupByLibrary.simpleMessage("Statistics"),

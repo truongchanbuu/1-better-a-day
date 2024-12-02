@@ -5,6 +5,7 @@ class AppSpacing {
   static const double paddingM = 16.0;
   static const double paddingL = 24.0;
   static const double paddingXL = 32.0;
+  static const double paddingXXL = 40.0;
 
   // Margin
   static const double marginXS = 4.0;

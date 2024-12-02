@@ -48,9 +48,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "current_streak": MessageLookupByLibrary.simpleMessage("Chuỗi"),
         "dark_theme": MessageLookupByLibrary.simpleMessage("Chế độ tối"),
         "dawn_tile": MessageLookupByLibrary.simpleMessage("Bình minh"),
+        "delete_button": MessageLookupByLibrary.simpleMessage("Xóa"),
         "display_name": MessageLookupByLibrary.simpleMessage("Tên"),
         "done_tasks": m0,
         "dusk_tile": MessageLookupByLibrary.simpleMessage("Hoàng hôn"),
+        "edit_button": MessageLookupByLibrary.simpleMessage("Chỉnh sửa"),
         "email_already_in_use": MessageLookupByLibrary.simpleMessage(
             "Đã có tài khoản sử dụng email này."),
         "empty_field": MessageLookupByLibrary.simpleMessage(
@@ -110,6 +112,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Một email đặt lại mật khẩu sẽ được gửi tới email của bạn"),
         "reset_password":
             MessageLookupByLibrary.simpleMessage("Đặt lại mật khẩu"),
+        "searching_title": MessageLookupByLibrary.simpleMessage("Tìm kiếm..."),
         "send_button": MessageLookupByLibrary.simpleMessage("Gửi"),
         "settings": MessageLookupByLibrary.simpleMessage("Cài đặt"),
         "statistic_section": MessageLookupByLibrary.simpleMessage("Thống kê"),
