@@ -123,7 +123,7 @@ class _SearchFilterActionButton extends StatelessWidget {
       onPressed: onPressed,
       duration: AppCommons.buttonBounceDuration,
       child: Container(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(AppSpacing.paddingM),
         decoration: BoxDecoration(
           color: context.isDarkMode ? AppColors.primaryDark : AppColors.primary,
           boxShadow: [

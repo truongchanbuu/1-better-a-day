@@ -82,15 +82,15 @@ class _HabitItemState extends State<HabitItem> {
     final double height = itemBox.size.height;
 
     IconData? icon;
-    Color? bgColor;
+    Color? backgroundColor;
     switch (currentAction) {
       case HabitAction.skip:
         icon = Icons.next_plan;
-        bgColor = AppColors.error;
+        backgroundColor = AppColors.error;
         break;
       case HabitAction.complete:
         icon = FontAwesomeIcons.check;
-        bgColor = AppColors.success;
+        backgroundColor = AppColors.success;
         break;
       case HabitAction.nothing:
         break;
@@ -100,7 +100,7 @@ class _HabitItemState extends State<HabitItem> {
       width: width,
       height: height,
       decoration: BoxDecoration(
-        color: bgColor,
+        color: backgroundColor,
         borderRadius: HabitItem.itemBorderRadius,
       ),
       child: Icon(icon, color: Colors.white),

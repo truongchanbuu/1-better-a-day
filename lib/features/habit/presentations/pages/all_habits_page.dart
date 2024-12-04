@@ -10,6 +10,7 @@ import '../../../../core/extensions/context_extension.dart';
 import '../../../../generated/l10n.dart';
 import '../widgets/habit_list.dart';
 import '../widgets/habit_search_filter_bar.dart';
+import '../widgets/habit_section_container.dart';
 
 class AllHabitsPage extends StatefulWidget {
   const AllHabitsPage({super.key});
@@ -35,7 +36,7 @@ class _AllHabitsPageState extends State<AllHabitsPage> {
           child: Column(
             children: <Widget>[
               // General Section
-              _SectionContainer(
+              HabitSectionContainer(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -103,7 +104,7 @@ class _AllHabitsPageState extends State<AllHabitsPage> {
               const SizedBox(height: AppSpacing.marginL),
 
               // Habit List Title & Filter
-              _SectionContainer(
+              HabitSectionContainer(
                 child: Column(
                   children: [
                     Row(
@@ -172,32 +173,6 @@ class _AllHabitsPageState extends State<AllHabitsPage> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class _SectionContainer extends StatelessWidget {
-  final Widget child;
-  const _SectionContainer({required this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(AppSpacing.paddingM),
-      decoration: BoxDecoration(
-        color: context.isDarkMode ? AppColors.darkText : AppColors.lightText,
-        borderRadius: const BorderRadius.all(
-          Radius.circular(AppSpacing.radiusS),
-        ),
-        boxShadow: const [
-          BoxShadow(
-            blurRadius: 2,
-            spreadRadius: 3,
-            color: AppColors.grayBackgroundColor,
-          ),
-        ],
-      ),
-      child: child,
     );
   }
 }

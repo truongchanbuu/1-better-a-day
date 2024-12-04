@@ -52,16 +52,21 @@ class MessageLookup extends MessageLookupByLibrary {
         "delete_button": MessageLookupByLibrary.simpleMessage("Xóa"),
         "display_name": MessageLookupByLibrary.simpleMessage("Tên"),
         "done_tasks": m0,
+        "duration_title":
+            MessageLookupByLibrary.simpleMessage("Thời gian thực hiện"),
         "dusk_tile": MessageLookupByLibrary.simpleMessage("Hoàng hôn"),
         "edit_button": MessageLookupByLibrary.simpleMessage("Chỉnh sửa"),
         "email_already_in_use": MessageLookupByLibrary.simpleMessage(
             "Đã có tài khoản sử dụng email này."),
         "empty_field": MessageLookupByLibrary.simpleMessage(
             "Vui lòng không để trống trường này"),
+        "end_date": MessageLookupByLibrary.simpleMessage("Ngày kết thúc"),
         "english_choice": MessageLookupByLibrary.simpleMessage("Tiếng Anh"),
         "failure_title": MessageLookupByLibrary.simpleMessage("Thất bại"),
         "gender_field": MessageLookupByLibrary.simpleMessage("Giới tính"),
         "general_section": MessageLookupByLibrary.simpleMessage("Chung"),
+        "habit_detail":
+            MessageLookupByLibrary.simpleMessage("Chi tiết thói quen"),
         "habits": m1,
         "help_tile": MessageLookupByLibrary.simpleMessage("Trợ giúp"),
         "imperial_unit": MessageLookupByLibrary.simpleMessage("Hệ Anh"),
@@ -107,6 +112,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "personal_info_section":
             MessageLookupByLibrary.simpleMessage("Thông tin cá nhân"),
         "phone_number": MessageLookupByLibrary.simpleMessage("Điện thoại"),
+        "progress_section": MessageLookupByLibrary.simpleMessage("Quá trình"),
         "re_auth_with_email":
             MessageLookupByLibrary.simpleMessage("Xác thực với Email"),
         "re_auth_with_google":
@@ -118,6 +124,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "searching_title": MessageLookupByLibrary.simpleMessage("Tìm kiếm..."),
         "send_button": MessageLookupByLibrary.simpleMessage("Gửi"),
         "settings": MessageLookupByLibrary.simpleMessage("Cài đặt"),
+        "start_date": MessageLookupByLibrary.simpleMessage("Ngày bắt đầu"),
         "statistic_section": MessageLookupByLibrary.simpleMessage("Thống kê"),
         "success_title": MessageLookupByLibrary.simpleMessage("Thành công"),
         "term_and_condition_statement": MessageLookupByLibrary.simpleMessage(

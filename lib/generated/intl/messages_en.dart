@@ -52,16 +52,19 @@ class MessageLookup extends MessageLookupByLibrary {
         "delete_button": MessageLookupByLibrary.simpleMessage("Delete"),
         "display_name": MessageLookupByLibrary.simpleMessage("Display Name"),
         "done_tasks": m0,
+        "duration_title": MessageLookupByLibrary.simpleMessage("Duration"),
         "dusk_tile": MessageLookupByLibrary.simpleMessage("Dusk"),
         "edit_button": MessageLookupByLibrary.simpleMessage("Edit"),
         "email_already_in_use": MessageLookupByLibrary.simpleMessage(
             "An account already exists for that email."),
         "empty_field": MessageLookupByLibrary.simpleMessage(
             "Please do not empty the field"),
+        "end_date": MessageLookupByLibrary.simpleMessage("End Date"),
         "english_choice": MessageLookupByLibrary.simpleMessage("English"),
         "failure_title": MessageLookupByLibrary.simpleMessage("Failure"),
         "gender_field": MessageLookupByLibrary.simpleMessage("Gender"),
         "general_section": MessageLookupByLibrary.simpleMessage("General"),
+        "habit_detail": MessageLookupByLibrary.simpleMessage("Habit Details"),
         "habits": m1,
         "help_tile": MessageLookupByLibrary.simpleMessage("Help"),
         "imperial_unit": MessageLookupByLibrary.simpleMessage("Imperial Unit"),
@@ -107,6 +110,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "personal_info_section":
             MessageLookupByLibrary.simpleMessage("Personal Information"),
         "phone_number": MessageLookupByLibrary.simpleMessage("Phone"),
+        "progress_section": MessageLookupByLibrary.simpleMessage("Progress"),
         "re_auth_with_email":
             MessageLookupByLibrary.simpleMessage("Re-authenticate with Email"),
         "re_auth_with_google":
@@ -118,6 +122,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "searching_title": MessageLookupByLibrary.simpleMessage("Searching..."),
         "send_button": MessageLookupByLibrary.simpleMessage("Send"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
+        "start_date": MessageLookupByLibrary.simpleMessage("Start Date"),
         "statistic_section": MessageLookupByLibrary.simpleMessage("Statistics"),
         "success_title": MessageLookupByLibrary.simpleMessage("Success"),
         "term_and_condition_statement": MessageLookupByLibrary.simpleMessage(

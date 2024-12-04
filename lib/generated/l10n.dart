@@ -160,6 +160,26 @@ class S {
     );
   }
 
+  /// `Start Date`
+  String get start_date {
+    return Intl.message(
+      'Start Date',
+      name: 'start_date',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `End Date`
+  String get end_date {
+    return Intl.message(
+      'End Date',
+      name: 'end_date',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `The number is out of range`
   String get out_of_range {
     return Intl.message(
@@ -780,16 +800,6 @@ class S {
     );
   }
 
-  /// `Statistics`
-  String get statistic_section {
-    return Intl.message(
-      'Statistics',
-      name: 'statistic_section',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `{count, plural, =0{No habits} =1{1 habit} other{{count} habits}}`
   String habits(num count) {
     return Intl.plural(
@@ -800,6 +810,26 @@ class S {
       name: 'habits',
       desc: '',
       args: [count],
+    );
+  }
+
+  /// `Habit Details`
+  String get habit_detail {
+    return Intl.message(
+      'Habit Details',
+      name: 'habit_detail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Statistics`
+  String get statistic_section {
+    return Intl.message(
+      'Statistics',
+      name: 'statistic_section',
+      desc: '',
+      args: [],
     );
   }
 
@@ -848,6 +878,26 @@ class S {
     return Intl.message(
       'Add Habit',
       name: 'add_habit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Progress`
+  String get progress_section {
+    return Intl.message(
+      'Progress',
+      name: 'progress_section',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Duration`
+  String get duration_title {
+    return Intl.message(
+      'Duration',
+      name: 'duration_title',
       desc: '',
       args: [],
     );
