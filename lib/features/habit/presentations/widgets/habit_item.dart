@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:animated_switcher_plus/animated_switcher_plus.dart';
 import 'package:dashed_circular_progress_bar/dashed_circular_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -9,8 +12,11 @@ import '../../../../core/constants/app_font_size.dart';
 import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../generated/l10n.dart';
+import 'habit_action_button.dart';
 
-class HabitItem extends StatelessWidget {
+enum HabitAction { skip, complete, nothing }
+
+class HabitItem extends StatefulWidget {
   final bool isListView;
   const HabitItem({super.key, this.isListView = true});
 
@@ -19,7 +25,27 @@ class HabitItem extends StatelessWidget {
     color: AppColors.grayText,
   );
 
+  static const BorderRadius itemBorderRadius =
+      BorderRadius.all(Radius.circular(AppSpacing.radiusS));
+
+  @override
+  State<HabitItem> createState() => _HabitItemState();
+}
+
+class _HabitItemState extends State<HabitItem> {
+  late final GlobalKey _itemKey;
+
+  bool _isOverlay = false;
+  HabitAction currentAction = HabitAction.nothing;
+
+  @override
+  void initState() {
+    super.initState();
+    _itemKey = GlobalKey();
+  }
+
   static const _sliderMotion = DrawerMotion();
+
   @override
   Widget build(BuildContext context) {
     return Slidable(
@@ -29,7 +55,7 @@ class HabitItem extends StatelessWidget {
           icon: FontAwesomeIcons.penToSquare,
           foregroundColor: AppColors.lightText,
           backgroundColor: Colors.green,
-          label: isListView ? S.current.edit_button : null,
+          label: widget.isListView ? S.current.edit_button : null,
         ),
       ]),
       endActionPane: ActionPane(motion: _sliderMotion, children: [
@@ -37,12 +63,115 @@ class HabitItem extends StatelessWidget {
           onPressed: (context) {},
           icon: FontAwesomeIcons.trash,
           foregroundColor: AppColors.lightText,
-          backgroundColor: Colors.red,
-          label: isListView ? S.current.delete_button : null,
+          backgroundColor: AppColors.error,
+          label: widget.isListView ? S.current.delete_button : null,
         ),
       ]),
-      child: isListView ? const _ListViewItem() : const _GridViewItem(),
+      child: AnimatedSwitcherPlus.flipY(
+        duration: const Duration(milliseconds: 300),
+        child: currentAction != HabitAction.nothing
+            ? _buildCover()
+            : _buildItemWithOverlay(),
+      ),
     );
+  }
+
+  Widget _buildCover() {
+    final RenderBox itemBox = context.findRenderObject() as RenderBox;
+    final double width = itemBox.size.width;
+    final double height = itemBox.size.height;
+
+    IconData? icon;
+    Color? bgColor;
+    switch (currentAction) {
+      case HabitAction.skip:
+        icon = Icons.next_plan;
+        bgColor = AppColors.error;
+        break;
+      case HabitAction.complete:
+        icon = FontAwesomeIcons.check;
+        bgColor = AppColors.success;
+        break;
+      case HabitAction.nothing:
+        break;
+    }
+
+    return Container(
+      width: width,
+      height: height,
+      decoration: BoxDecoration(
+        color: bgColor,
+        borderRadius: HabitItem.itemBorderRadius,
+      ),
+      child: Icon(icon, color: Colors.white),
+    );
+  }
+
+  Widget _buildItemWithOverlay() {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _isOverlay = true;
+        });
+      },
+      child: Stack(
+        children: [
+          widget.isListView ? const _ListViewItem() : const _GridViewItem(),
+          if (_isOverlay)
+            Positioned.fill(
+              child: Container(
+                key: _itemKey,
+                decoration: BoxDecoration(
+                  borderRadius: HabitItem.itemBorderRadius,
+                  color: Colors.black.withOpacity(0.5),
+                ),
+                child: Center(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      HabitActionButton(
+                        icon: FontAwesomeIcons.circleCheck,
+                        iconColor: AppColors.success,
+                        backgroundColor: Colors.white,
+                        onTap: () {
+                          setState(() {
+                            _isOverlay = false;
+                            currentAction = HabitAction.complete;
+                          });
+
+                          _toggleHabitStatus();
+                        },
+                      ),
+                      const SizedBox(width: AppSpacing.marginL),
+                      HabitActionButton(
+                        icon: Icons.next_plan,
+                        iconColor: Colors.white,
+                        backgroundColor: AppColors.error,
+                        onTap: () {
+                          setState(() {
+                            _isOverlay = false;
+                            currentAction = HabitAction.skip;
+                          });
+
+                          _toggleHabitStatus();
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )
+        ],
+      ),
+    );
+  }
+
+  void _toggleHabitStatus() {
+    Timer(
+        const Duration(seconds: 1),
+        () => setState(() {
+              currentAction = HabitAction.nothing;
+            }));
   }
 }
 
@@ -54,8 +183,7 @@ class _ListViewItem extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: context.isDarkMode ? AppColors.darkText : AppColors.lightText,
-        borderRadius:
-            const BorderRadius.all(Radius.circular(AppSpacing.radiusS)),
+        borderRadius: HabitItem.itemBorderRadius,
         boxShadow: [
           BoxShadow(
             color: context.isDarkMode
@@ -148,8 +276,7 @@ class _GridViewItemState extends State<_GridViewItem> {
       child: Container(
         decoration: BoxDecoration(
           color: context.isDarkMode ? AppColors.darkText : AppColors.lightText,
-          borderRadius:
-              const BorderRadius.all(Radius.circular(AppSpacing.radiusS)),
+          borderRadius: HabitItem.itemBorderRadius,
           boxShadow: [
             BoxShadow(
               color: context.isDarkMode
@@ -248,19 +375,22 @@ class _HabitMeasurementLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        const Icon(
-          FontAwesomeIcons.book,
-          color: Colors.green,
-          size: 20,
-        ),
-        const SizedBox(width: AppSpacing.marginXS),
-        Text(
-          '30 min',
-          style: textStyle,
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: AppSpacing.paddingS),
+      child: Row(
+        children: <Widget>[
+          const Icon(
+            FontAwesomeIcons.book,
+            color: Colors.green,
+            size: 20,
+          ),
+          const SizedBox(width: AppSpacing.marginXS),
+          Text(
+            '30 min',
+            style: textStyle,
+          ),
+        ],
+      ),
     );
   }
 }

@@ -160,6 +160,16 @@ class S {
     );
   }
 
+  /// `The number is out of range`
+  String get out_of_range {
+    return Intl.message(
+      'The number is out of range',
+      name: 'out_of_range',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Log out`
   String get logout_button {
     return Intl.message(
@@ -828,6 +838,16 @@ class S {
     return Intl.message(
       'Achievement',
       name: 'achievement_done',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Habit`
+  String get add_habit {
+    return Intl.message(
+      'Add Habit',
+      name: 'add_habit',
       desc: '',
       args: [],
     );

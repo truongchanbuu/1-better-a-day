@@ -7,6 +7,7 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'config/theme/app_theme.dart';
 import 'core/constants/app_common.dart';
 import 'features/auth/presentations/bloc/auth_bloc/auth_bloc.dart';
+import 'features/habit/presentations/pages/habit_detail_page.dart';
 import 'features/settings/presentations/bloc/settings_cubit.dart';
 import 'features/shared/presentations/pages/app_view.dart';
 import 'firebase_options.dart';
@@ -61,7 +62,8 @@ class AppContainer extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      home: const AppView(),
+      // home: const AppView(),
+      home: const HabitDetailPage(),
     );
   }
 }

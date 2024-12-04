@@ -26,7 +26,12 @@ class _AllHabitsPageState extends State<AllHabitsPage> {
     return SafeArea(
       child: Scaffold(
         body: Padding(
-          padding: const EdgeInsets.all(AppSpacing.marginL),
+          padding: const EdgeInsets.only(
+            top: AppSpacing.marginL,
+            left: AppSpacing.marginL,
+            right: AppSpacing.marginL,
+            bottom: AppSpacing.marginXS,
+          ),
           child: Column(
             children: <Widget>[
               // General Section
@@ -120,7 +125,7 @@ class _AllHabitsPageState extends State<AllHabitsPage> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: AppSpacing.marginM),
+                    const SizedBox(height: AppSpacing.marginL),
                     const HabitSearchFilterBar(),
                   ],
                 ),
@@ -131,6 +136,40 @@ class _AllHabitsPageState extends State<AllHabitsPage> {
               ),
             ],
           ),
+        ),
+        bottomNavigationBar: _buildAddButton(),
+      ),
+    );
+  }
+
+  Widget _buildAddButton() {
+    return Bounce(
+      duration: AppCommons.buttonBounceDuration,
+      onPressed: () {},
+      child: Container(
+        decoration: const BoxDecoration(
+          color: AppColors.primary,
+          borderRadius: BorderRadius.all(Radius.circular(AppSpacing.radiusS)),
+        ),
+        padding: const EdgeInsets.symmetric(vertical: AppSpacing.paddingM),
+        margin: const EdgeInsets.all(AppSpacing.paddingS),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(
+              FontAwesomeIcons.circlePlus,
+              color: AppColors.lightText,
+            ),
+            const SizedBox(width: AppSpacing.marginM),
+            Text(
+              S.current.add_habit.toUpperCase(),
+              style: const TextStyle(
+                fontSize: AppFontSize.h2,
+                fontWeight: FontWeight.bold,
+                color: AppColors.lightText,
+              ),
+            )
+          ],
         ),
       ),
     );
@@ -154,7 +193,7 @@ class _SectionContainer extends StatelessWidget {
           BoxShadow(
             blurRadius: 2,
             spreadRadius: 3,
-            color: Colors.black12,
+            color: AppColors.grayBackgroundColor,
           ),
         ],
       ),
@@ -170,7 +209,6 @@ class _StatisticItem extends StatelessWidget {
   final String label;
   final String value;
   final VoidCallback onTap;
-  final Color? backgroundColor;
 
   const _StatisticItem({
     required this.icon,
@@ -178,7 +216,6 @@ class _StatisticItem extends StatelessWidget {
     required this.label,
     required this.value,
     required this.onTap,
-    this.backgroundColor,
     this.valueTextColor,
   });
 
@@ -189,8 +226,7 @@ class _StatisticItem extends StatelessWidget {
       onPressed: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: backgroundColor ??
-              (context.isDarkMode ? AppColors.primaryDark : Colors.white),
+          color: context.isDarkMode ? AppColors.primaryDark : Colors.white,
           borderRadius: const BorderRadius.all(
             Radius.circular(AppSpacing.radiusS),
           ),
@@ -213,7 +249,7 @@ class _StatisticItem extends StatelessWidget {
             Text(
               label,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: AppFontSize.bodySmall),
+              style: const TextStyle(fontSize: AppFontSize.bodySmall),
             ),
             Text(
               value,

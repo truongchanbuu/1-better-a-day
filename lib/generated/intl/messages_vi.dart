@@ -34,6 +34,7 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Tài khoản đã tồn tại với thông tin đăng nhập khác."),
         "account_section": MessageLookupByLibrary.simpleMessage("Tài khoản"),
         "achievement_done": MessageLookupByLibrary.simpleMessage("Thành tựu"),
+        "add_habit": MessageLookupByLibrary.simpleMessage("Add Habit"),
         "afternoon_tile": MessageLookupByLibrary.simpleMessage("Buổi chiều"),
         "age_field": MessageLookupByLibrary.simpleMessage("Tuổi"),
         "all_habits": MessageLookupByLibrary.simpleMessage("Tất cả thói quen"),
@@ -98,6 +99,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "notifications": MessageLookupByLibrary.simpleMessage("Thông báo"),
         "operation_not_allowed": MessageLookupByLibrary.simpleMessage(
             "Hoạt động không được phép. Vui lòng liên hệ hỗ trợ."),
+        "out_of_range": MessageLookupByLibrary.simpleMessage(
+            "Số hiện tại đang vượt quá mức"),
         "password_field": MessageLookupByLibrary.simpleMessage("Mật khẩu"),
         "passwords_do_not_match":
             MessageLookupByLibrary.simpleMessage("Mật khẩu không trùng khớp"),

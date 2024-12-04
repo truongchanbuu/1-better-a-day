@@ -14,6 +14,9 @@
   "delete_button": "Xóa",
   "edit_button": "Chỉnh sửa",
 
+  "@__VALIDATION__": "",
+  "out_of_range": "Số hiện tại đang vượt quá mức",
+
   "@__AUTHENTICATION__": "",
   "logout_button": "Đăng xuất",
   "recovery_description": "Một email đặt lại mật khẩu sẽ được gửi tới email của bạn",
@@ -106,5 +109,6 @@
       }
     }
   },
-  "achievement_done": "Thành tựu"
+  "achievement_done": "Thành tựu",
+  "add_habit": "Add Habit"
 }

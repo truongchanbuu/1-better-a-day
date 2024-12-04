@@ -30,6 +30,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.7.0"
+  animated_switcher_plus:
+    dependency: "direct main"
+    description:
+      name: animated_switcher_plus
+      sha256: "2a548cd5d7466bdd586be500aecaddf16488b3f4364d870de22751b836cd4718"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   another_flushbar:
     dependency: transitive
     description:
@@ -810,6 +818,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
+  msh_checkbox:
+    dependency: "direct main"
+    description:
+      name: msh_checkbox
+      sha256: f546b8d7b6c129a079c5d5d37217656bee417883b11cf506b5ef536915c81cab
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   nested:
     dependency: transitive
     description:
@@ -1204,6 +1220,14 @@ packages:
     description:
       name: syncfusion_flutter_datepicker
       sha256: eafdcb6084a3c50d482cf846a59dac86bee3cc3511f62f3b69fea14133ab57be
+      url: "https://pub.dev"
+    source: hosted
+    version: "27.2.4"
+  syncfusion_flutter_sliders:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_sliders
+      sha256: "2ed4df2297af3922cd0264bff9bb43d6b73cf76256ae0bce0646e380a4506b96"
       url: "https://pub.dev"
     source: hosted
     version: "27.2.4"

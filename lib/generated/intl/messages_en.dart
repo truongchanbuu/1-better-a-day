@@ -34,6 +34,7 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Account exists with different credentials."),
         "account_section": MessageLookupByLibrary.simpleMessage("Account"),
         "achievement_done": MessageLookupByLibrary.simpleMessage("Achievement"),
+        "add_habit": MessageLookupByLibrary.simpleMessage("Add Habit"),
         "afternoon_tile": MessageLookupByLibrary.simpleMessage("Afternoon"),
         "age_field": MessageLookupByLibrary.simpleMessage("Age"),
         "all_habits": MessageLookupByLibrary.simpleMessage("All Habits"),
@@ -98,6 +99,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
         "operation_not_allowed": MessageLookupByLibrary.simpleMessage(
             "Operation is not allowed. Please contact support."),
+        "out_of_range":
+            MessageLookupByLibrary.simpleMessage("The number is out of range"),
         "password_field": MessageLookupByLibrary.simpleMessage("Password"),
         "passwords_do_not_match":
             MessageLookupByLibrary.simpleMessage("Password does not match"),

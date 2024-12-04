@@ -3,5 +3,5 @@ class AppCommons {
   static const String shortAppName = '1BAD';
 
   static const Duration pageTransitionDuration = Duration(milliseconds: 500);
-  static const Duration buttonBounceDuration = Duration(milliseconds: 200);
+  static const Duration buttonBounceDuration = Duration(milliseconds: 300);
 }

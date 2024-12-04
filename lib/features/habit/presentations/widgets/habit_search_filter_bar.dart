@@ -1,14 +1,14 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:animated_switcher_plus/animated_switcher_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounce/flutter_bounce.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../core/constants/app_color.dart';
 import '../../../../core/constants/app_common.dart';
-import '../../../../core/constants/app_font_size.dart';
 import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../generated/l10n.dart';
+import 'filter_item.dart';
 
 class HabitSearchFilterBar extends StatefulWidget {
   const HabitSearchFilterBar({super.key});
@@ -69,116 +69,41 @@ class _HabitSearchFilterBarState extends State<HabitSearchFilterBar> {
             ),
           ],
         ),
-        if (_isFilterSectionShowed)
-          const Padding(
-            padding: EdgeInsets.only(top: AppSpacing.marginS),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  _FilterItem<String>(
-                    title: 'Title',
-                    items: ['A', 'B', 'C', 'D'],
-                  ),
-                  _FilterItem<String>(
-                    title: 'Status',
-                    items: ['A', 'B', 'C'],
-                  ),
-                ],
-              ),
-            ),
-          ),
-      ],
-    );
-  }
-}
-
-class _FilterItem<T> extends StatefulWidget {
-  final T? selected;
-  final List<T> items;
-  final String title;
-  const _FilterItem({
-    required this.title,
-    required this.items,
-    this.selected,
-  });
-
-  @override
-  State<_FilterItem<T>> createState() => _FilterItemState<T>();
-}
-
-class _FilterItemState<T> extends State<_FilterItem<T>> {
-  T? selected;
-
-  @override
-  void initState() {
-    super.initState();
-    selected = widget.selected;
-  }
-
-  static const _textStyle = TextStyle(
-    fontSize: AppFontSize.bodyLarge,
-  );
-  static const double _containerWidth = 120;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: _containerWidth,
-      decoration: BoxDecoration(
-        borderRadius:
-            const BorderRadius.all(Radius.circular(AppSpacing.circleRadius)),
-        color: context.isDarkMode
-            ? AppColors.primaryDark
-            : AppColors.grayBackgroundColor,
-      ),
-      margin: const EdgeInsets.only(right: AppSpacing.marginS),
-      child: DropdownButtonFormField2<T>(
-        hint: Text(
-          widget.title,
-          style: _textStyle,
-        ),
-        value: selected,
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(
-            borderRadius:
-                BorderRadius.all(Radius.circular(AppSpacing.circleRadius)),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius:
-                BorderRadius.all(Radius.circular(AppSpacing.circleRadius)),
-            borderSide: BorderSide(color: AppColors.primary),
-          ),
-          contentPadding: EdgeInsets.zero,
-        ),
-        buttonStyleData: const ButtonStyleData(
-          padding: EdgeInsets.symmetric(horizontal: AppSpacing.paddingS),
-        ),
-        isExpanded: true,
-        onChanged: (value) {
-          setState(() {
-            selected = value;
-          });
-        },
-        selectedItemBuilder: (context) =>
-            widget.items.map((item) => Text(item.toString())).toList(),
-        items: widget.items
-            .map((item) => DropdownMenuItem(
-                  value: item,
-                  enabled: selected != item,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(item.toString()),
-                      if (selected == item)
-                        const Icon(
-                          FontAwesomeIcons.check,
-                          color: AppColors.success,
+        AnimatedSwitcherPlus.translationLeft(
+          switchInCurve: Curves.easeIn,
+          switchOutCurve: Curves.easeIn,
+          duration: const Duration(milliseconds: 250),
+          child: _isFilterSectionShowed
+              ? const Padding(
+                  key: ValueKey('filter_section'),
+                  padding: EdgeInsets.only(top: AppSpacing.marginS),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        FilterItem(
+                          width: 120,
+                          title: 'Title',
+                          items: ['A', 'B', 'C', 'D'],
                         ),
-                    ],
+                        FilterItem(
+                          width: 120,
+                          title: 'Status',
+                          items: ['A', 'B', 'C'],
+                        ),
+                        FilterItem(
+                          width: 165,
+                          title: 'Progressing',
+                          items: [],
+                          type: FilterType.range,
+                        ),
+                      ],
+                    ),
                   ),
-                ))
-            .toList(),
-      ),
+                )
+              : const SizedBox.shrink(key: ValueKey('empty')),
+        )
+      ],
     );
   }
 }

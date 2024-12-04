@@ -44,9 +44,14 @@ class AppTheme {
 
   static AppBarTheme _appBarTheme({required bool isLight}) {
     return AppBarTheme(
-        backgroundColor: isLight ? AppColors.primary : AppColors.primaryDark,
-        elevation: 10,
-        iconTheme: const IconThemeData(color: AppColors.lightText));
+      backgroundColor: isLight ? AppColors.primary : AppColors.primaryDark,
+      elevation: 10,
+      iconTheme: const IconThemeData(color: AppColors.lightText),
+      titleTextStyle: const TextStyle(
+        fontSize: AppFontSize.appBarTitle,
+        color: AppColors.lightText,
+      ),
+    );
   }
 
   static const defaultOverflow = TextOverflow.ellipsis;

@@ -14,6 +14,9 @@
   "delete_button": "Delete",
   "edit_button": "Edit",
 
+  "@__VALIDATION__": "",
+  "out_of_range": "The number is out of range",
+
   "@__AUTHENTICATION__": "",
   "logout_button": "Log out",
   "recovery_description": "An reset-password mail will be sent to your email",
@@ -106,5 +109,6 @@
       }
     }
   },
-  "achievement_done": "Achievement"
+  "achievement_done": "Achievement",
+  "add_habit": "Add Habit"
 }

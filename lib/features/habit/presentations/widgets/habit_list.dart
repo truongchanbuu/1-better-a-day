@@ -1,5 +1,7 @@
+import 'package:animated_switcher_plus/animated_switcher_plus.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../core/constants/app_spacing.dart';
 import 'habit_item.dart';
 
 class HabitList extends StatefulWidget {
@@ -17,7 +19,12 @@ class _HabitListState extends State<HabitList> {
   }
 
   Widget _buildHabitView() {
-    return widget.isListView ? _buildListView() : _buildGridView();
+    return AnimatedSwitcherPlus.zoomOut(
+      switchInCurve: Curves.ease,
+      switchOutCurve: Curves.ease,
+      duration: const Duration(milliseconds: 300),
+      child: widget.isListView ? _buildListView() : _buildGridView(),
+    );
   }
 
   Widget _buildGridView() {
@@ -33,9 +40,11 @@ class _HabitListState extends State<HabitList> {
   }
 
   Widget _buildListView() {
-    return ListView.builder(
+    return ListView.separated(
       itemBuilder: _buildItem,
       itemCount: 10,
+      separatorBuilder: (context, index) =>
+          const SizedBox(height: AppSpacing.marginS),
     );
   }
 

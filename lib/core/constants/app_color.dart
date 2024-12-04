@@ -11,7 +11,7 @@ class AppColors {
   static const primaryDark = Color(0xFF121212);
 
   static const Color error = Color(0xFFFF0000);
-  static const Color success = Color(0xFF00FF00);
+  static const Color success = Color(0xFF198754);
   static const Color warning = Color(0xFFFFA500);
 
   static const Color grayBackgroundColor = Color(0xFFEEEEEE);
