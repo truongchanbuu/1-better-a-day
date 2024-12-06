@@ -14,6 +14,8 @@ import 'firebase_options.dart';
 import 'generated/l10n.dart';
 import 'injection_container.dart';
 
+// TODO: PACKAGES:
+// - TIME_PLANNER FOR TIME SCHEDULE
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);

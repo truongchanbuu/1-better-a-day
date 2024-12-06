@@ -1,17 +1,18 @@
 import 'package:equatable/equatable.dart';
 
+import 'habit_goal.dart';
+
 class HabitEntity extends Equatable {
   final String habitId;
   final String habitTitle;
   final String? iconName;
-  final String? customIconUrl;
   final String habitDesc;
   final double habitProgress;
-  final String habitGoal;
+  final HabitGoal habitGoal;
   final String habitCategory;
   final String timeOfDay;
-  final Duration duration;
-  final String frequency;
+  final int currentStreak;
+  final int longestStreak;
   final DateTime startDate;
   final DateTime endDate;
   final DateTime? reminderTime;
@@ -20,18 +21,17 @@ class HabitEntity extends Equatable {
   const HabitEntity({
     required this.habitId,
     required this.habitTitle,
-    this.iconName,
     required this.habitDesc,
     required this.habitGoal,
     required this.habitCategory,
     required this.timeOfDay,
-    required this.duration,
-    required this.frequency,
-    required this.startDate,
     required this.endDate,
-    this.reminderTime,
-    this.customIconUrl,
     required this.habitStatus,
+    required this.startDate,
+    this.currentStreak = 0,
+    this.longestStreak = 0,
+    this.iconName,
+    this.reminderTime,
     this.habitProgress = 0,
   });
 
@@ -40,16 +40,15 @@ class HabitEntity extends Equatable {
     String? habitTitle,
     String? iconName,
     String? habitDesc,
-    String? habitGoal,
+    HabitGoal? habitGoal,
     String? habitCategory,
     double? habitProgress,
     String? timeOfDay,
-    Duration? duration,
-    String? frequency,
+    int? currentStreak,
+    int? longestStreak,
     DateTime? startDate,
     DateTime? endDate,
     DateTime? reminderTime,
-    String? customIconUrl,
     String? habitStatus,
   }) {
     return HabitEntity(
@@ -60,14 +59,13 @@ class HabitEntity extends Equatable {
       habitGoal: habitGoal ?? this.habitGoal,
       habitCategory: habitCategory ?? this.habitCategory,
       habitProgress: habitProgress ?? this.habitProgress,
+      currentStreak: currentStreak ?? this.currentStreak,
+      longestStreak: longestStreak ?? this.longestStreak,
       timeOfDay: timeOfDay ?? this.timeOfDay,
-      duration: duration ?? this.duration,
-      frequency: frequency ?? this.frequency,
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
       reminderTime: reminderTime ?? this.reminderTime,
       habitStatus: habitStatus ?? this.habitStatus,
-      customIconUrl: customIconUrl ?? this.customIconUrl,
     );
   }
 
@@ -81,14 +79,13 @@ class HabitEntity extends Equatable {
       habitGoal,
       habitCategory,
       habitProgress,
+      currentStreak,
+      longestStreak,
       timeOfDay,
-      duration,
-      frequency,
       startDate,
       endDate,
       reminderTime,
       habitStatus,
-      customIconUrl,
     ];
   }
 }

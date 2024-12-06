@@ -26,6 +26,8 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m1(count) =>
       "${Intl.plural(count, zero: '0 thói quen', one: '1 thói quen', other: '${count} thói quen')}";
 
+  static String m2(value) => "Bạn đã đi được ${value}% chặng đường";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "accept_button": MessageLookupByLibrary.simpleMessage("Chấp nhận"),
@@ -35,8 +37,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "account_section": MessageLookupByLibrary.simpleMessage("Tài khoản"),
         "achievement_done": MessageLookupByLibrary.simpleMessage("Thành tựu"),
         "add_habit": MessageLookupByLibrary.simpleMessage("Add Habit"),
+        "add_water_button": MessageLookupByLibrary.simpleMessage("Thêm 250ML"),
         "afternoon_tile": MessageLookupByLibrary.simpleMessage("Buổi chiều"),
         "age_field": MessageLookupByLibrary.simpleMessage("Tuổi"),
+        "all_detail_history":
+            MessageLookupByLibrary.simpleMessage("Chi tiết các lịch sử"),
         "all_habits": MessageLookupByLibrary.simpleMessage("Tất cả thói quen"),
         "app_info_section":
             MessageLookupByLibrary.simpleMessage("Thông tin bổ sung"),
@@ -69,6 +74,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Chi tiết thói quen"),
         "habits": m1,
         "help_tile": MessageLookupByLibrary.simpleMessage("Trợ giúp"),
+        "history_section":
+            MessageLookupByLibrary.simpleMessage("Lịch sử thực hiện"),
         "imperial_unit": MessageLookupByLibrary.simpleMessage("Hệ Anh"),
         "invalid_age": MessageLookupByLibrary.simpleMessage(
             "Vui lòng chọn một độ tuổi phù hợp"),
@@ -96,12 +103,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "logout_button": MessageLookupByLibrary.simpleMessage("Đăng xuất"),
         "manage_account_choice":
             MessageLookupByLibrary.simpleMessage("Quản lý tài khoản"),
+        "mark_as_done": MessageLookupByLibrary.simpleMessage("Đã thực hiện"),
+        "mark_as_pause": MessageLookupByLibrary.simpleMessage("Tạm dừng"),
         "measurement_unit_title":
             MessageLookupByLibrary.simpleMessage("Đơn vị đo lường"),
         "metric_unit": MessageLookupByLibrary.simpleMessage("Hệ mét"),
         "no_date_selected":
             MessageLookupByLibrary.simpleMessage("Chưa ngày nào được chọn"),
         "notifications": MessageLookupByLibrary.simpleMessage("Thông báo"),
+        "on_your_way": m2,
         "operation_not_allowed": MessageLookupByLibrary.simpleMessage(
             "Hoạt động không được phép. Vui lòng liên hệ hỗ trợ."),
         "out_of_range": MessageLookupByLibrary.simpleMessage(
@@ -119,6 +129,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Xác thực với Google"),
         "recovery_description": MessageLookupByLibrary.simpleMessage(
             "Một email đặt lại mật khẩu sẽ được gửi tới email của bạn"),
+        "remove_water_button":
+            MessageLookupByLibrary.simpleMessage("Giảm 250ML"),
         "reset_password":
             MessageLookupByLibrary.simpleMessage("Đặt lại mật khẩu"),
         "searching_title": MessageLookupByLibrary.simpleMessage("Tìm kiếm..."),
@@ -127,6 +139,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "start_date": MessageLookupByLibrary.simpleMessage("Ngày bắt đầu"),
         "statistic_section": MessageLookupByLibrary.simpleMessage("Thống kê"),
         "success_title": MessageLookupByLibrary.simpleMessage("Thành công"),
+        "target_title": MessageLookupByLibrary.simpleMessage("Mục tiêu"),
         "term_and_condition_statement": MessageLookupByLibrary.simpleMessage(
             "Bằng cách đăng nhập/đăng ký, bạn chấp nhận Điều khoản và Điều kiện của chúng tôi và đồng ý với Chính sách Quyền riêng tư"),
         "terms_and_conditions":
@@ -135,6 +148,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "time_of_day_section":
             MessageLookupByLibrary.simpleMessage("Thời gian trong ngày"),
         "today_tasks": MessageLookupByLibrary.simpleMessage("Nhiệm vụ hôm nay"),
+        "tracker_section": MessageLookupByLibrary.simpleMessage("Theo dõi"),
         "try_again":
             MessageLookupByLibrary.simpleMessage("Vui lòng thử lại sau"),
         "unknown_exception": MessageLookupByLibrary.simpleMessage(

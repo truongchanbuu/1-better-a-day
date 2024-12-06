@@ -36,7 +36,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
 
-  # Locator
+  # DI
   get_it: ^8.0.2
 
   # Firebase
@@ -83,12 +83,14 @@ dependencies:
   numberpicker: ^2.1.2
   flutter_smart_dialog: ^4.9.8+5
   syncfusion_flutter_datepicker: ^27.2.4
-  dashed_circular_progress_bar: ^0.0.6
-  simple_progress_indicators: ^0.2.0
+  percent_indicator: ^4.2.4
   dropdown_button2: ^2.3.9
   syncfusion_flutter_sliders: ^27.2.4
   msh_checkbox: ^2.0.1
   animated_text_kit: ^4.2.2
+  rounded_loading_button_plus: ^3.0.1
+  liquid_progress_indicator_v2: ^0.5.0
+  neon_circular_timer: ^0.0.8
 
   # Form
   formz: ^0.8.0
@@ -105,6 +107,12 @@ dependencies:
   flutter_bounce: ^1.1.0
   flutter_slidable: ^3.1.1
   animated_switcher_plus: ^1.1.0
+
+  # Permission
+  permission_handler: ^11.3.1
+
+  # Map & Geo
+  geolocator: 13.0.2
 
 dev_dependencies:
   flutter_test:

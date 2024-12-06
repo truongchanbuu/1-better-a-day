@@ -893,11 +893,101 @@ class S {
     );
   }
 
+  /// `You are {value}% on your way`
+  String on_your_way(Object value) {
+    return Intl.message(
+      'You are $value% on your way',
+      name: 'on_your_way',
+      desc: '',
+      args: [value],
+    );
+  }
+
   /// `Duration`
   String get duration_title {
     return Intl.message(
       'Duration',
       name: 'duration_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Target`
+  String get target_title {
+    return Intl.message(
+      'Target',
+      name: 'target_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mark as done`
+  String get mark_as_done {
+    return Intl.message(
+      'Mark as done',
+      name: 'mark_as_done',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mark as pause`
+  String get mark_as_pause {
+    return Intl.message(
+      'Mark as pause',
+      name: 'mark_as_pause',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tracker`
+  String get tracker_section {
+    return Intl.message(
+      'Tracker',
+      name: 'tracker_section',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add 250ML`
+  String get add_water_button {
+    return Intl.message(
+      'Add 250ML',
+      name: 'add_water_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remove 250ML`
+  String get remove_water_button {
+    return Intl.message(
+      'Remove 250ML',
+      name: 'remove_water_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `History`
+  String get history_section {
+    return Intl.message(
+      'History',
+      name: 'history_section',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All Detail History`
+  String get all_detail_history {
+    return Intl.message(
+      'All Detail History',
+      name: 'all_detail_history',
       desc: '',
       args: [],
     );

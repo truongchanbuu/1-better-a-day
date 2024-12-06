@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:animated_switcher_plus/animated_switcher_plus.dart';
-import 'package:dashed_circular_progress_bar/dashed_circular_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:simple_progress_indicators/simple_progress_indicators.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import '../../../../core/constants/app_color.dart';
 import '../../../../core/constants/app_font_size.dart';
@@ -209,7 +209,7 @@ class _ListViewItem extends StatelessWidget {
             ),
             subtitle:
                 _HabitMeasurementLabel(textStyle: HabitItem.figureTextStyle),
-            trailing: _HabitTypeLabel(),
+            trailing: _HabitIconLabel(),
             contentPadding: EdgeInsets.zero,
           ),
           _HabitProgress(),
@@ -269,7 +269,7 @@ class _GridViewItemState extends State<_GridViewItem> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             _HabitMeasurementLabel(textStyle: HabitItem.figureTextStyle),
-            _HabitTypeLabel(),
+            _HabitIconLabel(),
           ],
         ),
       ),
@@ -292,16 +292,43 @@ class _GridViewItemState extends State<_GridViewItem> {
           top: AppSpacing.paddingXXL,
           bottom: AppSpacing.paddingS,
         ),
-        child: DashedCircularProgressBar.aspectRatio(
-          aspectRatio: 1,
-          maxProgress: 100,
-          animation: true,
-          progress: _progressNotifier.value,
+        // child: DashedCircularProgressBar.aspectRatio(
+        //   aspectRatio: 1,
+        //   maxProgress: 100,
+        //   animation: true,
+        //   progress: _progressNotifier.value,
+        //   backgroundColor: AppColors.grayBackgroundColor,
+        //   foregroundStrokeWidth: 10,
+        //   backgroundStrokeWidth: 10,
+        //   valueNotifier: _progressNotifier,
+        //   child: ValueListenableBuilder(
+        //     valueListenable: _progressNotifier,
+        //     builder: (context, value, child) => Center(
+        //       child: Column(
+        //         mainAxisSize: MainAxisSize.min,
+        //         children: <Widget>[
+        //           const Text(
+        //             'Reading book',
+        //             style: TextStyle(
+        //               fontWeight: FontWeight.bold,
+        //               fontSize: AppFontSize.labelMedium,
+        //             ),
+        //           ),
+        //           Text(
+        //             '${value.toInt()}%',
+        //             style: HabitItem.figureTextStyle,
+        //           ),
+        //         ],
+        //       ),
+        //     ),
+        //   ),
+        // ),
+        child: CircularPercentIndicator(
+          percent: _progressNotifier.value,
+          radius: 30,
           backgroundColor: AppColors.grayBackgroundColor,
-          foregroundStrokeWidth: 10,
-          backgroundStrokeWidth: 10,
-          valueNotifier: _progressNotifier,
-          child: ValueListenableBuilder(
+          progressColor: AppColors.primary,
+          center: ValueListenableBuilder(
             valueListenable: _progressNotifier,
             builder: (context, value, child) => Center(
               child: Column(
@@ -328,8 +355,8 @@ class _GridViewItemState extends State<_GridViewItem> {
   }
 }
 
-class _HabitTypeLabel extends StatelessWidget {
-  const _HabitTypeLabel();
+class _HabitIconLabel extends StatelessWidget {
+  const _HabitIconLabel();
 
   @override
   Widget build(BuildContext context) {
@@ -359,11 +386,11 @@ class _HabitProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedProgressBar(
+    return LinearPercentIndicator(
       width: MediaQuery.of(context).size.width,
-      duration: const Duration(milliseconds: 500),
-      value: 0.3,
-      color: AppColors.primary,
+      padding: EdgeInsets.zero,
+      percent: 0.3,
+      progressColor: AppColors.primary,
       backgroundColor: AppColors.grayBackgroundColor,
     );
   }

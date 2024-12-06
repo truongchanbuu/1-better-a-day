@@ -115,5 +115,16 @@
   "achievement_done": "Thành tựu",
   "add_habit": "Add Habit",
   "progress_section": "Quá trình",
-  "duration_title": "Thời gian thực hiện"
+  "duration_title": "Thời gian thực hiện",
+  "target_title": "Mục tiêu",
+  "on_your_way": "Bạn đã đi được {value}% chặng đường",
+  "mark_as_done": "Đã thực hiện",
+  "mark_as_pause": "Tạm dừng",
+
+  "tracker_section": "Theo dõi",
+  "add_water_button": "Thêm 250ML",
+  "remove_water_button": "Giảm 250ML",
+
+  "history_section": "Lịch sử thực hiện",
+  "all_detail_history": "Chi tiết các lịch sử"
 }

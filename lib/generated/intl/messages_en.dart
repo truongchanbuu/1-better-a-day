@@ -26,6 +26,8 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m1(count) =>
       "${Intl.plural(count, zero: 'No habits', one: '1 habit', other: '${count} habits')}";
 
+  static String m2(value) => "You are ${value}% on your way";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "accept_button": MessageLookupByLibrary.simpleMessage("Accept"),
@@ -35,8 +37,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "account_section": MessageLookupByLibrary.simpleMessage("Account"),
         "achievement_done": MessageLookupByLibrary.simpleMessage("Achievement"),
         "add_habit": MessageLookupByLibrary.simpleMessage("Add Habit"),
+        "add_water_button": MessageLookupByLibrary.simpleMessage("Add 250ML"),
         "afternoon_tile": MessageLookupByLibrary.simpleMessage("Afternoon"),
         "age_field": MessageLookupByLibrary.simpleMessage("Age"),
+        "all_detail_history":
+            MessageLookupByLibrary.simpleMessage("All Detail History"),
         "all_habits": MessageLookupByLibrary.simpleMessage("All Habits"),
         "app_info_section":
             MessageLookupByLibrary.simpleMessage("Additional Information"),
@@ -67,6 +72,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "habit_detail": MessageLookupByLibrary.simpleMessage("Habit Details"),
         "habits": m1,
         "help_tile": MessageLookupByLibrary.simpleMessage("Help"),
+        "history_section": MessageLookupByLibrary.simpleMessage("History"),
         "imperial_unit": MessageLookupByLibrary.simpleMessage("Imperial Unit"),
         "invalid_age":
             MessageLookupByLibrary.simpleMessage("Please select a valid age"),
@@ -94,12 +100,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "logout_button": MessageLookupByLibrary.simpleMessage("Log out"),
         "manage_account_choice":
             MessageLookupByLibrary.simpleMessage("Manage Account"),
+        "mark_as_done": MessageLookupByLibrary.simpleMessage("Mark as done"),
+        "mark_as_pause": MessageLookupByLibrary.simpleMessage("Mark as pause"),
         "measurement_unit_title":
             MessageLookupByLibrary.simpleMessage("Measurement Unit"),
         "metric_unit": MessageLookupByLibrary.simpleMessage("Metric Unit"),
         "no_date_selected":
             MessageLookupByLibrary.simpleMessage("No Date Selected"),
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
+        "on_your_way": m2,
         "operation_not_allowed": MessageLookupByLibrary.simpleMessage(
             "Operation is not allowed. Please contact support."),
         "out_of_range":
@@ -117,6 +126,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Re-authenticate with Google"),
         "recovery_description": MessageLookupByLibrary.simpleMessage(
             "An reset-password mail will be sent to your email"),
+        "remove_water_button":
+            MessageLookupByLibrary.simpleMessage("Remove 250ML"),
         "reset_password":
             MessageLookupByLibrary.simpleMessage("Reset Password"),
         "searching_title": MessageLookupByLibrary.simpleMessage("Searching..."),
@@ -125,6 +136,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "start_date": MessageLookupByLibrary.simpleMessage("Start Date"),
         "statistic_section": MessageLookupByLibrary.simpleMessage("Statistics"),
         "success_title": MessageLookupByLibrary.simpleMessage("Success"),
+        "target_title": MessageLookupByLibrary.simpleMessage("Target"),
         "term_and_condition_statement": MessageLookupByLibrary.simpleMessage(
             "By signing in/signing up, you accept our Terms and Conditions and consent to our Privacy Policy"),
         "terms_and_conditions":
@@ -133,6 +145,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "time_of_day_section":
             MessageLookupByLibrary.simpleMessage("Time of day"),
         "today_tasks": MessageLookupByLibrary.simpleMessage("Today Tasks"),
+        "tracker_section": MessageLookupByLibrary.simpleMessage("Tracker"),
         "try_again":
             MessageLookupByLibrary.simpleMessage("Please try again later"),
         "unknown_exception": MessageLookupByLibrary.simpleMessage(
