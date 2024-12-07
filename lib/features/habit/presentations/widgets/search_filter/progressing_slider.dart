@@ -4,12 +4,12 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:msh_checkbox/msh_checkbox.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 
-import '../../../../core/constants/app_color.dart';
-import '../../../../core/constants/app_font_size.dart';
-import '../../../../core/constants/app_spacing.dart';
-import '../../../../core/extensions/context_extension.dart';
-import '../../../../core/formatters/range_input_formatter.dart';
-import '../../../../generated/l10n.dart';
+import '../../../../../core/constants/app_color.dart';
+import '../../../../../core/constants/app_font_size.dart';
+import '../../../../../core/constants/app_spacing.dart';
+import '../../../../../core/extensions/context_extension.dart';
+import '../../../../../core/formatters/range_input_formatter.dart';
+import '../../../../../generated/l10n.dart';
 
 class ProgressingSlider extends StatefulWidget {
   const ProgressingSlider({super.key});

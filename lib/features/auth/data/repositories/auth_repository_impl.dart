@@ -8,6 +8,7 @@ import '../../../../config/log/app_logger.dart';
 import '../../../../core/constants/app_storage_key.dart';
 import '../../../../core/helpers/cached_client.dart';
 import '../../../../core/resources/data_state.dart';
+import '../../../../injection_container.dart';
 import '../../../user/domain/repositories/user_repository.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/auth_repository.dart';
@@ -15,11 +16,11 @@ import '../models/user.dart';
 import '../../../../core/exceptions/auth_exception.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
-  final AppLogger appLogger;
   final CacheClient cache;
   final FirebaseAuth firebaseAuth;
   final GoogleSignIn googleSignIn;
   final UserRepository userRepository;
+  final AppLogger appLogger = getIt.get<AppLogger>();
 
   final _userController = StreamController<UserModel>();
   UserModel _cachedUser = UserModel.fromEntity(UserEntity.empty);
@@ -32,7 +33,6 @@ class AuthRepositoryImpl implements AuthRepository {
     required this.firebaseAuth,
     required this.googleSignIn,
     required this.userRepository,
-    required this.appLogger,
   }) {
     _initUserStream();
   }

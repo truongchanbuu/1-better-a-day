@@ -124,6 +124,11 @@
   "tracker_section": "Tracker",
   "add_water_button": "Add 250ML",
   "remove_water_button": "Remove 250ML",
+  "current_distance": "Current Distance",
+  "total_distance": "Total Distance",i
+
+  "@__TRACK_ERROR__": "",
+  "not_allow_track": "We don't have permission to track your distance",
 
   "history_section": "History",
   "all_detail_history": "All Detail History"

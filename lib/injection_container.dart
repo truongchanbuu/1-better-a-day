@@ -13,6 +13,7 @@ import 'features/auth/domain/repositories/auth_repository.dart';
 import 'features/auth/presentations/bloc/auth_bloc/auth_bloc.dart';
 import 'features/auth/presentations/bloc/login/login_cubit.dart';
 import 'features/auth/presentations/bloc/signup/signup_cubit.dart';
+import 'features/habit/presentations/blocs/distance_track/distance_track_cubit.dart';
 import 'features/settings/presentations/bloc/settings_cubit.dart';
 import 'features/shared/data/repositories/image_repository_impl.dart';
 import 'features/shared/domain/repositories/image_repository.dart';
@@ -48,7 +49,6 @@ Future<void> initializeDependencies() async {
       collectionPath: 'users',
       firestore: getIt(),
       fromJson: UserModel.fromJson,
-      appLogger: getIt(),
     ),
   );
 
@@ -58,7 +58,6 @@ Future<void> initializeDependencies() async {
     firebaseAuth: getIt(),
     googleSignIn: getIt(),
     userRepository: getIt(),
-    appLogger: getIt(),
     cache: getIt(),
   ));
 
@@ -70,4 +69,7 @@ Future<void> initializeDependencies() async {
   getIt.registerFactory<LoginCubit>(() => LoginCubit(getIt()));
   getIt.registerFactory<SignUpCubit>(() => SignUpCubit(getIt()));
   getIt.registerFactory<UpdateInfoCubit>(() => UpdateInfoCubit(getIt()));
+  getIt.registerFactoryParam<DistanceTrackCubit, double, void>(
+    (targetDistance, _) => DistanceTrackCubit(targetDistance: targetDistance),
+  );
 }

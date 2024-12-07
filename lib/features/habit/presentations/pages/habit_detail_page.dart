@@ -26,9 +26,9 @@ import '../../domain/enitites/habit_entity.dart';
 import '../../domain/enitites/habit_goal.dart';
 import '../../domain/enitites/habit_history.dart';
 import '../widgets/habit_section_container.dart';
-import '../widgets/habit_tracker.dart';
+import '../widgets/trackers/habit_tracker.dart';
 
-final habit = HabitEntity(
+var habit = HabitEntity(
   habitId: 'habit1',
   habitTitle: 'Water Drinking',
   habitDesc: 'Drink 2L of water every day.',
@@ -38,7 +38,7 @@ final habit = HabitEntity(
     goalDesc: 'Stay fit and healthy',
     goalType: GoalType.distance.name,
     targetValue: 10,
-    goalUnit: GoalUnit.second.name,
+    goalUnit: GoalUnit.km.name,
     goalFrequency: HabitFrequency.daily.name,
   ),
   iconName: HabitIcon.water.iconName,
@@ -50,37 +50,6 @@ final habit = HabitEntity(
   habitStatus: HabitStatus.inProgress.name,
   habitProgress: 0.48,
 );
-
-final logs = [
-  HabitHistory(
-    id: '1',
-    habitId: 'habit1',
-    date: DateTime(2024, 1, 1),
-    status: 'completed',
-    startTime: DateTime(2024, 1, 1, 7, 0),
-    endTime: DateTime(2024, 1, 1, 8, 0),
-    duration: const Duration(hours: 1),
-    note: 'Great start to the year!',
-    rating: 5,
-    mood: 'Happy',
-    quantity: 1.0,
-    measurement: 'hour',
-  ),
-  HabitHistory(
-    id: '2',
-    habitId: 'habit2',
-    date: DateTime(2024, 1, 2),
-    status: 'failed',
-    startTime: DateTime(2024, 1, 2, 8, 0),
-    endTime: DateTime(2024, 1, 2, 9, 0),
-    duration: const Duration(hours: 1),
-    note: 'Missed the target.',
-    rating: 2,
-    mood: 'Sad',
-    quantity: 1.0,
-    measurement: 'hour',
-  )
-];
 
 class HabitDetailPage extends StatelessWidget {
   // final HabitEntity habit;

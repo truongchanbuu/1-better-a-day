@@ -3,21 +3,22 @@ import 'package:flutter_bounce/flutter_bounce.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:liquid_progress_indicator_v2/liquid_progress_indicator.dart';
 
-import '../../../../core/constants/app_color.dart';
-import '../../../../core/constants/app_common.dart';
-import '../../../../core/constants/app_font_size.dart';
-import '../../../../core/constants/app_spacing.dart';
-import '../../../../core/enums/goal_type.dart';
-import '../../../../core/extensions/string_extension.dart';
-import '../../../../generated/l10n.dart';
-import '../../../shared/presentations/widgets/icon_with_text.dart';
-import '../../domain/enitites/goal_unit.dart';
+import '../../../../../core/constants/app_color.dart';
+import '../../../../../core/constants/app_common.dart';
+import '../../../../../core/constants/app_font_size.dart';
+import '../../../../../core/constants/app_spacing.dart';
+import '../../../../../core/enums/goal_type.dart';
+import '../../../../../core/extensions/string_extension.dart';
+import '../../../../../generated/l10n.dart';
+import '../../../../shared/presentations/widgets/icon_with_text.dart';
+import '../../../domain/enitites/goal_unit.dart';
 
 class ProgressTracker extends StatefulWidget {
   final GoalType goalType;
   final double currentValue;
   final double targetValue;
   final GoalUnit goalUnit;
+  final bool isActionButtonShowed;
 
   const ProgressTracker({
     super.key,
@@ -25,6 +26,7 @@ class ProgressTracker extends StatefulWidget {
     required this.currentValue,
     required this.targetValue,
     required this.goalUnit,
+    this.isActionButtonShowed = true,
   });
 
   @override
@@ -33,25 +35,10 @@ class ProgressTracker extends StatefulWidget {
 
 class _ProgressTrackerState extends State<ProgressTracker> {
   bool _percentMode = false;
-  double currentProgress = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    currentProgress = widget.currentValue.clamp(0.0, 1.0);
-  }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        _buildProgressIndicator(),
-        if (_isCircleProgressBuilt) ...[
-          const SizedBox(height: AppSpacing.marginL),
-          _buildActionButtons()
-        ],
-      ],
-    );
+    return _buildProgressIndicator();
   }
 
   static const _valueColor = AlwaysStoppedAnimation(AppColors.primary);
@@ -78,20 +65,30 @@ class _ProgressTrackerState extends State<ProgressTracker> {
       center: _buildProgressCenterText(),
       value: 0.7,
       borderRadius: AppSpacing.circleRadius,
+      borderColor: Colors.transparent,
+      borderWidth: 1,
     );
   }
 
   Widget _buildCircleProgress() {
-    return SizedBox(
-      width: 200,
-      height: 200,
-      child: LiquidCircularProgressIndicator(
-        valueColor: _valueColor,
-        backgroundColor: _progressBackgroundColor,
-        value: currentProgress,
-        center: _buildProgressCenterText(),
-        direction: Axis.vertical,
-      ),
+    return Column(
+      children: [
+        SizedBox(
+          width: 200,
+          height: 200,
+          child: LiquidCircularProgressIndicator(
+            valueColor: _valueColor,
+            backgroundColor: _progressBackgroundColor,
+            value: _getAvailableValue,
+            center: _buildProgressCenterText(),
+            direction: Axis.vertical,
+          ),
+        ),
+        if (widget.isActionButtonShowed) ...[
+          const SizedBox(height: AppSpacing.marginL),
+          const _WaterActionButtons(),
+        ],
+      ],
     );
   }
 
@@ -99,8 +96,9 @@ class _ProgressTrackerState extends State<ProgressTracker> {
     return Text(
       _getProgressValue(),
       style: TextStyle(
-        color:
-            currentProgress >= 0.55 ? AppColors.lightText : AppColors.primary,
+        color: _getAvailableValue >= 0.55
+            ? AppColors.lightText
+            : AppColors.primary,
         fontWeight: FontWeight.bold,
         fontSize: AppFontSize.h4,
       ),
@@ -113,6 +111,16 @@ class _ProgressTrackerState extends State<ProgressTracker> {
         : '${widget.currentValue.toStringAsFixed(1)} / ${widget.targetValue} ${widget.goalUnit.name.toUpperCaseFirstLetter}';
   }
 
+  bool get _isCircleProgressBuilt =>
+      widget.goalType == GoalType.count &&
+      (widget.goalUnit == GoalUnit.l || widget.goalUnit == GoalUnit.ml);
+
+  double get _getAvailableValue => widget.currentValue.clamp(0, 1);
+}
+
+class _WaterActionButtons extends StatelessWidget {
+  const _WaterActionButtons();
+
   static const Color _btnTxtColor = AppColors.lightText;
   static const BorderRadius _btnBorderRadius =
       BorderRadius.all(Radius.circular(AppSpacing.circleRadius));
@@ -123,7 +131,9 @@ class _ProgressTrackerState extends State<ProgressTracker> {
   static const double _btnFontSize = AppFontSize.bodyLarge;
   static const double _btnIconSize = 20;
   static const Alignment _btnAlignment = Alignment.center;
-  Widget _buildActionButtons() {
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: [
         Bounce(
@@ -162,8 +172,4 @@ class _ProgressTrackerState extends State<ProgressTracker> {
       ],
     );
   }
-
-  bool get _isCircleProgressBuilt =>
-      widget.goalType == GoalType.count &&
-      (widget.goalUnit == GoalUnit.l || widget.goalUnit == GoalUnit.ml);
 }

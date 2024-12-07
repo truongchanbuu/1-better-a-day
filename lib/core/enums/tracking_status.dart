@@ -1,1 +1,1 @@
-enum TrackingStatus { initial, tracking, paused, completed }
+enum TrackingStatus { initial, tracking, paused, completed, error }

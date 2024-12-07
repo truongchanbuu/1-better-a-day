@@ -1,17 +1,21 @@
 import 'package:animated_switcher_plus/animated_switcher_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
 
-import '../../../../core/constants/app_color.dart';
-import '../../../../core/constants/app_spacing.dart';
-import '../../../../core/enums/goal_type.dart';
-import '../../../../core/enums/habit_status.dart';
-import '../../../../core/extensions/context_extension.dart';
-import '../../../../generated/l10n.dart';
-import '../../domain/enitites/goal_unit.dart';
-import '../../domain/enitites/habit_goal.dart';
-import '../pages/habit_detail_page.dart';
+import '../../../../../core/constants/app_color.dart';
+import '../../../../../core/constants/app_spacing.dart';
+import '../../../../../core/enums/goal_type.dart';
+import '../../../../../core/enums/habit_status.dart';
+import '../../../../../core/extensions/context_extension.dart';
+import '../../../../../generated/l10n.dart';
+import '../../../../../injection_container.dart';
+import '../../../domain/enitites/goal_unit.dart';
+import '../../../domain/enitites/habit_goal.dart';
+import '../../blocs/distance_track/distance_track_cubit.dart';
+import '../../pages/habit_detail_page.dart';
+import 'distance_tracker.dart';
 import 'progress_tracker.dart';
 import 'time_tracker.dart';
 
@@ -32,13 +36,15 @@ class _HabitTrackerState extends State<HabitTracker> {
 
   late GoalUnit _goalUnit;
   late GoalType _goalType;
+  late HabitGoal _habitGoal;
 
   @override
   void initState() {
     super.initState();
     habitStatus = HabitStatus.notStart;
-    _goalUnit = GoalUnit.fromString(widget.habitGoal.goalUnit);
-    _goalType = GoalType.fromString(widget.habitGoal.goalType);
+    _habitGoal = widget.habitGoal;
+    _goalUnit = GoalUnit.fromString(_habitGoal.goalUnit);
+    _goalType = GoalType.fromString(_habitGoal.goalType);
 
     _doneBtnController = RoundedLoadingButtonController();
     _pauseBtnController = RoundedLoadingButtonController();
@@ -73,17 +79,16 @@ class _HabitTrackerState extends State<HabitTracker> {
   }
 
   Widget _buildDistanceTracker() {
-    return ProgressTracker(
-      goalType: _goalType,
-      currentValue: widget.habitGoal.currentValue,
-      targetValue: widget.habitGoal.targetValue,
-      goalUnit: _goalUnit,
+    return BlocProvider(
+      create: (context) =>
+          getIt.get<DistanceTrackCubit>(param1: widget.habitGoal.targetValue),
+      child: const DistanceTracker(),
     );
   }
 
   Widget _buildTimerTracker() {
     return TimeTracker(
-      targetValue: widget.habitGoal.targetValue,
+      targetValue: _habitGoal.targetValue,
       goalUnit: _goalUnit,
     );
   }
@@ -91,9 +96,12 @@ class _HabitTrackerState extends State<HabitTracker> {
   Widget _buildWaterDrinkingTracker() {
     return ProgressTracker(
       goalType: GoalType.fromString(habit.habitGoal.goalType),
-      currentValue: widget.habitGoal.currentValue,
-      targetValue: widget.habitGoal.targetValue,
+      currentValue: _habitGoal.currentValue,
+      targetValue: _habitGoal.targetValue,
       goalUnit: _goalUnit,
+      isActionButtonShowed: (habitStatus != HabitStatus.completed &&
+              habitStatus != HabitStatus.paused) ||
+          habitStatus == HabitStatus.notStart,
     );
   }
 
@@ -116,7 +124,12 @@ class _HabitTrackerState extends State<HabitTracker> {
       icon: FontAwesomeIcons.circleCheck,
       title: S.current.mark_as_done,
       backgroundColor: AppColors.primary,
-      onPressed: () {},
+      onPressed: () {
+        setState(() {
+          _habitGoal =
+              _habitGoal.copyWith(currentValue: _habitGoal.targetValue);
+        });
+      },
     );
   }
 
@@ -158,6 +171,8 @@ class _HabitTrackerState extends State<HabitTracker> {
               backgroundColor: backgroundColor,
               onPressed: () async {
                 setState(() => habitStatus = targetStatus);
+
+                onPressed();
                 await Future.delayed(const Duration(seconds: 1));
                 if (targetStatus == HabitStatus.completed) {
                   _doneBtnController.success();

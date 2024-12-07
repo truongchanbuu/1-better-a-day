@@ -973,6 +973,56 @@ class S {
     );
   }
 
+  /// `Current Distance`
+  String get current_distance {
+    return Intl.message(
+      'Current Distance',
+      name: 'current_distance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total Distance`
+  String get total_distance {
+    return Intl.message(
+      'Total Distance',
+      name: 'total_distance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start Tracking`
+  String get start_tracking {
+    return Intl.message(
+      'Start Tracking',
+      name: 'start_tracking',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pause Tracking`
+  String get pause_tracking {
+    return Intl.message(
+      'Pause Tracking',
+      name: 'pause_tracking',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We don't have permission to track your distance`
+  String get not_allow_track {
+    return Intl.message(
+      'We don\'t have permission to track your distance',
+      name: 'not_allow_track',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `History`
   String get history_section {
     return Intl.message(

@@ -51,6 +51,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "cancel_button": MessageLookupByLibrary.simpleMessage("Hủy bỏ"),
         "confirm_password_field":
             MessageLookupByLibrary.simpleMessage("Xác nhận mật khẩu"),
+        "current_distance":
+            MessageLookupByLibrary.simpleMessage("Quãng đường hiện tại"),
         "current_streak": MessageLookupByLibrary.simpleMessage("Chuỗi"),
         "dark_theme": MessageLookupByLibrary.simpleMessage("Chế độ tối"),
         "dawn_tile": MessageLookupByLibrary.simpleMessage("Bình minh"),
@@ -110,6 +112,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "metric_unit": MessageLookupByLibrary.simpleMessage("Hệ mét"),
         "no_date_selected":
             MessageLookupByLibrary.simpleMessage("Chưa ngày nào được chọn"),
+        "not_allow_track": MessageLookupByLibrary.simpleMessage(
+            "Chúng tôi không được cấp quyền để theo dõi quãng đường di chuyển của bạn"),
         "notifications": MessageLookupByLibrary.simpleMessage("Thông báo"),
         "on_your_way": m2,
         "operation_not_allowed": MessageLookupByLibrary.simpleMessage(
@@ -148,6 +152,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "time_of_day_section":
             MessageLookupByLibrary.simpleMessage("Thời gian trong ngày"),
         "today_tasks": MessageLookupByLibrary.simpleMessage("Nhiệm vụ hôm nay"),
+        "total_distance":
+            MessageLookupByLibrary.simpleMessage("Tổng quãng đường"),
         "tracker_section": MessageLookupByLibrary.simpleMessage("Theo dõi"),
         "try_again":
             MessageLookupByLibrary.simpleMessage("Vui lòng thử lại sau"),

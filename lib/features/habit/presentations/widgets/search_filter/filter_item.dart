@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../../../core/constants/app_color.dart';
-import '../../../../core/constants/app_font_size.dart';
-import '../../../../core/constants/app_spacing.dart';
-import '../../../../core/extensions/context_extension.dart';
+import '../../../../../core/constants/app_color.dart';
+import '../../../../../core/constants/app_font_size.dart';
+import '../../../../../core/constants/app_spacing.dart';
+import '../../../../../core/extensions/context_extension.dart';
 import 'progressing_slider.dart';
 
 enum FilterType { selection, range }

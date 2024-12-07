@@ -114,6 +114,9 @@ dependencies:
   # Map & Geo
   geolocator: 13.0.2
 
+  # Service
+  flutter_background_service: ^5.0.10
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

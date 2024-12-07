@@ -51,6 +51,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "cancel_button": MessageLookupByLibrary.simpleMessage("Cancel"),
         "confirm_password_field":
             MessageLookupByLibrary.simpleMessage("Confirm Password"),
+        "current_distance":
+            MessageLookupByLibrary.simpleMessage("Current Distance"),
         "current_streak": MessageLookupByLibrary.simpleMessage("Streak"),
         "dark_theme": MessageLookupByLibrary.simpleMessage("Dark Theme"),
         "dawn_tile": MessageLookupByLibrary.simpleMessage("Dawn"),
@@ -107,6 +109,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "metric_unit": MessageLookupByLibrary.simpleMessage("Metric Unit"),
         "no_date_selected":
             MessageLookupByLibrary.simpleMessage("No Date Selected"),
+        "not_allow_track": MessageLookupByLibrary.simpleMessage(
+            "We don\'t have permission to track your distance"),
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
         "on_your_way": m2,
         "operation_not_allowed": MessageLookupByLibrary.simpleMessage(
@@ -116,6 +120,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "password_field": MessageLookupByLibrary.simpleMessage("Password"),
         "passwords_do_not_match":
             MessageLookupByLibrary.simpleMessage("Password does not match"),
+        "pause_tracking":
+            MessageLookupByLibrary.simpleMessage("Pause Tracking"),
         "personal_info_section":
             MessageLookupByLibrary.simpleMessage("Personal Information"),
         "phone_number": MessageLookupByLibrary.simpleMessage("Phone"),
@@ -134,6 +140,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "send_button": MessageLookupByLibrary.simpleMessage("Send"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
         "start_date": MessageLookupByLibrary.simpleMessage("Start Date"),
+        "start_tracking":
+            MessageLookupByLibrary.simpleMessage("Start Tracking"),
         "statistic_section": MessageLookupByLibrary.simpleMessage("Statistics"),
         "success_title": MessageLookupByLibrary.simpleMessage("Success"),
         "target_title": MessageLookupByLibrary.simpleMessage("Target"),
@@ -145,6 +153,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "time_of_day_section":
             MessageLookupByLibrary.simpleMessage("Time of day"),
         "today_tasks": MessageLookupByLibrary.simpleMessage("Today Tasks"),
+        "total_distance":
+            MessageLookupByLibrary.simpleMessage("Total Distance"),
         "tracker_section": MessageLookupByLibrary.simpleMessage("Tracker"),
         "try_again":
             MessageLookupByLibrary.simpleMessage("Please try again later"),

@@ -5,10 +5,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../config/log/app_logger.dart';
 import '../../core/exceptions/auth_exception.dart';
 import '../../core/resources/data_state.dart';
+import '../../injection_container.dart';
 import '../api_service.dart';
 
 class ApiServiceImpl<T> implements ApiService<T> {
-  final AppLogger appLogger;
+  final AppLogger appLogger = getIt.get<AppLogger>();
   final String collectionPath;
   final FirebaseFirestore firestore;
   final T Function(Map<String, dynamic> json) fromJson;
@@ -17,7 +18,6 @@ class ApiServiceImpl<T> implements ApiService<T> {
     required this.collectionPath,
     required this.firestore,
     required this.fromJson,
-    required this.appLogger,
   });
 
   @override

@@ -124,6 +124,13 @@
   "tracker_section": "Theo dõi",
   "add_water_button": "Thêm 250ML",
   "remove_water_button": "Giảm 250ML",
+  "start_tracking": "Bắt đầu theo dõi",
+  "pause_tracking": "Dừng theo dõi",
+  "current_distance": "Quãng đường hiện tại",
+  "total_distance": "Tổng quãng đường",
+
+  "@__TRACK_ERROR__": "",
+  "not_allow_track": "Chúng tôi không được cấp quyền để theo dõi quãng đường di chuyển của bạn",
 
   "history_section": "Lịch sử thực hiện",
   "all_detail_history": "Chi tiết các lịch sử"
