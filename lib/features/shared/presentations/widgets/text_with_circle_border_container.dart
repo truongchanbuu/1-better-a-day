@@ -7,12 +7,14 @@ class TextWithCircleBorderContainer extends StatelessWidget {
   final String title;
   final Color? titleColor;
   final Color? backgroundColor;
+  final double? fontSize;
 
   const TextWithCircleBorderContainer({
     super.key,
     required this.title,
     this.backgroundColor,
     this.titleColor,
+    this.fontSize,
   });
 
   @override
@@ -31,6 +33,7 @@ class TextWithCircleBorderContainer extends StatelessWidget {
         style: TextStyle(
           color: titleColor ?? AppColors.primary,
           fontWeight: FontWeight.bold,
+          fontSize: fontSize,
         ),
       ),
     );

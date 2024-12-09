@@ -13,8 +13,15 @@
   "cancel_button": "Cancel",
   "delete_button": "Delete",
   "edit_button": "Edit",
+  "find_button": "Find",
+  "select_button": "Select",
   "start_date": "Start Date",
   "end_date": "End Date",
+  "show_more": "Show More",
+  "show_less": "Show less",
+  "status_title": "Status",
+  "select_date_title": "Select Date",
+  "select_range_date_title": "Select Date Range",
 
   "@__VALIDATION__": "",
   "out_of_range": "The number is out of range",
@@ -124,12 +131,17 @@
   "tracker_section": "Tracker",
   "add_water_button": "Add 250ML",
   "remove_water_button": "Remove 250ML",
+  "start_tracking": "Start Tracking",
+  "pause_tracking": "Pause Tracking",
   "current_distance": "Current Distance",
-  "total_distance": "Total Distance",i
+  "total_distance": "Total Distance",
 
   "@__TRACK_ERROR__": "",
   "not_allow_track": "We don't have permission to track your distance",
 
   "history_section": "History",
-  "all_detail_history": "All Detail History"
+  "all_detail_history": "All Detail History",
+  "detail_section": "Detail",
+  "mood_title": "Mood",
+  "date_title": "Date"
 }

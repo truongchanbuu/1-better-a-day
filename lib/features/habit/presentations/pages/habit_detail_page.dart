@@ -9,6 +9,7 @@ import '../../../../core/constants/app_color.dart';
 import '../../../../core/constants/app_common.dart';
 import '../../../../core/constants/app_font_size.dart';
 import '../../../../core/constants/app_spacing.dart';
+import '../../../../core/enums/day_status.dart';
 import '../../../../core/enums/goal_type.dart';
 import '../../../../core/enums/habit_category.dart';
 import '../../../../core/enums/habit_frequency.dart';
@@ -26,7 +27,9 @@ import '../../domain/enitites/habit_entity.dart';
 import '../../domain/enitites/habit_goal.dart';
 import '../../domain/enitites/habit_history.dart';
 import '../widgets/habit_section_container.dart';
+import '../widgets/habit_streak_calendar.dart';
 import '../widgets/trackers/habit_tracker.dart';
+import 'habit_history_page.dart';
 
 var habit = HabitEntity(
   habitId: 'habit1',
@@ -66,7 +69,7 @@ class HabitDetailPage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppColors.grayBackgroundColor,
-        appBar: _buildAppBar(),
+        appBar: _buildAppBar(context),
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: _sectionColAlignment,
@@ -121,6 +124,17 @@ class HabitDetailPage extends StatelessWidget {
                   _buildProgressingBar(context),
                   _spacing,
                   ..._buildDateTimeInfo(context),
+                  _spacing,
+                  HabitStreakCalendar(
+                    disable: true,
+                    completedDates: DateTimeHelper.getDatesByStatus(
+                        logs, DayStatus.completed),
+                    failedDates:
+                        DateTimeHelper.getDatesByStatus(logs, DayStatus.failed),
+                    skippedDates: DateTimeHelper.getDatesByStatus(
+                        logs, DayStatus.skipped),
+                    onDaySelected: (firstDate, secondDate) {},
+                  ),
                 ],
               ),
 
@@ -153,7 +167,7 @@ class HabitDetailPage extends StatelessWidget {
     );
   }
 
-  AppBar _buildAppBar() {
+  AppBar _buildAppBar(BuildContext context) {
     return AppBar(
       title: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
@@ -169,13 +183,10 @@ class HabitDetailPage extends StatelessWidget {
           ],
         ),
       ),
-      actions: const [
-        Padding(
-          padding: EdgeInsets.all(AppSpacing.paddingS),
-          child: Icon(
-            Icons.check_circle,
-            color: AppColors.lightText,
-          ),
+      actions: [
+        IconButton(
+          onPressed: () => _onShowMenuBottomSheet(context),
+          icon: const Icon(Icons.more_vert),
         ),
       ],
     );
@@ -287,7 +298,7 @@ class HabitDetailPage extends StatelessWidget {
               S.current.on_your_way(habitProgressPercent.toInt()),
               textStyle: const TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: AppFontSize.h1,
+                fontSize: AppFontSize.bodyLarge,
               ),
               colors: const [
                 Color(0xFF0D47A1),
@@ -346,6 +357,15 @@ class HabitDetailPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _onShowMenuBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) => _HabitMenuActions(
+              onEdit: () {},
+              onDelete: () {},
+            ));
   }
 }
 
@@ -447,8 +467,8 @@ class _HistoryBriefITem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final habitStatus = HabitStatus.fromString(history.status);
-    final iconData = HabitStatus.getHabitStatusIcon(habitStatus);
-    final iconColor = HabitStatus.getHabitStatusColor(habitStatus);
+    final iconData = habitStatus.habitStatusIcon;
+    final iconColor = habitStatus.habitStatusColor;
     final String? completedTime =
         history.endTime?.toMoment().formatTimeWithSeconds();
 
@@ -470,6 +490,43 @@ class _HistoryBriefITem extends StatelessWidget {
         fontSize: AppFontSize.labelLarge,
         iconSize: 20,
       ),
+    );
+  }
+}
+
+class _HabitMenuActions extends StatelessWidget {
+  final VoidCallback onEdit;
+  final VoidCallback onDelete;
+  const _HabitMenuActions({
+    required this.onEdit,
+    required this.onDelete,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ListTile(
+          onTap: onEdit,
+          leading: const Icon(FontAwesomeIcons.penToSquare),
+          title: Text(
+            S.current.edit_button,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+        ListTile(
+          onTap: onDelete,
+          leading: const Icon(FontAwesomeIcons.trash, color: AppColors.error),
+          title: Text(
+            S.current.delete_button,
+            style: const TextStyle(
+              color: AppColors.error,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

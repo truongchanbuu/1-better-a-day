@@ -55,8 +55,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Current Distance"),
         "current_streak": MessageLookupByLibrary.simpleMessage("Streak"),
         "dark_theme": MessageLookupByLibrary.simpleMessage("Dark Theme"),
+        "date_title": MessageLookupByLibrary.simpleMessage("Date"),
         "dawn_tile": MessageLookupByLibrary.simpleMessage("Dawn"),
         "delete_button": MessageLookupByLibrary.simpleMessage("Delete"),
+        "detail_section": MessageLookupByLibrary.simpleMessage("Detail"),
         "display_name": MessageLookupByLibrary.simpleMessage("Display Name"),
         "done_tasks": m0,
         "duration_title": MessageLookupByLibrary.simpleMessage("Duration"),
@@ -69,6 +71,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "end_date": MessageLookupByLibrary.simpleMessage("End Date"),
         "english_choice": MessageLookupByLibrary.simpleMessage("English"),
         "failure_title": MessageLookupByLibrary.simpleMessage("Failure"),
+        "find_button": MessageLookupByLibrary.simpleMessage("Find"),
         "gender_field": MessageLookupByLibrary.simpleMessage("Gender"),
         "general_section": MessageLookupByLibrary.simpleMessage("General"),
         "habit_detail": MessageLookupByLibrary.simpleMessage("Habit Details"),
@@ -107,6 +110,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "measurement_unit_title":
             MessageLookupByLibrary.simpleMessage("Measurement Unit"),
         "metric_unit": MessageLookupByLibrary.simpleMessage("Metric Unit"),
+        "mood_title": MessageLookupByLibrary.simpleMessage("Mood"),
         "no_date_selected":
             MessageLookupByLibrary.simpleMessage("No Date Selected"),
         "not_allow_track": MessageLookupByLibrary.simpleMessage(
@@ -137,12 +141,20 @@ class MessageLookup extends MessageLookupByLibrary {
         "reset_password":
             MessageLookupByLibrary.simpleMessage("Reset Password"),
         "searching_title": MessageLookupByLibrary.simpleMessage("Searching..."),
+        "select_button": MessageLookupByLibrary.simpleMessage("Select"),
+        "select_date_title":
+            MessageLookupByLibrary.simpleMessage("Select Date"),
+        "select_range_date_title":
+            MessageLookupByLibrary.simpleMessage("Select Date Range"),
         "send_button": MessageLookupByLibrary.simpleMessage("Send"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
+        "show_less": MessageLookupByLibrary.simpleMessage("Show less"),
+        "show_more": MessageLookupByLibrary.simpleMessage("Show More"),
         "start_date": MessageLookupByLibrary.simpleMessage("Start Date"),
         "start_tracking":
             MessageLookupByLibrary.simpleMessage("Start Tracking"),
         "statistic_section": MessageLookupByLibrary.simpleMessage("Statistics"),
+        "status_title": MessageLookupByLibrary.simpleMessage("Status"),
         "success_title": MessageLookupByLibrary.simpleMessage("Success"),
         "target_title": MessageLookupByLibrary.simpleMessage("Target"),
         "term_and_condition_statement": MessageLookupByLibrary.simpleMessage(

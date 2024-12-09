@@ -1,6 +1,10 @@
 import 'package:intl/intl.dart';
 
+import '../../features/habit/domain/enitites/habit_history.dart';
+import '../enums/day_status.dart';
+
 class DateTimeHelper {
+  // General
   static const String dawnTimeString = '6:00';
   static const String afternoonTimeString = '12:00';
   static const String duskTimeString = '18:00';
@@ -18,5 +22,17 @@ class DateTimeHelper {
     }
 
     return age;
+  }
+
+  // Specific
+  // History
+  static List<DateTime> getDatesByStatus(
+    List<HabitHistory> histories,
+    DayStatus status,
+  ) {
+    return histories
+        .where((e) => e.status == status.name)
+        .map((e) => e.date)
+        .toList();
   }
 }

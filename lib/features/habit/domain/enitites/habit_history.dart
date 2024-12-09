@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
 
+import 'goal_unit.dart';
+
 class HabitHistory extends Equatable {
   final String id;
   final String habitId;
@@ -19,7 +21,7 @@ class HabitHistory extends Equatable {
   final String? measurement;
   final Map<String, dynamic>? customData;
 
-  const HabitHistory({
+  HabitHistory({
     required this.id,
     required this.habitId,
     required this.date,
@@ -33,7 +35,8 @@ class HabitHistory extends Equatable {
     this.quantity,
     this.measurement,
     this.customData,
-  });
+  }) : assert(measurement != GoalUnit.custom.name || customData != null,
+            'customData must not be null when measurement is custom');
 
   HabitHistory copyWith({
     String? id,

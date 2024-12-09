@@ -10,11 +10,11 @@ enum Mood {
   bad,
   terrible;
 
-  static Mood fromString(String str) =>
+  static Mood fromString(String? str) =>
       EnumHelper.fromString(values, str) ?? neutral;
 
-  static IconData moodIcon(Mood mood) {
-    switch (mood) {
+  IconData get moodIcon {
+    switch (this) {
       case Mood.great:
         return FontAwesomeIcons.faceSmileBeam;
       case Mood.good:

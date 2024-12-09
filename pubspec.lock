@@ -118,6 +118,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  bottom_picker:
+    dependency: "direct main"
+    description:
+      name: bottom_picker
+      sha256: "5d52cf94cfe41e3cc448101552f9b2e9faa810e3609e18432280431fb7dd676a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.9.0"
   build:
     dependency: transitive
     description:
@@ -294,6 +302,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.8"
+  custom_pop_up_menu:
+    dependency: "direct main"
+    description:
+      name: custom_pop_up_menu
+      sha256: eeac484c6ddffffb25e803dc2a5cc9381e700a29f074e9fcc76fe36b62fde850
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.4"
   dart_style:
     dependency: transitive
     description:
@@ -1186,6 +1202,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.2"
+  readmore:
+    dependency: "direct main"
+    description:
+      name: readmore
+      sha256: e8fca2bd397b86342483b409e2ec26f06560a5963aceaa39b27f30722b506187
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   rounded_loading_button_plus:
     dependency: "direct main"
     description:
@@ -1282,6 +1306,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.0"
+  simple_gesture_detector:
+    dependency: transitive
+    description:
+      name: simple_gesture_detector
+      sha256: ba2cd5af24ff20a0b8d609cec3f40e5b0744d2a71804a2616ae086b9c19d19a3
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.1"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -1423,6 +1455,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.0+3"
+  table_calendar:
+    dependency: "direct main"
+    description:
+      name: table_calendar
+      sha256: "4ca32b2fc919452c9974abd4c6ea611a63e33b9e4f0b8c38dba3ac1f4a6549d1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.2"
   term_glyph:
     dependency: transitive
     description:

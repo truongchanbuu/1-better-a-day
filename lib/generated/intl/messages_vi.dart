@@ -55,8 +55,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Quãng đường hiện tại"),
         "current_streak": MessageLookupByLibrary.simpleMessage("Chuỗi"),
         "dark_theme": MessageLookupByLibrary.simpleMessage("Chế độ tối"),
+        "date_title": MessageLookupByLibrary.simpleMessage("Ngày"),
         "dawn_tile": MessageLookupByLibrary.simpleMessage("Bình minh"),
         "delete_button": MessageLookupByLibrary.simpleMessage("Xóa"),
+        "detail_section": MessageLookupByLibrary.simpleMessage("Chi tiết"),
         "display_name": MessageLookupByLibrary.simpleMessage("Tên"),
         "done_tasks": m0,
         "duration_title":
@@ -70,6 +72,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "end_date": MessageLookupByLibrary.simpleMessage("Ngày kết thúc"),
         "english_choice": MessageLookupByLibrary.simpleMessage("Tiếng Anh"),
         "failure_title": MessageLookupByLibrary.simpleMessage("Thất bại"),
+        "find_button": MessageLookupByLibrary.simpleMessage("Tìm kiếm"),
         "gender_field": MessageLookupByLibrary.simpleMessage("Giới tính"),
         "general_section": MessageLookupByLibrary.simpleMessage("Chung"),
         "habit_detail":
@@ -110,6 +113,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "measurement_unit_title":
             MessageLookupByLibrary.simpleMessage("Đơn vị đo lường"),
         "metric_unit": MessageLookupByLibrary.simpleMessage("Hệ mét"),
+        "mood_title": MessageLookupByLibrary.simpleMessage("Tâm trạng"),
         "no_date_selected":
             MessageLookupByLibrary.simpleMessage("Chưa ngày nào được chọn"),
         "not_allow_track": MessageLookupByLibrary.simpleMessage(
@@ -123,6 +127,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "password_field": MessageLookupByLibrary.simpleMessage("Mật khẩu"),
         "passwords_do_not_match":
             MessageLookupByLibrary.simpleMessage("Mật khẩu không trùng khớp"),
+        "pause_tracking": MessageLookupByLibrary.simpleMessage("Dừng theo dõi"),
         "personal_info_section":
             MessageLookupByLibrary.simpleMessage("Thông tin cá nhân"),
         "phone_number": MessageLookupByLibrary.simpleMessage("Điện thoại"),
@@ -138,10 +143,19 @@ class MessageLookup extends MessageLookupByLibrary {
         "reset_password":
             MessageLookupByLibrary.simpleMessage("Đặt lại mật khẩu"),
         "searching_title": MessageLookupByLibrary.simpleMessage("Tìm kiếm..."),
+        "select_button": MessageLookupByLibrary.simpleMessage("Chọn"),
+        "select_date_title": MessageLookupByLibrary.simpleMessage("Chọn ngày"),
+        "select_range_date_title":
+            MessageLookupByLibrary.simpleMessage("Chọn ngày từ ... đến ..."),
         "send_button": MessageLookupByLibrary.simpleMessage("Gửi"),
         "settings": MessageLookupByLibrary.simpleMessage("Cài đặt"),
+        "show_less": MessageLookupByLibrary.simpleMessage("Ẩn bớt"),
+        "show_more": MessageLookupByLibrary.simpleMessage("Hiển thị"),
         "start_date": MessageLookupByLibrary.simpleMessage("Ngày bắt đầu"),
+        "start_tracking":
+            MessageLookupByLibrary.simpleMessage("Bắt đầu theo dõi"),
         "statistic_section": MessageLookupByLibrary.simpleMessage("Thống kê"),
+        "status_title": MessageLookupByLibrary.simpleMessage("Trạng thái"),
         "success_title": MessageLookupByLibrary.simpleMessage("Thành công"),
         "target_title": MessageLookupByLibrary.simpleMessage("Mục tiêu"),
         "term_and_condition_statement": MessageLookupByLibrary.simpleMessage(

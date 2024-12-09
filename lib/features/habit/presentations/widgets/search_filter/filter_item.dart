@@ -17,6 +17,8 @@ class FilterItem extends StatefulWidget {
   final List<String> items;
   final String title;
   final double width;
+  final VoidCallback? onTap;
+  final IconStyleData? iconStyleData;
 
   const FilterItem({
     super.key,
@@ -25,6 +27,8 @@ class FilterItem extends StatefulWidget {
     required this.width,
     this.type = FilterType.selection,
     this.selected,
+    this.onTap,
+    this.iconStyleData,
   });
 
   @override
@@ -43,51 +47,49 @@ class FilterItemState extends State<FilterItem> {
   static const _textStyle = TextStyle(
     fontSize: AppFontSize.bodyLarge,
   );
-
+  static const _borderRadius =
+      BorderRadius.all(Radius.circular(AppSpacing.circleRadius));
   @override
   Widget build(BuildContext context) {
-    return Material(
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: widget.type == FilterType.range ? _openRangeSlider : null,
-        child: Container(
-          width: widget.width,
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(
-                Radius.circular(AppSpacing.circleRadius)),
-            color: context.isDarkMode
-                ? AppColors.primaryDark
-                : AppColors.grayBackgroundColor,
+    return GestureDetector(
+      onTap: widget.type == FilterType.range ? _openRangeSlider : widget.onTap,
+      child: Container(
+        width: widget.width,
+        decoration: BoxDecoration(
+          borderRadius: _borderRadius,
+          color: context.isDarkMode
+              ? AppColors.primaryDark
+              : AppColors.grayBackgroundColor,
+        ),
+        margin: const EdgeInsets.only(right: AppSpacing.marginS),
+        child: DropdownButtonFormField2<String>(
+          hint: Text(
+            widget.title,
+            style: _textStyle,
           ),
-          margin: const EdgeInsets.only(right: AppSpacing.marginS),
-          child: DropdownButtonFormField2<String>(
-            hint: Text(
-              widget.title,
-              style: _textStyle,
+          iconStyleData: widget.iconStyleData ?? const IconStyleData(),
+          value: selected,
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(
+              borderRadius:
+                  BorderRadius.all(Radius.circular(AppSpacing.circleRadius)),
             ),
-            value: selected,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius:
-                    BorderRadius.all(Radius.circular(AppSpacing.circleRadius)),
-              ),
-              focusedBorder: OutlineInputBorder(borderSide: BorderSide.none),
-              enabledBorder: OutlineInputBorder(borderSide: BorderSide.none),
-              contentPadding: EdgeInsets.zero,
-            ),
-            buttonStyleData: const ButtonStyleData(
-              padding: EdgeInsets.symmetric(horizontal: AppSpacing.paddingS),
-            ),
-            isExpanded: true,
-            onChanged: (value) {
-              setState(() {
-                selected = value;
-              });
-            },
-            selectedItemBuilder: (context) =>
-                widget.items.map((item) => Text(item.toString())).toList(),
-            items: _convertItem(),
+            focusedBorder: OutlineInputBorder(borderSide: BorderSide.none),
+            enabledBorder: OutlineInputBorder(borderSide: BorderSide.none),
+            contentPadding: EdgeInsets.zero,
           ),
+          buttonStyleData: const ButtonStyleData(
+            padding: EdgeInsets.symmetric(horizontal: AppSpacing.paddingS),
+          ),
+          isExpanded: true,
+          onChanged: (value) {
+            setState(() {
+              selected = value;
+            });
+          },
+          selectedItemBuilder: (context) =>
+              widget.items.map((item) => Text(item.toString())).toList(),
+          items: _convertItem(),
         ),
       ),
     );

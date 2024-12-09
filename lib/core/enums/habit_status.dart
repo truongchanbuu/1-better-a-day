@@ -17,8 +17,8 @@ enum HabitStatus {
   static HabitStatus fromString(String str) =>
       EnumHelper.fromString(values, str) ?? HabitStatus.pending;
 
-  static IconData getHabitStatusIcon(HabitStatus? status) {
-    switch (status) {
+  IconData get habitStatusIcon {
+    switch (this) {
       case completed:
         return FontAwesomeIcons.circleCheck;
       case failed:
@@ -42,8 +42,8 @@ enum HabitStatus {
     }
   }
 
-  static Color getHabitStatusColor(HabitStatus? status) {
-    switch (status) {
+  Color get habitStatusColor {
+    switch (this) {
       case HabitStatus.completed:
         return Colors.green;
       case HabitStatus.failed:

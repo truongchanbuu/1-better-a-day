@@ -91,6 +91,10 @@ dependencies:
   rounded_loading_button_plus: ^3.0.1
   liquid_progress_indicator_v2: ^0.5.0
   neon_circular_timer: ^0.0.8
+  readmore: ^3.0.0
+  table_calendar: ^3.1.2
+  bottom_picker: ^2.9.0
+  custom_pop_up_menu: ^1.2.4
 
   # Form
   formz: ^0.8.0

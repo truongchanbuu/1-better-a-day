@@ -160,6 +160,26 @@ class S {
     );
   }
 
+  /// `Find`
+  String get find_button {
+    return Intl.message(
+      'Find',
+      name: 'find_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select`
+  String get select_button {
+    return Intl.message(
+      'Select',
+      name: 'select_button',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Start Date`
   String get start_date {
     return Intl.message(
@@ -175,6 +195,56 @@ class S {
     return Intl.message(
       'End Date',
       name: 'end_date',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Show More`
+  String get show_more {
+    return Intl.message(
+      'Show More',
+      name: 'show_more',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Show less`
+  String get show_less {
+    return Intl.message(
+      'Show less',
+      name: 'show_less',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Status`
+  String get status_title {
+    return Intl.message(
+      'Status',
+      name: 'status_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Date`
+  String get select_date_title {
+    return Intl.message(
+      'Select Date',
+      name: 'select_date_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Date Range`
+  String get select_range_date_title {
+    return Intl.message(
+      'Select Date Range',
+      name: 'select_range_date_title',
       desc: '',
       args: [],
     );
@@ -973,26 +1043,6 @@ class S {
     );
   }
 
-  /// `Current Distance`
-  String get current_distance {
-    return Intl.message(
-      'Current Distance',
-      name: 'current_distance',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Total Distance`
-  String get total_distance {
-    return Intl.message(
-      'Total Distance',
-      name: 'total_distance',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Start Tracking`
   String get start_tracking {
     return Intl.message(
@@ -1008,6 +1058,26 @@ class S {
     return Intl.message(
       'Pause Tracking',
       name: 'pause_tracking',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Current Distance`
+  String get current_distance {
+    return Intl.message(
+      'Current Distance',
+      name: 'current_distance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total Distance`
+  String get total_distance {
+    return Intl.message(
+      'Total Distance',
+      name: 'total_distance',
       desc: '',
       args: [],
     );
@@ -1038,6 +1108,36 @@ class S {
     return Intl.message(
       'All Detail History',
       name: 'all_detail_history',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Detail`
+  String get detail_section {
+    return Intl.message(
+      'Detail',
+      name: 'detail_section',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mood`
+  String get mood_title {
+    return Intl.message(
+      'Mood',
+      name: 'mood_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Date`
+  String get date_title {
+    return Intl.message(
+      'Date',
+      name: 'date_title',
       desc: '',
       args: [],
     );
