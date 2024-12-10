@@ -217,7 +217,7 @@ class HabitDetailPage extends StatelessWidget {
         children: [
           IconWithText(
             icon: FontAwesomeIcons.calendarCheck,
-            text: S.current.current_streak,
+            text: S.current.longest_streak,
             iconColor: AppColors.success,
             fontSize: AppFontSize.h3,
           ),

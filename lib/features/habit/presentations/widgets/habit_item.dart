@@ -111,7 +111,7 @@ class _HabitItemState extends State<HabitItem> {
     return GestureDetector(
       onTap: () {
         setState(() {
-          _isOverlay = true;
+          _isOverlay = !_isOverlay;
         });
       },
       child: Stack(
@@ -251,7 +251,7 @@ class _GridViewItemState extends State<_GridViewItem> {
   @override
   void initState() {
     super.initState();
-    _progressNotifier = ValueNotifier(30);
+    _progressNotifier = ValueNotifier(0.3);
   }
 
   @override
@@ -273,6 +273,22 @@ class _GridViewItemState extends State<_GridViewItem> {
           ],
         ),
       ),
+      footer: const Center(
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+              vertical: AppSpacing.paddingS, horizontal: AppSpacing.paddingXS),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Text(
+              'Reading Book',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: AppFontSize.labelLarge,
+              ),
+            ),
+          ),
+        ),
+      ),
       child: Container(
         decoration: BoxDecoration(
           color: context.isDarkMode ? AppColors.darkText : AppColors.lightText,
@@ -289,63 +305,21 @@ class _GridViewItemState extends State<_GridViewItem> {
         ),
         margin: const EdgeInsets.all(AppSpacing.marginXS),
         padding: const EdgeInsets.only(
-          top: AppSpacing.paddingXXL,
+          top: AppSpacing.paddingL,
           bottom: AppSpacing.paddingS,
         ),
-        // child: DashedCircularProgressBar.aspectRatio(
-        //   aspectRatio: 1,
-        //   maxProgress: 100,
-        //   animation: true,
-        //   progress: _progressNotifier.value,
-        //   backgroundColor: AppColors.grayBackgroundColor,
-        //   foregroundStrokeWidth: 10,
-        //   backgroundStrokeWidth: 10,
-        //   valueNotifier: _progressNotifier,
-        //   child: ValueListenableBuilder(
-        //     valueListenable: _progressNotifier,
-        //     builder: (context, value, child) => Center(
-        //       child: Column(
-        //         mainAxisSize: MainAxisSize.min,
-        //         children: <Widget>[
-        //           const Text(
-        //             'Reading book',
-        //             style: TextStyle(
-        //               fontWeight: FontWeight.bold,
-        //               fontSize: AppFontSize.labelMedium,
-        //             ),
-        //           ),
-        //           Text(
-        //             '${value.toInt()}%',
-        //             style: HabitItem.figureTextStyle,
-        //           ),
-        //         ],
-        //       ),
-        //     ),
-        //   ),
-        // ),
         child: CircularPercentIndicator(
           percent: _progressNotifier.value,
-          radius: 30,
+          radius: 50,
+          lineWidth: 10,
           backgroundColor: AppColors.grayBackgroundColor,
           progressColor: AppColors.primary,
           center: ValueListenableBuilder(
             valueListenable: _progressNotifier,
             builder: (context, value, child) => Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  const Text(
-                    'Reading book',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: AppFontSize.labelMedium,
-                    ),
-                  ),
-                  Text(
-                    '${value.toInt()}%',
-                    style: HabitItem.figureTextStyle,
-                  ),
-                ],
+              child: Text(
+                '${(value * 100).toInt()}%',
+                style: HabitItem.figureTextStyle,
               ),
             ),
           ),
@@ -387,7 +361,6 @@ class _HabitProgress extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LinearPercentIndicator(
-      width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.zero,
       percent: 0.3,
       progressColor: AppColors.primary,

@@ -22,17 +22,14 @@ class AllHabitsPage extends StatefulWidget {
 class _AllHabitsPageState extends State<AllHabitsPage> {
   bool _isHabitListView = true;
 
+  static const _spacing = SizedBox(height: AppSpacing.marginL);
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         body: Padding(
-          padding: const EdgeInsets.only(
-            top: AppSpacing.marginL,
-            left: AppSpacing.marginL,
-            right: AppSpacing.marginL,
-            bottom: AppSpacing.marginXS,
-          ),
+          padding: const EdgeInsets.all(AppSpacing.paddingL)
+              .copyWith(bottom: AppSpacing.paddingXS),
           child: Column(
             children: <Widget>[
               // General Section
@@ -63,10 +60,10 @@ class _AllHabitsPageState extends State<AllHabitsPage> {
                     Row(
                       children: [
                         Expanded(
-                          child: _StatisticItem(
+                          child: _BriefStatisticItem(
                             icon: FontAwesomeIcons.fire,
                             iconColor: Colors.red,
-                            label: S.current.current_streak,
+                            label: S.current.longest_streak,
                             value: '10',
                             valueTextColor: Colors.red,
                             onTap: () {},
@@ -74,7 +71,7 @@ class _AllHabitsPageState extends State<AllHabitsPage> {
                         ),
                         const SizedBox(width: AppSpacing.marginS),
                         Expanded(
-                          child: _StatisticItem(
+                          child: _BriefStatisticItem(
                             icon: FontAwesomeIcons.listCheck,
                             iconColor: Colors.blue,
                             label: S.current.today_tasks,
@@ -85,7 +82,7 @@ class _AllHabitsPageState extends State<AllHabitsPage> {
                         ),
                         const SizedBox(width: AppSpacing.marginS),
                         Expanded(
-                          child: _StatisticItem(
+                          child: _BriefStatisticItem(
                             icon: FontAwesomeIcons.crown,
                             iconColor: Colors.green,
                             label: S.current.achievement_done,
@@ -101,8 +98,7 @@ class _AllHabitsPageState extends State<AllHabitsPage> {
                   ],
                 ),
               ),
-              const SizedBox(height: AppSpacing.marginL),
-
+              _spacing,
               // Habit List Title & Filter
               HabitSectionContainer(
                 child: Column(
@@ -131,7 +127,7 @@ class _AllHabitsPageState extends State<AllHabitsPage> {
                   ],
                 ),
               ),
-              const SizedBox(height: AppSpacing.marginL),
+              _spacing,
               Expanded(
                 child: HabitList(isListView: _isHabitListView),
               ),
@@ -177,7 +173,7 @@ class _AllHabitsPageState extends State<AllHabitsPage> {
   }
 }
 
-class _StatisticItem extends StatelessWidget {
+class _BriefStatisticItem extends StatelessWidget {
   final IconData icon;
   final Color iconColor;
   final Color? valueTextColor;
@@ -185,7 +181,7 @@ class _StatisticItem extends StatelessWidget {
   final String value;
   final VoidCallback onTap;
 
-  const _StatisticItem({
+  const _BriefStatisticItem({
     required this.icon,
     required this.iconColor,
     required this.label,

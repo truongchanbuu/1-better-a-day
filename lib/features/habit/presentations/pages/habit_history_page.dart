@@ -12,7 +12,7 @@ import '../../../../generated/l10n.dart';
 import '../../domain/enitites/goal_unit.dart';
 import '../../domain/enitites/habit_history.dart';
 import '../widgets/habit_streak_calendar.dart';
-import '../widgets/history_item.dart';
+import '../widgets/habit_history/history_item.dart';
 import '../widgets/search_filter/habit_date_picker.dart';
 import '../widgets/search_filter/filter_item.dart';
 
@@ -97,7 +97,7 @@ class HabitHistoryPage extends StatefulWidget {
 }
 
 class _HabitHistoryPageState extends State<HabitHistoryPage> {
-  bool _isDateSelectedShowed = false;
+  bool _isDateSelectedShown = false;
 
   @override
   Widget build(BuildContext context) {
@@ -130,12 +130,12 @@ class _HabitHistoryPageState extends State<HabitHistoryPage> {
                 ),
                 const SizedBox(height: AppSpacing.marginS),
                 _FilterBar(
-                  onDateSelectedShowed: () => setState(
-                      () => _isDateSelectedShowed = !_isDateSelectedShowed),
+                  onDateSelectedShown: () => setState(
+                      () => _isDateSelectedShown = !_isDateSelectedShown),
                 ),
                 AnimatedSwitcherPlus.translationRight(
                   duration: const Duration(milliseconds: 500),
-                  child: _isDateSelectedShowed
+                  child: _isDateSelectedShown
                       ? const HabitDatePicker()
                       : const SizedBox.shrink(),
                 ),
@@ -151,8 +151,8 @@ class _HabitHistoryPageState extends State<HabitHistoryPage> {
 }
 
 class _FilterBar extends StatelessWidget {
-  final VoidCallback? onDateSelectedShowed;
-  const _FilterBar({this.onDateSelectedShowed});
+  final VoidCallback? onDateSelectedShown;
+  const _FilterBar({this.onDateSelectedShown});
 
   @override
   Widget build(BuildContext context) {
@@ -178,7 +178,7 @@ class _FilterBar extends StatelessWidget {
             title: S.current.date_title,
             items: const [],
             iconStyleData: const IconStyleData(icon: Icon(null)),
-            onTap: onDateSelectedShowed,
+            onTap: onDateSelectedShown,
           ),
         ],
       ),

@@ -103,9 +103,11 @@
 
   "@__HABIT__": "",
   "habits": "{count, plural, =0{0 thói quen} =1{1 thói quen} other{{count} thói quen}}",
+  "habit_name": "Tên thói quen",
   "habit_detail": "Chi tiết thói quen",
   "statistic_section": "Thống kê",
-  "current_streak":  "Chuỗi",
+  "longest_streak":  "Chuỗi dài nhất",
+  "trend_section": "Xu hướng",
   "today_tasks": "Nhiệm vụ hôm nay",
   "done_tasks": "{completedTasks}/{totalTasks}",
   "@done_tasks": {
@@ -143,5 +145,81 @@
   "all_detail_history": "Chi tiết các lịch sử",
   "detail_section": "Chi tiết",
   "mood_title": "Tâm trạng",
-  "date_title": "Ngày"
+  "date_title": "Ngày",
+
+  "@__STATISTIC__": "",
+  "all_statistic_page": "Tất cả",
+  "active_statistic_page": "Đang thực hiện",
+  "pause_statistic_page": "Tạm ngưng",
+  "achieved_statistic_page": "Đã đạt được",
+  "failed_statistic_page": "Thất bại",
+  "total_habit": "Tất cả các thói quen",
+  "active_habit": "Các thói quen đang thực hiện",
+  "failed_habit": "Các thói quen đã thất bại",
+  "achieved_habit": "Các thói quen đã đạt được",
+  "paused_habit": "Các thói quen đang tạm dừng",
+  "in_progress_habit": "Các thói quen đang thực hiện",
+  "total_achievement": "{count, plural, =0 {Chưa có thành tựu nào} =1 {1 thành tựu} other {{count} thành tựu}}",
+  "@total_achievement": {
+    "description": "Các thành tựu đạt được",
+    "placeholders": {
+      "count": { "type": "int", "example": "42" }
+    }
+  },
+  "total_streak": "{count, plural, =0 {Chưa thực hiện chuỗi} =1 {Chuỗi 1} other {Chuối {count} ngày}}",
+  "@total_streak": {
+    "description": "Tổng số chuỗi",
+    "placeholders": {
+      "count": { "type": "int", "example": "42" }
+    }
+  },
+  "overall_completion_rate": "Tổng tỉ lệ hoàn thành",
+  "completion_rate": "Tỉ lệ hoàn thành",
+  "category_distribution": "Phân bố theo danh mục",
+  "habit_status_distribution": "Phân bố theo trạng thái",
+  "time_based_progress": "Quá trình theo thời gian",
+  "next_habits_button": "Trang kế tiếp",
+  "previous_habits_button": "Trang trước đó",
+  "weekly_process_section": "Hằng tuần",
+  "monthly_process_section": "Hằng tháng",
+  "last_n_day": "{count, plural, =0{Hôm nay} =1{1 ngày qua} other {{count} ngày qua}}",
+  "@last_n_day": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "change_from_last_week": "{selection, select, positive {+{percentageValue}% so với tuần trước} negative {-{percentageValue}% so với tuần trước} neutral {Không thay đổi kể từ tuần trước} other {Không thay đổi kể từ tuần trước}}",
+  "@change_from_last_week": {
+    "placeholders": {
+      "selection": {
+        "type": "String",
+        "description": "positive, negative, or neutral"
+      },
+      "percentageValue": { "type": "int" }
+    }
+  },
+  "achieved": "{count, plural, =0 {Đạt đuược: 0} =1 {Đã đạt được: 1} other {Đã đạt được: {count}}}",
+  "@achieved": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "failed": "{count, plural, =0 {Thất bại: 0} =1 {Thất bại: 1} other {Thất bại: {count}}}",
+  "@failed": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "paused": "{count, plural, =0 {Tạm dừng: 0} =1 {Tạm dừng: 1} other {Tạm dừng: {count}}}",
+  "@paused": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "in_progress": "{count, plural, =0 {Đang tiến hành: 0} =1 {Đang tiến hành: 1} other {Đang tiến hành: {count}}}",
+  "@in_progress": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  }
 }

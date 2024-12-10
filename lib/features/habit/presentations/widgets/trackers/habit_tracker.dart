@@ -99,7 +99,7 @@ class _HabitTrackerState extends State<HabitTracker> {
       currentValue: _habitGoal.currentValue,
       targetValue: _habitGoal.targetValue,
       goalUnit: _goalUnit,
-      isActionButtonShowed: (habitStatus != HabitStatus.completed &&
+      isActionButtonShown: (habitStatus != HabitStatus.completed &&
               habitStatus != HabitStatus.paused) ||
           habitStatus == HabitStatus.notStart,
     );

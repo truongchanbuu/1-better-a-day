@@ -103,9 +103,11 @@
 
   "@__HABIT__": "",
   "habits": "{count, plural, =0{No habits} =1{1 habit} other{{count} habits}}",
+  "habit_name": "Habit Name",
   "habit_detail": "Habit Details",
   "statistic_section": "Statistics",
-  "current_streak": "Streak",
+  "longest_streak": "Longest Streak",
+  "trend_section": "Trend",
   "today_tasks": "Today Tasks",
   "done_tasks": "{completedTasks}/{totalTasks}",
   "@done_tasks": {
@@ -143,5 +145,81 @@
   "all_detail_history": "All Detail History",
   "detail_section": "Detail",
   "mood_title": "Mood",
-  "date_title": "Date"
+  "date_title": "Date",
+
+  "@__STATISTIC__": "",
+  "all_statistic_page": "All",
+  "active_statistic_page": "Active",
+  "pause_statistic_page": "Pause",
+  "achieved_statistic_page": "Achieved",
+  "failed_statistic_page": "Failed",
+  "total_habit": "Total Habit",
+  "active_habit": "Active Habit",
+  "failed_habit": "Failed Habit",
+  "achieved_habit": "Achieved Habit",
+  "paused_habit": "Paused Habit",
+  "in_progress_habit": "In Progress Habit",
+  "total_achievement": "{count, plural, =0 {No achievements} =1 {1 achievement} other {{count} achievements}}",
+  "@total_achievement": {
+    "description": "Total number of achievements",
+    "placeholders": {
+      "count": { "type": "int", "example": "42" }
+    }
+  },
+  "total_streak": "{count, plural, =0 {No Streak} =1 {1 Streak} other {{count} Streaks}}",
+  "@total_streak": {
+    "description": "Total number of streaks",
+    "placeholders": {
+      "count": { "type": "int", "example": "42" }
+    }
+  },
+  "overall_completion_rate": "Overall Completion Rate",
+  "completion_rate": "Completion Rate",
+  "category_distribution": "Category Distribution",
+  "habit_status_distribution": "Status Distribution",
+  "time_based_progress": "Time-Based Progress",
+  "next_habits_button": "Next Page",
+  "previous_habits_button": "Previous Page",
+  "weekly_process_section": "Weekly",
+  "monthly_process_section": "Monthly",
+  "last_n_day": "{count, plural, =0 { \"Today\" } =1 {A day ago} other {Last {count} days}}",
+  "@last_n_day": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "change_from_last_week": "{selection, select, positive {+{percentageValue}% compared to last week} negative {-{percentageValue}% compared to last week} neutral {No change from last week} other {No change from last week}}",
+  "@change_from_last_week": {
+    "placeholders": {
+      "selection": {
+        "type": "String",
+        "description": "positive, negative, or neutral"
+      },
+      "percentageValue": { "type": "int" }
+    }
+  },
+  "achieved": "{count, plural, =0 {Achieved: 0} =1 {Achieved: 1} other {Achieved: {count}}}",
+  "@achieved": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "failed": "{count, plural, =0 {Failed: 0} =1 {Failed: 1} other {Failed: {count}}}",
+  "@failed": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "paused": "{count, plural, =0 {Paused: 0} =1 {Paused: 1} other {Paused: {count}}}",
+  "@paused": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "in_progress": "{count, plural, =0 {In Progress: 0} =1 {In Progress: 1} other {In Progress: {count}}}",
+  "@in_progress": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  }
 }

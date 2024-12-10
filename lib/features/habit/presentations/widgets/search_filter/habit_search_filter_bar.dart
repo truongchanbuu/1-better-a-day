@@ -20,7 +20,7 @@ class HabitSearchFilterBar extends StatefulWidget {
 class _HabitSearchFilterBarState extends State<HabitSearchFilterBar> {
   late final TextEditingController _searchController;
 
-  bool _isFilterSectionShowed = false;
+  bool _isFilterSectionShown = false;
 
   @override
   void initState() {
@@ -64,7 +64,7 @@ class _HabitSearchFilterBarState extends State<HabitSearchFilterBar> {
             const SizedBox(width: AppSpacing.marginXS),
             _SearchFilterActionButton(
               onPressed: () => setState(
-                  () => _isFilterSectionShowed = !_isFilterSectionShowed),
+                  () => _isFilterSectionShown = !_isFilterSectionShown),
               icon: Icons.sort,
             ),
           ],
@@ -73,7 +73,7 @@ class _HabitSearchFilterBarState extends State<HabitSearchFilterBar> {
           switchInCurve: Curves.easeIn,
           switchOutCurve: Curves.easeIn,
           duration: const Duration(milliseconds: 250),
-          child: _isFilterSectionShowed
+          child: _isFilterSectionShown
               ? const Padding(
                   key: ValueKey('filter_section'),
                   padding: EdgeInsets.only(top: AppSpacing.marginS),

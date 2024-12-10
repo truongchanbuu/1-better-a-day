@@ -883,6 +883,16 @@ class S {
     );
   }
 
+  /// `Habit Name`
+  String get habit_name {
+    return Intl.message(
+      'Habit Name',
+      name: 'habit_name',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Habit Details`
   String get habit_detail {
     return Intl.message(
@@ -903,11 +913,21 @@ class S {
     );
   }
 
-  /// `Streak`
-  String get current_streak {
+  /// `Longest Streak`
+  String get longest_streak {
     return Intl.message(
-      'Streak',
-      name: 'current_streak',
+      'Longest Streak',
+      name: 'longest_streak',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Trend`
+  String get trend_section {
+    return Intl.message(
+      'Trend',
+      name: 'trend_section',
       desc: '',
       args: [],
     );
@@ -1140,6 +1160,313 @@ class S {
       name: 'date_title',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `All`
+  String get all_statistic_page {
+    return Intl.message(
+      'All',
+      name: 'all_statistic_page',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Active`
+  String get active_statistic_page {
+    return Intl.message(
+      'Active',
+      name: 'active_statistic_page',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pause`
+  String get pause_statistic_page {
+    return Intl.message(
+      'Pause',
+      name: 'pause_statistic_page',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Achieved`
+  String get achieved_statistic_page {
+    return Intl.message(
+      'Achieved',
+      name: 'achieved_statistic_page',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed`
+  String get failed_statistic_page {
+    return Intl.message(
+      'Failed',
+      name: 'failed_statistic_page',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total Habit`
+  String get total_habit {
+    return Intl.message(
+      'Total Habit',
+      name: 'total_habit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Active Habit`
+  String get active_habit {
+    return Intl.message(
+      'Active Habit',
+      name: 'active_habit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed Habit`
+  String get failed_habit {
+    return Intl.message(
+      'Failed Habit',
+      name: 'failed_habit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Achieved Habit`
+  String get achieved_habit {
+    return Intl.message(
+      'Achieved Habit',
+      name: 'achieved_habit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Paused Habit`
+  String get paused_habit {
+    return Intl.message(
+      'Paused Habit',
+      name: 'paused_habit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `In Progress Habit`
+  String get in_progress_habit {
+    return Intl.message(
+      'In Progress Habit',
+      name: 'in_progress_habit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{count, plural, =0 {No achievements} =1 {1 achievement} other {{count} achievements}}`
+  String total_achievement(int count) {
+    return Intl.plural(
+      count,
+      zero: 'No achievements',
+      one: '1 achievement',
+      other: '$count achievements',
+      name: 'total_achievement',
+      desc: 'Total number of achievements',
+      args: [count],
+    );
+  }
+
+  /// `{count, plural, =0 {No Streak} =1 {1 Streak} other {{count} Streaks}}`
+  String total_streak(int count) {
+    return Intl.plural(
+      count,
+      zero: 'No Streak',
+      one: '1 Streak',
+      other: '$count Streaks',
+      name: 'total_streak',
+      desc: 'Total number of streaks',
+      args: [count],
+    );
+  }
+
+  /// `Overall Completion Rate`
+  String get overall_completion_rate {
+    return Intl.message(
+      'Overall Completion Rate',
+      name: 'overall_completion_rate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Completion Rate`
+  String get completion_rate {
+    return Intl.message(
+      'Completion Rate',
+      name: 'completion_rate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Category Distribution`
+  String get category_distribution {
+    return Intl.message(
+      'Category Distribution',
+      name: 'category_distribution',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Status Distribution`
+  String get habit_status_distribution {
+    return Intl.message(
+      'Status Distribution',
+      name: 'habit_status_distribution',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Time-Based Progress`
+  String get time_based_progress {
+    return Intl.message(
+      'Time-Based Progress',
+      name: 'time_based_progress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Next Page`
+  String get next_habits_button {
+    return Intl.message(
+      'Next Page',
+      name: 'next_habits_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Previous Page`
+  String get previous_habits_button {
+    return Intl.message(
+      'Previous Page',
+      name: 'previous_habits_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Weekly`
+  String get weekly_process_section {
+    return Intl.message(
+      'Weekly',
+      name: 'weekly_process_section',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Monthly`
+  String get monthly_process_section {
+    return Intl.message(
+      'Monthly',
+      name: 'monthly_process_section',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{count, plural, =0 { "Today" } =1 {A day ago} other {Last {count} days}}`
+  String last_n_day(int count) {
+    return Intl.plural(
+      count,
+      zero: ' "Today" ',
+      one: 'A day ago',
+      other: 'Last $count days',
+      name: 'last_n_day',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `{selection, select, positive {+{percentageValue}% compared to last week} negative {-{percentageValue}% compared to last week} neutral {No change from last week} other {No change from last week}}`
+  String change_from_last_week(String selection, int percentageValue) {
+    return Intl.select(
+      selection,
+      {
+        'positive': '+$percentageValue% compared to last week',
+        'negative': '-$percentageValue% compared to last week',
+        'neutral': 'No change from last week',
+        'other': 'No change from last week',
+      },
+      name: 'change_from_last_week',
+      desc: '',
+      args: [selection, percentageValue],
+    );
+  }
+
+  /// `{count, plural, =0 {Achieved: 0} =1 {Achieved: 1} other {Achieved: {count}}}`
+  String achieved(int count) {
+    return Intl.plural(
+      count,
+      zero: 'Achieved: 0',
+      one: 'Achieved: 1',
+      other: 'Achieved: $count',
+      name: 'achieved',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `{count, plural, =0 {Failed: 0} =1 {Failed: 1} other {Failed: {count}}}`
+  String failed(int count) {
+    return Intl.plural(
+      count,
+      zero: 'Failed: 0',
+      one: 'Failed: 1',
+      other: 'Failed: $count',
+      name: 'failed',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `{count, plural, =0 {Paused: 0} =1 {Paused: 1} other {Paused: {count}}}`
+  String paused(int count) {
+    return Intl.plural(
+      count,
+      zero: 'Paused: 0',
+      one: 'Paused: 1',
+      other: 'Paused: $count',
+      name: 'paused',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `{count, plural, =0 {In Progress: 0} =1 {In Progress: 1} other {In Progress: {count}}}`
+  String in_progress(int count) {
+    return Intl.plural(
+      count,
+      zero: 'In Progress: 0',
+      one: 'In Progress: 1',
+      other: 'In Progress: $count',
+      name: 'in_progress',
+      desc: '',
+      args: [count],
     );
   }
 }

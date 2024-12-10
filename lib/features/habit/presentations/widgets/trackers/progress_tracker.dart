@@ -18,7 +18,7 @@ class ProgressTracker extends StatefulWidget {
   final double currentValue;
   final double targetValue;
   final GoalUnit goalUnit;
-  final bool isActionButtonShowed;
+  final bool isActionButtonShown;
 
   const ProgressTracker({
     super.key,
@@ -26,7 +26,7 @@ class ProgressTracker extends StatefulWidget {
     required this.currentValue,
     required this.targetValue,
     required this.goalUnit,
-    this.isActionButtonShowed = true,
+    this.isActionButtonShown = true,
   });
 
   @override
@@ -84,7 +84,7 @@ class _ProgressTrackerState extends State<ProgressTracker> {
             direction: Axis.vertical,
           ),
         ),
-        if (widget.isActionButtonShowed) ...[
+        if (widget.isActionButtonShown) ...[
           const SizedBox(height: AppSpacing.marginL),
           const _WaterActionButtons(),
         ],
