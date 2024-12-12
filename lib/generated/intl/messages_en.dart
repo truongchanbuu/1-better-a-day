@@ -73,6 +73,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "achieved_statistic_page":
             MessageLookupByLibrary.simpleMessage("Achieved"),
         "achievement_done": MessageLookupByLibrary.simpleMessage("Achievement"),
+        "active_button": MessageLookupByLibrary.simpleMessage("Active"),
         "active_habit": MessageLookupByLibrary.simpleMessage("Active Habit"),
         "active_statistic_page": MessageLookupByLibrary.simpleMessage("Active"),
         "add_habit": MessageLookupByLibrary.simpleMessage("Add Habit"),
@@ -209,6 +210,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "in_progress": m5,
         "in_progress_habit":
             MessageLookupByLibrary.simpleMessage("In Progress Habit"),
+        "inactive_button": MessageLookupByLibrary.simpleMessage("Inactive"),
         "invalid_age":
             MessageLookupByLibrary.simpleMessage("Please select a valid age"),
         "invalid_credential":
@@ -227,7 +229,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "The credential verification ID received is invalid."),
         "language_tile": MessageLookupByLibrary.simpleMessage("Language"),
         "last_n_day": m6,
-        "less_title": MessageLookupByLibrary.simpleMessage("Less"),
+        "less_title": MessageLookupByLibrary.simpleMessage("Less0"),
         "light_theme": MessageLookupByLibrary.simpleMessage("Light Theme"),
         "loading_title": MessageLookupByLibrary.simpleMessage("Loading..."),
         "login_failure_title":
@@ -289,6 +291,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Re-authenticate with Google"),
         "recovery_description": MessageLookupByLibrary.simpleMessage(
             "An reset-password mail will be sent to your email"),
+        "reminder_section": MessageLookupByLibrary.simpleMessage("Reminder"),
         "remove_water_button":
             MessageLookupByLibrary.simpleMessage("Remove 250ML"),
         "reset_password":

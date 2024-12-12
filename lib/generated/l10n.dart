@@ -190,6 +190,26 @@ class S {
     );
   }
 
+  /// `Active`
+  String get active_button {
+    return Intl.message(
+      'Active',
+      name: 'active_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Inactive`
+  String get inactive_button {
+    return Intl.message(
+      'Inactive',
+      name: 'inactive_button',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Start Date`
   String get start_date {
     return Intl.message(
@@ -230,10 +250,10 @@ class S {
     );
   }
 
-  /// `Less`
+  /// `Less0`
   String get less_title {
     return Intl.message(
-      'Less',
+      'Less0',
       name: 'less_title',
       desc: '',
       args: [],
@@ -2066,6 +2086,16 @@ class S {
     return Intl.message(
       'Mood Distribution',
       name: 'mood_distribution',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reminder`
+  String get reminder_section {
+    return Intl.message(
+      'Reminder',
+      name: 'reminder_section',
       desc: '',
       args: [],
     );

@@ -28,6 +28,7 @@ import '../../domain/entities/habit_goal.dart';
 import '../../domain/entities/habit_history.dart';
 import '../widgets/habit_section_container.dart';
 import '../widgets/habit_streak_calendar.dart';
+import '../widgets/reminder_section_item.dart';
 import '../widgets/trackers/habit_tracker.dart';
 import 'habit_history_page.dart';
 
@@ -158,6 +159,15 @@ class HabitDetailPage extends StatelessWidget {
                   ...logs.map((history) => _HistoryBriefITem(history: history)),
                   _spacing,
                   _buildAllDetailHistoryButton(context),
+                ],
+              ),
+
+              // Reminder
+              _SectionContainer(
+                title: S.current.reminder_section,
+                children: const [
+                  _spacing,
+                  ReminderSectionItem(),
                 ],
               ),
             ],

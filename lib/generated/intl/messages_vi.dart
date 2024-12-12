@@ -73,6 +73,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "achieved_statistic_page":
             MessageLookupByLibrary.simpleMessage("Đã đạt được"),
         "achievement_done": MessageLookupByLibrary.simpleMessage("Thành tựu"),
+        "active_button": MessageLookupByLibrary.simpleMessage("Kích hoạt"),
         "active_habit": MessageLookupByLibrary.simpleMessage(
             "Các thói quen đang thực hiện"),
         "active_statistic_page":
@@ -221,6 +222,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "in_progress": m5,
         "in_progress_habit": MessageLookupByLibrary.simpleMessage(
             "Các thói quen đang thực hiện"),
+        "inactive_button":
+            MessageLookupByLibrary.simpleMessage("Không kích hoạt"),
         "invalid_age": MessageLookupByLibrary.simpleMessage(
             "Vui lòng chọn một độ tuổi phù hợp"),
         "invalid_credential": MessageLookupByLibrary.simpleMessage(
@@ -305,6 +308,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Xác thực với Google"),
         "recovery_description": MessageLookupByLibrary.simpleMessage(
             "Một email đặt lại mật khẩu sẽ được gửi tới email của bạn"),
+        "reminder_section": MessageLookupByLibrary.simpleMessage("Nhắc nhở"),
         "remove_water_button":
             MessageLookupByLibrary.simpleMessage("Giảm 250ML"),
         "reset_password":

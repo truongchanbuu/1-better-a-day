@@ -16,11 +16,13 @@
   "edit_button": "Edit",
   "find_button": "Find",
   "select_button": "Select",
+  "active_button": "Active",
+  "inactive_button": "Inactive",
   "start_date": "Start Date",
   "end_date": "End Date",
   "show_more": "Show More",
   "show_less": "Show less",
-  "less_title": "Less",
+  "less_title": "Less0",
   "more_title": "More",
   "status_title": "Status",
   "select_date_title": "Select Date",
@@ -300,5 +302,7 @@
   "habit_day_performance": "Weekly Day Performance",
   "weekly_mood": "Weekly Mood",
   "most_mood": "Most Mood",
-  "mood_distribution": "Mood Distribution"
+  "mood_distribution": "Mood Distribution",
+
+  "reminder_section": "Reminder"
 }
