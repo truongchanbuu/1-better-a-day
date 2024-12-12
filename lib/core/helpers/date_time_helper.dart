@@ -1,7 +1,9 @@
 import 'package:intl/intl.dart';
 
-import '../../features/habit/domain/enitites/habit_history.dart';
+import '../../features/habit/domain/entities/habit_history.dart';
 import '../enums/day_status.dart';
+import 'setting_helper.dart';
+import 'setting_helper.dart';
 
 class DateTimeHelper {
   // General
@@ -24,6 +26,21 @@ class DateTimeHelper {
     return age;
   }
 
+  static List<String> getLocalizedDayNames(
+      {String locale = 'en', DateTime? date}) {
+    final DateFormat formatter = DateFormat.E(locale);
+    final List<String> dayNames = [];
+    final DateTime dateTime = date ?? DateTime.now();
+    for (int i = 0; i < 7; i++) {
+      dayNames.add(formatter.format(dateTime.add(Duration(days: i))));
+    }
+    return dayNames;
+  }
+
+  static String getDayName(DateTime date, {String locale = 'en'}) {
+    return DateFormat.E(locale).format(date);
+  }
+
   // Specific
   // History
   static List<DateTime> getDatesByStatus(
@@ -31,8 +48,18 @@ class DateTimeHelper {
     DayStatus status,
   ) {
     return histories
-        .where((e) => e.status == status.name)
+        .where((e) => e.executionStatus == status.name)
         .map((e) => e.date)
         .toList();
   }
+
+  // Statistic
+  static const List<String> timeSlots = [
+    '4:00 - 8:00',
+    '8:00 - 11:00',
+    '11:00 - 14:00',
+    '14:00 - 17:00',
+    '17:00 - 20:00',
+    '20:00 - 23:00',
+  ];
 }

@@ -98,6 +98,7 @@ dependencies:
   fl_chart: ^0.69.2
   buttons_tabbar: ^1.3.14
   toggle_switch: ^2.3.0
+  fl_heatmap: ^0.4.5
 
   # Form
   formz: ^0.8.0
@@ -151,8 +152,9 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-#  assets:
-#   - packages/animated_emoji/lottie/fire.json
+  assets:
+    - assets/animations/
+    - assets/animations/mood/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

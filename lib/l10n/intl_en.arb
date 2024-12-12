@@ -8,6 +8,7 @@
   "warning_title": "Warning",
   "loading_title": "Loading...",
   "searching_title": "Searching...",
+  "no_data_title": "No Data",
   "send_button": "Send",
   "accept_button": "Accept",
   "cancel_button": "Cancel",
@@ -19,9 +20,22 @@
   "end_date": "End Date",
   "show_more": "Show More",
   "show_less": "Show less",
+  "less_title": "Less",
+  "more_title": "More",
   "status_title": "Status",
   "select_date_title": "Select Date",
   "select_range_date_title": "Select Date Range",
+  "day_title": "Day",
+  "month_title": "Month",
+  "year_title": "Year",
+  "total": "Total: {count}",
+  "@total": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
 
   "@__VALIDATION__": "",
   "out_of_range": "The number is out of range",
@@ -124,11 +138,53 @@
   "achievement_done": "Achievement",
   "add_habit": "Add Habit",
   "progress_section": "Progress",
+  "current_progress": "Current Progress",
   "on_your_way": "You are {value}% on your way",
   "duration_title": "Duration",
   "target_title": "Target",
   "mark_as_done": "Mark as done",
   "mark_as_pause": "Mark as pause",
+
+  "habit_status_failed": "Failed",
+  "habit_status_in_progress": "In Progress",
+  "habit_status_paused": "Paused",
+  "habit_status_skipped": "Skipped",
+  "habit_status_achieved": "Achieved",
+  "habit_status_pending": "Pending",
+  "habit_status_unknown": "Unknown",
+
+  "habit_failure_reason_lack_of_time": "Lack of Time",
+  "habit_failure_reason_lack_of_motivation": "Lack of Motivation",
+  "habit_failure_reason_health_issues": "Health Issues",
+  "habit_failure_reason_unexpected_events": "Unexpected Events",
+  "habit_failure_reason_forgetfulness": "Forgetfulness",
+  "habit_failure_reason_too_difficult": "Too Difficult",
+  "habit_failure_reason_lack_of_resources": "Lack of Resources",
+  "habit_failure_reason_procrastination": "Procrastination",
+  "habit_failure_reason_external_distractions": "External Distractions",
+  "habit_failure_reason_other": "Other",
+  "habit_failure_reason_unknown": "Unknown",
+
+  "habit_pause_reason_lack_of_time": "Lack of Time",
+  "habit_pause_reason_lack_of_motivation": "Lack of Motivation",
+  "habit_pause_reason_health_issues": "Health Issues",
+  "habit_pause_reason_unexpected_events": "Unexpected Events",
+  "habit_pause_reason_need_for_rest": "Need for Rest",
+  "habit_pause_reason_reassessment": "Reassessment",
+  "habit_pause_reason_other": "Other",
+  "habit_pause_reason_unknown": "Unknown",
+
+  "habit_category_health": "Health",
+  "habit_category_learning": "Learning",
+  "habit_category_productivity": "Productivity",
+  "habit_category_mindfulness": "Mindfulness",
+  "habit_category_lifestyle": "Lifestyle",
+  "habit_category_nutrition": "Nutrition",
+  "habit_category_social": "Social",
+  "habit_category_finance": "Finance",
+  "habit_category_creativity": "Creativity",
+  "habit_category_environmental": "Environmental",
+  "habit_category_unknown": "Unknown",
 
   "tracker_section": "Tracker",
   "add_water_button": "Add 250ML",
@@ -153,11 +209,13 @@
   "pause_statistic_page": "Pause",
   "achieved_statistic_page": "Achieved",
   "failed_statistic_page": "Failed",
+  "miss_title": "Miss",
   "total_habit": "Total Habit",
   "active_habit": "Active Habit",
   "failed_habit": "Failed Habit",
   "achieved_habit": "Achieved Habit",
   "paused_habit": "Paused Habit",
+  "same_type_habit": "Same Habit",
   "in_progress_habit": "In Progress Habit",
   "total_achievement": "{count, plural, =0 {No achievements} =1 {1 achievement} other {{count} achievements}}",
   "@total_achievement": {
@@ -173,9 +231,13 @@
       "count": { "type": "int", "example": "42" }
     }
   },
+  "total_paused_time": "Total Pause Time",
   "overall_completion_rate": "Overall Completion Rate",
+  "avg_time": "Average Time",
   "completion_rate": "Completion Rate",
+  "failed_rate": "Failed Rate",
   "category_distribution": "Category Distribution",
+  "category_based_completion_rate": "Category Based Completion",
   "habit_status_distribution": "Status Distribution",
   "time_based_progress": "Time-Based Progress",
   "next_habits_button": "Next Page",
@@ -221,5 +283,22 @@
     "placeholders": {
       "count": { "type": "int" }
     }
-  }
+  },
+  "overall_progress": "Progress: {count}/{total} {time}",
+  "@overall_progress": {
+    "placeholders": {
+      "count": { "type": "int", "description": "Number of completed items" },
+      "total": { "type": "int", "description": "Total number of items" },
+      "time": { "type": "String", "description": "Time unit, default is 'day' if not provided" }
+    },
+    "description": "String displaying progress with a time unit. Defaults to 'day' if 'time' is not provided."
+  },
+  "show_all_figure_button": "Show all figures",
+  "most_reason": "Most Reason",
+  "best_time": "Best Time",
+  "time_slot_heatmap": "Daily Time Slots Map",
+  "habit_day_performance": "Weekly Day Performance",
+  "weekly_mood": "Weekly Mood",
+  "most_mood": "Most Mood",
+  "mood_distribution": "Mood Distribution"
 }

@@ -7,8 +7,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../../../../core/constants/app_color.dart';
 import '../../../../../../core/constants/app_common.dart';
 import '../../../../../../core/constants/app_spacing.dart';
+import '../../../../../../core/extensions/num_extension.dart';
 import '../../../../../../generated/l10n.dart';
-import '../../../../domain/enitites/habit_history.dart';
+import '../../../../domain/entities/habit_history.dart';
 
 class CompletionBarchart extends StatefulWidget {
   final List<HabitHistory> allHabitHistories;
@@ -27,6 +28,8 @@ class _CompletionBarchartState extends State<CompletionBarchart> {
     'Reading Book',
     'Swimming',
     'Jogging',
+    'Jogging 12',
+    'Jogging 1',
     'Jogging 2',
     'Jogging 3',
     'Do Exercising',
@@ -42,7 +45,7 @@ class _CompletionBarchartState extends State<CompletionBarchart> {
       mainAxisSize: MainAxisSize.min,
       children: [
         AspectRatio(
-          aspectRatio: 2,
+          aspectRatio: 1.3,
           child: BarChart(
             duration: AppCommons.chartDuration,
             BarChartData(
@@ -73,7 +76,7 @@ class _CompletionBarchartState extends State<CompletionBarchart> {
                   touchTooltipData: BarTouchTooltipData(
                 fitInsideHorizontally: true,
                 fitInsideVertically: true,
-                getTooltipColor: (group) => Colors.indigo,
+                getTooltipColor: (group) => AppColors.graphTooltipColor,
                 getTooltipItem: _buildToolTipItem,
               )),
             ),
@@ -128,7 +131,8 @@ class _CompletionBarchartState extends State<CompletionBarchart> {
     });
   }
 
-  BarTooltipItem _buildToolTipItem(group, groupIndex, rod, rodIndex) {
+  BarTooltipItem _buildToolTipItem(
+      BarChartGroupData group, groupIndex, BarChartRodData rod, rodIndex) {
     return BarTooltipItem(
       currentPageHabits[groupIndex],
       const TextStyle(
@@ -140,12 +144,7 @@ class _CompletionBarchartState extends State<CompletionBarchart> {
         const TextSpan(text: '\n'),
         TextSpan(
           children: [
-            TextSpan(
-              text: rod.toY.toStringAsFixed(1),
-              style: const TextStyle(
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
+            TextSpan(text: (rod.toY as num).toStringAsFixedWithoutZero()),
           ],
         )
       ],

@@ -5,12 +5,13 @@ import 'package:flutter/material.dart';
 import '../../../../core/constants/app_font_size.dart';
 import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/enums/day_status.dart';
+import '../../../../core/enums/habit_status.dart';
 import '../../../../core/enums/mood.dart';
 import '../../../../core/extensions/string_extension.dart';
 import '../../../../core/helpers/date_time_helper.dart';
 import '../../../../generated/l10n.dart';
-import '../../domain/enitites/goal_unit.dart';
-import '../../domain/enitites/habit_history.dart';
+import '../../domain/entities/goal_unit.dart';
+import '../../domain/entities/habit_history.dart';
 import '../widgets/habit_streak_calendar.dart';
 import '../widgets/habit_history/history_item.dart';
 import '../widgets/search_filter/habit_date_picker.dart';
@@ -21,7 +22,8 @@ final logs = [
     id: '1',
     habitId: 'habit1',
     date: DateTime(2024, 12, 4),
-    status: DayStatus.completed.name,
+    executionStatus: DayStatus.completed.name,
+    overallStatus: HabitStatus.achieved.name,
     startTime: DateTime(2024, 1, 1, 7, 0),
     endTime: DateTime(2024, 1, 1, 8, 0),
     duration: const Duration(hours: 1),
@@ -35,7 +37,8 @@ final logs = [
     id: '2',
     habitId: 'habit1',
     date: DateTime(2024, 12, 5),
-    status: DayStatus.completed.name,
+    executionStatus: DayStatus.completed.name,
+    overallStatus: HabitStatus.achieved.name,
     startTime: DateTime(2024, 1, 2, 8, 0),
     endTime: DateTime(2024, 1, 2, 9, 0),
     duration: const Duration(hours: 1),
@@ -49,7 +52,8 @@ final logs = [
     id: '3',
     habitId: 'habit1',
     date: DateTime(2024, 12, 6),
-    status: DayStatus.completed.name,
+    executionStatus: DayStatus.completed.name,
+    overallStatus: HabitStatus.achieved.name,
     startTime: DateTime(2024, 1, 2, 8, 0),
     endTime: DateTime(2024, 1, 2, 9, 0),
     duration: const Duration(hours: 1),
@@ -63,7 +67,8 @@ final logs = [
     id: '4',
     habitId: 'habit1',
     date: DateTime(2024, 12, 7),
-    status: DayStatus.skipped.name,
+    executionStatus: DayStatus.skipped.name,
+    overallStatus: HabitStatus.inProgress.name,
     startTime: DateTime(2024, 1, 2, 8, 0),
     endTime: DateTime(2024, 1, 2, 9, 0),
     duration: const Duration(hours: 1),
@@ -77,7 +82,8 @@ final logs = [
     id: '5',
     habitId: 'habit1',
     date: DateTime(2024, 12, 8),
-    status: DayStatus.failed.name,
+    executionStatus: DayStatus.failed.name,
+    overallStatus: HabitStatus.failed.name,
     startTime: DateTime(2024, 1, 2, 8, 0),
     endTime: DateTime(2024, 1, 2, 9, 0),
     duration: const Duration(hours: 1),

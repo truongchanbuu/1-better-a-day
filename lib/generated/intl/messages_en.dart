@@ -47,13 +47,17 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m7(value) => "You are ${value}% on your way";
 
-  static String m8(count) =>
-      "${Intl.plural(count, zero: 'Paused: 0', one: 'Paused: 1', other: 'Paused: ${count}')}";
+  static String m8(count, total, time) => "Progress: ${count}/${total} ${time}";
 
   static String m9(count) =>
+      "${Intl.plural(count, zero: 'Paused: 0', one: 'Paused: 1', other: 'Paused: ${count}')}";
+
+  static String m10(count) => "Total: ${count}";
+
+  static String m11(count) =>
       "${Intl.plural(count, zero: 'No achievements', one: '1 achievement', other: '${count} achievements')}";
 
-  static String m10(count) =>
+  static String m12(count) =>
       "${Intl.plural(count, zero: 'No Streak', one: '1 Streak', other: '${count} Streaks')}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
@@ -83,8 +87,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Additional Information"),
         "authentication_choice":
             MessageLookupByLibrary.simpleMessage("Sign in/Sign up"),
+        "avg_time": MessageLookupByLibrary.simpleMessage("Average Time"),
+        "best_time": MessageLookupByLibrary.simpleMessage("Best Time"),
         "birth_date": MessageLookupByLibrary.simpleMessage("Birthdate"),
         "cancel_button": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "category_based_completion_rate":
+            MessageLookupByLibrary.simpleMessage("Category Based Completion"),
         "category_distribution":
             MessageLookupByLibrary.simpleMessage("Category Distribution"),
         "change_from_last_week": m1,
@@ -94,9 +102,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Confirm Password"),
         "current_distance":
             MessageLookupByLibrary.simpleMessage("Current Distance"),
+        "current_progress":
+            MessageLookupByLibrary.simpleMessage("Current Progress"),
         "dark_theme": MessageLookupByLibrary.simpleMessage("Dark Theme"),
         "date_title": MessageLookupByLibrary.simpleMessage("Date"),
         "dawn_tile": MessageLookupByLibrary.simpleMessage("Dawn"),
+        "day_title": MessageLookupByLibrary.simpleMessage("Day"),
         "delete_button": MessageLookupByLibrary.simpleMessage("Delete"),
         "detail_section": MessageLookupByLibrary.simpleMessage("Detail"),
         "display_name": MessageLookupByLibrary.simpleMessage("Display Name"),
@@ -112,15 +123,85 @@ class MessageLookup extends MessageLookupByLibrary {
         "english_choice": MessageLookupByLibrary.simpleMessage("English"),
         "failed": m3,
         "failed_habit": MessageLookupByLibrary.simpleMessage("Failed Habit"),
+        "failed_rate": MessageLookupByLibrary.simpleMessage("Failed Rate"),
         "failed_statistic_page": MessageLookupByLibrary.simpleMessage("Failed"),
         "failure_title": MessageLookupByLibrary.simpleMessage("Failure"),
         "find_button": MessageLookupByLibrary.simpleMessage("Find"),
         "gender_field": MessageLookupByLibrary.simpleMessage("Gender"),
         "general_section": MessageLookupByLibrary.simpleMessage("General"),
+        "habit_category_creativity":
+            MessageLookupByLibrary.simpleMessage("Creativity"),
+        "habit_category_environmental":
+            MessageLookupByLibrary.simpleMessage("Environmental"),
+        "habit_category_finance":
+            MessageLookupByLibrary.simpleMessage("Finance"),
+        "habit_category_health": MessageLookupByLibrary.simpleMessage("Health"),
+        "habit_category_learning":
+            MessageLookupByLibrary.simpleMessage("Learning"),
+        "habit_category_lifestyle":
+            MessageLookupByLibrary.simpleMessage("Lifestyle"),
+        "habit_category_mindfulness":
+            MessageLookupByLibrary.simpleMessage("Mindfulness"),
+        "habit_category_nutrition":
+            MessageLookupByLibrary.simpleMessage("Nutrition"),
+        "habit_category_productivity":
+            MessageLookupByLibrary.simpleMessage("Productivity"),
+        "habit_category_social": MessageLookupByLibrary.simpleMessage("Social"),
+        "habit_category_unknown":
+            MessageLookupByLibrary.simpleMessage("Unknown"),
+        "habit_day_performance":
+            MessageLookupByLibrary.simpleMessage("Weekly Day Performance"),
         "habit_detail": MessageLookupByLibrary.simpleMessage("Habit Details"),
+        "habit_failure_reason_external_distractions":
+            MessageLookupByLibrary.simpleMessage("External Distractions"),
+        "habit_failure_reason_forgetfulness":
+            MessageLookupByLibrary.simpleMessage("Forgetfulness"),
+        "habit_failure_reason_health_issues":
+            MessageLookupByLibrary.simpleMessage("Health Issues"),
+        "habit_failure_reason_lack_of_motivation":
+            MessageLookupByLibrary.simpleMessage("Lack of Motivation"),
+        "habit_failure_reason_lack_of_resources":
+            MessageLookupByLibrary.simpleMessage("Lack of Resources"),
+        "habit_failure_reason_lack_of_time":
+            MessageLookupByLibrary.simpleMessage("Lack of Time"),
+        "habit_failure_reason_other":
+            MessageLookupByLibrary.simpleMessage("Other"),
+        "habit_failure_reason_procrastination":
+            MessageLookupByLibrary.simpleMessage("Procrastination"),
+        "habit_failure_reason_too_difficult":
+            MessageLookupByLibrary.simpleMessage("Too Difficult"),
+        "habit_failure_reason_unexpected_events":
+            MessageLookupByLibrary.simpleMessage("Unexpected Events"),
+        "habit_failure_reason_unknown":
+            MessageLookupByLibrary.simpleMessage("Unknown"),
         "habit_name": MessageLookupByLibrary.simpleMessage("Habit Name"),
+        "habit_pause_reason_health_issues":
+            MessageLookupByLibrary.simpleMessage("Health Issues"),
+        "habit_pause_reason_lack_of_motivation":
+            MessageLookupByLibrary.simpleMessage("Lack of Motivation"),
+        "habit_pause_reason_lack_of_time":
+            MessageLookupByLibrary.simpleMessage("Lack of Time"),
+        "habit_pause_reason_need_for_rest":
+            MessageLookupByLibrary.simpleMessage("Need for Rest"),
+        "habit_pause_reason_other":
+            MessageLookupByLibrary.simpleMessage("Other"),
+        "habit_pause_reason_reassessment":
+            MessageLookupByLibrary.simpleMessage("Reassessment"),
+        "habit_pause_reason_unexpected_events":
+            MessageLookupByLibrary.simpleMessage("Unexpected Events"),
+        "habit_pause_reason_unknown":
+            MessageLookupByLibrary.simpleMessage("Unknown"),
+        "habit_status_achieved":
+            MessageLookupByLibrary.simpleMessage("Achieved"),
         "habit_status_distribution":
             MessageLookupByLibrary.simpleMessage("Status Distribution"),
+        "habit_status_failed": MessageLookupByLibrary.simpleMessage("Failed"),
+        "habit_status_in_progress":
+            MessageLookupByLibrary.simpleMessage("In Progress"),
+        "habit_status_paused": MessageLookupByLibrary.simpleMessage("Paused"),
+        "habit_status_pending": MessageLookupByLibrary.simpleMessage("Pending"),
+        "habit_status_skipped": MessageLookupByLibrary.simpleMessage("Skipped"),
+        "habit_status_unknown": MessageLookupByLibrary.simpleMessage("Unknown"),
         "habits": m4,
         "help_tile": MessageLookupByLibrary.simpleMessage("Help"),
         "history_section": MessageLookupByLibrary.simpleMessage("History"),
@@ -146,6 +227,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "The credential verification ID received is invalid."),
         "language_tile": MessageLookupByLibrary.simpleMessage("Language"),
         "last_n_day": m6,
+        "less_title": MessageLookupByLibrary.simpleMessage("Less"),
         "light_theme": MessageLookupByLibrary.simpleMessage("Light Theme"),
         "loading_title": MessageLookupByLibrary.simpleMessage("Loading..."),
         "login_failure_title":
@@ -162,10 +244,18 @@ class MessageLookup extends MessageLookupByLibrary {
         "measurement_unit_title":
             MessageLookupByLibrary.simpleMessage("Measurement Unit"),
         "metric_unit": MessageLookupByLibrary.simpleMessage("Metric Unit"),
+        "miss_title": MessageLookupByLibrary.simpleMessage("Miss"),
+        "month_title": MessageLookupByLibrary.simpleMessage("Month"),
         "monthly_process_section":
             MessageLookupByLibrary.simpleMessage("Monthly"),
+        "mood_distribution":
+            MessageLookupByLibrary.simpleMessage("Mood Distribution"),
         "mood_title": MessageLookupByLibrary.simpleMessage("Mood"),
+        "more_title": MessageLookupByLibrary.simpleMessage("More"),
+        "most_mood": MessageLookupByLibrary.simpleMessage("Most Mood"),
+        "most_reason": MessageLookupByLibrary.simpleMessage("Most Reason"),
         "next_habits_button": MessageLookupByLibrary.simpleMessage("Next Page"),
+        "no_data_title": MessageLookupByLibrary.simpleMessage("No Data"),
         "no_date_selected":
             MessageLookupByLibrary.simpleMessage("No Date Selected"),
         "not_allow_track": MessageLookupByLibrary.simpleMessage(
@@ -178,13 +268,14 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("The number is out of range"),
         "overall_completion_rate":
             MessageLookupByLibrary.simpleMessage("Overall Completion Rate"),
+        "overall_progress": m8,
         "password_field": MessageLookupByLibrary.simpleMessage("Password"),
         "passwords_do_not_match":
             MessageLookupByLibrary.simpleMessage("Password does not match"),
         "pause_statistic_page": MessageLookupByLibrary.simpleMessage("Pause"),
         "pause_tracking":
             MessageLookupByLibrary.simpleMessage("Pause Tracking"),
-        "paused": m8,
+        "paused": m9,
         "paused_habit": MessageLookupByLibrary.simpleMessage("Paused Habit"),
         "personal_info_section":
             MessageLookupByLibrary.simpleMessage("Personal Information"),
@@ -202,6 +293,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Remove 250ML"),
         "reset_password":
             MessageLookupByLibrary.simpleMessage("Reset Password"),
+        "same_type_habit": MessageLookupByLibrary.simpleMessage("Same Habit"),
         "searching_title": MessageLookupByLibrary.simpleMessage("Searching..."),
         "select_button": MessageLookupByLibrary.simpleMessage("Select"),
         "select_date_title":
@@ -210,6 +302,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Select Date Range"),
         "send_button": MessageLookupByLibrary.simpleMessage("Send"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
+        "show_all_figure_button":
+            MessageLookupByLibrary.simpleMessage("Show all figures"),
         "show_less": MessageLookupByLibrary.simpleMessage("Show less"),
         "show_more": MessageLookupByLibrary.simpleMessage("Show More"),
         "start_date": MessageLookupByLibrary.simpleMessage("Start Date"),
@@ -228,12 +322,17 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Time-Based Progress"),
         "time_of_day_section":
             MessageLookupByLibrary.simpleMessage("Time of day"),
+        "time_slot_heatmap":
+            MessageLookupByLibrary.simpleMessage("Daily Time Slots Map"),
         "today_tasks": MessageLookupByLibrary.simpleMessage("Today Tasks"),
-        "total_achievement": m9,
+        "total": m10,
+        "total_achievement": m11,
         "total_distance":
             MessageLookupByLibrary.simpleMessage("Total Distance"),
         "total_habit": MessageLookupByLibrary.simpleMessage("Total Habit"),
-        "total_streak": m10,
+        "total_paused_time":
+            MessageLookupByLibrary.simpleMessage("Total Pause Time"),
+        "total_streak": m12,
         "tracker_section": MessageLookupByLibrary.simpleMessage("Tracker"),
         "trend_section": MessageLookupByLibrary.simpleMessage("Trend"),
         "try_again":
@@ -254,9 +353,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "warning_title": MessageLookupByLibrary.simpleMessage("Warning"),
         "weak_password": MessageLookupByLibrary.simpleMessage(
             "Please enter a stronger password."),
+        "weekly_mood": MessageLookupByLibrary.simpleMessage("Weekly Mood"),
         "weekly_process_section":
             MessageLookupByLibrary.simpleMessage("Weekly"),
         "wrong_password": MessageLookupByLibrary.simpleMessage(
-            "Incorrect password, please try again.")
+            "Incorrect password, please try again."),
+        "year_title": MessageLookupByLibrary.simpleMessage("Year")
       };
 }

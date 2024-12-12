@@ -1,5 +1,1 @@
-enum DayStatus {
-  completed,
-  failed,
-  skipped,
-}
+enum DayStatus { completed, failed, skipped, paused, inProgress }

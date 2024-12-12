@@ -9,13 +9,13 @@ import 'core/constants/app_common.dart';
 import 'features/auth/presentations/bloc/auth_bloc/auth_bloc.dart';
 import 'features/habit/presentations/pages/habit_statistic_page.dart';
 import 'features/settings/presentations/bloc/settings_cubit.dart';
-import 'features/shared/presentations/pages/app_view.dart';
 import 'firebase_options.dart';
 import 'generated/l10n.dart';
 import 'injection_container.dart';
 
 // TODO: PACKAGES:
 // - TIME_PLANNER FOR TIME SCHEDULE
+// FREQUENCY OF HABIT
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);

@@ -66,7 +66,6 @@ class _AllHabitsPageState extends State<AllHabitsPage> {
                             label: S.current.longest_streak,
                             value: '10',
                             valueTextColor: Colors.red,
-                            onTap: () {},
                           ),
                         ),
                         const SizedBox(width: AppSpacing.marginS),
@@ -77,7 +76,6 @@ class _AllHabitsPageState extends State<AllHabitsPage> {
                             label: S.current.today_tasks,
                             value: S.current.done_tasks(5, 10),
                             valueTextColor: Colors.blue,
-                            onTap: () {},
                           ),
                         ),
                         const SizedBox(width: AppSpacing.marginS),
@@ -88,9 +86,6 @@ class _AllHabitsPageState extends State<AllHabitsPage> {
                             label: S.current.achievement_done,
                             value: '10',
                             valueTextColor: Colors.green,
-                            onTap: () {
-                              // Handle tap
-                            },
                           ),
                         ),
                       ],
@@ -179,60 +174,54 @@ class _BriefStatisticItem extends StatelessWidget {
   final Color? valueTextColor;
   final String label;
   final String value;
-  final VoidCallback onTap;
 
   const _BriefStatisticItem({
     required this.icon,
     required this.iconColor,
     required this.label,
     required this.value,
-    required this.onTap,
     this.valueTextColor,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Bounce(
-      duration: AppCommons.buttonBounceDuration,
-      onPressed: onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          color: context.isDarkMode ? AppColors.primaryDark : Colors.white,
-          borderRadius: const BorderRadius.all(
-            Radius.circular(AppSpacing.radiusS),
+    return Container(
+      decoration: BoxDecoration(
+        color: context.isDarkMode ? AppColors.primaryDark : Colors.white,
+        borderRadius: const BorderRadius.all(
+          Radius.circular(AppSpacing.radiusS),
+        ),
+        boxShadow: const [
+          BoxShadow(
+            blurRadius: 1,
+            spreadRadius: 1,
+            color: Colors.black12,
           ),
-          boxShadow: const [
-            BoxShadow(
-              blurRadius: 1,
-              spreadRadius: 1,
-              color: Colors.black12,
+        ],
+      ),
+      padding: const EdgeInsets.all(AppSpacing.paddingS),
+      child: Column(
+        children: [
+          Icon(
+            icon,
+            color: iconColor,
+          ),
+          const SizedBox(height: AppSpacing.marginS),
+          Text(
+            label,
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: AppFontSize.bodySmall),
+          ),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: AppFontSize.h3,
+              fontWeight: FontWeight.bold,
+              color: valueTextColor,
             ),
-          ],
-        ),
-        padding: const EdgeInsets.all(AppSpacing.paddingS),
-        child: Column(
-          children: [
-            Icon(
-              icon,
-              color: iconColor,
-            ),
-            const SizedBox(height: AppSpacing.marginS),
-            Text(
-              label,
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: AppFontSize.bodySmall),
-            ),
-            Text(
-              value,
-              style: TextStyle(
-                fontSize: AppFontSize.h3,
-                fontWeight: FontWeight.bold,
-                color: valueTextColor,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
     );
   }

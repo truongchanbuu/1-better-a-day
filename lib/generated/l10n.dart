@@ -110,6 +110,16 @@ class S {
     );
   }
 
+  /// `No Data`
+  String get no_data_title {
+    return Intl.message(
+      'No Data',
+      name: 'no_data_title',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Send`
   String get send_button {
     return Intl.message(
@@ -220,6 +230,26 @@ class S {
     );
   }
 
+  /// `Less`
+  String get less_title {
+    return Intl.message(
+      'Less',
+      name: 'less_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `More`
+  String get more_title {
+    return Intl.message(
+      'More',
+      name: 'more_title',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Status`
   String get status_title {
     return Intl.message(
@@ -247,6 +277,46 @@ class S {
       name: 'select_range_date_title',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `Day`
+  String get day_title {
+    return Intl.message(
+      'Day',
+      name: 'day_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Month`
+  String get month_title {
+    return Intl.message(
+      'Month',
+      name: 'month_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Year`
+  String get year_title {
+    return Intl.message(
+      'Year',
+      name: 'year_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total: {count}`
+  String total(int count) {
+    return Intl.message(
+      'Total: $count',
+      name: 'total',
+      desc: '',
+      args: [count],
     );
   }
 
@@ -983,6 +1053,16 @@ class S {
     );
   }
 
+  /// `Current Progress`
+  String get current_progress {
+    return Intl.message(
+      'Current Progress',
+      name: 'current_progress',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `You are {value}% on your way`
   String on_your_way(Object value) {
     return Intl.message(
@@ -1028,6 +1108,376 @@ class S {
     return Intl.message(
       'Mark as pause',
       name: 'mark_as_pause',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed`
+  String get habit_status_failed {
+    return Intl.message(
+      'Failed',
+      name: 'habit_status_failed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `In Progress`
+  String get habit_status_in_progress {
+    return Intl.message(
+      'In Progress',
+      name: 'habit_status_in_progress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Paused`
+  String get habit_status_paused {
+    return Intl.message(
+      'Paused',
+      name: 'habit_status_paused',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Skipped`
+  String get habit_status_skipped {
+    return Intl.message(
+      'Skipped',
+      name: 'habit_status_skipped',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Achieved`
+  String get habit_status_achieved {
+    return Intl.message(
+      'Achieved',
+      name: 'habit_status_achieved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pending`
+  String get habit_status_pending {
+    return Intl.message(
+      'Pending',
+      name: 'habit_status_pending',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unknown`
+  String get habit_status_unknown {
+    return Intl.message(
+      'Unknown',
+      name: 'habit_status_unknown',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lack of Time`
+  String get habit_failure_reason_lack_of_time {
+    return Intl.message(
+      'Lack of Time',
+      name: 'habit_failure_reason_lack_of_time',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lack of Motivation`
+  String get habit_failure_reason_lack_of_motivation {
+    return Intl.message(
+      'Lack of Motivation',
+      name: 'habit_failure_reason_lack_of_motivation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Health Issues`
+  String get habit_failure_reason_health_issues {
+    return Intl.message(
+      'Health Issues',
+      name: 'habit_failure_reason_health_issues',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unexpected Events`
+  String get habit_failure_reason_unexpected_events {
+    return Intl.message(
+      'Unexpected Events',
+      name: 'habit_failure_reason_unexpected_events',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Forgetfulness`
+  String get habit_failure_reason_forgetfulness {
+    return Intl.message(
+      'Forgetfulness',
+      name: 'habit_failure_reason_forgetfulness',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Too Difficult`
+  String get habit_failure_reason_too_difficult {
+    return Intl.message(
+      'Too Difficult',
+      name: 'habit_failure_reason_too_difficult',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lack of Resources`
+  String get habit_failure_reason_lack_of_resources {
+    return Intl.message(
+      'Lack of Resources',
+      name: 'habit_failure_reason_lack_of_resources',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Procrastination`
+  String get habit_failure_reason_procrastination {
+    return Intl.message(
+      'Procrastination',
+      name: 'habit_failure_reason_procrastination',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `External Distractions`
+  String get habit_failure_reason_external_distractions {
+    return Intl.message(
+      'External Distractions',
+      name: 'habit_failure_reason_external_distractions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Other`
+  String get habit_failure_reason_other {
+    return Intl.message(
+      'Other',
+      name: 'habit_failure_reason_other',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unknown`
+  String get habit_failure_reason_unknown {
+    return Intl.message(
+      'Unknown',
+      name: 'habit_failure_reason_unknown',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lack of Time`
+  String get habit_pause_reason_lack_of_time {
+    return Intl.message(
+      'Lack of Time',
+      name: 'habit_pause_reason_lack_of_time',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lack of Motivation`
+  String get habit_pause_reason_lack_of_motivation {
+    return Intl.message(
+      'Lack of Motivation',
+      name: 'habit_pause_reason_lack_of_motivation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Health Issues`
+  String get habit_pause_reason_health_issues {
+    return Intl.message(
+      'Health Issues',
+      name: 'habit_pause_reason_health_issues',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unexpected Events`
+  String get habit_pause_reason_unexpected_events {
+    return Intl.message(
+      'Unexpected Events',
+      name: 'habit_pause_reason_unexpected_events',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Need for Rest`
+  String get habit_pause_reason_need_for_rest {
+    return Intl.message(
+      'Need for Rest',
+      name: 'habit_pause_reason_need_for_rest',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reassessment`
+  String get habit_pause_reason_reassessment {
+    return Intl.message(
+      'Reassessment',
+      name: 'habit_pause_reason_reassessment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Other`
+  String get habit_pause_reason_other {
+    return Intl.message(
+      'Other',
+      name: 'habit_pause_reason_other',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unknown`
+  String get habit_pause_reason_unknown {
+    return Intl.message(
+      'Unknown',
+      name: 'habit_pause_reason_unknown',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Health`
+  String get habit_category_health {
+    return Intl.message(
+      'Health',
+      name: 'habit_category_health',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Learning`
+  String get habit_category_learning {
+    return Intl.message(
+      'Learning',
+      name: 'habit_category_learning',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Productivity`
+  String get habit_category_productivity {
+    return Intl.message(
+      'Productivity',
+      name: 'habit_category_productivity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mindfulness`
+  String get habit_category_mindfulness {
+    return Intl.message(
+      'Mindfulness',
+      name: 'habit_category_mindfulness',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Lifestyle`
+  String get habit_category_lifestyle {
+    return Intl.message(
+      'Lifestyle',
+      name: 'habit_category_lifestyle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nutrition`
+  String get habit_category_nutrition {
+    return Intl.message(
+      'Nutrition',
+      name: 'habit_category_nutrition',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Social`
+  String get habit_category_social {
+    return Intl.message(
+      'Social',
+      name: 'habit_category_social',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Finance`
+  String get habit_category_finance {
+    return Intl.message(
+      'Finance',
+      name: 'habit_category_finance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Creativity`
+  String get habit_category_creativity {
+    return Intl.message(
+      'Creativity',
+      name: 'habit_category_creativity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Environmental`
+  String get habit_category_environmental {
+    return Intl.message(
+      'Environmental',
+      name: 'habit_category_environmental',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unknown`
+  String get habit_category_unknown {
+    return Intl.message(
+      'Unknown',
+      name: 'habit_category_unknown',
       desc: '',
       args: [],
     );
@@ -1213,6 +1663,16 @@ class S {
     );
   }
 
+  /// `Miss`
+  String get miss_title {
+    return Intl.message(
+      'Miss',
+      name: 'miss_title',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Total Habit`
   String get total_habit {
     return Intl.message(
@@ -1263,6 +1723,16 @@ class S {
     );
   }
 
+  /// `Same Habit`
+  String get same_type_habit {
+    return Intl.message(
+      'Same Habit',
+      name: 'same_type_habit',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `In Progress Habit`
   String get in_progress_habit {
     return Intl.message(
@@ -1299,11 +1769,31 @@ class S {
     );
   }
 
+  /// `Total Pause Time`
+  String get total_paused_time {
+    return Intl.message(
+      'Total Pause Time',
+      name: 'total_paused_time',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Overall Completion Rate`
   String get overall_completion_rate {
     return Intl.message(
       'Overall Completion Rate',
       name: 'overall_completion_rate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Average Time`
+  String get avg_time {
+    return Intl.message(
+      'Average Time',
+      name: 'avg_time',
       desc: '',
       args: [],
     );
@@ -1319,11 +1809,31 @@ class S {
     );
   }
 
+  /// `Failed Rate`
+  String get failed_rate {
+    return Intl.message(
+      'Failed Rate',
+      name: 'failed_rate',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Category Distribution`
   String get category_distribution {
     return Intl.message(
       'Category Distribution',
       name: 'category_distribution',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Category Based Completion`
+  String get category_based_completion_rate {
+    return Intl.message(
+      'Category Based Completion',
+      name: 'category_based_completion_rate',
       desc: '',
       args: [],
     );
@@ -1467,6 +1977,97 @@ class S {
       name: 'in_progress',
       desc: '',
       args: [count],
+    );
+  }
+
+  /// `Progress: {count}/{total} {time}`
+  String overall_progress(int count, int total, String time) {
+    return Intl.message(
+      'Progress: $count/$total $time',
+      name: 'overall_progress',
+      desc:
+          'String displaying progress with a time unit. Defaults to \'day\' if \'time\' is not provided.',
+      args: [count, total, time],
+    );
+  }
+
+  /// `Show all figures`
+  String get show_all_figure_button {
+    return Intl.message(
+      'Show all figures',
+      name: 'show_all_figure_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Most Reason`
+  String get most_reason {
+    return Intl.message(
+      'Most Reason',
+      name: 'most_reason',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Best Time`
+  String get best_time {
+    return Intl.message(
+      'Best Time',
+      name: 'best_time',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Daily Time Slots Map`
+  String get time_slot_heatmap {
+    return Intl.message(
+      'Daily Time Slots Map',
+      name: 'time_slot_heatmap',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Weekly Day Performance`
+  String get habit_day_performance {
+    return Intl.message(
+      'Weekly Day Performance',
+      name: 'habit_day_performance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Weekly Mood`
+  String get weekly_mood {
+    return Intl.message(
+      'Weekly Mood',
+      name: 'weekly_mood',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Most Mood`
+  String get most_mood {
+    return Intl.message(
+      'Most Mood',
+      name: 'most_mood',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mood Distribution`
+  String get mood_distribution {
+    return Intl.message(
+      'Mood Distribution',
+      name: 'mood_distribution',
+      desc: '',
+      args: [],
     );
   }
 }

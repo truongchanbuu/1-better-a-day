@@ -1,16 +1,18 @@
+import 'dart:math';
+
 import 'package:animated_switcher_plus/animated_switcher_plus.dart';
-import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounce/flutter_bounce.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../../core/constants/app_color.dart';
 import '../../../../../core/constants/app_common.dart';
-import '../../../../../core/constants/app_font_size.dart';
 import '../../../../../core/constants/app_spacing.dart';
 import '../../../../../core/enums/habit_category.dart';
 import '../../../../../generated/l10n.dart';
+import '../../pages/habit_statistic_page.dart';
 import 'charts/category_distribution_chart.dart';
+import 'charts/chart_tab_bar.dart';
 import 'charts/completion_bar_chart.dart';
 import 'charts/habit_general_pie_chart.dart';
 import 'statistic_item.dart';
@@ -22,34 +24,20 @@ class GeneralStatistics extends StatefulWidget {
   State<GeneralStatistics> createState() => _GeneralStatisticsState();
 }
 
-class _GeneralStatisticsState extends State<GeneralStatistics>
-    with TickerProviderStateMixin {
-  late final TabController _tabBarController;
-
+class _GeneralStatisticsState extends State<GeneralStatistics> {
   bool _isTotalDetailShown = true;
 
   final Map<String, IconData> tabData = {
     S.current.completion_rate: FontAwesomeIcons.chartBar,
-    S.current.category_distribution: FontAwesomeIcons.table,
+    S.current.category_distribution: FontAwesomeIcons.tags,
+    S.current.category_based_completion_rate: FontAwesomeIcons.table,
     S.current.habit_status_distribution: FontAwesomeIcons.chartPie,
   };
 
-  @override
-  void initState() {
-    super.initState();
-    _tabBarController = TabController(length: tabData.length, vsync: this);
-  }
-
-  double get _getSuitableHeight => switch (_tabBarController.index) {
-        0 => MediaQuery.of(context).size.height * 0.3,
-        1 => MediaQuery.of(context).size.height * 0.45,
-        2 => MediaQuery.of(context).size.height * 0.45,
-        _ => MediaQuery.of(context).size.height * 0.45,
-      };
-
   List<Widget> get _getCurrentGraph => const [
         _CompletionBarChart(),
-        _CategoryDistribution(),
+        _CategoryDistributionChart(),
+        _CategoryBasedRate(),
         _GeneralPieChart(),
       ];
 
@@ -82,9 +70,9 @@ class _GeneralStatisticsState extends State<GeneralStatistics>
             title: S.current.completion_rate,
             subTitle: '76%',
             figure: S.current.change_from_last_week('positive', 5),
-            figureColor: Colors.green,
+            figureColor: AppColors.success,
             icon: FontAwesomeIcons.chartLine,
-            iconColor: Colors.green,
+            iconColor: AppColors.success,
           ),
           StatisticItem(
             title: S.current.longest_streak,
@@ -107,27 +95,14 @@ class _GeneralStatisticsState extends State<GeneralStatistics>
             iconColor: Colors.amber,
           ),
           _spacing,
-
-          // Completion Rate Chart
-          ButtonsTabBar(
-            controller: _tabBarController,
-            tabs: tabData.entries.map(_buildTabWidget).toList(),
-            labelSpacing: AppSpacing.paddingMS,
-            contentCenter: true,
-            contentPadding: const EdgeInsets.all(AppSpacing.paddingS),
-            backgroundColor: AppColors.primary,
-            unselectedBackgroundColor: AppColors.grayBackgroundColor,
-            onTap: (index) => setState(
-              () {
-                _tabBarController.index = index;
-              },
-            ),
-          ),
-          _spacing,
-          SizedBox(
-            height: _getSuitableHeight,
-            child: _getCurrentGraph.elementAt(_tabBarController.index),
-          ),
+          ChartTabBar(
+            tabData: tabData,
+            contentWidgets: _getCurrentGraph,
+            defaultHeightRatio: .55,
+            heightRatios: const {
+              1: 0.7,
+            },
+          )
         ],
       ),
     );
@@ -166,14 +141,6 @@ class _GeneralStatisticsState extends State<GeneralStatistics>
       ),
     );
   }
-
-  Widget _buildTabWidget(MapEntry<String, IconData> data) {
-    return Tab(
-      key: ValueKey(data.key),
-      text: data.key,
-      icon: Icon(data.value),
-    );
-  }
 }
 
 class _GeneralPieChart extends StatelessWidget {
@@ -181,23 +148,48 @@ class _GeneralPieChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _ChartSection(
+    return ChartSection(
       title: S.current.habit_status_distribution,
-      chart: const HabitGeneralPieChart(),
+      chart: HabitGeneralPieChart(
+        isAlwaysShowTitle: true,
+        dataItems: [
+          PieChartDataItem(
+            color: AppColors.success,
+            value: 40,
+            label: S.current.achieved_habit,
+          ),
+          PieChartDataItem(
+            color: AppColors.error,
+            value: 30,
+            label: S.current.failed_habit,
+          ),
+          PieChartDataItem(
+            color: AppColors.warning,
+            value: 20,
+            label: S.current.paused_habit,
+          ),
+          PieChartDataItem(
+            color: AppColors.primary,
+            value: 10,
+            label: S.current.in_progress_habit,
+          ),
+        ],
+      ),
     );
   }
 }
 
-class _CategoryDistribution extends StatelessWidget {
-  const _CategoryDistribution();
+class _CategoryBasedRate extends StatelessWidget {
+  const _CategoryBasedRate();
 
   @override
   Widget build(BuildContext context) {
-    return _ChartSection(
+    return ChartSection(
       title: S.current.category_distribution,
       chart: CategoryDistributionChart(
-        categories:
-            HabitCategory.values.map((category) => category.name).toList(),
+        categories: HabitCategory.values
+            .map((category) => category.categoryName)
+            .toList(),
       ),
     );
   }
@@ -208,7 +200,7 @@ class _CompletionBarChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _ChartSection(
+    return ChartSection(
       title: S.current.completion_rate,
       spacing: AppSpacing.marginXL,
       chart: const CompletionBarchart(allHabitHistories: []),
@@ -216,41 +208,25 @@ class _CompletionBarChart extends StatelessWidget {
   }
 }
 
-class _ChartSection extends StatelessWidget {
-  const _ChartSection({
-    required this.title,
-    required this.chart,
-    this.spacing = AppSpacing.marginL,
-  });
-
-  final String title;
-  final Widget chart;
-  final double spacing;
+class _CategoryDistributionChart extends StatelessWidget {
+  const _CategoryDistributionChart();
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _SectionTitle(title: title),
-        SizedBox(height: spacing),
-        chart,
-      ],
-    );
-  }
-}
-
-class _SectionTitle extends StatelessWidget {
-  final String title;
-  const _SectionTitle({required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      title,
-      style: const TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: AppFontSize.h2,
+    return ChartSection(
+      title: S.current.category_distribution,
+      spacing: 0,
+      chart: HabitGeneralPieChart(
+        dataItems: HabitCategory.values
+            .map(
+              (category) => PieChartDataItem(
+                color: category.color,
+                value: Random().nextInt(100).toDouble(),
+                label: category.name.toUpperCase(),
+                subData: category.name,
+              ),
+            )
+            .toList(),
       ),
     );
   }

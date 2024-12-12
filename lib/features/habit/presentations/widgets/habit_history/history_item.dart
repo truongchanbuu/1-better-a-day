@@ -10,10 +10,11 @@ import '../../../../../core/constants/app_spacing.dart';
 import '../../../../../core/enums/habit_status.dart';
 import '../../../../../core/enums/mood.dart';
 import '../../../../../core/extensions/context_extension.dart';
+import '../../../../../core/extensions/num_extension.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../shared/presentations/widgets/text_with_circle_border_container.dart';
-import '../../../domain/enitites/goal_unit.dart';
-import '../../../domain/enitites/habit_history.dart';
+import '../../../domain/entities/goal_unit.dart';
+import '../../../domain/entities/habit_history.dart';
 
 class HistoryItem extends StatelessWidget {
   final HabitHistory history;
@@ -24,7 +25,7 @@ class HistoryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final habitStatus = HabitStatus.fromString(history.status);
+    final habitStatus = HabitStatus.fromString(history.executionStatus);
 
     return Container(
       decoration: BoxDecoration(
@@ -45,7 +46,7 @@ class HistoryItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextWithCircleBorderContainer(
-            title: history.status.toUpperCase(),
+            title: history.executionStatus.toUpperCase(),
             backgroundColor: habitStatus.habitStatusColor,
             titleColor: habitStatus.habitStatusColor,
             fontSize: AppFontSize.labelLarge,
@@ -70,7 +71,7 @@ class HistoryItem extends StatelessWidget {
               color: Colors.amberAccent,
             ),
             title: Text(
-              (history.rating ?? 0).toStringAsFixed(1),
+              (history.rating ?? 0).toStringAsFixedWithoutZero(1),
               style: _titleTextStyle,
             ),
           ),

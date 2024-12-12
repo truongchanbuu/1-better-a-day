@@ -6,13 +6,13 @@ import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
 
 import '../../../../../core/constants/app_color.dart';
 import '../../../../../core/constants/app_spacing.dart';
+import '../../../../../core/enums/day_status.dart';
 import '../../../../../core/enums/goal_type.dart';
-import '../../../../../core/enums/habit_status.dart';
 import '../../../../../core/extensions/context_extension.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../injection_container.dart';
-import '../../../domain/enitites/goal_unit.dart';
-import '../../../domain/enitites/habit_goal.dart';
+import '../../../domain/entities/goal_unit.dart';
+import '../../../domain/entities/habit_goal.dart';
 import '../../blocs/distance_track/distance_track_cubit.dart';
 import '../../pages/habit_detail_page.dart';
 import 'distance_tracker.dart';
@@ -32,7 +32,7 @@ class _HabitTrackerState extends State<HabitTracker> {
   late final RoundedLoadingButtonController _doneBtnController;
   late final RoundedLoadingButtonController _pauseBtnController;
 
-  late HabitStatus habitStatus;
+  late DayStatus trackStatus;
 
   late GoalUnit _goalUnit;
   late GoalType _goalType;
@@ -41,7 +41,7 @@ class _HabitTrackerState extends State<HabitTracker> {
   @override
   void initState() {
     super.initState();
-    habitStatus = HabitStatus.notStart;
+    trackStatus = DayStatus.inProgress;
     _habitGoal = widget.habitGoal;
     _goalUnit = GoalUnit.fromString(_habitGoal.goalUnit);
     _goalType = GoalType.fromString(_habitGoal.goalType);
@@ -99,9 +99,9 @@ class _HabitTrackerState extends State<HabitTracker> {
       currentValue: _habitGoal.currentValue,
       targetValue: _habitGoal.targetValue,
       goalUnit: _goalUnit,
-      isActionButtonShown: (habitStatus != HabitStatus.completed &&
-              habitStatus != HabitStatus.paused) ||
-          habitStatus == HabitStatus.notStart,
+      isActionButtonShown: (trackStatus != DayStatus.completed &&
+              trackStatus != DayStatus.paused) ||
+          trackStatus == DayStatus.inProgress,
     );
   }
 
@@ -119,8 +119,8 @@ class _HabitTrackerState extends State<HabitTracker> {
 
   Widget _buildDoneButton() {
     return _buildActionButton(
-      statusCondition: HabitStatus.completed,
-      targetStatus: HabitStatus.completed,
+      statusCondition: DayStatus.completed,
+      targetStatus: DayStatus.completed,
       icon: FontAwesomeIcons.circleCheck,
       title: S.current.mark_as_done,
       backgroundColor: AppColors.primary,
@@ -135,8 +135,8 @@ class _HabitTrackerState extends State<HabitTracker> {
 
   Widget _buildPauseButton() {
     return _buildActionButton(
-      statusCondition: HabitStatus.paused,
-      targetStatus: HabitStatus.paused,
+      statusCondition: DayStatus.paused,
+      targetStatus: DayStatus.paused,
       icon: FontAwesomeIcons.circlePause,
       title: S.current.mark_as_pause,
       backgroundColor: AppColors.warning,
@@ -146,8 +146,8 @@ class _HabitTrackerState extends State<HabitTracker> {
   }
 
   Widget _buildActionButton({
-    required HabitStatus statusCondition,
-    required HabitStatus targetStatus,
+    required DayStatus statusCondition,
+    required DayStatus targetStatus,
     required IconData icon,
     required String title,
     required Function() onPressed,
@@ -155,13 +155,13 @@ class _HabitTrackerState extends State<HabitTracker> {
     Color? successColor,
   }) {
     final isVisible =
-        habitStatus == statusCondition || habitStatus == HabitStatus.notStart;
+        trackStatus == statusCondition || trackStatus == DayStatus.inProgress;
 
     return AnimatedSwitcherPlus.translationRight(
       duration: const Duration(milliseconds: 500),
       child: isVisible
           ? _HabitActionButton(
-              controller: targetStatus == HabitStatus.completed
+              controller: targetStatus == DayStatus.completed
                   ? _doneBtnController
                   : _pauseBtnController,
               icon: icon,
@@ -170,11 +170,11 @@ class _HabitTrackerState extends State<HabitTracker> {
               successColor: successColor,
               backgroundColor: backgroundColor,
               onPressed: () async {
-                setState(() => habitStatus = targetStatus);
+                setState(() => trackStatus = targetStatus);
 
                 onPressed();
                 await Future.delayed(const Duration(seconds: 1));
-                if (targetStatus == HabitStatus.completed) {
+                if (targetStatus == DayStatus.completed) {
                   _doneBtnController.success();
                 } else {
                   _pauseBtnController.success();

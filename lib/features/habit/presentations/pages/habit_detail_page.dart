@@ -22,10 +22,10 @@ import '../../../../core/helpers/date_time_helper.dart';
 import '../../../../generated/l10n.dart';
 import '../../../shared/presentations/widgets/icon_with_text.dart';
 import '../../../shared/presentations/widgets/text_with_circle_border_container.dart';
-import '../../domain/enitites/goal_unit.dart';
-import '../../domain/enitites/habit_entity.dart';
-import '../../domain/enitites/habit_goal.dart';
-import '../../domain/enitites/habit_history.dart';
+import '../../domain/entities/goal_unit.dart';
+import '../../domain/entities/habit_entity.dart';
+import '../../domain/entities/habit_goal.dart';
+import '../../domain/entities/habit_history.dart';
 import '../widgets/habit_section_container.dart';
 import '../widgets/habit_streak_calendar.dart';
 import '../widgets/trackers/habit_tracker.dart';
@@ -466,7 +466,7 @@ class _HistoryBriefITem extends StatelessWidget {
   static const String _unAchievedTaskTime = '__:__';
   @override
   Widget build(BuildContext context) {
-    final habitStatus = HabitStatus.fromString(history.status);
+    final habitStatus = HabitStatus.fromString(history.executionStatus);
     final iconData = habitStatus.habitStatusIcon;
     final iconColor = habitStatus.habitStatusColor;
     final String? completedTime =

@@ -8,10 +8,11 @@ import '../../../../../core/constants/app_common.dart';
 import '../../../../../core/constants/app_font_size.dart';
 import '../../../../../core/constants/app_spacing.dart';
 import '../../../../../core/enums/goal_type.dart';
+import '../../../../../core/extensions/num_extension.dart';
 import '../../../../../core/extensions/string_extension.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../shared/presentations/widgets/icon_with_text.dart';
-import '../../../domain/enitites/goal_unit.dart';
+import '../../../domain/entities/goal_unit.dart';
 
 class ProgressTracker extends StatefulWidget {
   final GoalType goalType;
@@ -107,8 +108,8 @@ class _ProgressTrackerState extends State<ProgressTracker> {
 
   String _getProgressValue() {
     return _percentMode
-        ? '${(widget.currentValue / widget.targetValue).toStringAsFixed(1)}%'
-        : '${widget.currentValue.toStringAsFixed(1)} / ${widget.targetValue} ${widget.goalUnit.name.toUpperCaseFirstLetter}';
+        ? '${(widget.currentValue / widget.targetValue).toStringAsFixedWithoutZero(1)}%'
+        : '${widget.currentValue.toStringAsFixedWithoutZero(1)} / ${widget.targetValue} ${widget.goalUnit.name.toUpperCaseFirstLetter}';
   }
 
   bool get _isCircleProgressBuilt =>

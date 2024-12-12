@@ -5,7 +5,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'config/log/app_logger.dart';
-import 'core/constants/app_storage_key.dart';
 import 'core/helpers/cached_client.dart';
 import 'features/auth/data/models/user.dart';
 import 'features/auth/data/repositories/auth_repository_impl.dart';
@@ -15,8 +14,6 @@ import 'features/auth/presentations/bloc/login/login_cubit.dart';
 import 'features/auth/presentations/bloc/signup/signup_cubit.dart';
 import 'features/habit/presentations/blocs/distance_track/distance_track_cubit.dart';
 import 'features/settings/presentations/bloc/settings_cubit.dart';
-import 'features/shared/data/repositories/image_repository_impl.dart';
-import 'features/shared/domain/repositories/image_repository.dart';
 import 'features/user/data/repositories/user_repository_impl.dart';
 import 'features/user/domain/repositories/user_repository.dart';
 import 'features/user/presentations/bloc/update_info_cubit.dart';

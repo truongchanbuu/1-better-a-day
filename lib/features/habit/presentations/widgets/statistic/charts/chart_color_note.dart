@@ -1,35 +1,28 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../../core/constants/app_color.dart';
 import '../../../../../../core/constants/app_spacing.dart';
-import '../../../../../../generated/l10n.dart';
 
 class ChartColorNote extends StatelessWidget {
-  const ChartColorNote({super.key});
+  final List<ColorNoteItem> items;
+
+  const ChartColorNote({
+    super.key,
+    required this.items,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Wrap(
       runSpacing: 10,
       spacing: 10,
-      children: [
-        _ColorNote(
-          color: AppColors.success,
-          title: S.current.achieved_habit,
-        ),
-        _ColorNote(
-          color: AppColors.error,
-          title: S.current.failed_habit,
-        ),
-        _ColorNote(
-          color: AppColors.warning,
-          title: S.current.paused_habit,
-        ),
-        _ColorNote(
-          color: AppColors.primary,
-          title: S.current.in_progress_habit,
-        ),
-      ],
+      children: items
+          .map(
+            (item) => _ColorNote(
+              color: item.color,
+              title: item.title,
+            ),
+          )
+          .toList(),
     );
   }
 }
@@ -57,4 +50,14 @@ class _ColorNote extends StatelessWidget {
       ],
     );
   }
+}
+
+class ColorNoteItem {
+  final Color color;
+  final String title;
+
+  const ColorNoteItem({
+    required this.color,
+    required this.title,
+  });
 }

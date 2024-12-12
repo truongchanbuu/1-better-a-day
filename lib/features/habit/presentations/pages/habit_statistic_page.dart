@@ -2,9 +2,12 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/constants/app_color.dart';
+import '../../../../core/constants/app_font_size.dart';
 import '../../../../core/constants/app_spacing.dart';
 import '../../../../generated/l10n.dart';
-import '../widgets/statistic/general_statistic.dart';
+import '../widgets/statistic/current_statistic.dart';
+import '../widgets/statistic/statistic_habit_list.dart';
+import 'habit_detail_page.dart';
 
 class HabitStatisticPage extends StatefulWidget {
   const HabitStatisticPage({super.key});
@@ -35,6 +38,8 @@ class _HabitStatisticPageState extends State<HabitStatisticPage> {
     _selectedPageKey = pageNames.keys.first;
   }
 
+  static const _spacing = SizedBox(height: AppSpacing.marginS);
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -45,6 +50,7 @@ class _HabitStatisticPageState extends State<HabitStatisticPage> {
           child: Container(
             margin: const EdgeInsets.all(AppSpacing.paddingM),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 DropdownButton2<String>(
                   hint: Text(pageNames[_selectedPageKey]!),
@@ -68,8 +74,20 @@ class _HabitStatisticPageState extends State<HabitStatisticPage> {
                           value: key, child: Text(pageNames[key]!)))
                       .toList(),
                 ),
-                const SizedBox(height: AppSpacing.marginS),
+                _spacing,
                 _buildStatistics(),
+                _spacing,
+
+                // Habit List
+                Text(
+                  S.current.habit_detail,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: AppFontSize.h3,
+                  ),
+                ),
+                _spacing,
+                StatisticHabitList(habits: [habit]),
               ],
             ),
           ),
@@ -80,10 +98,59 @@ class _HabitStatisticPageState extends State<HabitStatisticPage> {
 
   Widget _buildStatistics() {
     switch (_selectedPageKey) {
-      case allPageKey:
-        return const GeneralStatistics();
+      // case allPageKey:
+      //   return const GeneralStatistics();
+      // case achievedPageKey:
+      //   return const AchievedStatistic();
+      // case failedPageKey:
+      //   return const FailedStatistic();
+      // case pausePageKey:
+      //   return const PausedStatistic();
+      // case activePageKey:
+      //   return const InProgressStatistic();
       default:
-        return Container();
+        return const CurrentStatistic();
     }
+  }
+}
+
+class ChartSection extends StatelessWidget {
+  const ChartSection({
+    super.key,
+    required this.title,
+    required this.chart,
+    this.spacing = AppSpacing.marginL,
+  });
+
+  final String title;
+  final Widget chart;
+  final double spacing;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _SectionTitle(title: title),
+        SizedBox(height: spacing),
+        chart,
+      ],
+    );
+  }
+}
+
+class _SectionTitle extends StatelessWidget {
+  final String title;
+  const _SectionTitle({required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      title,
+      style: const TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: AppFontSize.h2,
+      ),
+    );
   }
 }

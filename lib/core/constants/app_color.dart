@@ -15,4 +15,6 @@ class AppColors {
   static const Color warning = Color(0xFFFFA500);
 
   static const Color grayBackgroundColor = Color(0xFFEEEEEE);
+
+  static const Color graphTooltipColor = Colors.indigo;
 }

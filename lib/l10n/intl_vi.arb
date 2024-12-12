@@ -6,6 +6,7 @@
   "success_title": "Thành công",
   "failure_title": "Thất bại",
   "warning_title": "Cảnh báo",
+  "no_data_title": "Trống",
   "loading_title": "Đang tải...",
   "searching_title": "Tìm kiếm...",
   "send_button": "Gửi",
@@ -19,9 +20,22 @@
   "end_date": "Ngày kết thúc",
   "show_more": "Hiển thị",
   "show_less": "Ẩn bớt",
+  "less_title": "Ít",
+  "more_title": "Nhiều",
   "status_title": "Trạng thái",
   "select_date_title": "Chọn ngày",
   "select_range_date_title": "Chọn ngày từ ... đến ...",
+  "day_title": "Ngày",
+  "month_title": "Tháng",
+  "year_title": "Năm",
+  "total": "Tổng số: {count}",
+  "@total": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
 
   "@__VALIDATION__": "",
   "out_of_range": "Số hiện tại đang vượt quá mức",
@@ -124,11 +138,54 @@
   "achievement_done": "Thành tựu",
   "add_habit": "Add Habit",
   "progress_section": "Quá trình",
+  "current_progress": "Tiến độ hiện tại",
   "duration_title": "Thời gian thực hiện",
   "target_title": "Mục tiêu",
   "on_your_way": "Bạn đã đi được {value}% chặng đường",
   "mark_as_done": "Đã thực hiện",
   "mark_as_pause": "Tạm dừng",
+
+  "habit_status_failed": "Thất bại",
+  "habit_status_in_progress": "Đang thực hiện",
+  "habit_status_paused": "Tạm dừng",
+  "habit_status_skipped": "Bỏ qua",
+  "habit_status_achieved": "Đạt được",
+  "habit_status_pending": "Chờ xử lý",
+  "habit_status_unknown": "Không xác định",
+
+
+  "habit_failure_reason_lack_of_time": "Thiếu thời gian",
+  "habit_failure_reason_lack_of_motivation": "Thiếu động lực",
+  "habit_failure_reason_health_issues": "Vấn đề sức khỏe",
+  "habit_failure_reason_unexpected_events": "Sự kiện bất ngờ",
+  "habit_failure_reason_forgetfulness": "Hay quên",
+  "habit_failure_reason_too_difficult": "Quá khó khăn",
+  "habit_failure_reason_lack_of_resources": "Thiếu tài nguyên",
+  "habit_failure_reason_procrastination": "Trì hoãn",
+  "habit_failure_reason_external_distractions": "Phân tâm bên ngoài",
+  "habit_failure_reason_other": "Khác",
+  "habit_failure_reason_unknown": "Không xác định",
+
+  "habit_pause_reason_lack_of_time": "Thiếu thời gian",
+  "habit_pause_reason_lack_of_motivation": "Thiếu động lực",
+  "habit_pause_reason_health_issues": "Vấn đề sức khỏe",
+  "habit_pause_reason_unexpected_events": "Sự kiện bất ngờ",
+  "habit_pause_reason_need_for_rest": "Cần nghỉ ngơi",
+  "habit_pause_reason_reassessment": "Đánh giá lại",
+  "habit_pause_reason_other": "Khác",
+  "habit_pause_reason_unknown": "Không xác định",
+
+  "habit_category_health": "Sức khỏe",
+  "habit_category_learning": "Học tập",
+  "habit_category_productivity": "Năng suất",
+  "habit_category_mindfulness": "Chánh niệm",
+  "habit_category_lifestyle": "Phong cách sống",
+  "habit_category_nutrition": "Dinh dưỡng",
+  "habit_category_social": "Xã hội",
+  "habit_category_finance": "Tài chính",
+  "habit_category_creativity": "Sáng tạo",
+  "habit_category_environmental": "Môi trường",
+  "habit_category_unknown": "Không xác định",
 
   "tracker_section": "Theo dõi",
   "add_water_button": "Thêm 250ML",
@@ -153,12 +210,14 @@
   "pause_statistic_page": "Tạm ngưng",
   "achieved_statistic_page": "Đã đạt được",
   "failed_statistic_page": "Thất bại",
+  "miss_title": "Bỏ lỡ",
   "total_habit": "Tất cả các thói quen",
   "active_habit": "Các thói quen đang thực hiện",
   "failed_habit": "Các thói quen đã thất bại",
   "achieved_habit": "Các thói quen đã đạt được",
   "paused_habit": "Các thói quen đang tạm dừng",
   "in_progress_habit": "Các thói quen đang thực hiện",
+  "same_type_habit": "Các thói quen cùng loại",
   "total_achievement": "{count, plural, =0 {Chưa có thành tựu nào} =1 {1 thành tựu} other {{count} thành tựu}}",
   "@total_achievement": {
     "description": "Các thành tựu đạt được",
@@ -173,8 +232,12 @@
       "count": { "type": "int", "example": "42" }
     }
   },
+  "total_paused_time": "Tổng số thời gian tạm ngưng",
   "overall_completion_rate": "Tổng tỉ lệ hoàn thành",
+  "avg_time": "Thời gian trung bình",
   "completion_rate": "Tỉ lệ hoàn thành",
+  "failed_rate": "Tỉ lệ thất bại",
+  "category_based_completion_rate": "Tỉ lệ hoàn thành theo danh mục",
   "category_distribution": "Phân bố theo danh mục",
   "habit_status_distribution": "Phân bố theo trạng thái",
   "time_based_progress": "Quá trình theo thời gian",
@@ -198,7 +261,7 @@
       "percentageValue": { "type": "int" }
     }
   },
-  "achieved": "{count, plural, =0 {Đạt đuược: 0} =1 {Đã đạt được: 1} other {Đã đạt được: {count}}}",
+  "achieved": "{count, plural, =0 {Đạt đuược: 0} =1 {Đạt được: 1} other {Đạt được: {count}}}",
   "@achieved": {
     "placeholders": {
       "count": { "type": "int" }
@@ -221,5 +284,22 @@
     "placeholders": {
       "count": { "type": "int" }
     }
-  }
+  },
+  "overall_progress": "Tiến độ: {count}/{total} {time}",
+  "@overall_progress": {
+    "placeholders": {
+      "count": { "type": "int", "description": "Số lượng hoàn thành" },
+      "total": { "type": "int", "description": "Tổng số lượng" },
+      "time": { "type": "String", "description": "Đơn vị thời gian, mặc định là 'ngày' nếu không được cung cấp" }
+    },
+    "description": "Chuỗi hiển thị tiến độ hoàn thành với đơn vị thời gian. Nếu không có 'time', mặc định sẽ là 'ngày'."
+  },
+  "show_all_figure_button": "Hiển thị các số liệu",
+  "most_reason": "Nguyên nhân chủ yếu",
+  "best_time": "Khoảng thời gian tốt nhất",
+  "time_slot_heatmap": "Biểu đồ thời gian trong ngày",
+  "habit_day_performance": "Hiệu suất các ngày trong tuần",
+  "weekly_mood": "Tâm trạng trong tuần",
+  "most_mood": "Tâm trạng xuất hiện nhiều nhất",
+  "mood_distribution": "Phân bố tâm trạng"
 }

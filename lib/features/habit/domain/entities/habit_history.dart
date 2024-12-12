@@ -7,7 +7,8 @@ class HabitHistory extends Equatable {
   final String id;
   final String habitId;
   final DateTime date;
-  final String status;
+  final String executionStatus;
+  final String overallStatus;
 
   final DateTime? startTime;
   final DateTime? endTime;
@@ -25,7 +26,8 @@ class HabitHistory extends Equatable {
     required this.id,
     required this.habitId,
     required this.date,
-    required this.status,
+    required this.executionStatus,
+    required this.overallStatus,
     this.startTime,
     this.endTime,
     this.duration,
@@ -44,7 +46,8 @@ class HabitHistory extends Equatable {
     DateTime? date,
     DateTime? completedAt,
     bool? isCompleted,
-    String? status,
+    String? executionStatus,
+    String? overallStatus,
     ValueGetter<DateTime?>? startTime,
     ValueGetter<DateTime?>? endTime,
     ValueGetter<Duration?>? duration,
@@ -59,7 +62,8 @@ class HabitHistory extends Equatable {
       id: id ?? this.id,
       habitId: habitId ?? this.habitId,
       date: date ?? this.date,
-      status: status ?? this.status,
+      executionStatus: executionStatus ?? this.executionStatus,
+      overallStatus: overallStatus ?? this.overallStatus,
       startTime: startTime != null ? startTime() : this.startTime,
       endTime: endTime != null ? endTime() : this.endTime,
       duration: duration != null ? duration() : this.duration,
@@ -78,7 +82,8 @@ class HabitHistory extends Equatable {
       id,
       habitId,
       date,
-      status,
+      executionStatus,
+      overallStatus,
       startTime,
       endTime,
       duration,

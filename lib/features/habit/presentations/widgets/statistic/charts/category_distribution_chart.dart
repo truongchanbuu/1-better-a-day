@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import '../../../../../../core/constants/app_color.dart';
 import '../../../../../../core/constants/app_common.dart';
 import '../../../../../../core/constants/app_spacing.dart';
+import '../../../../../../core/extensions/num_extension.dart';
 import '../../../../../../core/extensions/string_extension.dart';
 import '../../../../../../generated/l10n.dart';
 import 'chart_color_note.dart';
@@ -19,16 +20,16 @@ class CategoryDistributionChart extends StatelessWidget {
     return Column(
       children: [
         AspectRatio(
-          aspectRatio: 2,
+          aspectRatio: 1.4,
           child: BarChart(
             duration: AppCommons.chartDuration,
             BarChartData(
               barGroups: _buildBarGroups(),
-              titlesData: _buildTilesData(),
+              titlesData: _buildTitlesData(),
               barTouchData: BarTouchData(
                 touchTooltipData: BarTouchTooltipData(
                   getTooltipItem: _buildToolTipItem,
-                  getTooltipColor: (group) => Colors.indigo,
+                  getTooltipColor: (group) => AppColors.graphTooltipColor,
                   fitInsideVertically: true,
                   fitInsideHorizontally: true,
                 ),
@@ -37,7 +38,15 @@ class CategoryDistributionChart extends StatelessWidget {
           ),
         ),
         const SizedBox(height: AppSpacing.marginL),
-        const ChartColorNote(),
+        ChartColorNote(items: [
+          ColorNoteItem(
+              color: AppColors.success, title: S.current.achieved_habit),
+          ColorNoteItem(color: AppColors.error, title: S.current.failed_habit),
+          ColorNoteItem(
+              color: AppColors.warning, title: S.current.paused_habit),
+          ColorNoteItem(
+              color: AppColors.primary, title: S.current.in_progress_habit),
+        ]),
       ],
     );
   }
@@ -45,7 +54,6 @@ class CategoryDistributionChart extends StatelessWidget {
   List<BarChartGroupData> _buildBarGroups() {
     return categories.asMap().entries.map((data) {
       int index = data.key;
-
       final [total, achieved, failed, paused] = getHabitFigures();
 
       return BarChartGroupData(
@@ -69,7 +77,7 @@ class CategoryDistributionChart extends StatelessWidget {
     }).toList();
   }
 
-  FlTitlesData _buildTilesData() {
+  FlTitlesData _buildTitlesData() {
     return const FlTitlesData(
       topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
       rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
@@ -93,7 +101,7 @@ class CategoryDistributionChart extends StatelessWidget {
     final inProgress = total - (achieved + failed + paused);
 
     return BarTooltipItem(
-      '${categories[groupIndex].toUpperCaseFirstLetter}: ${total.toStringAsFixed(0)}',
+      '${categories[groupIndex].toUpperCaseFirstLetter}: ${total.toStringAsFixedWithoutZero(0)}',
       const TextStyle(
         color: AppColors.lightText,
         fontWeight: FontWeight.bold,

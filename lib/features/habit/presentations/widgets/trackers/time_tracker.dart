@@ -3,7 +3,7 @@ import 'package:neon_circular_timer/neon_circular_timer.dart';
 
 import '../../../../../core/constants/app_spacing.dart';
 import '../../../../../core/helpers/duration_helper.dart';
-import '../../../domain/enitites/goal_unit.dart';
+import '../../../domain/entities/goal_unit.dart';
 
 class TimeTracker extends StatefulWidget {
   final GoalUnit? goalUnit;

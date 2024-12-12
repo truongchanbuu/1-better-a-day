@@ -1,4 +1,4 @@
-import '../../features/habit/domain/enitites/goal_unit.dart';
+import '../../features/habit/domain/entities/goal_unit.dart';
 
 class DurationHelper {
   static Duration? getDurationFromGoalUnit(double value, GoalUnit? unit) {
