@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bounce/flutter_bounce.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:page_transition/page_transition.dart';
 
 import '../../../../core/constants/app_color.dart';
 import '../../../../core/constants/app_common.dart';
@@ -11,6 +12,7 @@ import '../../../../generated/l10n.dart';
 import '../widgets/habit_list.dart';
 import '../widgets/search_filter/habit_search_filter_bar.dart';
 import '../widgets/habit_section_container.dart';
+import 'habit_statistic_page.dart';
 
 class AllHabitsPage extends StatefulWidget {
   const AllHabitsPage({super.key});
@@ -49,7 +51,7 @@ class _AllHabitsPageState extends State<AllHabitsPage> {
                         S.current.habits(10),
                         style: const TextStyle(fontStyle: FontStyle.italic),
                       ),
-                      onTap: () {},
+                      onTap: _showStatisticPage,
                       contentPadding: EdgeInsets.zero,
                       trailing: const Icon(
                         FontAwesomeIcons.chevronRight,
@@ -165,6 +167,15 @@ class _AllHabitsPageState extends State<AllHabitsPage> {
         ),
       ),
     );
+  }
+
+  void _showStatisticPage() {
+    Navigator.push(
+        context,
+        PageTransition(
+          child: const HabitStatisticPage(),
+          type: PageTransitionType.leftToRight,
+        ));
   }
 }
 

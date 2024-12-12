@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/constants/app_font_size.dart';
 import '../../../../core/constants/app_spacing.dart';
-import '../../../../core/enums/day_status.dart';
-import '../../../../core/enums/habit_status.dart';
-import '../../../../core/enums/mood.dart';
+import '../../../../core/enums/habit/day_status.dart';
+import '../../../../core/enums/habit/habit_status.dart';
+import '../../../../core/enums/habit/mood.dart';
 import '../../../../core/extensions/string_extension.dart';
 import '../../../../core/helpers/date_time_helper.dart';
 import '../../../../generated/l10n.dart';

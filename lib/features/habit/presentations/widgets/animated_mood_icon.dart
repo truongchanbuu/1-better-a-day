@@ -2,7 +2,7 @@ import 'package:animated_emoji/animated_emoji.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../../../../core/enums/mood.dart';
+import '../../../../core/enums/habit/mood.dart';
 
 class AnimatedMoodIcon extends StatelessWidget {
   final Mood mood;

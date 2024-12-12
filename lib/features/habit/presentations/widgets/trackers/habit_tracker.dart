@@ -6,8 +6,8 @@ import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
 
 import '../../../../../core/constants/app_color.dart';
 import '../../../../../core/constants/app_spacing.dart';
-import '../../../../../core/enums/day_status.dart';
-import '../../../../../core/enums/goal_type.dart';
+import '../../../../../core/enums/habit/day_status.dart';
+import '../../../../../core/enums/habit/goal_type.dart';
 import '../../../../../core/extensions/context_extension.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../injection_container.dart';

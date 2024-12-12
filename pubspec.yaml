@@ -99,6 +99,7 @@ dependencies:
   buttons_tabbar: ^1.3.14
   toggle_switch: ^2.3.0
   fl_heatmap: ^0.4.5
+  flutter_swipe_action_cell: ^3.1.5
 
   # Form
   formz: ^0.8.0

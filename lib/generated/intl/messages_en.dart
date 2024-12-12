@@ -55,7 +55,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m10(count) => "Total: ${count}";
 
   static String m11(count) =>
-      "${Intl.plural(count, zero: 'No achievements', one: '1 achievement', other: '${count} achievements')}";
+      "${Intl.plural(count, zero: 'No Achievements', one: '1 Achievement', other: '${count} Achievements')}";
 
   static String m12(count) =>
       "${Intl.plural(count, zero: 'No Streak', one: '1 Streak', other: '${count} Streaks')}";
@@ -262,7 +262,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("No Date Selected"),
         "not_allow_track": MessageLookupByLibrary.simpleMessage(
             "We don\'t have permission to track your distance"),
+        "notification_screen_title":
+            MessageLookupByLibrary.simpleMessage("Keep your habits on track!"),
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
+        "notify_at": MessageLookupByLibrary.simpleMessage("Notify at:"),
         "on_your_way": m7,
         "operation_not_allowed": MessageLookupByLibrary.simpleMessage(
             "Operation is not allowed. Please contact support."),

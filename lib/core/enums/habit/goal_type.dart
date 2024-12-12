@@ -1,4 +1,4 @@
-import '../helpers/enum_helper.dart';
+import '../../helpers/enum_helper.dart';
 
 enum GoalType {
   completion,

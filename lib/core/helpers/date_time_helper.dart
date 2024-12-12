@@ -1,9 +1,7 @@
 import 'package:intl/intl.dart';
 
 import '../../features/habit/domain/entities/habit_history.dart';
-import '../enums/day_status.dart';
-import 'setting_helper.dart';
-import 'setting_helper.dart';
+import '../enums/habit/day_status.dart';
 
 class DateTimeHelper {
   // General

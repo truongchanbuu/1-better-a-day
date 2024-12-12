@@ -5,7 +5,12 @@ import '../../../../core/constants/app_color.dart';
 import '../../../../core/constants/app_font_size.dart';
 import '../../../../core/constants/app_spacing.dart';
 import '../../../../generated/l10n.dart';
+import '../widgets/statistic/achieved_statistic.dart';
 import '../widgets/statistic/current_statistic.dart';
+import '../widgets/statistic/failed_statistic.dart';
+import '../widgets/statistic/general_statistic.dart';
+import '../widgets/statistic/in_progress_statistic.dart';
+import '../widgets/statistic/paused_statistic.dart';
 import '../widgets/statistic/statistic_habit_list.dart';
 import 'habit_detail_page.dart';
 
@@ -98,16 +103,16 @@ class _HabitStatisticPageState extends State<HabitStatisticPage> {
 
   Widget _buildStatistics() {
     switch (_selectedPageKey) {
-      // case allPageKey:
-      //   return const GeneralStatistics();
-      // case achievedPageKey:
-      //   return const AchievedStatistic();
-      // case failedPageKey:
-      //   return const FailedStatistic();
-      // case pausePageKey:
-      //   return const PausedStatistic();
-      // case activePageKey:
-      //   return const InProgressStatistic();
+      case allPageKey:
+        return const GeneralStatistics();
+      case achievedPageKey:
+        return const AchievedStatistic();
+      case failedPageKey:
+        return const FailedStatistic();
+      case pausePageKey:
+        return const PausedStatistic();
+      case activePageKey:
+        return const InProgressStatistic();
       default:
         return const CurrentStatistic();
     }

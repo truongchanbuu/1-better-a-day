@@ -1763,13 +1763,13 @@ class S {
     );
   }
 
-  /// `{count, plural, =0 {No achievements} =1 {1 achievement} other {{count} achievements}}`
+  /// `{count, plural, =0 {No Achievements} =1 {1 Achievement} other {{count} Achievements}}`
   String total_achievement(int count) {
     return Intl.plural(
       count,
-      zero: 'No achievements',
-      one: '1 achievement',
-      other: '$count achievements',
+      zero: 'No Achievements',
+      one: '1 Achievement',
+      other: '$count Achievements',
       name: 'total_achievement',
       desc: 'Total number of achievements',
       args: [count],
@@ -2096,6 +2096,26 @@ class S {
     return Intl.message(
       'Reminder',
       name: 'reminder_section',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Keep your habits on track!`
+  String get notification_screen_title {
+    return Intl.message(
+      'Keep your habits on track!',
+      name: 'notification_screen_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notify at:`
+  String get notify_at {
+    return Intl.message(
+      'Notify at:',
+      name: 'notify_at',
       desc: '',
       args: [],
     );

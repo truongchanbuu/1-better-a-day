@@ -7,7 +7,7 @@ import '../../../../../core/constants/app_color.dart';
 import '../../../../../core/constants/app_common.dart';
 import '../../../../../core/constants/app_font_size.dart';
 import '../../../../../core/constants/app_spacing.dart';
-import '../../../../../core/enums/goal_type.dart';
+import '../../../../../core/enums/habit/goal_type.dart';
 import '../../../../../core/extensions/num_extension.dart';
 import '../../../../../core/extensions/string_extension.dart';
 import '../../../../../generated/l10n.dart';

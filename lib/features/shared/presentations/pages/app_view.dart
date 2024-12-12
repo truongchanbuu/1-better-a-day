@@ -36,6 +36,7 @@ class _AppViewState extends State<AppView> {
             appBarPadding: EdgeInsets.zero,
             appBarColor: AppColors.primary,
             drawerIconColor: AppColors.lightText,
+            trailing: _currentTab.trailing,
             title: Text(
               _currentTab.title,
               locale: context

@@ -1,4 +1,4 @@
-import '../../../../core/enums/mood.dart';
+import '../../../../core/enums/habit/mood.dart';
 
 class MoodEntry {
   final DateTime date;

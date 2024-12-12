@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../../../core/constants/app_color.dart';
-import '../../../../../../core/enums/habit_category.dart';
+import '../../../../../../core/enums/habit/habit_category.dart';
 import '../../../../../../generated/l10n.dart';
 import '../../../pages/habit_statistic_page.dart';
 import 'category_based_completion_rate_bar.dart';

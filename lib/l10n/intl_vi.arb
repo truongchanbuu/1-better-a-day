@@ -305,5 +305,9 @@
   "most_mood": "Tâm trạng xuất hiện nhiều nhất",
   "mood_distribution": "Phân bố tâm trạng",
 
-  "reminder_section": "Nhắc nhở"
+  "reminder_section": "Nhắc nhở",
+
+
+  "@__NOTIFICATION__": "",
+  "notification_screen_title": "Giữ vững thói quen của bạn!"
 }

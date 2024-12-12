@@ -9,13 +9,13 @@ import '../../../../core/constants/app_color.dart';
 import '../../../../core/constants/app_common.dart';
 import '../../../../core/constants/app_font_size.dart';
 import '../../../../core/constants/app_spacing.dart';
-import '../../../../core/enums/day_status.dart';
-import '../../../../core/enums/goal_type.dart';
-import '../../../../core/enums/habit_category.dart';
-import '../../../../core/enums/habit_frequency.dart';
-import '../../../../core/enums/habit_icon.dart';
-import '../../../../core/enums/habit_status.dart';
-import '../../../../core/enums/habit_time_of_day.dart';
+import '../../../../core/enums/habit/day_status.dart';
+import '../../../../core/enums/habit/goal_type.dart';
+import '../../../../core/enums/habit/habit_category.dart';
+import '../../../../core/enums/habit/habit_frequency.dart';
+import '../../../../core/enums/habit/habit_icon.dart';
+import '../../../../core/enums/habit/habit_status.dart';
+import '../../../../core/enums/habit/habit_time_of_day.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/string_extension.dart';
 import '../../../../core/helpers/date_time_helper.dart';
@@ -85,8 +85,7 @@ class HabitDetailPage extends StatelessWidget {
                       color: context.isDarkMode
                           ? AppColors.primaryDark
                           : AppColors.primary,
-                      // borderRadius:
-                      //     BorderRadius.circular(AppSpacing.circleRadius),
+                      borderRadius: BorderRadius.circular(AppSpacing.radiusS),
                     ),
                     padding: const EdgeInsets.all(AppSpacing.paddingS),
                     margin: const EdgeInsets.symmetric(

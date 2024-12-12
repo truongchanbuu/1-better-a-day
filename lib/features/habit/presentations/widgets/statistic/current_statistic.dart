@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../../core/constants/app_color.dart';
 import '../../../../../core/constants/app_spacing.dart';
-import '../../../../../core/enums/mood.dart';
+import '../../../../../core/enums/habit/mood.dart';
 import '../../../../../core/extensions/string_extension.dart';
 import '../../../../../core/helpers/date_time_helper.dart';
 import '../../../../../generated/l10n.dart';

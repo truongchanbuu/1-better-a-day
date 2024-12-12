@@ -2,7 +2,7 @@ import 'package:animated_emoji/animated_emoji.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../helpers/enum_helper.dart';
+import '../../helpers/enum_helper.dart';
 
 enum Mood {
   great,

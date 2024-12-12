@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 
 import '../../../../../config/log/app_logger.dart';
-import '../../../../../core/enums/tracking_status.dart';
+import '../../../../../core/enums/habit/tracking_status.dart';
 import '../../../../../core/helpers/permission_helper.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../injection_container.dart';

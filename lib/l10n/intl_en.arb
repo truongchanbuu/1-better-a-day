@@ -219,7 +219,7 @@
   "paused_habit": "Paused Habit",
   "same_type_habit": "Same Habit",
   "in_progress_habit": "In Progress Habit",
-  "total_achievement": "{count, plural, =0 {No achievements} =1 {1 achievement} other {{count} achievements}}",
+  "total_achievement": "{count, plural, =0 {No Achievements} =1 {1 Achievement} other {{count} Achievements}}",
   "@total_achievement": {
     "description": "Total number of achievements",
     "placeholders": {
@@ -304,5 +304,9 @@
   "most_mood": "Most Mood",
   "mood_distribution": "Mood Distribution",
 
-  "reminder_section": "Reminder"
+  "reminder_section": "Reminder",
+
+  "@__NOTIFICATION__": "",
+  "notification_screen_title": "Keep your habits on track!",
+  "notify_at": "Notify at:"
 }

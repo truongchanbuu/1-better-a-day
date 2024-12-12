@@ -8,7 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../../../core/constants/app_color.dart';
 import '../../../../../core/constants/app_common.dart';
 import '../../../../../core/constants/app_spacing.dart';
-import '../../../../../core/enums/habit_category.dart';
+import '../../../../../core/enums/habit/habit_category.dart';
 import '../../../../../generated/l10n.dart';
 import '../../pages/habit_statistic_page.dart';
 import 'charts/category_distribution_chart.dart';

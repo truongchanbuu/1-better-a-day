@@ -278,6 +278,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Chưa ngày nào được chọn"),
         "not_allow_track": MessageLookupByLibrary.simpleMessage(
             "Chúng tôi không được cấp quyền để theo dõi quãng đường di chuyển của bạn"),
+        "notification_screen_title":
+            MessageLookupByLibrary.simpleMessage("Giữ vững thói quen của bạn!"),
         "notifications": MessageLookupByLibrary.simpleMessage("Thông báo"),
         "on_your_way": m7,
         "operation_not_allowed": MessageLookupByLibrary.simpleMessage(
