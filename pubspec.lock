@@ -38,6 +38,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.0"
+  animated_react_button:
+    dependency: "direct main"
+    description:
+      name: animated_react_button
+      sha256: cdfa4acae9ba258956aac4c21e4bdcab757be386280e225e61632df974db5579
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.4"
   animated_switcher_plus:
     dependency: "direct main"
     description:
@@ -286,6 +294,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.18.0"
+  colorful_iconify_flutter:
+    dependency: "direct main"
+    description:
+      name: colorful_iconify_flutter
+      sha256: "3f9ee56343bfc7a48c41b4abb97b6fbb4e97ce017c6174a85898a3b709b881d7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.5"
   convert:
     dependency: transitive
     description:
@@ -690,6 +706,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.3.3"
+  google_nav_bar:
+    dependency: "direct main"
+    description:
+      name: google_nav_bar
+      sha256: bb12dd21514ee1b041ab3127673e2fd85e693337df308f7f2b75cd1e8e92eaf4
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.7"
   google_sign_in:
     dependency: "direct main"
     description:
@@ -794,6 +818,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  iconify_flutter_plus:
+    dependency: "direct main"
+    description:
+      name: iconify_flutter_plus
+      sha256: "6a7568746a16de5e1c02a0d350580e4d24749cc2f675bb236d19d5a862b1a79f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.4"
   infinite_listview:
     dependency: transitive
     description:

@@ -118,6 +118,6 @@ class _EmailReAuthPageState extends State<EmailReAuthPage> {
   }
 
   void _unShowKeyboard() {
-    FocusManager.instance.primaryFocus?.unfocus();
+    _focusNode.unfocus();
   }
 }

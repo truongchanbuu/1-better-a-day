@@ -7,6 +7,7 @@ import '../../../../core/constants/app_color.dart';
 import '../../../../core/constants/app_font_size.dart';
 import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/enums/reminder/reminder_status.dart';
+import '../../../../core/extensions/context_extension.dart';
 import '../../../../generated/l10n.dart';
 import '../../domain/entities/reminder_entity.dart';
 import '../widgets/reminder_item.dart';
@@ -18,7 +19,9 @@ class NotificationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: AppColors.grayBackgroundColor,
+        backgroundColor: context.isDarkMode
+            ? AppColors.primaryDark
+            : AppColors.grayBackgroundColor,
         body: SingleChildScrollView(
           child: Column(
             children: [

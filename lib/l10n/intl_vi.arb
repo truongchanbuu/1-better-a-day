@@ -75,6 +75,7 @@
   "passwords_do_not_match": "Mật khẩu không trùng khớp",
 
   "@__DRAWER__": "",
+  "today": "Hôm nay",
   "settings": "Cài đặt",
   "notifications": "Thông báo",
   "all_habits": "Tất cả thói quen",
@@ -306,8 +307,52 @@
   "mood_distribution": "Phân bố tâm trạng",
 
   "reminder_section": "Nhắc nhở",
-
+  "add_reminder": "Thêm lịch nhắc nhở",
 
   "@__NOTIFICATION__": "",
-  "notification_screen_title": "Giữ vững thói quen của bạn!"
+  "notification_screen_title": "Giữ vững thói quen của bạn!",
+
+  "@__TODAY__": "",
+  "default_greeting": "Chào",
+  "morning_greeting": "Chào buổi sáng",
+  "afternoon_greeting": "Chào buổi trưa",
+  "evening_greeting": "Chào buổi chiểu",
+  "night_greeting": "Chào buổi tối",
+
+  "habit_quote_1": "Có công mài sắt, có ngày nên kim",
+  "habit_quote_2": "Có chí thì nên",
+  "habit_quote_3": "Tích tiểu thành đại",
+  "habit_quote_4": "Chớ thấy sóng cả mà ngã tay chèo",
+  "habit_quote_5": "Mưa dầm thấm lâu, mưa lâu thấm đất",
+
+  "@__CHALLENGE__": "",
+  "discover_tab": "Khám phá thêm những thử thách mới",
+  "my_custom_challenge_tab": "Được tạo bởi tôi",
+  "my_reward_tab": "Phần thưởng",
+  "search_community_challenge": "Tìm kiếm những thử thách từ cộng đồng...",
+  "search_my_custom_challenge": "Tìm kiếm những thử thách của tôi...",
+  "attendance_button": "Tham gia thử thách",
+  "participant": "{count, plural, =0 {Chưa có người tham gia} =1 {1 người tham gia} other {{count} người tham gia}}",
+  "@participant":{
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+
+  "completion": "{count, plural, =0 {Chưa có người hoàn thành} =1 {1 người hoàn thành} other {{count} người hoàn thành}}",
+  "@completion":{
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "create_new_challenge": "Tạo những thử thách mới",
+  "search_achievement": "Tìm kiếm thành tựu bạn đã đạt được...",
+  "all_achievements_tab": "Tất cả các thành tựu đã đạt được",
+  "collection_tab": "Bộ sưu tập",
+  "personal_achievements": "Thành tựu cá nhân",
+  "community_challenges": "Thử thách cộng đồng"
 }

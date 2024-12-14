@@ -10,6 +10,7 @@ import '../../../../../core/constants/app_common.dart';
 import '../../../../../core/constants/app_spacing.dart';
 import '../../../../../core/enums/habit/habit_category.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../../shared/domain/entities/tab_bar_item.dart';
 import '../../pages/habit_statistic_page.dart';
 import 'charts/category_distribution_chart.dart';
 import 'charts/chart_tab_bar.dart';
@@ -27,12 +28,18 @@ class GeneralStatistics extends StatefulWidget {
 class _GeneralStatisticsState extends State<GeneralStatistics> {
   bool _isTotalDetailShown = true;
 
-  final Map<String, IconData> tabData = {
-    S.current.completion_rate: FontAwesomeIcons.chartBar,
-    S.current.category_distribution: FontAwesomeIcons.tags,
-    S.current.category_based_completion_rate: FontAwesomeIcons.table,
-    S.current.habit_status_distribution: FontAwesomeIcons.chartPie,
-  };
+  final List<TabBarItem> tabData = [
+    TabBarItem(
+        title: S.current.completion_rate, icon: FontAwesomeIcons.chartBar),
+    TabBarItem(
+        title: S.current.category_distribution, icon: FontAwesomeIcons.tags),
+    TabBarItem(
+        title: S.current.category_based_completion_rate,
+        icon: FontAwesomeIcons.table),
+    TabBarItem(
+        title: S.current.habit_status_distribution,
+        icon: FontAwesomeIcons.chartPie),
+  ];
 
   List<Widget> get _getCurrentGraph => const [
         _CompletionBarChart(),

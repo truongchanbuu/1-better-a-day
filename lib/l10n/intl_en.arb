@@ -75,9 +75,11 @@
   "passwords_do_not_match": "Password does not match",
 
   "@__DRAWER__": "",
+  "today": "Today",
   "settings": "Settings",
   "notifications": "Notifications",
   "all_habits": "All Habits",
+  "challenges_screen": "Challenges",
 
   "@__SETTING__": "",
   "general_section": "General",
@@ -305,8 +307,52 @@
   "mood_distribution": "Mood Distribution",
 
   "reminder_section": "Reminder",
+  "add_reminder": "Add reminder",
 
   "@__NOTIFICATION__": "",
   "notification_screen_title": "Keep your habits on track!",
-  "notify_at": "Notify at:"
+  "notify_at": "Notify at:",
+
+  "@__TODAY__": "",
+  "default_greeting": "Greetings",
+  "morning_greeting": "Good morning",
+  "afternoon_greeting": "Good Afternoon",
+  "evening_greeting": "Good Evening",
+  "night_greeting": "Good night",
+
+  "habit_quote_1": "A habit cannot be tossed out the window; it must be coaxed down the stairs a step at a time",
+  "habit_quote_2": "And once you understand that habits can change, you have the freedom and the responsibility to remake them",
+  "habit_quote_3": "Discipline is choosing between what you want now and what you want most",
+  "habit_quote_4": "Drop by drop is the water pot filled",
+  "habit_quote_5": "Success is the sum of small efforts repeated day in and day out",
+
+  "@__CHALLENGE__": "",
+  "discover_tab": "Discover",
+  "my_custom_challenge_tab": "My Custom Challenges",
+  "my_reward_tab": "My Rewards",
+  "search_community_challenge": "Search for community challenge...",
+  "search_my_custom_challenge": "Search my challenges...",
+  "attendance_button": "Start this Challenge",
+  "participant": "{count, plural, =0 {No participant} =1 {1 participant} other {{count} participants}}",
+  "@participant":{
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "completion": "{count, plural, =0 {No completion} =1 {1 completion} other {{count} completions}}",
+  "@completion":{
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "create_new_challenge": "Create your own challenge",
+  "search_achievement": "Search your achievements...",
+  "all_achievements_tab": "All Achievements",
+  "collection_tab": "Collections",
+  "personal_achievements": "Personal Achievements",
+  "community_challenges": "Community Challenges"
 }

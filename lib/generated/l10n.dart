@@ -630,6 +630,16 @@ class S {
     );
   }
 
+  /// `Today`
+  String get today {
+    return Intl.message(
+      'Today',
+      name: 'today',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Settings`
   String get settings {
     return Intl.message(
@@ -655,6 +665,16 @@ class S {
     return Intl.message(
       'All Habits',
       name: 'all_habits',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Challenges`
+  String get challenges_screen {
+    return Intl.message(
+      'Challenges',
+      name: 'challenges_screen',
       desc: '',
       args: [],
     );
@@ -2101,6 +2121,16 @@ class S {
     );
   }
 
+  /// `Add reminder`
+  String get add_reminder {
+    return Intl.message(
+      'Add reminder',
+      name: 'add_reminder',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Keep your habits on track!`
   String get notification_screen_title {
     return Intl.message(
@@ -2116,6 +2146,252 @@ class S {
     return Intl.message(
       'Notify at:',
       name: 'notify_at',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Greetings`
+  String get default_greeting {
+    return Intl.message(
+      'Greetings',
+      name: 'default_greeting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Good morning`
+  String get morning_greeting {
+    return Intl.message(
+      'Good morning',
+      name: 'morning_greeting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Good Afternoon`
+  String get afternoon_greeting {
+    return Intl.message(
+      'Good Afternoon',
+      name: 'afternoon_greeting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Good Evening`
+  String get evening_greeting {
+    return Intl.message(
+      'Good Evening',
+      name: 'evening_greeting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Good night`
+  String get night_greeting {
+    return Intl.message(
+      'Good night',
+      name: 'night_greeting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `A habit cannot be tossed out the window; it must be coaxed down the stairs a step at a time`
+  String get habit_quote_1 {
+    return Intl.message(
+      'A habit cannot be tossed out the window; it must be coaxed down the stairs a step at a time',
+      name: 'habit_quote_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `And once you understand that habits can change, you have the freedom and the responsibility to remake them`
+  String get habit_quote_2 {
+    return Intl.message(
+      'And once you understand that habits can change, you have the freedom and the responsibility to remake them',
+      name: 'habit_quote_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Discipline is choosing between what you want now and what you want most`
+  String get habit_quote_3 {
+    return Intl.message(
+      'Discipline is choosing between what you want now and what you want most',
+      name: 'habit_quote_3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Drop by drop is the water pot filled`
+  String get habit_quote_4 {
+    return Intl.message(
+      'Drop by drop is the water pot filled',
+      name: 'habit_quote_4',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Success is the sum of small efforts repeated day in and day out`
+  String get habit_quote_5 {
+    return Intl.message(
+      'Success is the sum of small efforts repeated day in and day out',
+      name: 'habit_quote_5',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Discover`
+  String get discover_tab {
+    return Intl.message(
+      'Discover',
+      name: 'discover_tab',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `My Custom Challenges`
+  String get my_custom_challenge_tab {
+    return Intl.message(
+      'My Custom Challenges',
+      name: 'my_custom_challenge_tab',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `My Rewards`
+  String get my_reward_tab {
+    return Intl.message(
+      'My Rewards',
+      name: 'my_reward_tab',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search for community challenge...`
+  String get search_community_challenge {
+    return Intl.message(
+      'Search for community challenge...',
+      name: 'search_community_challenge',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search my challenges...`
+  String get search_my_custom_challenge {
+    return Intl.message(
+      'Search my challenges...',
+      name: 'search_my_custom_challenge',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start this Challenge`
+  String get attendance_button {
+    return Intl.message(
+      'Start this Challenge',
+      name: 'attendance_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{count, plural, =0 {No participant} =1 {1 participant} other {{count} participants}}`
+  String participant(int count) {
+    return Intl.plural(
+      count,
+      zero: 'No participant',
+      one: '1 participant',
+      other: '$count participants',
+      name: 'participant',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `{count, plural, =0 {No completion} =1 {1 completion} other {{count} completions}}`
+  String completion(int count) {
+    return Intl.plural(
+      count,
+      zero: 'No completion',
+      one: '1 completion',
+      other: '$count completions',
+      name: 'completion',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Create your own challenge`
+  String get create_new_challenge {
+    return Intl.message(
+      'Create your own challenge',
+      name: 'create_new_challenge',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search your achievements...`
+  String get search_achievement {
+    return Intl.message(
+      'Search your achievements...',
+      name: 'search_achievement',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All Achievements`
+  String get all_achievements_tab {
+    return Intl.message(
+      'All Achievements',
+      name: 'all_achievements_tab',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Collections`
+  String get collection_tab {
+    return Intl.message(
+      'Collections',
+      name: 'collection_tab',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Personal Achievements`
+  String get personal_achievements {
+    return Intl.message(
+      'Personal Achievements',
+      name: 'personal_achievements',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Community Challenges`
+  String get community_challenges {
+    return Intl.message(
+      'Community Challenges',
+      name: 'community_challenges',
       desc: '',
       args: [],
     );

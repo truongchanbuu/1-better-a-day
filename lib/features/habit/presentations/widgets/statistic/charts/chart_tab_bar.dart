@@ -3,9 +3,10 @@ import 'package:buttons_tabbar/buttons_tabbar.dart';
 
 import '../../../../../../core/constants/app_color.dart';
 import '../../../../../../core/constants/app_spacing.dart';
+import '../../../../../shared/domain/entities/tab_bar_item.dart';
 
 class ChartTabBar extends StatefulWidget {
-  final Map<String, IconData> tabData;
+  final List<TabBarItem> tabData;
   final List<Widget> contentWidgets;
   final Map<int, double> heightRatios;
   final Color selectedBackgroundColor;
@@ -67,11 +68,11 @@ class _ChartTabBarState extends State<ChartTabBar>
         height;
   }
 
-  Widget _buildTabWidget(MapEntry<String, IconData> data) {
+  Widget _buildTabWidget(TabBarItem data) {
     return Tab(
-      key: ValueKey(data.key),
-      text: data.key,
-      icon: Icon(data.value),
+      key: ValueKey(data.title),
+      text: data.title,
+      icon: Icon(data.icon),
     );
   }
 
@@ -81,7 +82,7 @@ class _ChartTabBarState extends State<ChartTabBar>
       children: [
         ButtonsTabBar(
           controller: _tabController,
-          tabs: widget.tabData.entries.map(_buildTabWidget).toList(),
+          tabs: widget.tabData.map(_buildTabWidget).toList(),
           labelSpacing: widget.labelSpacing,
           contentCenter: widget.contentCenter,
           contentPadding: widget.contentPadding,

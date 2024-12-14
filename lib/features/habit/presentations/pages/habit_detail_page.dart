@@ -69,7 +69,9 @@ class HabitDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: AppColors.grayBackgroundColor,
+        backgroundColor: context.isDarkMode
+            ? AppColors.primaryDark
+            : AppColors.grayBackgroundColor,
         appBar: _buildAppBar(context),
         body: SingleChildScrollView(
           child: Column(

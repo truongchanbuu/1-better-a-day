@@ -17,7 +17,7 @@ class AppView extends StatefulWidget {
 
 class _AppViewState extends State<AppView> {
   late final GlobalKey<SliderDrawerState> _sliderKey;
-  TabType _currentTab = TabType.notifications;
+  TabType _currentTab = TabType.today;
 
   @override
   void initState() {

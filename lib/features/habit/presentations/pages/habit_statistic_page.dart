@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/constants/app_color.dart';
 import '../../../../core/constants/app_font_size.dart';
 import '../../../../core/constants/app_spacing.dart';
+import '../../../../core/extensions/context_extension.dart';
 import '../../../../generated/l10n.dart';
 import '../widgets/statistic/achieved_statistic.dart';
 import '../widgets/statistic/current_statistic.dart';
@@ -49,7 +50,9 @@ class _HabitStatisticPageState extends State<HabitStatisticPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: AppColors.grayBackgroundColor,
+        backgroundColor: context.isDarkMode
+            ? AppColors.primaryDark
+            : AppColors.grayBackgroundColor,
         appBar: AppBar(title: Text(S.current.statistic_section)),
         body: SingleChildScrollView(
           child: Container(

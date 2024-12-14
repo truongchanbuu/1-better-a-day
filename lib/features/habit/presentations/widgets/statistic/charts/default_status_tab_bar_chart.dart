@@ -4,12 +4,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../../../../core/constants/app_color.dart';
 import '../../../../../../core/enums/habit/habit_category.dart';
 import '../../../../../../generated/l10n.dart';
+import '../../../../../shared/domain/entities/tab_bar_item.dart';
 import '../../../pages/habit_statistic_page.dart';
 import 'category_based_completion_rate_bar.dart';
 import 'chart_tab_bar.dart';
 
 class DefaultStatusTabBarChart extends StatelessWidget {
-  final Map<String, IconData>? tabData;
+  final List<TabBarItem>? tabData;
   final List<Widget>? graphs;
   final double? defaultHeightRatio;
   final Map<int, double> heightRatios;
@@ -28,9 +29,11 @@ class DefaultStatusTabBarChart extends StatelessWidget {
     required this.primaryColorTitle,
   });
 
-  static final Map<String, IconData> defaultTabData = {
-    S.current.category_based_completion_rate: FontAwesomeIcons.chartBar,
-  };
+  static final List<TabBarItem> defaultTabData = [
+    TabBarItem(
+        title: S.current.category_based_completion_rate,
+        icon: FontAwesomeIcons.chartBar),
+  ];
 
   List<Widget> get _getCurrentGraph => [
         _CategoryBasedCompletionRateBar(

@@ -9,6 +9,7 @@ import '../../../../../core/enums/habit/mood.dart';
 import '../../../../../core/extensions/string_extension.dart';
 import '../../../../../core/helpers/date_time_helper.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../../shared/domain/entities/tab_bar_item.dart';
 import '../../../domain/entities/mood_entry.dart';
 import '../../pages/habit_statistic_page.dart';
 import 'charts/chart_tab_bar.dart';
@@ -20,11 +21,12 @@ import 'statistic_item.dart';
 class CurrentStatistic extends StatelessWidget {
   const CurrentStatistic({super.key});
 
-  static final Map<String, IconData> tabData = {
-    S.current.time_slot_heatmap: FontAwesomeIcons.timeline,
-    S.current.weekly_mood: FontAwesomeIcons.calendar,
-    S.current.most_mood: FontAwesomeIcons.chartPie,
-  };
+  static final List<TabBarItem> tabData = [
+    TabBarItem(
+        title: S.current.time_slot_heatmap, icon: FontAwesomeIcons.timeline),
+    TabBarItem(title: S.current.weekly_mood, icon: FontAwesomeIcons.calendar),
+    TabBarItem(title: S.current.most_mood, icon: FontAwesomeIcons.chartPie),
+  ];
 
   @override
   Widget build(BuildContext context) {
