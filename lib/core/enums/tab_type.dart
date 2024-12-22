@@ -11,10 +11,10 @@ import '../constants/app_color.dart';
 
 enum TabType {
   today,
-  notifications,
-  settings,
   habits,
-  challenges;
+  notifications,
+  challenges,
+  settings;
 
   String get title {
     switch (this) {

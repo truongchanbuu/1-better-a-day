@@ -5,7 +5,7 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 
 import '../../../../core/constants/app_color.dart';
 import '../../../../core/constants/app_spacing.dart';
-import '../../../../core/helpers/snack_bar_helper.dart';
+import '../../../../core/helpers/alert_helper.dart';
 import '../../../../generated/l10n.dart';
 import '../../../auth/presentations/bloc/login/login_cubit.dart';
 

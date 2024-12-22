@@ -58,12 +58,21 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m11(count) =>
       "${Intl.plural(count, zero: 'Tạm dừng: 0', one: 'Tạm dừng: 1', other: 'Tạm dừng: ${count}')}";
 
-  static String m12(count) => "Tổng số: ${count}";
+  static String m12(score) =>
+      "Mục tiêu SMART tốt với một số điểm cần cải thiện nhỏ. Điểm: ${score}%";
 
-  static String m13(count) =>
+  static String m13(score) =>
+      "Mục tiêu cần cải thiện ở một số lĩnh vực để thực sự SMART. Điểm: ${score}%";
+
+  static String m14(score) =>
+      "Mục tiêu cần cải thiện đáng kể để đạt tiêu chí SMART. Điểm: ${score}%";
+
+  static String m15(count) => "Tổng số: ${count}";
+
+  static String m16(count) =>
       "${Intl.plural(count, zero: 'Chưa có thành tựu nào', one: '1 thành tựu', other: '${count} thành tựu')}";
 
-  static String m14(count) =>
+  static String m17(count) =>
       "${Intl.plural(count, zero: 'Chưa thực hiện chuỗi', one: 'Chuỗi 1', other: 'Chuối ${count} ngày')}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
@@ -73,37 +82,164 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage(
                 "Tài khoản đã tồn tại với thông tin đăng nhập khác."),
         "account_section": MessageLookupByLibrary.simpleMessage("Tài khoản"),
+        "achievable_desc": MessageLookupByLibrary.simpleMessage(
+            "Thực tế và có thể đạt được trong phạm vi tài nguyên và hạn chế hiện tại của bạn."),
+        "achievable_suggestion_1": MessageLookupByLibrary.simpleMessage(
+            "Cân nhắc làm cho mục tiêu dễ đạt hơn bằng cách tránh sử dụng các từ ngữ mang tinh tuyệt đối"),
+        "achievable_suggestion_2": MessageLookupByLibrary.simpleMessage(
+            "Tránh những mục tiêu không rõ ràng, không thể đo lường hoặc đạt được"),
+        "achievable_title":
+            MessageLookupByLibrary.simpleMessage("Đạt được - Achievable"),
         "achieved": m0,
         "achieved_habit":
             MessageLookupByLibrary.simpleMessage("Các thói quen đã đạt được"),
         "achieved_statistic_page":
             MessageLookupByLibrary.simpleMessage("Đã đạt được"),
         "achievement_done": MessageLookupByLibrary.simpleMessage("Thành tựu"),
+        "action_creative_build":
+            MessageLookupByLibrary.simpleMessage("xây dựng"),
+        "action_creative_compose":
+            MessageLookupByLibrary.simpleMessage("sáng tác"),
+        "action_creative_create":
+            MessageLookupByLibrary.simpleMessage("tạo ra"),
+        "action_creative_design":
+            MessageLookupByLibrary.simpleMessage("thiết kế"),
+        "action_creative_develop":
+            MessageLookupByLibrary.simpleMessage("phát triển"),
+        "action_creative_draw": MessageLookupByLibrary.simpleMessage("vẽ"),
+        "action_creative_paint": MessageLookupByLibrary.simpleMessage("sơn"),
+        "action_creative_write": MessageLookupByLibrary.simpleMessage("viết"),
+        "action_exercise_gym":
+            MessageLookupByLibrary.simpleMessage("đến phòng tập"),
+        "action_exercise_jog": MessageLookupByLibrary.simpleMessage("chạy bộ"),
+        "action_exercise_run": MessageLookupByLibrary.simpleMessage("chạy"),
+        "action_exercise_stretch":
+            MessageLookupByLibrary.simpleMessage("giãn cơ"),
+        "action_exercise_swim": MessageLookupByLibrary.simpleMessage("bơi"),
+        "action_exercise_walk": MessageLookupByLibrary.simpleMessage("đi bộ"),
+        "action_exercise_workout":
+            MessageLookupByLibrary.simpleMessage("tập luyện"),
+        "action_exercise_yoga":
+            MessageLookupByLibrary.simpleMessage("tập yoga"),
+        "action_health_breathe": MessageLookupByLibrary.simpleMessage("thở"),
+        "action_health_drink": MessageLookupByLibrary.simpleMessage("uống"),
+        "action_health_eat": MessageLookupByLibrary.simpleMessage("ăn"),
+        "action_health_meditate": MessageLookupByLibrary.simpleMessage("thiền"),
+        "action_health_relax": MessageLookupByLibrary.simpleMessage("thư giãn"),
+        "action_health_rest": MessageLookupByLibrary.simpleMessage("nghỉ ngơi"),
+        "action_health_sleep": MessageLookupByLibrary.simpleMessage("ngủ"),
+        "action_improvement_decrease":
+            MessageLookupByLibrary.simpleMessage("giảm"),
+        "action_improvement_enhance":
+            MessageLookupByLibrary.simpleMessage("nâng cao"),
+        "action_improvement_improve":
+            MessageLookupByLibrary.simpleMessage("cải thiện"),
+        "action_improvement_increase":
+            MessageLookupByLibrary.simpleMessage("tăng"),
+        "action_improvement_optimize":
+            MessageLookupByLibrary.simpleMessage("tối ưu hóa"),
+        "action_improvement_reduce":
+            MessageLookupByLibrary.simpleMessage("giảm thiểu"),
+        "action_improvement_upgrade":
+            MessageLookupByLibrary.simpleMessage("nâng cấp"),
+        "action_learning_learn":
+            MessageLookupByLibrary.simpleMessage("học hỏi"),
+        "action_learning_master":
+            MessageLookupByLibrary.simpleMessage("thành thạo"),
+        "action_learning_practice":
+            MessageLookupByLibrary.simpleMessage("thực hành"),
+        "action_learning_read": MessageLookupByLibrary.simpleMessage("đọc"),
+        "action_learning_research":
+            MessageLookupByLibrary.simpleMessage("nghiên cứu"),
+        "action_learning_revise":
+            MessageLookupByLibrary.simpleMessage("ôn tập"),
+        "action_learning_study": MessageLookupByLibrary.simpleMessage("học"),
+        "action_learning_write": MessageLookupByLibrary.simpleMessage("viết"),
+        "action_productivity_accomplish":
+            MessageLookupByLibrary.simpleMessage("thực hiện"),
+        "action_productivity_achieve":
+            MessageLookupByLibrary.simpleMessage("đạt được"),
+        "action_productivity_complete":
+            MessageLookupByLibrary.simpleMessage("hoàn thành"),
+        "action_productivity_continue":
+            MessageLookupByLibrary.simpleMessage("tiếp tục"),
+        "action_productivity_do": MessageLookupByLibrary.simpleMessage("làm"),
+        "action_productivity_finish":
+            MessageLookupByLibrary.simpleMessage("kết thúc"),
+        "action_productivity_start":
+            MessageLookupByLibrary.simpleMessage("bắt đầu"),
+        "action_productivity_work":
+            MessageLookupByLibrary.simpleMessage("làm việc về"),
+        "action_social_call": MessageLookupByLibrary.simpleMessage("gọi điện"),
+        "action_social_connect":
+            MessageLookupByLibrary.simpleMessage("kết nối với"),
+        "action_social_email":
+            MessageLookupByLibrary.simpleMessage("gửi email"),
+        "action_social_help": MessageLookupByLibrary.simpleMessage("giúp đỡ"),
+        "action_social_meet": MessageLookupByLibrary.simpleMessage("gặp gỡ"),
+        "action_social_spend":
+            MessageLookupByLibrary.simpleMessage("dành thời gian với"),
+        "action_social_text": MessageLookupByLibrary.simpleMessage("nhắn tin"),
+        "action_social_visit": MessageLookupByLibrary.simpleMessage("thăm"),
+        "action_time_allocate": MessageLookupByLibrary.simpleMessage("phân bổ"),
+        "action_time_limit": MessageLookupByLibrary.simpleMessage("giới hạn"),
+        "action_time_manage": MessageLookupByLibrary.simpleMessage("quản lý"),
+        "action_time_organize": MessageLookupByLibrary.simpleMessage("tổ chức"),
+        "action_time_plan":
+            MessageLookupByLibrary.simpleMessage("lập kế hoạch"),
+        "action_time_schedule":
+            MessageLookupByLibrary.simpleMessage("lên lịch"),
+        "action_time_spend": MessageLookupByLibrary.simpleMessage("dành"),
+        "action_tracking_analyze":
+            MessageLookupByLibrary.simpleMessage("phân tích"),
+        "action_tracking_count": MessageLookupByLibrary.simpleMessage("đếm"),
+        "action_tracking_log": MessageLookupByLibrary.simpleMessage("ghi chép"),
+        "action_tracking_measure":
+            MessageLookupByLibrary.simpleMessage("đo lường"),
+        "action_tracking_monitor":
+            MessageLookupByLibrary.simpleMessage("giám sát"),
+        "action_tracking_record":
+            MessageLookupByLibrary.simpleMessage("ghi lại"),
+        "action_tracking_track":
+            MessageLookupByLibrary.simpleMessage("theo dõi"),
         "active_button": MessageLookupByLibrary.simpleMessage("Kích hoạt"),
         "active_habit": MessageLookupByLibrary.simpleMessage(
             "Các thói quen đang thực hiện"),
         "active_statistic_page":
             MessageLookupByLibrary.simpleMessage("Đang thực hiện"),
         "add_habit": MessageLookupByLibrary.simpleMessage("Add Habit"),
+        "add_habit_not_enough_info": MessageLookupByLibrary.simpleMessage(
+            "Vui lòng cung cấp ít nhất một trong các thông tin: tên thói quen, mô tả hoặc mục tiêu ngắn gọn để tạo ra mục tiêu SMART chính xác."),
         "add_reminder":
             MessageLookupByLibrary.simpleMessage("Thêm lịch nhắc nhở"),
         "add_water_button": MessageLookupByLibrary.simpleMessage("Thêm 250ML"),
+        "additional_information":
+            MessageLookupByLibrary.simpleMessage("Thông tin bổ sung"),
         "afternoon_greeting":
             MessageLookupByLibrary.simpleMessage("Chào buổi trưa"),
         "afternoon_tile": MessageLookupByLibrary.simpleMessage("Buổi chiều"),
         "age_field": MessageLookupByLibrary.simpleMessage("Tuổi"),
+        "ai_habit_generate_page_title": MessageLookupByLibrary.simpleMessage(
+            "Tạo ra thói quen chuẩn SMART với vài từ"),
         "all_achievements_tab": MessageLookupByLibrary.simpleMessage(
             "Tất cả các thành tựu đã đạt được"),
         "all_detail_history":
             MessageLookupByLibrary.simpleMessage("Chi tiết các lịch sử"),
         "all_habits": MessageLookupByLibrary.simpleMessage("Tất cả thói quen"),
         "all_statistic_page": MessageLookupByLibrary.simpleMessage("Tất cả"),
-        "app_info_section":
-            MessageLookupByLibrary.simpleMessage("Thông tin bổ sung"),
+        "ask_ai_button": MessageLookupByLibrary.simpleMessage(
+            "Tạo một thói quen chuẩn SMART"),
+        "ask_ai_field": MessageLookupByLibrary.simpleMessage(
+            "Hãy cho tôi biết bạn đang muốn thực hiện gì..."),
         "attendance_button":
             MessageLookupByLibrary.simpleMessage("Tham gia thử thách"),
         "authentication_choice":
             MessageLookupByLibrary.simpleMessage("Đăng nhập/Đăng ký"),
+        "author_aristotle": MessageLookupByLibrary.simpleMessage("Aristotle"),
+        "author_dwayne_johnson":
+            MessageLookupByLibrary.simpleMessage("Dwayne Johnson"),
+        "author_james_clear":
+            MessageLookupByLibrary.simpleMessage("James Clear"),
         "avg_time":
             MessageLookupByLibrary.simpleMessage("Thời gian trung bình"),
         "best_time":
@@ -115,12 +251,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "category_distribution":
             MessageLookupByLibrary.simpleMessage("Phân bố theo danh mục"),
         "change_from_last_week": m1,
+        "cm_unit": MessageLookupByLibrary.simpleMessage("cm"),
         "collection_tab": MessageLookupByLibrary.simpleMessage("Bộ sưu tập"),
         "community_challenges":
             MessageLookupByLibrary.simpleMessage("Thử thách cộng đồng"),
         "completion": m2,
         "completion_rate":
             MessageLookupByLibrary.simpleMessage("Tỉ lệ hoàn thành"),
+        "compound_effect":
+            MessageLookupByLibrary.simpleMessage("Hiệu ứng Compound"),
+        "compound_effect_description": MessageLookupByLibrary.simpleMessage(
+            "Cải thiện 1% mỗi ngày sẽ giúp bạn tốt hơn 37 lần sau một năm."),
         "confirm_password_field":
             MessageLookupByLibrary.simpleMessage("Xác nhận mật khẩu"),
         "create_new_challenge":
@@ -129,6 +270,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Quãng đường hiện tại"),
         "current_progress":
             MessageLookupByLibrary.simpleMessage("Tiến độ hiện tại"),
+        "custom_unit": MessageLookupByLibrary.simpleMessage("tùy chỉnh"),
         "dark_theme": MessageLookupByLibrary.simpleMessage("Chế độ tối"),
         "date_title": MessageLookupByLibrary.simpleMessage("Ngày"),
         "dawn_tile": MessageLookupByLibrary.simpleMessage("Bình minh"),
@@ -160,12 +302,33 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Thất bại"),
         "failure_title": MessageLookupByLibrary.simpleMessage("Thất bại"),
         "find_button": MessageLookupByLibrary.simpleMessage("Tìm kiếm"),
+        "freq_daily": MessageLookupByLibrary.simpleMessage("Hằng ngày"),
+        "freq_monthly": MessageLookupByLibrary.simpleMessage("Hằng tháng"),
+        "freq_yearly": MessageLookupByLibrary.simpleMessage("Hằng năm"),
+        "friend_title": MessageLookupByLibrary.simpleMessage("anh bạn"),
         "gender_field": MessageLookupByLibrary.simpleMessage("Giới tính"),
         "general_section": MessageLookupByLibrary.simpleMessage("Chung"),
+        "generate_habit_button":
+            MessageLookupByLibrary.simpleMessage("Tạo thói quen"),
+        "goal_completion": MessageLookupByLibrary.simpleMessage("Hoàn thành"),
+        "goal_count": MessageLookupByLibrary.simpleMessage("Đếm"),
+        "goal_custom": MessageLookupByLibrary.simpleMessage("Tùy chỉnh"),
+        "goal_desc": MessageLookupByLibrary.simpleMessage(
+            "Mô tả mục tiêu (Mục tiêu này để làm gì?)"),
+        "goal_distance": MessageLookupByLibrary.simpleMessage("Khoảng cách"),
+        "goal_duration": MessageLookupByLibrary.simpleMessage("Thời lượng"),
+        "goal_recommend_with_no_internet_alert":
+            MessageLookupByLibrary.simpleMessage(
+                "Xin lưu ý, độ chính xác của mục tiêu có thể bị ảnh hưởng nếu không có kết nối internet. Vui lòng kiểm tra kết nối và thử lại."),
+        "goal_type": MessageLookupByLibrary.simpleMessage("Loại mục tiêu"),
+        "goal_unit": MessageLookupByLibrary.simpleMessage("Đ.vị"),
+        "goal_unit_value": MessageLookupByLibrary.simpleMessage("Giá trị"),
         "habit_category_creativity":
             MessageLookupByLibrary.simpleMessage("Sáng tạo"),
         "habit_category_environmental":
             MessageLookupByLibrary.simpleMessage("Môi trường"),
+        "habit_category_field_hint":
+            MessageLookupByLibrary.simpleMessage("Chọn loại thói quen"),
         "habit_category_finance":
             MessageLookupByLibrary.simpleMessage("Tài chính"),
         "habit_category_health":
@@ -185,6 +348,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Không xác định"),
         "habit_day_performance": MessageLookupByLibrary.simpleMessage(
             "Hiệu suất các ngày trong tuần"),
+        "habit_desc": MessageLookupByLibrary.simpleMessage(
+            "Mô tả thói quen (Thói quen của bạn là gì?)"),
         "habit_detail":
             MessageLookupByLibrary.simpleMessage("Chi tiết thói quen"),
         "habit_failure_reason_external_distractions":
@@ -209,6 +374,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Sự kiện bất ngờ"),
         "habit_failure_reason_unknown":
             MessageLookupByLibrary.simpleMessage("Không xác định"),
+        "habit_frequency": MessageLookupByLibrary.simpleMessage("Tần suất"),
+        "habit_goal":
+            MessageLookupByLibrary.simpleMessage("Mục tiêu thói quen"),
         "habit_name": MessageLookupByLibrary.simpleMessage("Tên thói quen"),
         "habit_pause_reason_health_issues":
             MessageLookupByLibrary.simpleMessage("Vấn đề sức khỏe"),
@@ -252,6 +420,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "help_tile": MessageLookupByLibrary.simpleMessage("Trợ giúp"),
         "history_section":
             MessageLookupByLibrary.simpleMessage("Lịch sử thực hiện"),
+        "hour_unit": MessageLookupByLibrary.simpleMessage("giờ"),
         "imperial_unit": MessageLookupByLibrary.simpleMessage("Hệ Anh"),
         "in_progress": m6,
         "in_progress_habit": MessageLookupByLibrary.simpleMessage(
@@ -264,16 +433,26 @@ class MessageLookup extends MessageLookupByLibrary {
             "Email hoặc mật khẩu không hợp lệ."),
         "invalid_email": MessageLookupByLibrary.simpleMessage(
             "Email không hợp lệ hoặc được định dạng sai."),
+        "invalid_end_date": MessageLookupByLibrary.simpleMessage(
+            "Ngày kết thúc không thể trước ngày bắt đầu"),
         "invalid_form": MessageLookupByLibrary.simpleMessage(
             "Vui lòng kiểm tra lại thông tin của bạn"),
+        "invalid_num": MessageLookupByLibrary.simpleMessage(
+            "Vui lòng nhập một số lớn hơn 0"),
         "invalid_password": MessageLookupByLibrary.simpleMessage(
             "Mật khẩu phải có ít nhất 6 ký tự"),
         "invalid_phone":
             MessageLookupByLibrary.simpleMessage("Số điện thoại không hợp lệ"),
+        "invalid_start_date": MessageLookupByLibrary.simpleMessage(
+            "Ngày bắt đầu không thể sau ngày kết thúc"),
         "invalid_verification_code": MessageLookupByLibrary.simpleMessage(
             "Mã xác minh nhận được không hợp lệ."),
         "invalid_verification_id": MessageLookupByLibrary.simpleMessage(
             "ID xác minh nhận được không hợp lệ."),
+        "km_unit": MessageLookupByLibrary.simpleMessage("km"),
+        "know_more_about_habit":
+            MessageLookupByLibrary.simpleMessage("Hiểu về thói quen"),
+        "l_unit": MessageLookupByLibrary.simpleMessage("l"),
         "language_tile": MessageLookupByLibrary.simpleMessage("Ngôn ngữ"),
         "last_n_day": m7,
         "less_title": MessageLookupByLibrary.simpleMessage("Ít"),
@@ -286,14 +465,115 @@ class MessageLookup extends MessageLookupByLibrary {
         "logout_button": MessageLookupByLibrary.simpleMessage("Đăng xuất"),
         "longest_streak":
             MessageLookupByLibrary.simpleMessage("Chuỗi dài nhất"),
+        "m_unit": MessageLookupByLibrary.simpleMessage("m"),
         "manage_account_choice":
             MessageLookupByLibrary.simpleMessage("Quản lý tài khoản"),
         "mark_as_done": MessageLookupByLibrary.simpleMessage("Đã thực hiện"),
         "mark_as_pause": MessageLookupByLibrary.simpleMessage("Tạm dừng"),
+        "measurable_excellent": MessageLookupByLibrary.simpleMessage(
+            "Mục tiêu có các chỉ số và phương pháp theo dõi rõ ràng"),
+        "measurable_good": MessageLookupByLibrary.simpleMessage(
+            "Mục tiêu có thể đo lường được nhưng cần chỉ số rõ ràng hơn"),
+        "measurable_gram": MessageLookupByLibrary.simpleMessage("g"),
+        "measurable_hour": MessageLookupByLibrary.simpleMessage("h"),
+        "measurable_kilogram": MessageLookupByLibrary.simpleMessage("kg"),
+        "measurable_kilometer": MessageLookupByLibrary.simpleMessage("km"),
+        "measurable_liter": MessageLookupByLibrary.simpleMessage("l"),
+        "measurable_meter": MessageLookupByLibrary.simpleMessage("m"),
+        "measurable_mile": MessageLookupByLibrary.simpleMessage("mile"),
+        "measurable_milliliter": MessageLookupByLibrary.simpleMessage("ml"),
+        "measurable_minute": MessageLookupByLibrary.simpleMessage("phút"),
+        "measurable_needs_work": MessageLookupByLibrary.simpleMessage(
+            "Mục tiêu cần cách thức rõ ràng hơn để đo lường tiến độ"),
+        "measurable_negative_decline":
+            MessageLookupByLibrary.simpleMessage("suy giảm"),
+        "measurable_negative_decrease":
+            MessageLookupByLibrary.simpleMessage("giảm"),
+        "measurable_negative_diminish":
+            MessageLookupByLibrary.simpleMessage("giảm sút"),
+        "measurable_negative_fail":
+            MessageLookupByLibrary.simpleMessage("thất bại"),
+        "measurable_negative_lose": MessageLookupByLibrary.simpleMessage("mất"),
+        "measurable_negative_revert":
+            MessageLookupByLibrary.simpleMessage("quay lại"),
+        "measurable_negative_weaken":
+            MessageLookupByLibrary.simpleMessage("yếu đi"),
+        "measurable_page": MessageLookupByLibrary.simpleMessage("trang"),
+        "measurable_poor": MessageLookupByLibrary.simpleMessage(
+            "Mục tiêu thiếu tiêu chí đo lường"),
+        "measurable_positive_accomplish":
+            MessageLookupByLibrary.simpleMessage("hoàn tất"),
+        "measurable_positive_achieve":
+            MessageLookupByLibrary.simpleMessage("đạt được"),
+        "measurable_positive_advance":
+            MessageLookupByLibrary.simpleMessage("tiến tới"),
+        "measurable_positive_attain":
+            MessageLookupByLibrary.simpleMessage("đạt tới"),
+        "measurable_positive_boost":
+            MessageLookupByLibrary.simpleMessage("tăng cường"),
+        "measurable_positive_build":
+            MessageLookupByLibrary.simpleMessage("xây dựng"),
+        "measurable_positive_complete":
+            MessageLookupByLibrary.simpleMessage("hoàn thành"),
+        "measurable_positive_cultivate":
+            MessageLookupByLibrary.simpleMessage("nuôi dưỡng"),
+        "measurable_positive_deliver":
+            MessageLookupByLibrary.simpleMessage("hoàn thành"),
+        "measurable_positive_develop":
+            MessageLookupByLibrary.simpleMessage("phát triển"),
+        "measurable_positive_enhance":
+            MessageLookupByLibrary.simpleMessage("nâng cao"),
+        "measurable_positive_expand":
+            MessageLookupByLibrary.simpleMessage("mở rộng"),
+        "measurable_positive_finalize":
+            MessageLookupByLibrary.simpleMessage("hoàn tất"),
+        "measurable_positive_finish":
+            MessageLookupByLibrary.simpleMessage("hoàn tất"),
+        "measurable_positive_growth":
+            MessageLookupByLibrary.simpleMessage("tăng trưởng"),
+        "measurable_positive_improve":
+            MessageLookupByLibrary.simpleMessage("cải thiện"),
+        "measurable_positive_increase":
+            MessageLookupByLibrary.simpleMessage("tăng"),
+        "measurable_positive_master":
+            MessageLookupByLibrary.simpleMessage("làm chủ"),
+        "measurable_positive_optimize":
+            MessageLookupByLibrary.simpleMessage("tối ưu hóa"),
+        "measurable_positive_perfect":
+            MessageLookupByLibrary.simpleMessage("hoàn thiện"),
+        "measurable_positive_progress":
+            MessageLookupByLibrary.simpleMessage("tiến bộ"),
+        "measurable_positive_raise":
+            MessageLookupByLibrary.simpleMessage("nâng lên"),
+        "measurable_positive_reach":
+            MessageLookupByLibrary.simpleMessage("đạt được"),
+        "measurable_positive_realize":
+            MessageLookupByLibrary.simpleMessage("thực hiện"),
+        "measurable_positive_refine":
+            MessageLookupByLibrary.simpleMessage("tinh chỉnh"),
+        "measurable_positive_strengthen":
+            MessageLookupByLibrary.simpleMessage("củng cố"),
+        "measurable_positive_succeed":
+            MessageLookupByLibrary.simpleMessage("thành công"),
+        "measurable_rep": MessageLookupByLibrary.simpleMessage("lần"),
+        "measurable_second": MessageLookupByLibrary.simpleMessage("giây"),
+        "measurable_set": MessageLookupByLibrary.simpleMessage("hiệp"),
+        "measurable_step": MessageLookupByLibrary.simpleMessage("bước"),
+        "measurable_suggestion_1": MessageLookupByLibrary.simpleMessage(
+            "Thêm số liệu cụ thể để theo dõi tiến độ"),
+        "measurable_suggestion_2": MessageLookupByLibrary.simpleMessage(
+            "Thêm cách đo lường thành công"),
+        "measurable_title":
+            MessageLookupByLibrary.simpleMessage("Đo lường - Measurable"),
+        "measurement_desc": MessageLookupByLibrary.simpleMessage(
+            "Bao gồm các con số hoặc hành động cụ thể có thể được theo dõi và đánh giá."),
         "measurement_unit_title":
             MessageLookupByLibrary.simpleMessage("Đơn vị đo lường"),
         "metric_unit": MessageLookupByLibrary.simpleMessage("Hệ mét"),
+        "miles_unit": MessageLookupByLibrary.simpleMessage("dặm"),
+        "minute_unit": MessageLookupByLibrary.simpleMessage("phút"),
         "miss_title": MessageLookupByLibrary.simpleMessage("Bỏ lỡ"),
+        "ml_unit": MessageLookupByLibrary.simpleMessage("ml"),
         "month_title": MessageLookupByLibrary.simpleMessage("Tháng"),
         "monthly_process_section":
             MessageLookupByLibrary.simpleMessage("Hằng tháng"),
@@ -329,6 +609,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "overall_completion_rate":
             MessageLookupByLibrary.simpleMessage("Tổng tỉ lệ hoàn thành"),
         "overall_progress": m9,
+        "page_unit": MessageLookupByLibrary.simpleMessage("trang"),
+        "pareto_principle":
+            MessageLookupByLibrary.simpleMessage("Quy luật Pareto"),
+        "pareto_principle_description": MessageLookupByLibrary.simpleMessage(
+            "20% thói quen đúng đắn sẽ mang lại 80% kết quả tích cực."),
         "participant": m10,
         "password_field": MessageLookupByLibrary.simpleMessage("Mật khẩu"),
         "passwords_do_not_match":
@@ -344,22 +629,74 @@ class MessageLookup extends MessageLookupByLibrary {
         "personal_info_section":
             MessageLookupByLibrary.simpleMessage("Thông tin cá nhân"),
         "phone_number": MessageLookupByLibrary.simpleMessage("Điện thoại"),
+        "power_of_timing":
+            MessageLookupByLibrary.simpleMessage("Sức mạnh của thời điểm"),
+        "power_of_timing_description": MessageLookupByLibrary.simpleMessage(
+            "Thực hiện thói quen vào cùng một thời điểm mỗi ngày tăng 90% khả năng duy trì."),
         "previous_habits_button":
             MessageLookupByLibrary.simpleMessage("Trang trước đó"),
         "progress_section": MessageLookupByLibrary.simpleMessage("Quá trình"),
+        "psy_tab": MessageLookupByLibrary.simpleMessage("Tâm lý"),
+        "psychology_cue_routine_reward":
+            MessageLookupByLibrary.simpleMessage("Cue-Routine-Reward"),
+        "psychology_cue_routine_reward_description":
+            MessageLookupByLibrary.simpleMessage(
+                "Thói quen được hình thành từ 3 yếu tố: Tín hiệu kích hoạt, Thói quen, và Phần thưởng."),
+        "psychology_implementation_intentions":
+            MessageLookupByLibrary.simpleMessage("Implementation Intentions"),
+        "psychology_implementation_intentions_description":
+            MessageLookupByLibrary.simpleMessage(
+                "Xác định cụ thể \'khi nào\' và \'ở đâu\' bạn sẽ thực hiện một thói quen có thể tăng tỷ lệ thành công lên 2-3 lần."),
+        "quote_aristotle": MessageLookupByLibrary.simpleMessage(
+            "Chúng ta là những gì chúng ta làm lặp đi lặp lại. Sự xuất sắc không phải là một hành động mà là một thói quen."),
+        "quote_dwayne_johnson": MessageLookupByLibrary.simpleMessage(
+            "Thành công không phải là về sự hoàn hảo. Đó là về sự nhất quán."),
+        "quote_james_clear": MessageLookupByLibrary.simpleMessage(
+            "Thói quen nhỏ tạo nên sự khác biệt lớn."),
         "re_auth_with_email":
             MessageLookupByLibrary.simpleMessage("Xác thực với Email"),
         "re_auth_with_google":
             MessageLookupByLibrary.simpleMessage("Xác thực với Google"),
         "recovery_description": MessageLookupByLibrary.simpleMessage(
             "Một email đặt lại mật khẩu sẽ được gửi tới email của bạn"),
+        "relevant_accomplish":
+            MessageLookupByLibrary.simpleMessage("hoàn thành"),
+        "relevant_boost": MessageLookupByLibrary.simpleMessage("tăng cường"),
+        "relevant_desc": MessageLookupByLibrary.simpleMessage(
+            "Phù hợp với các mục tiêu rộng hơn và tình hình cuộc sống hiện tại của bạn."),
+        "relevant_develop": MessageLookupByLibrary.simpleMessage("phát triển"),
+        "relevant_enhance": MessageLookupByLibrary.simpleMessage("nâng cao"),
+        "relevant_expand": MessageLookupByLibrary.simpleMessage("mở rộng"),
+        "relevant_improve": MessageLookupByLibrary.simpleMessage("cải thiện"),
+        "relevant_increase": MessageLookupByLibrary.simpleMessage("tăng"),
+        "relevant_optimize": MessageLookupByLibrary.simpleMessage("tối ưu hóa"),
+        "relevant_raise": MessageLookupByLibrary.simpleMessage("nâng"),
+        "relevant_strengthen": MessageLookupByLibrary.simpleMessage("củng cố"),
+        "relevant_suggestion_1": MessageLookupByLibrary.simpleMessage(
+            "Xem xét tại sao bạn cần đạt được mục đích đó"),
+        "relevant_title":
+            MessageLookupByLibrary.simpleMessage("Thực tế - Relevant"),
         "reminder_section": MessageLookupByLibrary.simpleMessage("Nhắc nhở"),
         "remove_water_button":
             MessageLookupByLibrary.simpleMessage("Giảm 250ML"),
+        "reps_unit": MessageLookupByLibrary.simpleMessage("lần"),
         "reset_password":
             MessageLookupByLibrary.simpleMessage("Đặt lại mật khẩu"),
         "same_type_habit":
             MessageLookupByLibrary.simpleMessage("Các thói quen cùng loại"),
+        "science_21_day_rule":
+            MessageLookupByLibrary.simpleMessage("Quy tắc 21 ngày"),
+        "science_21_day_rule_description": MessageLookupByLibrary.simpleMessage(
+            "Nghiên cứu cho thấy thực sự mất 66 ngày để hình thành một thói quen tự động, không phải 21 ngày như nhiều người vẫn nghĩ."),
+        "science_dopamine_habits":
+            MessageLookupByLibrary.simpleMessage("Dopamine và Thói quen"),
+        "science_dopamine_habits_description": MessageLookupByLibrary.simpleMessage(
+            "Não tiết ra dopamine không chỉ khi đạt được mục tiêu mà còn khi nhận ra tín hiệu dẫn đến phần thưởng."),
+        "science_neuroplasticity":
+            MessageLookupByLibrary.simpleMessage("Neuroplasticity"),
+        "science_neuroplasticity_description": MessageLookupByLibrary.simpleMessage(
+            "Khi bạn lặp lại một hành vi, não tạo ra các kết nối neural mới, làm cho hành vi đó trở nên tự nhiên hơn theo thời gian."),
+        "science_tab": MessageLookupByLibrary.simpleMessage("Khoa học"),
         "search_achievement": MessageLookupByLibrary.simpleMessage(
             "Tìm kiếm thành tựu bạn đã đạt được..."),
         "search_community_challenge": MessageLookupByLibrary.simpleMessage(
@@ -367,22 +704,61 @@ class MessageLookup extends MessageLookupByLibrary {
         "search_my_custom_challenge": MessageLookupByLibrary.simpleMessage(
             "Tìm kiếm những thử thách của tôi..."),
         "searching_title": MessageLookupByLibrary.simpleMessage("Tìm kiếm..."),
+        "second_unit": MessageLookupByLibrary.simpleMessage("giây"),
         "select_button": MessageLookupByLibrary.simpleMessage("Chọn"),
         "select_date_title": MessageLookupByLibrary.simpleMessage("Chọn ngày"),
         "select_range_date_title":
             MessageLookupByLibrary.simpleMessage("Chọn ngày từ ... đến ..."),
         "send_button": MessageLookupByLibrary.simpleMessage("Gửi"),
+        "sets_unit": MessageLookupByLibrary.simpleMessage("bộ"),
         "settings": MessageLookupByLibrary.simpleMessage("Cài đặt"),
         "show_all_figure_button":
             MessageLookupByLibrary.simpleMessage("Hiển thị các số liệu"),
         "show_less": MessageLookupByLibrary.simpleMessage("Ẩn bớt"),
         "show_more": MessageLookupByLibrary.simpleMessage("Hiển thị"),
+        "smart_criteria_achieved": MessageLookupByLibrary.simpleMessage(
+            "Đạt được các tiêu chuẩn SMART"),
+        "specific_excellent": MessageLookupByLibrary.simpleMessage(
+            "Mục tiêu của bạn rất rõ ràng và được xác định cụ thể"),
+        "specific_good": MessageLookupByLibrary.simpleMessage(
+            "Mục tiêu của bạn khá cụ thể nhưng có thể cần thêm chi tiết"),
+        "specific_needs_work": MessageLookupByLibrary.simpleMessage(
+            "Mục tiêu cần thêm chi tiết cụ thể về những gì bạn muốn đạt được"),
+        "specific_poor": MessageLookupByLibrary.simpleMessage(
+            "Mục tiêu quá mơ hồ và cần hành động cụ thể"),
+        "specific_suggestion_1": MessageLookupByLibrary.simpleMessage(
+            "Thêm số liệu hoặc số lượng cụ thể để đo lường thành công"),
+        "specific_suggestion_2": MessageLookupByLibrary.simpleMessage(
+            "Thêm động từ hành động rõ ràng mô tả những gì bạn sẽ làm"),
+        "specific_suggestion_3": MessageLookupByLibrary.simpleMessage(
+            "Xác định chính xác những gì bạn muốn đạt được"),
+        "specify_desc": MessageLookupByLibrary.simpleMessage(
+            "Mục tiêu rõ ràng và cụ thể, trả lời được các câu hỏi ai, cái gì, ở đâu, khi nào và tại sao."),
+        "specify_title":
+            MessageLookupByLibrary.simpleMessage("Cụ thể - Specify"),
         "start_date": MessageLookupByLibrary.simpleMessage("Ngày bắt đầu"),
         "start_tracking":
             MessageLookupByLibrary.simpleMessage("Bắt đầu theo dõi"),
+        "statistic_info_tab": MessageLookupByLibrary.simpleMessage("Thống kê"),
         "statistic_section": MessageLookupByLibrary.simpleMessage("Thống kê"),
+        "statistics_habit_formation_time":
+            MessageLookupByLibrary.simpleMessage("Thời gian hình thành"),
+        "statistics_habit_formation_time_description":
+            MessageLookupByLibrary.simpleMessage(
+                "Thời gian hình thành thói quen có thể dao động từ 18 đến 254 ngày tùy thuộc vào độ phức tạp."),
+        "statistics_success_rate":
+            MessageLookupByLibrary.simpleMessage("Tỷ lệ thành công"),
+        "statistics_success_rate_description": MessageLookupByLibrary.simpleMessage(
+            "43% hành động hàng ngày của chúng ta được thực hiện một cách vô thức do thói quen."),
         "status_title": MessageLookupByLibrary.simpleMessage("Trạng thái"),
+        "steps_unit": MessageLookupByLibrary.simpleMessage("bước"),
         "success_title": MessageLookupByLibrary.simpleMessage("Thành công"),
+        "summary_excellent": MessageLookupByLibrary.simpleMessage(
+            "Mục tiêu SMART xuất sắc! Tất cả tiêu chí đều được xác định rõ ràng và cân đối."),
+        "summary_good": m12,
+        "summary_needs_work": m13,
+        "summary_poor": m14,
+        "summary_title": MessageLookupByLibrary.simpleMessage("Tổng hợp"),
         "target_title": MessageLookupByLibrary.simpleMessage("Mục tiêu"),
         "term_and_condition_statement": MessageLookupByLibrary.simpleMessage(
             "Bằng cách đăng nhập/đăng ký, bạn chấp nhận Điều khoản và Điều kiện của chúng tôi và đồng ý với Chính sách Quyền riêng tư"),
@@ -391,21 +767,80 @@ class MessageLookup extends MessageLookupByLibrary {
         "theme_tile": MessageLookupByLibrary.simpleMessage("Giao diện"),
         "time_based_progress":
             MessageLookupByLibrary.simpleMessage("Quá trình theo thời gian"),
+        "time_bound_desc": MessageLookupByLibrary.simpleMessage(
+            "Có thời hạn hoặc khung thời gian rõ ràng để hoàn thành."),
+        "time_bound_title":
+            MessageLookupByLibrary.simpleMessage("Thời gian - TimeBound"),
         "time_of_day_section":
             MessageLookupByLibrary.simpleMessage("Thời gian trong ngày"),
         "time_slot_heatmap": MessageLookupByLibrary.simpleMessage(
             "Biểu đồ thời gian trong ngày"),
+        "timebound_achieve": MessageLookupByLibrary.simpleMessage("đạt được"),
+        "timebound_after": MessageLookupByLibrary.simpleMessage("sau"),
+        "timebound_before": MessageLookupByLibrary.simpleMessage("trước"),
+        "timebound_by": MessageLookupByLibrary.simpleMessage("trước"),
+        "timebound_complete":
+            MessageLookupByLibrary.simpleMessage("hoàn thành"),
+        "timebound_complete_by":
+            MessageLookupByLibrary.simpleMessage("hoàn thành bởi"),
+        "timebound_deadline": MessageLookupByLibrary.simpleMessage("thời hạn"),
+        "timebound_due": MessageLookupByLibrary.simpleMessage("đến hạn"),
+        "timebound_duration":
+            MessageLookupByLibrary.simpleMessage("khoảng thời gian"),
+        "timebound_end": MessageLookupByLibrary.simpleMessage("kết thúc"),
+        "timebound_end_by":
+            MessageLookupByLibrary.simpleMessage("kết thúc bởi"),
+        "timebound_end_date":
+            MessageLookupByLibrary.simpleMessage("ngày kết thúc"),
+        "timebound_finalize": MessageLookupByLibrary.simpleMessage("hoàn tất"),
+        "timebound_finish": MessageLookupByLibrary.simpleMessage("kết thúc"),
+        "timebound_goal": MessageLookupByLibrary.simpleMessage("mục tiêu"),
+        "timebound_immediate":
+            MessageLookupByLibrary.simpleMessage("ngay lập tức"),
+        "timebound_in_the_next":
+            MessageLookupByLibrary.simpleMessage("trong vòng"),
+        "timebound_in_time": MessageLookupByLibrary.simpleMessage("kịp thời"),
+        "timebound_next": MessageLookupByLibrary.simpleMessage("tiếp theo"),
+        "timebound_on": MessageLookupByLibrary.simpleMessage("vào"),
+        "timebound_post": MessageLookupByLibrary.simpleMessage("sau"),
+        "timebound_promptly":
+            MessageLookupByLibrary.simpleMessage("ngay tức thì"),
+        "timebound_quickly":
+            MessageLookupByLibrary.simpleMessage("nhanh chóng"),
+        "timebound_reach": MessageLookupByLibrary.simpleMessage("đạt đến"),
+        "timebound_scheduled": MessageLookupByLibrary.simpleMessage("dự kiến"),
+        "timebound_set_date": MessageLookupByLibrary.simpleMessage("đặt ngày"),
+        "timebound_soon": MessageLookupByLibrary.simpleMessage("sớm"),
+        "timebound_soon_after":
+            MessageLookupByLibrary.simpleMessage("ngay sau khi"),
+        "timebound_start": MessageLookupByLibrary.simpleMessage("bắt đầu"),
+        "timebound_start_by":
+            MessageLookupByLibrary.simpleMessage("bắt đầu bởi"),
+        "timebound_start_from":
+            MessageLookupByLibrary.simpleMessage("bắt đầu từ"),
+        "timebound_time_limit":
+            MessageLookupByLibrary.simpleMessage("giới hạn thời gian"),
+        "timebound_timeframe":
+            MessageLookupByLibrary.simpleMessage("khung thời gian"),
+        "timebound_timely": MessageLookupByLibrary.simpleMessage("kịp thời"),
+        "timebound_until": MessageLookupByLibrary.simpleMessage("đến khi"),
+        "timebound_upon_completion":
+            MessageLookupByLibrary.simpleMessage("sau khi hoàn thành"),
+        "timebound_urgent": MessageLookupByLibrary.simpleMessage("khẩn cấp"),
+        "timebound_within": MessageLookupByLibrary.simpleMessage("trong vòng"),
+        "timebound_within_the_next":
+            MessageLookupByLibrary.simpleMessage("trong vòng"),
         "today": MessageLookupByLibrary.simpleMessage("Hôm nay"),
         "today_tasks": MessageLookupByLibrary.simpleMessage("Nhiệm vụ hôm nay"),
-        "total": m12,
-        "total_achievement": m13,
+        "total": m15,
+        "total_achievement": m16,
         "total_distance":
             MessageLookupByLibrary.simpleMessage("Tổng quãng đường"),
         "total_habit":
             MessageLookupByLibrary.simpleMessage("Tất cả các thói quen"),
         "total_paused_time":
             MessageLookupByLibrary.simpleMessage("Tổng số thời gian tạm ngưng"),
-        "total_streak": m14,
+        "total_streak": m17,
         "tracker_section": MessageLookupByLibrary.simpleMessage("Theo dõi"),
         "trend_section": MessageLookupByLibrary.simpleMessage("Xu hướng"),
         "try_again":

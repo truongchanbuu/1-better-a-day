@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:collection/collection.dart';
+
 extension StringExtension on String {
   String get obscure {
     if (length <= 4) {
@@ -33,5 +35,15 @@ extension StringExtension on String {
     }
 
     return this[0].toUpperCase() + substring(1).toLowerCase();
+  }
+
+  String get toCamelCase {
+    return toLowerCase()
+        .replaceAll(RegExp(r'[_\s-]+'), ' ')
+        .split(' ')
+        .mapIndexed((index, word) => index == 0
+            ? word
+            : word.replaceFirst(word[0], word[0].toUpperCase()))
+        .join();
   }
 }

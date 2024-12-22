@@ -250,10 +250,10 @@ class S {
     );
   }
 
-  /// `Less0`
+  /// `Less`
   String get less_title {
     return Intl.message(
-      'Less0',
+      'Less',
       name: 'less_title',
       desc: '',
       args: [],
@@ -337,6 +337,16 @@ class S {
       name: 'total',
       desc: '',
       args: [count],
+    );
+  }
+
+  /// `friend`
+  String get friend_title {
+    return Intl.message(
+      'friend',
+      name: 'friend_title',
+      desc: '',
+      args: [],
     );
   }
 
@@ -901,10 +911,10 @@ class S {
   }
 
   /// `Additional Information`
-  String get app_info_section {
+  String get additional_information {
     return Intl.message(
       'Additional Information',
-      name: 'app_info_section',
+      name: 'additional_information',
       desc: '',
       args: [],
     );
@@ -925,6 +935,16 @@ class S {
     return Intl.message(
       'Help',
       name: 'help_tile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `More Knowledge about habit`
+  String get know_more_about_habit {
+    return Intl.message(
+      'More Knowledge about habit',
+      name: 'know_more_about_habit',
       desc: '',
       args: [],
     );
@@ -2251,6 +2271,296 @@ class S {
     );
   }
 
+  /// `Compound Effect`
+  String get compound_effect {
+    return Intl.message(
+      'Compound Effect',
+      name: 'compound_effect',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Improving 1% each day will make you 37 times better after a year.`
+  String get compound_effect_description {
+    return Intl.message(
+      'Improving 1% each day will make you 37 times better after a year.',
+      name: 'compound_effect_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pareto Principle`
+  String get pareto_principle {
+    return Intl.message(
+      'Pareto Principle',
+      name: 'pareto_principle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `20% of the right habits will bring 80% of the positive results.`
+  String get pareto_principle_description {
+    return Intl.message(
+      '20% of the right habits will bring 80% of the positive results.',
+      name: 'pareto_principle_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Power of Timing`
+  String get power_of_timing {
+    return Intl.message(
+      'Power of Timing',
+      name: 'power_of_timing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Performing a habit at the same time each day increases the likelihood of maintaining it by 90%.`
+  String get power_of_timing_description {
+    return Intl.message(
+      'Performing a habit at the same time each day increases the likelihood of maintaining it by 90%.',
+      name: 'power_of_timing_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We are what we repeatedly do. Excellence, then, is not an act, but a habit.`
+  String get quote_aristotle {
+    return Intl.message(
+      'We are what we repeatedly do. Excellence, then, is not an act, but a habit.',
+      name: 'quote_aristotle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Aristotle`
+  String get author_aristotle {
+    return Intl.message(
+      'Aristotle',
+      name: 'author_aristotle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Small habits make a big difference.`
+  String get quote_james_clear {
+    return Intl.message(
+      'Small habits make a big difference.',
+      name: 'quote_james_clear',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `James Clear`
+  String get author_james_clear {
+    return Intl.message(
+      'James Clear',
+      name: 'author_james_clear',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Success is not about perfection. It's about consistency.`
+  String get quote_dwayne_johnson {
+    return Intl.message(
+      'Success is not about perfection. It\'s about consistency.',
+      name: 'quote_dwayne_johnson',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dwayne Johnson`
+  String get author_dwayne_johnson {
+    return Intl.message(
+      'Dwayne Johnson',
+      name: 'author_dwayne_johnson',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Science`
+  String get science_tab {
+    return Intl.message(
+      'Science',
+      name: 'science_tab',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Psychology`
+  String get psy_tab {
+    return Intl.message(
+      'Psychology',
+      name: 'psy_tab',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Statistics`
+  String get statistic_info_tab {
+    return Intl.message(
+      'Statistics',
+      name: 'statistic_info_tab',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `21-Day Rule`
+  String get science_21_day_rule {
+    return Intl.message(
+      '21-Day Rule',
+      name: 'science_21_day_rule',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Research shows it actually takes 66 days to form an automatic habit, not 21 days as commonly believed.`
+  String get science_21_day_rule_description {
+    return Intl.message(
+      'Research shows it actually takes 66 days to form an automatic habit, not 21 days as commonly believed.',
+      name: 'science_21_day_rule_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Neuroplasticity`
+  String get science_neuroplasticity {
+    return Intl.message(
+      'Neuroplasticity',
+      name: 'science_neuroplasticity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `When you repeat a behavior, the brain creates new neural connections, making the behavior more natural over time.`
+  String get science_neuroplasticity_description {
+    return Intl.message(
+      'When you repeat a behavior, the brain creates new neural connections, making the behavior more natural over time.',
+      name: 'science_neuroplasticity_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dopamine and Habits`
+  String get science_dopamine_habits {
+    return Intl.message(
+      'Dopamine and Habits',
+      name: 'science_dopamine_habits',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The brain releases dopamine not only when achieving a goal but also when recognizing cues leading to rewards.`
+  String get science_dopamine_habits_description {
+    return Intl.message(
+      'The brain releases dopamine not only when achieving a goal but also when recognizing cues leading to rewards.',
+      name: 'science_dopamine_habits_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cue-Routine-Reward`
+  String get psychology_cue_routine_reward {
+    return Intl.message(
+      'Cue-Routine-Reward',
+      name: 'psychology_cue_routine_reward',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Habits are formed by three elements: Cue, Routine, and Reward.`
+  String get psychology_cue_routine_reward_description {
+    return Intl.message(
+      'Habits are formed by three elements: Cue, Routine, and Reward.',
+      name: 'psychology_cue_routine_reward_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Implementation Intentions`
+  String get psychology_implementation_intentions {
+    return Intl.message(
+      'Implementation Intentions',
+      name: 'psychology_implementation_intentions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Specifying 'when' and 'where' you will perform a habit can increase success rates by 2-3 times.`
+  String get psychology_implementation_intentions_description {
+    return Intl.message(
+      'Specifying \'when\' and \'where\' you will perform a habit can increase success rates by 2-3 times.',
+      name: 'psychology_implementation_intentions_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Success Rate`
+  String get statistics_success_rate {
+    return Intl.message(
+      'Success Rate',
+      name: 'statistics_success_rate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `43% of our daily actions are performed unconsciously due to habits.`
+  String get statistics_success_rate_description {
+    return Intl.message(
+      '43% of our daily actions are performed unconsciously due to habits.',
+      name: 'statistics_success_rate_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Habit Formation Time`
+  String get statistics_habit_formation_time {
+    return Intl.message(
+      'Habit Formation Time',
+      name: 'statistics_habit_formation_time',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The time to form a habit can range from 18 to 254 days depending on complexity.`
+  String get statistics_habit_formation_time_description {
+    return Intl.message(
+      'The time to form a habit can range from 18 to 254 days depending on complexity.',
+      name: 'statistics_habit_formation_time_description',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Discover`
   String get discover_tab {
     return Intl.message(
@@ -2392,6 +2702,2410 @@ class S {
     return Intl.message(
       'Community Challenges',
       name: 'community_challenges',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Habit Description (What is your habit?)`
+  String get habit_desc {
+    return Intl.message(
+      'Habit Description (What is your habit?)',
+      name: 'habit_desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Habit Goal`
+  String get habit_goal {
+    return Intl.message(
+      'Habit Goal',
+      name: 'habit_goal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Specify`
+  String get specify_title {
+    return Intl.message(
+      'Specify',
+      name: 'specify_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Measurable`
+  String get measurable_title {
+    return Intl.message(
+      'Measurable',
+      name: 'measurable_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Achievable`
+  String get achievable_title {
+    return Intl.message(
+      'Achievable',
+      name: 'achievable_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Relevant`
+  String get relevant_title {
+    return Intl.message(
+      'Relevant',
+      name: 'relevant_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Time Bound`
+  String get time_bound_title {
+    return Intl.message(
+      'Time Bound',
+      name: 'time_bound_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Clear and well-defined goal that answers who, what, where, when, and why.`
+  String get specify_desc {
+    return Intl.message(
+      'Clear and well-defined goal that answers who, what, where, when, and why.',
+      name: 'specify_desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Include concrete numbers or actions that can be tracked and evaluated.`
+  String get measurement_desc {
+    return Intl.message(
+      'Include concrete numbers or actions that can be tracked and evaluated.',
+      name: 'measurement_desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Realistic and attainable within your current resources and constraints.`
+  String get achievable_desc {
+    return Intl.message(
+      'Realistic and attainable within your current resources and constraints.',
+      name: 'achievable_desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Aligned with your broader goals and current life situation.`
+  String get relevant_desc {
+    return Intl.message(
+      'Aligned with your broader goals and current life situation.',
+      name: 'relevant_desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Has a clear deadline or timeframe for completion.`
+  String get time_bound_desc {
+    return Intl.message(
+      'Has a clear deadline or timeframe for completion.',
+      name: 'time_bound_desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select a category`
+  String get habit_category_field_hint {
+    return Intl.message(
+      'Select a category',
+      name: 'habit_category_field_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Frequency`
+  String get habit_frequency {
+    return Intl.message(
+      'Frequency',
+      name: 'habit_frequency',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Daily`
+  String get freq_daily {
+    return Intl.message(
+      'Daily',
+      name: 'freq_daily',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Monthly`
+  String get freq_monthly {
+    return Intl.message(
+      'Monthly',
+      name: 'freq_monthly',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yearly`
+  String get freq_yearly {
+    return Intl.message(
+      'Yearly',
+      name: 'freq_yearly',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Generate Habit`
+  String get generate_habit_button {
+    return Intl.message(
+      'Generate Habit',
+      name: 'generate_habit_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Summary`
+  String get summary_title {
+    return Intl.message(
+      'Summary',
+      name: 'summary_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please provide at least one in habit name, description or brief goal to generate accurate SMART goal`
+  String get add_habit_not_enough_info {
+    return Intl.message(
+      'Please provide at least one in habit name, description or brief goal to generate accurate SMART goal',
+      name: 'add_habit_not_enough_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter number that greater than 0`
+  String get invalid_num {
+    return Intl.message(
+      'Please enter number that greater than 0',
+      name: 'invalid_num',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start date cannot be after end date`
+  String get invalid_start_date {
+    return Intl.message(
+      'Start date cannot be after end date',
+      name: 'invalid_start_date',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `End date cannot be after start date`
+  String get invalid_end_date {
+    return Intl.message(
+      'End date cannot be after start date',
+      name: 'invalid_end_date',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `SMART Achieved`
+  String get smart_criteria_achieved {
+    return Intl.message(
+      'SMART Achieved',
+      name: 'smart_criteria_achieved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your goal is very clear and well_defined with specific details`
+  String get specific_excellent {
+    return Intl.message(
+      'Your goal is very clear and well_defined with specific details',
+      name: 'specific_excellent',
+      desc: 'Feedback for excellent specific criteria',
+      args: [],
+    );
+  }
+
+  /// `Your goal has good specificity but could use more detail`
+  String get specific_good {
+    return Intl.message(
+      'Your goal has good specificity but could use more detail',
+      name: 'specific_good',
+      desc: 'Feedback for good specific criteria',
+      args: [],
+    );
+  }
+
+  /// `Your goal needs more specific details about what you want to achieve`
+  String get specific_needs_work {
+    return Intl.message(
+      'Your goal needs more specific details about what you want to achieve',
+      name: 'specific_needs_work',
+      desc: 'Feedback for needs work specific criteria',
+      args: [],
+    );
+  }
+
+  /// `Your goal is too vague and needs specific actions`
+  String get specific_poor {
+    return Intl.message(
+      'Your goal is too vague and needs specific actions',
+      name: 'specific_poor',
+      desc: 'Feedback for poor specific criteria',
+      args: [],
+    );
+  }
+
+  /// `Add specific numbers or quantities to measure success`
+  String get specific_suggestion_1 {
+    return Intl.message(
+      'Add specific numbers or quantities to measure success',
+      name: 'specific_suggestion_1',
+      desc: 'First suggestion for improving specificity',
+      args: [],
+    );
+  }
+
+  /// `Include clear action verbs describing what you'll do`
+  String get specific_suggestion_2 {
+    return Intl.message(
+      'Include clear action verbs describing what you\'ll do',
+      name: 'specific_suggestion_2',
+      desc: 'Second suggestion for improving specificity',
+      args: [],
+    );
+  }
+
+  /// `Specify exactly what you want to achieve`
+  String get specific_suggestion_3 {
+    return Intl.message(
+      'Specify exactly what you want to achieve',
+      name: 'specific_suggestion_3',
+      desc: 'Third suggestion for improving specificity',
+      args: [],
+    );
+  }
+
+  /// `Your goal has clear metrics and tracking methods`
+  String get measurable_excellent {
+    return Intl.message(
+      'Your goal has clear metrics and tracking methods',
+      name: 'measurable_excellent',
+      desc: 'Feedback for excellent measurable criteria',
+      args: [],
+    );
+  }
+
+  /// `Your goal is measurable but could use clearer metrics`
+  String get measurable_good {
+    return Intl.message(
+      'Your goal is measurable but could use clearer metrics',
+      name: 'measurable_good',
+      desc: 'Feedback for good measurable criteria',
+      args: [],
+    );
+  }
+
+  /// `Your goal needs clearer ways to measure progress`
+  String get measurable_needs_work {
+    return Intl.message(
+      'Your goal needs clearer ways to measure progress',
+      name: 'measurable_needs_work',
+      desc: 'Feedback for needs work measurable criteria',
+      args: [],
+    );
+  }
+
+  /// `Your goal lacks any measurable criteria`
+  String get measurable_poor {
+    return Intl.message(
+      'Your goal lacks any measurable criteria',
+      name: 'measurable_poor',
+      desc: 'Feedback for poor measurable criteria',
+      args: [],
+    );
+  }
+
+  /// `Add specific numbers to track progress`
+  String get measurable_suggestion_1 {
+    return Intl.message(
+      'Add specific numbers to track progress',
+      name: 'measurable_suggestion_1',
+      desc: 'First suggestion for improving measurable habit',
+      args: [],
+    );
+  }
+
+  /// `Include how you'll measure success`
+  String get measurable_suggestion_2 {
+    return Intl.message(
+      'Include how you\'ll measure success',
+      name: 'measurable_suggestion_2',
+      desc: 'Second suggestion for improving measurable habit',
+      args: [],
+    );
+  }
+
+  /// `Consider making the goal more achievable by avoiding absolute terms`
+  String get achievable_suggestion_1 {
+    return Intl.message(
+      'Consider making the goal more achievable by avoiding absolute terms',
+      name: 'achievable_suggestion_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Avoid unclear goal that cannot measure or achieve`
+  String get achievable_suggestion_2 {
+    return Intl.message(
+      'Avoid unclear goal that cannot measure or achieve',
+      name: 'achievable_suggestion_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Consider explaining why this goal is important to you`
+  String get relevant_suggestion_1 {
+    return Intl.message(
+      'Consider explaining why this goal is important to you',
+      name: 'relevant_suggestion_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Consider adding a clear time limit or deadline for your goal.`
+  String get time_bound_suggestion_1 {
+    return Intl.message(
+      'Consider adding a clear time limit or deadline for your goal.',
+      name: 'time_bound_suggestion_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please specify the timeframe or duration for achieving your goal.`
+  String get time_bound_suggestion_2 {
+    return Intl.message(
+      'Please specify the timeframe or duration for achieving your goal.',
+      name: 'time_bound_suggestion_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Excellent SMART goal! All criteria are well_defined and balanced.`
+  String get summary_excellent {
+    return Intl.message(
+      'Excellent SMART goal! All criteria are well_defined and balanced.',
+      name: 'summary_excellent',
+      desc: 'Summary for excellent overall score',
+      args: [],
+    );
+  }
+
+  /// `Good SMART goal with minor areas for improvement. Score: {score}%`
+  String summary_good(double score) {
+    return Intl.message(
+      'Good SMART goal with minor areas for improvement. Score: $score%',
+      name: 'summary_good',
+      desc: 'Summary for good overall score',
+      args: [score],
+    );
+  }
+
+  /// `Goal needs work in several areas to be truly SMART. Score: {score}%`
+  String summary_needs_work(double score) {
+    return Intl.message(
+      'Goal needs work in several areas to be truly SMART. Score: $score%',
+      name: 'summary_needs_work',
+      desc: 'Summary for needs work overall score',
+      args: [score],
+    );
+  }
+
+  /// `Goal needs significant improvement to meet SMART criteria. Score: {score}%`
+  String summary_poor(double score) {
+    return Intl.message(
+      'Goal needs significant improvement to meet SMART criteria. Score: $score%',
+      name: 'summary_poor',
+      desc: 'Summary for poor overall score',
+      args: [score],
+    );
+  }
+
+  /// `run`
+  String get action_exercise_run {
+    return Intl.message(
+      'run',
+      name: 'action_exercise_run',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `walk`
+  String get action_exercise_walk {
+    return Intl.message(
+      'walk',
+      name: 'action_exercise_walk',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `swim`
+  String get action_exercise_swim {
+    return Intl.message(
+      'swim',
+      name: 'action_exercise_swim',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `workout`
+  String get action_exercise_workout {
+    return Intl.message(
+      'workout',
+      name: 'action_exercise_workout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `jog`
+  String get action_exercise_jog {
+    return Intl.message(
+      'jog',
+      name: 'action_exercise_jog',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `practice yoga`
+  String get action_exercise_yoga {
+    return Intl.message(
+      'practice yoga',
+      name: 'action_exercise_yoga',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `stretch`
+  String get action_exercise_stretch {
+    return Intl.message(
+      'stretch',
+      name: 'action_exercise_stretch',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `go to gym`
+  String get action_exercise_gym {
+    return Intl.message(
+      'go to gym',
+      name: 'action_exercise_gym',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `read`
+  String get action_learning_read {
+    return Intl.message(
+      'read',
+      name: 'action_learning_read',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `study`
+  String get action_learning_study {
+    return Intl.message(
+      'study',
+      name: 'action_learning_study',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `practice`
+  String get action_learning_practice {
+    return Intl.message(
+      'practice',
+      name: 'action_learning_practice',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `write`
+  String get action_learning_write {
+    return Intl.message(
+      'write',
+      name: 'action_learning_write',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `revise`
+  String get action_learning_revise {
+    return Intl.message(
+      'revise',
+      name: 'action_learning_revise',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `research`
+  String get action_learning_research {
+    return Intl.message(
+      'research',
+      name: 'action_learning_research',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `learn`
+  String get action_learning_learn {
+    return Intl.message(
+      'learn',
+      name: 'action_learning_learn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `master`
+  String get action_learning_master {
+    return Intl.message(
+      'master',
+      name: 'action_learning_master',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `meditate`
+  String get action_health_meditate {
+    return Intl.message(
+      'meditate',
+      name: 'action_health_meditate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `drink`
+  String get action_health_drink {
+    return Intl.message(
+      'drink',
+      name: 'action_health_drink',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `eat`
+  String get action_health_eat {
+    return Intl.message(
+      'eat',
+      name: 'action_health_eat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `sleep`
+  String get action_health_sleep {
+    return Intl.message(
+      'sleep',
+      name: 'action_health_sleep',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `breathe`
+  String get action_health_breathe {
+    return Intl.message(
+      'breathe',
+      name: 'action_health_breathe',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `relax`
+  String get action_health_relax {
+    return Intl.message(
+      'relax',
+      name: 'action_health_relax',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `rest`
+  String get action_health_rest {
+    return Intl.message(
+      'rest',
+      name: 'action_health_rest',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `complete`
+  String get action_productivity_complete {
+    return Intl.message(
+      'complete',
+      name: 'action_productivity_complete',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `finish`
+  String get action_productivity_finish {
+    return Intl.message(
+      'finish',
+      name: 'action_productivity_finish',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `achieve`
+  String get action_productivity_achieve {
+    return Intl.message(
+      'achieve',
+      name: 'action_productivity_achieve',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `accomplish`
+  String get action_productivity_accomplish {
+    return Intl.message(
+      'accomplish',
+      name: 'action_productivity_accomplish',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `do`
+  String get action_productivity_do {
+    return Intl.message(
+      'do',
+      name: 'action_productivity_do',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `work on`
+  String get action_productivity_work {
+    return Intl.message(
+      'work on',
+      name: 'action_productivity_work',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `start`
+  String get action_productivity_start {
+    return Intl.message(
+      'start',
+      name: 'action_productivity_start',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `continue`
+  String get action_productivity_continue {
+    return Intl.message(
+      'continue',
+      name: 'action_productivity_continue',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `build`
+  String get action_creative_build {
+    return Intl.message(
+      'build',
+      name: 'action_creative_build',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `create`
+  String get action_creative_create {
+    return Intl.message(
+      'create',
+      name: 'action_creative_create',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `develop`
+  String get action_creative_develop {
+    return Intl.message(
+      'develop',
+      name: 'action_creative_develop',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `design`
+  String get action_creative_design {
+    return Intl.message(
+      'design',
+      name: 'action_creative_design',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `write`
+  String get action_creative_write {
+    return Intl.message(
+      'write',
+      name: 'action_creative_write',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `draw`
+  String get action_creative_draw {
+    return Intl.message(
+      'draw',
+      name: 'action_creative_draw',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `paint`
+  String get action_creative_paint {
+    return Intl.message(
+      'paint',
+      name: 'action_creative_paint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `compose`
+  String get action_creative_compose {
+    return Intl.message(
+      'compose',
+      name: 'action_creative_compose',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `connect with`
+  String get action_social_connect {
+    return Intl.message(
+      'connect with',
+      name: 'action_social_connect',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `meet`
+  String get action_social_meet {
+    return Intl.message(
+      'meet',
+      name: 'action_social_meet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `call`
+  String get action_social_call {
+    return Intl.message(
+      'call',
+      name: 'action_social_call',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `text`
+  String get action_social_text {
+    return Intl.message(
+      'text',
+      name: 'action_social_text',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `email`
+  String get action_social_email {
+    return Intl.message(
+      'email',
+      name: 'action_social_email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `visit`
+  String get action_social_visit {
+    return Intl.message(
+      'visit',
+      name: 'action_social_visit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `spend time with`
+  String get action_social_spend {
+    return Intl.message(
+      'spend time with',
+      name: 'action_social_spend',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `help`
+  String get action_social_help {
+    return Intl.message(
+      'help',
+      name: 'action_social_help',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `reduce`
+  String get action_improvement_reduce {
+    return Intl.message(
+      'reduce',
+      name: 'action_improvement_reduce',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `increase`
+  String get action_improvement_increase {
+    return Intl.message(
+      'increase',
+      name: 'action_improvement_increase',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `decrease`
+  String get action_improvement_decrease {
+    return Intl.message(
+      'decrease',
+      name: 'action_improvement_decrease',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `improve`
+  String get action_improvement_improve {
+    return Intl.message(
+      'improve',
+      name: 'action_improvement_improve',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `enhance`
+  String get action_improvement_enhance {
+    return Intl.message(
+      'enhance',
+      name: 'action_improvement_enhance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `optimize`
+  String get action_improvement_optimize {
+    return Intl.message(
+      'optimize',
+      name: 'action_improvement_optimize',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `upgrade`
+  String get action_improvement_upgrade {
+    return Intl.message(
+      'upgrade',
+      name: 'action_improvement_upgrade',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `track`
+  String get action_tracking_track {
+    return Intl.message(
+      'track',
+      name: 'action_tracking_track',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `measure`
+  String get action_tracking_measure {
+    return Intl.message(
+      'measure',
+      name: 'action_tracking_measure',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `monitor`
+  String get action_tracking_monitor {
+    return Intl.message(
+      'monitor',
+      name: 'action_tracking_monitor',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `record`
+  String get action_tracking_record {
+    return Intl.message(
+      'record',
+      name: 'action_tracking_record',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `log`
+  String get action_tracking_log {
+    return Intl.message(
+      'log',
+      name: 'action_tracking_log',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `count`
+  String get action_tracking_count {
+    return Intl.message(
+      'count',
+      name: 'action_tracking_count',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `analyze`
+  String get action_tracking_analyze {
+    return Intl.message(
+      'analyze',
+      name: 'action_tracking_analyze',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `spend`
+  String get action_time_spend {
+    return Intl.message(
+      'spend',
+      name: 'action_time_spend',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `allocate`
+  String get action_time_allocate {
+    return Intl.message(
+      'allocate',
+      name: 'action_time_allocate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `limit`
+  String get action_time_limit {
+    return Intl.message(
+      'limit',
+      name: 'action_time_limit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `schedule`
+  String get action_time_schedule {
+    return Intl.message(
+      'schedule',
+      name: 'action_time_schedule',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `plan`
+  String get action_time_plan {
+    return Intl.message(
+      'plan',
+      name: 'action_time_plan',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `organize`
+  String get action_time_organize {
+    return Intl.message(
+      'organize',
+      name: 'action_time_organize',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `manage`
+  String get action_time_manage {
+    return Intl.message(
+      'manage',
+      name: 'action_time_manage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `m`
+  String get measurable_meter {
+    return Intl.message(
+      'm',
+      name: 'measurable_meter',
+      desc: 'Unit of measurement: meter',
+      args: [],
+    );
+  }
+
+  /// `km`
+  String get measurable_kilometer {
+    return Intl.message(
+      'km',
+      name: 'measurable_kilometer',
+      desc: 'Unit of measurement: kilometer',
+      args: [],
+    );
+  }
+
+  /// `mile`
+  String get measurable_mile {
+    return Intl.message(
+      'mile',
+      name: 'measurable_mile',
+      desc: 'Unit of measurement: kilometer',
+      args: [],
+    );
+  }
+
+  /// `g`
+  String get measurable_gram {
+    return Intl.message(
+      'g',
+      name: 'measurable_gram',
+      desc: 'Unit of measurement: gram',
+      args: [],
+    );
+  }
+
+  /// `kg`
+  String get measurable_kilogram {
+    return Intl.message(
+      'kg',
+      name: 'measurable_kilogram',
+      desc: 'Unit of measurement: kilogram',
+      args: [],
+    );
+  }
+
+  /// `l`
+  String get measurable_liter {
+    return Intl.message(
+      'l',
+      name: 'measurable_liter',
+      desc: 'Unit of measurement: liter',
+      args: [],
+    );
+  }
+
+  /// `ml`
+  String get measurable_milliliter {
+    return Intl.message(
+      'ml',
+      name: 'measurable_milliliter',
+      desc: 'Unit of measurement: milliliter',
+      args: [],
+    );
+  }
+
+  /// `h`
+  String get measurable_hour {
+    return Intl.message(
+      'h',
+      name: 'measurable_hour',
+      desc: 'Unit of time: hour',
+      args: [],
+    );
+  }
+
+  /// `min`
+  String get measurable_minute {
+    return Intl.message(
+      'min',
+      name: 'measurable_minute',
+      desc: 'Unit of time: minute',
+      args: [],
+    );
+  }
+
+  /// `s`
+  String get measurable_second {
+    return Intl.message(
+      's',
+      name: 'measurable_second',
+      desc: 'Unit of time: second',
+      args: [],
+    );
+  }
+
+  /// `page`
+  String get measurable_page {
+    return Intl.message(
+      'page',
+      name: 'measurable_page',
+      desc: 'Unit of book: page',
+      args: [],
+    );
+  }
+
+  /// `step`
+  String get measurable_step {
+    return Intl.message(
+      'step',
+      name: 'measurable_step',
+      desc: 'Unit of walking: step',
+      args: [],
+    );
+  }
+
+  /// `rep`
+  String get measurable_rep {
+    return Intl.message(
+      'rep',
+      name: 'measurable_rep',
+      desc: 'Unit of walking: rep',
+      args: [],
+    );
+  }
+
+  /// `set`
+  String get measurable_set {
+    return Intl.message(
+      'set',
+      name: 'measurable_set',
+      desc: 'Unit of walking: set',
+      args: [],
+    );
+  }
+
+  /// `increase`
+  String get measurable_positive_increase {
+    return Intl.message(
+      'increase',
+      name: 'measurable_positive_increase',
+      desc:
+          'Indicates an increase, often associated with growth or improvement.',
+      args: [],
+    );
+  }
+
+  /// `improve`
+  String get measurable_positive_improve {
+    return Intl.message(
+      'improve',
+      name: 'measurable_positive_improve',
+      desc:
+          'Indicates improvement, typically suggesting progress toward a goal.',
+      args: [],
+    );
+  }
+
+  /// `optimize`
+  String get measurable_positive_optimize {
+    return Intl.message(
+      'optimize',
+      name: 'measurable_positive_optimize',
+      desc:
+          'Refers to making something as effective or functional as possible.',
+      args: [],
+    );
+  }
+
+  /// `boost`
+  String get measurable_positive_boost {
+    return Intl.message(
+      'boost',
+      name: 'measurable_positive_boost',
+      desc:
+          'Refers to enhancing or improving something, usually in terms of performance.',
+      args: [],
+    );
+  }
+
+  /// `grow`
+  String get measurable_positive_growth {
+    return Intl.message(
+      'grow',
+      name: 'measurable_positive_growth',
+      desc:
+          'Refers to the process of increasing or expanding in size or capacity.',
+      args: [],
+    );
+  }
+
+  /// `expand`
+  String get measurable_positive_expand {
+    return Intl.message(
+      'expand',
+      name: 'measurable_positive_expand',
+      desc: 'Refers to making something larger or more extensive.',
+      args: [],
+    );
+  }
+
+  /// `enhance`
+  String get measurable_positive_enhance {
+    return Intl.message(
+      'enhance',
+      name: 'measurable_positive_enhance',
+      desc: 'Refers to improving something, especially in terms of quality.',
+      args: [],
+    );
+  }
+
+  /// `raise`
+  String get measurable_positive_raise {
+    return Intl.message(
+      'raise',
+      name: 'measurable_positive_raise',
+      desc: 'Indicates lifting or increasing something to a higher level.',
+      args: [],
+    );
+  }
+
+  /// `develop`
+  String get measurable_positive_develop {
+    return Intl.message(
+      'develop',
+      name: 'measurable_positive_develop',
+      desc: 'Indicates the process of growth or improvement over time.',
+      args: [],
+    );
+  }
+
+  /// `build`
+  String get measurable_positive_build {
+    return Intl.message(
+      'build',
+      name: 'measurable_positive_build',
+      desc:
+          'Refers to constructing or creating something, often associated with progress.',
+      args: [],
+    );
+  }
+
+  /// `complete`
+  String get measurable_positive_complete {
+    return Intl.message(
+      'complete',
+      name: 'measurable_positive_complete',
+      desc: 'Refers to finishing or concluding a task or project.',
+      args: [],
+    );
+  }
+
+  /// `accomplish`
+  String get measurable_positive_accomplish {
+    return Intl.message(
+      'accomplish',
+      name: 'measurable_positive_accomplish',
+      desc: 'Refers to achieving or completing something successfully.',
+      args: [],
+    );
+  }
+
+  /// `achieve`
+  String get measurable_positive_achieve {
+    return Intl.message(
+      'achieve',
+      name: 'measurable_positive_achieve',
+      desc: 'Indicates the completion or attainment of a goal.',
+      args: [],
+    );
+  }
+
+  /// `attain`
+  String get measurable_positive_attain {
+    return Intl.message(
+      'attain',
+      name: 'measurable_positive_attain',
+      desc: 'Refers to reaching or achieving a desired goal or level.',
+      args: [],
+    );
+  }
+
+  /// `reach`
+  String get measurable_positive_reach {
+    return Intl.message(
+      'reach',
+      name: 'measurable_positive_reach',
+      desc: 'Indicates achieving or arriving at a goal or target.',
+      args: [],
+    );
+  }
+
+  /// `succeed`
+  String get measurable_positive_succeed {
+    return Intl.message(
+      'succeed',
+      name: 'measurable_positive_succeed',
+      desc: 'Refers to achieving success or fulfilling a goal.',
+      args: [],
+    );
+  }
+
+  /// `master`
+  String get measurable_positive_master {
+    return Intl.message(
+      'master',
+      name: 'measurable_positive_master',
+      desc: 'Refers to gaining full control or proficiency over something.',
+      args: [],
+    );
+  }
+
+  /// `finalize`
+  String get measurable_positive_finalize {
+    return Intl.message(
+      'finalize',
+      name: 'measurable_positive_finalize',
+      desc: 'Indicates bringing a task or project to a conclusion.',
+      args: [],
+    );
+  }
+
+  /// `realize`
+  String get measurable_positive_realize {
+    return Intl.message(
+      'realize',
+      name: 'measurable_positive_realize',
+      desc: 'Refers to achieving or making something a reality.',
+      args: [],
+    );
+  }
+
+  /// `deliver`
+  String get measurable_positive_deliver {
+    return Intl.message(
+      'deliver',
+      name: 'measurable_positive_deliver',
+      desc: 'Refers to completing a task or fulfilling a commitment.',
+      args: [],
+    );
+  }
+
+  /// `finish`
+  String get measurable_positive_finish {
+    return Intl.message(
+      'finish',
+      name: 'measurable_positive_finish',
+      desc: 'Indicates the completion of a task or project.',
+      args: [],
+    );
+  }
+
+  /// `progress`
+  String get measurable_positive_progress {
+    return Intl.message(
+      'progress',
+      name: 'measurable_positive_progress',
+      desc: 'Refers to moving forward or making advancements.',
+      args: [],
+    );
+  }
+
+  /// `advance`
+  String get measurable_positive_advance {
+    return Intl.message(
+      'advance',
+      name: 'measurable_positive_advance',
+      desc: 'Indicates moving forward or making progress toward a goal.',
+      args: [],
+    );
+  }
+
+  /// `strengthen`
+  String get measurable_positive_strengthen {
+    return Intl.message(
+      'strengthen',
+      name: 'measurable_positive_strengthen',
+      desc: 'Refers to making something stronger or more effective.',
+      args: [],
+    );
+  }
+
+  /// `cultivate`
+  String get measurable_positive_cultivate {
+    return Intl.message(
+      'cultivate',
+      name: 'measurable_positive_cultivate',
+      desc: 'Refers to developing or improving something over time.',
+      args: [],
+    );
+  }
+
+  /// `refine`
+  String get measurable_positive_refine {
+    return Intl.message(
+      'refine',
+      name: 'measurable_positive_refine',
+      desc:
+          'Indicates improving something through small adjustments or corrections.',
+      args: [],
+    );
+  }
+
+  /// `perfect`
+  String get measurable_positive_perfect {
+    return Intl.message(
+      'perfect',
+      name: 'measurable_positive_perfect',
+      desc: 'Refers to making something flawless or as good as possible.',
+      args: [],
+    );
+  }
+
+  /// `lose`
+  String get measurable_negative_lose {
+    return Intl.message(
+      'lose',
+      name: 'measurable_negative_lose',
+      desc: 'Indicates reduction or failure to maintain something.',
+      args: [],
+    );
+  }
+
+  /// `decline`
+  String get measurable_negative_decline {
+    return Intl.message(
+      'decline',
+      name: 'measurable_negative_decline',
+      desc: 'Refers to a decrease or worsening over time.',
+      args: [],
+    );
+  }
+
+  /// `diminish`
+  String get measurable_negative_diminish {
+    return Intl.message(
+      'diminish',
+      name: 'measurable_negative_diminish',
+      desc: 'Refers to making something smaller or less effective.',
+      args: [],
+    );
+  }
+
+  /// `decrease`
+  String get measurable_negative_decrease {
+    return Intl.message(
+      'decrease',
+      name: 'measurable_negative_decrease',
+      desc: 'Refers to a reduction in size, amount, or quality.',
+      args: [],
+    );
+  }
+
+  /// `weaken`
+  String get measurable_negative_weaken {
+    return Intl.message(
+      'weaken',
+      name: 'measurable_negative_weaken',
+      desc: 'Refers to making something weaker or less effective.',
+      args: [],
+    );
+  }
+
+  /// `fail`
+  String get measurable_negative_fail {
+    return Intl.message(
+      'fail',
+      name: 'measurable_negative_fail',
+      desc: 'Indicates an inability to achieve or complete a goal.',
+      args: [],
+    );
+  }
+
+  /// `revert`
+  String get measurable_negative_revert {
+    return Intl.message(
+      'revert',
+      name: 'measurable_negative_revert',
+      desc: 'Refers to returning to a previous state or condition.',
+      args: [],
+    );
+  }
+
+  /// `increase`
+  String get relevant_increase {
+    return Intl.message(
+      'increase',
+      name: 'relevant_increase',
+      desc:
+          'Indicates a positive change or growth in value, often related to progress.',
+      args: [],
+    );
+  }
+
+  /// `improve`
+  String get relevant_improve {
+    return Intl.message(
+      'improve',
+      name: 'relevant_improve',
+      desc:
+          'Indicates the process of becoming better or more effective in a given area.',
+      args: [],
+    );
+  }
+
+  /// `optimize`
+  String get relevant_optimize {
+    return Intl.message(
+      'optimize',
+      name: 'relevant_optimize',
+      desc:
+          'Refers to making something as efficient or functional as possible.',
+      args: [],
+    );
+  }
+
+  /// `boost`
+  String get relevant_boost {
+    return Intl.message(
+      'boost',
+      name: 'relevant_boost',
+      desc:
+          'Refers to enhancing or improving something, usually in terms of performance.',
+      args: [],
+    );
+  }
+
+  /// `enhance`
+  String get relevant_enhance {
+    return Intl.message(
+      'enhance',
+      name: 'relevant_enhance',
+      desc: 'Refers to improving the quality or effectiveness of something.',
+      args: [],
+    );
+  }
+
+  /// `expand`
+  String get relevant_expand {
+    return Intl.message(
+      'expand',
+      name: 'relevant_expand',
+      desc: 'Refers to increasing the scope, size, or influence of something.',
+      args: [],
+    );
+  }
+
+  /// `strengthen`
+  String get relevant_strengthen {
+    return Intl.message(
+      'strengthen',
+      name: 'relevant_strengthen',
+      desc:
+          'Refers to making something stronger, more effective, or more resilient.',
+      args: [],
+    );
+  }
+
+  /// `develop`
+  String get relevant_develop {
+    return Intl.message(
+      'develop',
+      name: 'relevant_develop',
+      desc:
+          'Refers to the gradual improvement or progression of something over time.',
+      args: [],
+    );
+  }
+
+  /// `raise`
+  String get relevant_raise {
+    return Intl.message(
+      'raise',
+      name: 'relevant_raise',
+      desc:
+          'Indicates lifting something to a higher level, often in terms of quality or achievement.',
+      args: [],
+    );
+  }
+
+  /// `accomplish`
+  String get relevant_accomplish {
+    return Intl.message(
+      'accomplish',
+      name: 'relevant_accomplish',
+      desc: 'Refers to successfully completing a task or goal.',
+      args: [],
+    );
+  }
+
+  /// `deadline`
+  String get timebound_deadline {
+    return Intl.message(
+      'deadline',
+      name: 'timebound_deadline',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `complete`
+  String get timebound_complete {
+    return Intl.message(
+      'complete',
+      name: 'timebound_complete',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `finish`
+  String get timebound_finish {
+    return Intl.message(
+      'finish',
+      name: 'timebound_finish',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `finalize`
+  String get timebound_finalize {
+    return Intl.message(
+      'finalize',
+      name: 'timebound_finalize',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `achieve`
+  String get timebound_achieve {
+    return Intl.message(
+      'achieve',
+      name: 'timebound_achieve',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `reach`
+  String get timebound_reach {
+    return Intl.message(
+      'reach',
+      name: 'timebound_reach',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `complete by`
+  String get timebound_complete_by {
+    return Intl.message(
+      'complete by',
+      name: 'timebound_complete_by',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `due`
+  String get timebound_due {
+    return Intl.message(
+      'due',
+      name: 'timebound_due',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `end`
+  String get timebound_end {
+    return Intl.message(
+      'end',
+      name: 'timebound_end',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `within`
+  String get timebound_within {
+    return Intl.message(
+      'within',
+      name: 'timebound_within',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `before`
+  String get timebound_before {
+    return Intl.message(
+      'before',
+      name: 'timebound_before',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `on`
+  String get timebound_on {
+    return Intl.message(
+      'on',
+      name: 'timebound_on',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `by`
+  String get timebound_by {
+    return Intl.message(
+      'by',
+      name: 'timebound_by',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `duration`
+  String get timebound_duration {
+    return Intl.message(
+      'duration',
+      name: 'timebound_duration',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `until`
+  String get timebound_until {
+    return Intl.message(
+      'until',
+      name: 'timebound_until',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `start`
+  String get timebound_start {
+    return Intl.message(
+      'start',
+      name: 'timebound_start',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `start from`
+  String get timebound_start_from {
+    return Intl.message(
+      'start from',
+      name: 'timebound_start_from',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `start by`
+  String get timebound_start_by {
+    return Intl.message(
+      'start by',
+      name: 'timebound_start_by',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `timeframe`
+  String get timebound_timeframe {
+    return Intl.message(
+      'timeframe',
+      name: 'timebound_timeframe',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `end by`
+  String get timebound_end_by {
+    return Intl.message(
+      'end by',
+      name: 'timebound_end_by',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `goal`
+  String get timebound_goal {
+    return Intl.message(
+      'goal',
+      name: 'timebound_goal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `end date`
+  String get timebound_end_date {
+    return Intl.message(
+      'end date',
+      name: 'timebound_end_date',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `in time`
+  String get timebound_in_time {
+    return Intl.message(
+      'in time',
+      name: 'timebound_in_time',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `time limit`
+  String get timebound_time_limit {
+    return Intl.message(
+      'time limit',
+      name: 'timebound_time_limit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `timely`
+  String get timebound_timely {
+    return Intl.message(
+      'timely',
+      name: 'timebound_timely',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `immediate`
+  String get timebound_immediate {
+    return Intl.message(
+      'immediate',
+      name: 'timebound_immediate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `promptly`
+  String get timebound_promptly {
+    return Intl.message(
+      'promptly',
+      name: 'timebound_promptly',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `soon`
+  String get timebound_soon {
+    return Intl.message(
+      'soon',
+      name: 'timebound_soon',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `quickly`
+  String get timebound_quickly {
+    return Intl.message(
+      'quickly',
+      name: 'timebound_quickly',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `urgent`
+  String get timebound_urgent {
+    return Intl.message(
+      'urgent',
+      name: 'timebound_urgent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `scheduled`
+  String get timebound_scheduled {
+    return Intl.message(
+      'scheduled',
+      name: 'timebound_scheduled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `set date`
+  String get timebound_set_date {
+    return Intl.message(
+      'set date',
+      name: 'timebound_set_date',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `after`
+  String get timebound_after {
+    return Intl.message(
+      'after',
+      name: 'timebound_after',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `soon after`
+  String get timebound_soon_after {
+    return Intl.message(
+      'soon after',
+      name: 'timebound_soon_after',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `next`
+  String get timebound_next {
+    return Intl.message(
+      'next',
+      name: 'timebound_next',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `in the next`
+  String get timebound_in_the_next {
+    return Intl.message(
+      'in the next',
+      name: 'timebound_in_the_next',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `within the next`
+  String get timebound_within_the_next {
+    return Intl.message(
+      'within the next',
+      name: 'timebound_within_the_next',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `upon completion`
+  String get timebound_upon_completion {
+    return Intl.message(
+      'upon completion',
+      name: 'timebound_upon_completion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `post`
+  String get timebound_post {
+    return Intl.message(
+      'post',
+      name: 'timebound_post',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Internet connection failure`
+  String get internet_failure_title {
+    return Intl.message(
+      'Internet connection failure',
+      name: 'internet_failure_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please note, the accuracy of your goal may be affected if there is no internet connection. Kindly check your connection and try again`
+  String get goal_recommend_with_no_internet_alert {
+    return Intl.message(
+      'Please note, the accuracy of your goal may be affected if there is no internet connection. Kindly check your connection and try again',
+      name: 'goal_recommend_with_no_internet_alert',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Goal Description (What for?)`
+  String get goal_desc {
+    return Intl.message(
+      'Goal Description (What for?)',
+      name: 'goal_desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Goal Type`
+  String get goal_type {
+    return Intl.message(
+      'Goal Type',
+      name: 'goal_type',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Value`
+  String get goal_unit_value {
+    return Intl.message(
+      'Value',
+      name: 'goal_unit_value',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Goal Unit`
+  String get goal_unit {
+    return Intl.message(
+      'Goal Unit',
+      name: 'goal_unit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `reps`
+  String get reps_unit {
+    return Intl.message(
+      'reps',
+      name: 'reps_unit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `sets`
+  String get sets_unit {
+    return Intl.message(
+      'sets',
+      name: 'sets_unit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `liters`
+  String get l_unit {
+    return Intl.message(
+      'liters',
+      name: 'l_unit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `milliliters`
+  String get ml_unit {
+    return Intl.message(
+      'milliliters',
+      name: 'ml_unit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `second`
+  String get second_unit {
+    return Intl.message(
+      'second',
+      name: 'second_unit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `minute`
+  String get minute_unit {
+    return Intl.message(
+      'minute',
+      name: 'minute_unit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `hour`
+  String get hour_unit {
+    return Intl.message(
+      'hour',
+      name: 'hour_unit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `page`
+  String get page_unit {
+    return Intl.message(
+      'page',
+      name: 'page_unit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `centimeters`
+  String get cm_unit {
+    return Intl.message(
+      'centimeters',
+      name: 'cm_unit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `kilometers`
+  String get km_unit {
+    return Intl.message(
+      'kilometers',
+      name: 'km_unit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `meters`
+  String get m_unit {
+    return Intl.message(
+      'meters',
+      name: 'm_unit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `steps`
+  String get steps_unit {
+    return Intl.message(
+      'steps',
+      name: 'steps_unit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `miles`
+  String get miles_unit {
+    return Intl.message(
+      'miles',
+      name: 'miles_unit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `custom`
+  String get custom_unit {
+    return Intl.message(
+      'custom',
+      name: 'custom_unit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Completion`
+  String get goal_completion {
+    return Intl.message(
+      'Completion',
+      name: 'goal_completion',
+      desc: 'Completion goal type',
+      args: [],
+    );
+  }
+
+  /// `Count`
+  String get goal_count {
+    return Intl.message(
+      'Count',
+      name: 'goal_count',
+      desc: 'Count goal type',
+      args: [],
+    );
+  }
+
+  /// `Distance`
+  String get goal_distance {
+    return Intl.message(
+      'Distance',
+      name: 'goal_distance',
+      desc: 'Distance goal type',
+      args: [],
+    );
+  }
+
+  /// `Duration`
+  String get goal_duration {
+    return Intl.message(
+      'Duration',
+      name: 'goal_duration',
+      desc: 'Duration goal type',
+      args: [],
+    );
+  }
+
+  /// `Custom`
+  String get goal_custom {
+    return Intl.message(
+      'Custom',
+      name: 'goal_custom',
+      desc: 'Custom goal type',
+      args: [],
+    );
+  }
+
+  /// `Get SMART Goal Recommendation`
+  String get ask_ai_button {
+    return Intl.message(
+      'Get SMART Goal Recommendation',
+      name: 'ask_ai_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tell me what you want to do...`
+  String get ask_ai_field {
+    return Intl.message(
+      'Tell me what you want to do...',
+      name: 'ask_ai_field',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Get SMART habit with few word`
+  String get ai_habit_generate_page_title {
+    return Intl.message(
+      'Get SMART habit with few word',
+      name: 'ai_habit_generate_page_title',
       desc: '',
       args: [],
     );

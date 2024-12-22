@@ -16,6 +16,7 @@ import '../../../auth/presentations/bloc/auth_bloc/auth_bloc.dart';
 import '../../../auth/presentations/bloc/login/login_cubit.dart';
 import '../../../auth/presentations/bloc/signup/signup_cubit.dart';
 import '../../../auth/presentations/pages/auth_page.dart';
+import '../../../habit/presentations/pages/more_habit_knowledge_page.dart';
 import '../../../user/presentations/bloc/update_info_cubit.dart';
 import '../../../user/presentations/pages/profile_page.dart';
 import '../bloc/settings_cubit.dart';
@@ -179,9 +180,10 @@ class SettingsPage extends StatelessWidget {
           ],
         ),
 
-        // App Info
+        // Additional Info
         SettingsSection(
-          title: Text(S.current.app_info_section, style: _sectionTextStyle),
+          title:
+              Text(S.current.additional_information, style: _sectionTextStyle),
           tiles: [
             SettingsTile.navigation(
               title:
@@ -201,6 +203,14 @@ class SettingsPage extends StatelessWidget {
               backgroundColor:
                   context.isDarkMode ? AppColors.darkText : AppColors.lightText,
               onPressed: (BuildContext context) {},
+            ),
+            SettingsTile.navigation(
+              title:
+                  Text(S.current.know_more_about_habit, style: _titleTextStyle),
+              leading: const Icon(Icons.lightbulb, color: Colors.amber),
+              backgroundColor:
+                  context.isDarkMode ? AppColors.darkText : AppColors.lightText,
+              onPressed: onMoreKnowledgePage,
             ),
           ],
         ),
@@ -321,4 +331,11 @@ class SettingsPage extends StatelessWidget {
           type: PageTransitionType.leftToRight,
         ));
   }
+
+  void onMoreKnowledgePage(BuildContext context) => Navigator.push(
+        context,
+        PageTransition(
+            child: const MoreHabitKnowledgePage(),
+            type: PageTransitionType.leftToRight),
+      );
 }

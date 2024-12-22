@@ -13,7 +13,7 @@ import '../../../../../core/extensions/context_extension.dart';
 import '../../../../../core/extensions/num_extension.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../shared/presentations/widgets/text_with_circle_border_container.dart';
-import '../../../domain/entities/goal_unit.dart';
+import '../../../../../core/enums/habit/goal_unit.dart';
 import '../../../domain/entities/habit_history.dart';
 
 class HistoryItem extends StatelessWidget {

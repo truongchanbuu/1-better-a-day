@@ -41,6 +41,23 @@ enum HabitCategory {
     }
   }
 
+  static HabitCategory? fromMultiLangString(String? str) {
+    final categoryMap = {
+      S.current.habit_category_health: HabitCategory.health,
+      S.current.habit_category_learning: HabitCategory.learning,
+      S.current.habit_category_productivity: HabitCategory.productivity,
+      S.current.habit_category_mindfulness: HabitCategory.mindfulness,
+      S.current.habit_category_lifestyle: HabitCategory.lifestyle,
+      S.current.habit_category_nutrition: HabitCategory.nutrition,
+      S.current.habit_category_social: HabitCategory.social,
+      S.current.habit_category_finance: HabitCategory.finance,
+      S.current.habit_category_creativity: HabitCategory.creativity,
+      S.current.habit_category_environmental: HabitCategory.environmental,
+    };
+
+    return categoryMap[str];
+  }
+
   Color get color {
     switch (this) {
       case HabitCategory.health:

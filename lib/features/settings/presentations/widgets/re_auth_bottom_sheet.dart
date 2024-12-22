@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:page_transition/page_transition.dart';
 
-import '../../../../core/helpers/snack_bar_helper.dart';
+import '../../../../core/helpers/alert_helper.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../injection_container.dart';
 import '../../../auth/presentations/bloc/login/login_cubit.dart';

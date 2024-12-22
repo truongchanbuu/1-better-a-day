@@ -13,13 +13,12 @@ import '../bloc/signup/signup_cubit.dart';
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
 
-  static const double _safeBottomSpacing = 40;
-
   @override
   State<AuthPage> createState() => _AuthPageState();
 }
 
 class _AuthPageState extends State<AuthPage> {
+  static const double _safeBottomSpacing = 40;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -34,10 +33,11 @@ class _AuthPageState extends State<AuthPage> {
             color: AppColors.lightText,
             fontWeight: FontWeight.bold,
           ),
-          footerBottomPadding: AuthPage._safeBottomSpacing,
+          footerBottomPadding: _safeBottomSpacing,
           footerTextStyle: const TextStyle(
             color: AppColors.lightText,
             fontSize: AppFontSize.labelLarge,
+            overflow: TextOverflow.visible,
           ),
         ),
         onLogin: _onLogIn,
@@ -45,6 +45,7 @@ class _AuthPageState extends State<AuthPage> {
         onRecoverPassword: _onRecoveryPassword,
         title: AppCommons.appName,
         titleTag: AppCommons.shortAppName,
+        onConfirmSignup: null,
         footer: S.current.term_and_condition_statement,
         passwordValidator: (value) =>
             (value?.length ?? 0) < 6 ? S.current.invalid_password : null,

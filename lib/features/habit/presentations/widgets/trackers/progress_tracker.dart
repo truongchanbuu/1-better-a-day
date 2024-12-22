@@ -12,7 +12,7 @@ import '../../../../../core/extensions/num_extension.dart';
 import '../../../../../core/extensions/string_extension.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../shared/presentations/widgets/icon_with_text.dart';
-import '../../../domain/entities/goal_unit.dart';
+import '../../../../../core/enums/habit/goal_unit.dart';
 
 class ProgressTracker extends StatefulWidget {
   final GoalType goalType;

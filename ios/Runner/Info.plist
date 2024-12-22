@@ -53,5 +53,7 @@
     <true/>
     <key>NSLocationWhenInUseUsageDescription</key>
     <string>This app needs access to location when tracking your activities.</string>
+    <key>com.apple.security.network.server</key>
+    <true/>
 </dict>
 </plist>

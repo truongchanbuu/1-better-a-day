@@ -1,7 +1,9 @@
 import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 import 'habit_goal.dart';
 
+@JsonSerializable()
 class HabitEntity extends Equatable {
   final String habitId;
   final String habitTitle;

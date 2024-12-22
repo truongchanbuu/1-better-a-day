@@ -1,7 +1,11 @@
 import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 import '../../../../core/extensions/string_extension.dart';
 
+part 'habit_goal.g.dart';
+ 
+@JsonSerializable()
 class HabitGoal extends Equatable {
   final String goalId;
   final String habitId;
@@ -9,7 +13,7 @@ class HabitGoal extends Equatable {
   final String goalType;
   final double currentValue;
   final double targetValue;
-  final String goalFrequency;
+  final int goalFrequency;
   final String goalUnit;
 
   const HabitGoal({
@@ -23,6 +27,18 @@ class HabitGoal extends Equatable {
     required this.goalFrequency,
   });
 
+  factory HabitGoal.init() {
+    return const HabitGoal(
+      goalId: '',
+      habitId: '',
+      goalDesc: '',
+      goalType: '',
+      targetValue: 0,
+      goalUnit: '',
+      goalFrequency: 1,
+    );
+  }
+
   HabitGoal copyWith({
     String? goalId,
     String? habitId,
@@ -31,7 +47,7 @@ class HabitGoal extends Equatable {
     double? currentValue,
     double? targetValue,
     String? goalUnit,
-    String? goalFrequency,
+    int? goalFrequency,
   }) {
     return HabitGoal(
       goalId: goalId ?? this.goalId,

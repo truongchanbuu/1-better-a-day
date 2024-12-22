@@ -10,7 +10,7 @@ import '../../../../core/enums/habit/mood.dart';
 import '../../../../core/extensions/string_extension.dart';
 import '../../../../core/helpers/date_time_helper.dart';
 import '../../../../generated/l10n.dart';
-import '../../domain/entities/goal_unit.dart';
+import '../../../../core/enums/habit/goal_unit.dart';
 import '../../domain/entities/habit_history.dart';
 import '../widgets/habit_streak_calendar.dart';
 import '../widgets/habit_history/history_item.dart';

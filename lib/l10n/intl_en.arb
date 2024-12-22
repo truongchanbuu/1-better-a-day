@@ -22,7 +22,7 @@
   "end_date": "End Date",
   "show_more": "Show More",
   "show_less": "Show less",
-  "less_title": "Less0",
+  "less_title": "Less",
   "more_title": "More",
   "status_title": "Status",
   "select_date_title": "Select Date",
@@ -38,6 +38,7 @@
       }
     }
   },
+  "friend_title": "friend",
 
   "@__VALIDATION__": "",
   "out_of_range": "The number is out of range",
@@ -108,9 +109,10 @@
   "password_field": "Password",
   "confirm_password_field": "Confirm Password",
 
-  "app_info_section": "Additional Information",
+  "additional_information": "Additional Information",
   "terms_and_conditions": "Terms & Conditions",
   "help_tile": "Help",
+  "know_more_about_habit": "More Knowledge about habit",
 
   "time_of_day_section": "Time of day",
   "dawn_tile": "Dawn",
@@ -326,6 +328,41 @@
   "habit_quote_4": "Drop by drop is the water pot filled",
   "habit_quote_5": "Success is the sum of small efforts repeated day in and day out",
 
+  "@__HABIT_KNOWLEDGE__": "",
+  "compound_effect": "Compound Effect",
+  "compound_effect_description": "Improving 1% each day will make you 37 times better after a year.",
+  "pareto_principle": "Pareto Principle",
+  "pareto_principle_description": "20% of the right habits will bring 80% of the positive results.",
+  "power_of_timing": "Power of Timing",
+  "power_of_timing_description": "Performing a habit at the same time each day increases the likelihood of maintaining it by 90%.",
+
+  "quote_aristotle": "We are what we repeatedly do. Excellence, then, is not an act, but a habit.",
+  "author_aristotle": "Aristotle",
+  "quote_james_clear": "Small habits make a big difference.",
+  "author_james_clear": "James Clear",
+  "quote_dwayne_johnson": "Success is not about perfection. It's about consistency.",
+  "author_dwayne_johnson": "Dwayne Johnson",
+
+  "science_tab": "Science",
+  "psy_tab": "Psychology",
+  "statistic_info_tab": "Statistics",
+
+  "science_21_day_rule": "21-Day Rule",
+  "science_21_day_rule_description": "Research shows it actually takes 66 days to form an automatic habit, not 21 days as commonly believed.",
+  "science_neuroplasticity": "Neuroplasticity",
+  "science_neuroplasticity_description": "When you repeat a behavior, the brain creates new neural connections, making the behavior more natural over time.",
+  "science_dopamine_habits": "Dopamine and Habits",
+  "science_dopamine_habits_description": "The brain releases dopamine not only when achieving a goal but also when recognizing cues leading to rewards.",
+  "psychology_cue_routine_reward": "Cue-Routine-Reward",
+  "psychology_cue_routine_reward_description": "Habits are formed by three elements: Cue, Routine, and Reward.",
+  "psychology_implementation_intentions": "Implementation Intentions",
+  "psychology_implementation_intentions_description": "Specifying 'when' and 'where' you will perform a habit can increase success rates by 2-3 times.",
+  "statistics_success_rate": "Success Rate",
+  "statistics_success_rate_description": "43% of our daily actions are performed unconsciously due to habits.",
+  "statistics_habit_formation_time": "Habit Formation Time",
+  "statistics_habit_formation_time_description": "The time to form a habit can range from 18 to 254 days depending on complexity.",
+
+
   "@__CHALLENGE__": "",
   "discover_tab": "Discover",
   "my_custom_challenge_tab": "My Custom Challenges",
@@ -354,5 +391,541 @@
   "all_achievements_tab": "All Achievements",
   "collection_tab": "Collections",
   "personal_achievements": "Personal Achievements",
-  "community_challenges": "Community Challenges"
+  "community_challenges": "Community Challenges",
+
+  "@__ADD_HABIT__": "",
+  "habit_desc": "Habit Description (What is your habit?)",
+  "habit_goal": "Habit Goal",
+  "specify_title": "Specify",
+  "measurable_title": "Measurable",
+  "achievable_title": "Achievable",
+  "relevant_title": "Relevant",
+  "time_bound_title": "Time Bound",
+
+  "specify_desc": "Clear and well-defined goal that answers who, what, where, when, and why.",
+  "measurement_desc": "Include concrete numbers or actions that can be tracked and evaluated.",
+  "achievable_desc": "Realistic and attainable within your current resources and constraints.",
+  "relevant_desc": "Aligned with your broader goals and current life situation.",
+  "time_bound_desc": "Has a clear deadline or timeframe for completion.",
+
+  "habit_category_field_hint": "Select a category",
+  "habit_frequency": "Frequency",
+  "freq_daily": "Daily",
+  "freq_monthly": "Monthly",
+  "freq_yearly": "Yearly",
+
+  "generate_habit_button": "Generate Habit",
+  "summary_title": "Summary",
+
+  "@__ADD_HABIT_FORM__": "",
+  "@__ADD_HABIT_VALIDATION__": "",
+
+  "add_habit_not_enough_info": "Please provide at least one in habit name, description or brief goal to generate accurate SMART goal",
+  "invalid_num": "Please enter number that greater than 0",
+  "invalid_start_date": "Start date cannot be after end date",
+  "invalid_end_date": "End date cannot be after start date",
+
+  "smart_criteria_achieved": "SMART Achieved",
+  "specific_excellent": "Your goal is very clear and well_defined with specific details",
+  "@specific_excellent": {
+    "description": "Feedback for excellent specific criteria"
+  },
+  "specific_good": "Your goal has good specificity but could use more detail",
+  "@specific_good": {
+    "description": "Feedback for good specific criteria"
+  },
+  "specific_needs_work": "Your goal needs more specific details about what you want to achieve",
+  "@specific_needs_work": {
+    "description": "Feedback for needs work specific criteria"
+  },
+  "specific_poor": "Your goal is too vague and needs specific actions",
+  "@specific_poor": {
+    "description": "Feedback for poor specific criteria"
+  },
+
+  "specific_suggestion_1": "Add specific numbers or quantities to measure success",
+  "@specific_suggestion_1": {
+    "description": "First suggestion for improving specificity"
+  },
+  "specific_suggestion_2": "Include clear action verbs describing what you'll do",
+  "@specific_suggestion_2": {
+    "description": "Second suggestion for improving specificity"
+  },
+  "specific_suggestion_3": "Specify exactly what you want to achieve",
+  "@specific_suggestion_3": {
+    "description": "Third suggestion for improving specificity"
+  },
+
+  "measurable_excellent": "Your goal has clear metrics and tracking methods",
+  "@measurable_excellent": {
+    "description": "Feedback for excellent measurable criteria"
+  },
+  "measurable_good": "Your goal is measurable but could use clearer metrics",
+  "@measurable_good": {
+    "description": "Feedback for good measurable criteria"
+  },
+  "measurable_needs_work": "Your goal needs clearer ways to measure progress",
+  "@measurable_needs_work": {
+    "description": "Feedback for needs work measurable criteria"
+  },
+  "measurable_poor": "Your goal lacks any measurable criteria",
+  "@measurable_poor": {
+    "description": "Feedback for poor measurable criteria"
+  },
+
+  "measurable_suggestion_1": "Add specific numbers to track progress",
+  "@measurable_suggestion_1": {
+    "description": "First suggestion for improving measurable habit"
+  },
+  "measurable_suggestion_2": "Include how you'll measure success",
+  "@measurable_suggestion_2": {
+    "description": "Second suggestion for improving measurable habit"
+  },
+
+
+  "achievable_suggestion_1": "Consider making the goal more achievable by avoiding absolute terms",
+  "achievable_suggestion_2": "Avoid unclear goal that cannot measure or achieve",
+
+  "relevant_suggestion_1": "Consider explaining why this goal is important to you",
+
+  "time_bound_suggestion_1": "Consider adding a clear time limit or deadline for your goal.",
+  "time_bound_suggestion_2": "Please specify the timeframe or duration for achieving your goal.",
+
+  "summary_excellent": "Excellent SMART goal! All criteria are well_defined and balanced.",
+  "@summary_excellent": {
+    "description": "Summary for excellent overall score"
+  },
+  "summary_good": "Good SMART goal with minor areas for improvement. Score: {score}%",
+  "@summary_good": {
+    "description": "Summary for good overall score",
+    "placeholders": {
+      "score": {
+        "type": "double"
+      }
+    }
+  },
+  "summary_needs_work": "Goal needs work in several areas to be truly SMART. Score: {score}%",
+  "@summary_needs_work": {
+    "description": "Summary for needs work overall score",
+    "placeholders": {
+      "score": {
+        "type": "double"
+      }
+    }
+  },
+  "summary_poor": "Goal needs significant improvement to meet SMART criteria. Score: {score}%",
+  "@summary_poor": {
+    "description": "Summary for poor overall score",
+    "placeholders": {
+      "score": {
+        "type": "double"
+      }
+    }
+  },
+
+  "@__ACTION_WORD_EXERCISE": "",
+  "action_exercise_run": "run",
+  "action_exercise_walk": "walk",
+  "action_exercise_swim": "swim",
+  "action_exercise_workout": "workout",
+  "action_exercise_jog": "jog",
+  "action_exercise_yoga": "practice yoga",
+  "action_exercise_stretch": "stretch",
+  "action_exercise_gym": "go to gym",
+  "@__ACTION_VERBS_LEARNING": "",
+  "action_learning_read": "read",
+  "action_learning_study": "study",
+  "action_learning_practice": "practice",
+  "action_learning_write": "write",
+  "action_learning_revise": "revise",
+  "action_learning_research": "research",
+  "action_learning_learn": "learn",
+  "action_learning_master": "master",
+  "@__ACTION_VERBS_HEALTH": "",
+  "action_health_meditate": "meditate",
+  "action_health_drink": "drink",
+  "action_health_eat": "eat",
+  "action_health_sleep": "sleep",
+  "action_health_breathe": "breathe",
+  "action_health_relax": "relax",
+  "action_health_rest": "rest",
+  "@__ACTION_VERBS_PRODUCTIVITY": "",
+  "action_productivity_complete": "complete",
+  "action_productivity_finish": "finish",
+  "action_productivity_achieve": "achieve",
+  "action_productivity_accomplish": "accomplish",
+  "action_productivity_do": "do",
+  "action_productivity_work": "work on",
+  "action_productivity_start": "start",
+  "action_productivity_continue": "continue",
+  "@__ACTION_VERBS_CREATIVE": "",
+  "action_creative_build": "build",
+  "action_creative_create": "create",
+  "action_creative_develop": "develop",
+  "action_creative_design": "design",
+  "action_creative_write": "write",
+  "action_creative_draw": "draw",
+  "action_creative_paint": "paint",
+  "action_creative_compose": "compose",
+  "@__ACTION_VERBS_SOCIAL": "",
+  "action_social_connect": "connect with",
+  "action_social_meet": "meet",
+  "action_social_call": "call",
+  "action_social_text": "text",
+  "action_social_email": "email",
+  "action_social_visit": "visit",
+  "action_social_spend": "spend time with",
+  "action_social_help": "help",
+  "@__ACTION_VERBS_IMPROVEMENT": "",
+  "action_improvement_reduce": "reduce",
+  "action_improvement_increase": "increase",
+  "action_improvement_decrease": "decrease",
+  "action_improvement_improve": "improve",
+  "action_improvement_enhance": "enhance",
+  "action_improvement_optimize": "optimize",
+  "action_improvement_upgrade": "upgrade",
+  "@__ACTION_VERBS_TRACKING": "",
+  "action_tracking_track": "track",
+  "action_tracking_measure": "measure",
+  "action_tracking_monitor": "monitor",
+  "action_tracking_record": "record",
+  "action_tracking_log": "log",
+  "action_tracking_count": "count",
+  "action_tracking_analyze": "analyze",
+
+  "@__ACTION_VERBS_TIME": "",
+  "action_time_spend": "spend",
+  "action_time_allocate": "allocate",
+  "action_time_limit": "limit",
+  "action_time_schedule": "schedule",
+  "action_time_plan": "plan",
+  "action_time_organize": "organize",
+  "action_time_manage": "manage",
+
+  "@__MEASURABLE_WORD": "",
+  "measurable_meter": "m",
+  "@measurable_meter": {
+    "description": "Unit of measurement: meter"
+  },
+  "measurable_kilometer": "km",
+  "@measurable_kilometer": {
+    "description": "Unit of measurement: kilometer"
+  },
+  "measurable_mile": "mile",
+  "@measurable_mile": {
+    "description": "Unit of measurement: kilometer"
+  },
+  "measurable_gram": "g",
+  "@measurable_gram": {
+    "description": "Unit of measurement: gram"
+  },
+  "measurable_kilogram": "kg",
+  "@measurable_kilogram": {
+    "description": "Unit of measurement: kilogram"
+  },
+  "measurable_liter": "l",
+  "@measurable_liter": {
+    "description": "Unit of measurement: liter"
+  },
+  "measurable_milliliter": "ml",
+  "@measurable_milliliter": {
+    "description": "Unit of measurement: milliliter"
+  },
+  "measurable_hour": "h",
+  "@measurable_hour": {
+    "description": "Unit of time: hour"
+  },
+  "measurable_minute": "min",
+  "@measurable_minute": {
+    "description": "Unit of time: minute"
+  },
+  "measurable_second": "s",
+  "@measurable_second": {
+    "description": "Unit of time: second"
+  },
+  "measurable_page": "page",
+  "@measurable_page": {
+    "description": "Unit of book: page"
+  },
+  "measurable_step": "step",
+  "@measurable_step": {
+    "description": "Unit of walking: step"
+  },
+  "measurable_rep": "rep",
+  "@measurable_rep": {
+    "description": "Unit of walking: rep"
+  },
+  "measurable_set": "set",
+  "@measurable_set": {
+    "description": "Unit of walking: set"
+  },
+
+  "@__ACHIEVABLE_WORD": "",
+  "measurable_positive_increase": "increase",
+  "@measurable_positive_increase": {
+    "description": "Indicates an increase, often associated with growth or improvement."
+  },
+  "measurable_positive_improve": "improve",
+  "@measurable_positive_improve": {
+    "description": "Indicates improvement, typically suggesting progress toward a goal."
+  },
+  "measurable_positive_optimize": "optimize",
+  "@measurable_positive_optimize": {
+    "description": "Refers to making something as effective or functional as possible."
+  },
+  "measurable_positive_boost": "boost",
+  "@measurable_positive_boost": {
+    "description": "Refers to enhancing or improving something, usually in terms of performance."
+  },
+  "measurable_positive_growth": "grow",
+  "@measurable_positive_growth": {
+    "description": "Refers to the process of increasing or expanding in size or capacity."
+  },
+  "measurable_positive_expand": "expand",
+  "@measurable_positive_expand": {
+    "description": "Refers to making something larger or more extensive."
+  },
+  "measurable_positive_enhance": "enhance",
+  "@measurable_positive_enhance": {
+    "description": "Refers to improving something, especially in terms of quality."
+  },
+  "measurable_positive_raise": "raise",
+  "@measurable_positive_raise": {
+    "description": "Indicates lifting or increasing something to a higher level."
+  },
+  "measurable_positive_develop": "develop",
+  "@measurable_positive_develop": {
+    "description": "Indicates the process of growth or improvement over time."
+  },
+  "measurable_positive_build": "build",
+  "@measurable_positive_build": {
+    "description": "Refers to constructing or creating something, often associated with progress."
+  },
+  "measurable_positive_complete": "complete",
+  "@measurable_positive_complete": {
+    "description": "Refers to finishing or concluding a task or project."
+  },
+  "measurable_positive_accomplish": "accomplish",
+  "@measurable_positive_accomplish": {
+    "description": "Refers to achieving or completing something successfully."
+  },
+  "measurable_positive_achieve": "achieve",
+  "@measurable_positive_achieve": {
+    "description": "Indicates the completion or attainment of a goal."
+  },
+  "measurable_positive_attain": "attain",
+  "@measurable_positive_attain": {
+    "description": "Refers to reaching or achieving a desired goal or level."
+  },
+  "measurable_positive_reach": "reach",
+  "@measurable_positive_reach": {
+    "description": "Indicates achieving or arriving at a goal or target."
+  },
+  "measurable_positive_succeed": "succeed",
+  "@measurable_positive_succeed": {
+    "description": "Refers to achieving success or fulfilling a goal."
+  },
+  "measurable_positive_master": "master",
+  "@measurable_positive_master": {
+    "description": "Refers to gaining full control or proficiency over something."
+  },
+  "measurable_positive_finalize": "finalize",
+  "@measurable_positive_finalize": {
+    "description": "Indicates bringing a task or project to a conclusion."
+  },
+  "measurable_positive_realize": "realize",
+  "@measurable_positive_realize": {
+    "description": "Refers to achieving or making something a reality."
+  },
+  "measurable_positive_deliver": "deliver",
+  "@measurable_positive_deliver": {
+    "description": "Refers to completing a task or fulfilling a commitment."
+  },
+  "measurable_positive_finish": "finish",
+  "@measurable_positive_finish": {
+    "description": "Indicates the completion of a task or project."
+  },
+  "measurable_positive_progress": "progress",
+  "@measurable_positive_progress": {
+    "description": "Refers to moving forward or making advancements."
+  },
+  "measurable_positive_advance": "advance",
+  "@measurable_positive_advance": {
+    "description": "Indicates moving forward or making progress toward a goal."
+  },
+  "measurable_positive_strengthen": "strengthen",
+  "@measurable_positive_strengthen": {
+    "description": "Refers to making something stronger or more effective."
+  },
+  "measurable_positive_cultivate": "cultivate",
+  "@measurable_positive_cultivate": {
+    "description": "Refers to developing or improving something over time."
+  },
+  "measurable_positive_refine": "refine",
+  "@measurable_positive_refine": {
+    "description": "Indicates improving something through small adjustments or corrections."
+  },
+  "measurable_positive_perfect": "perfect",
+  "@measurable_positive_perfect": {
+    "description": "Refers to making something flawless or as good as possible."
+  },
+  "measurable_negative_lose": "lose",
+  "@measurable_negative_lose": {
+    "description": "Indicates reduction or failure to maintain something."
+  },
+  "measurable_negative_decline": "decline",
+  "@measurable_negative_decline": {
+    "description": "Refers to a decrease or worsening over time."
+  },
+  "measurable_negative_diminish": "diminish",
+  "@measurable_negative_diminish": {
+    "description": "Refers to making something smaller or less effective."
+  },
+  "measurable_negative_decrease": "decrease",
+  "@measurable_negative_decrease": {
+    "description": "Refers to a reduction in size, amount, or quality."
+  },
+  "measurable_negative_weaken": "weaken",
+  "@measurable_negative_weaken": {
+    "description": "Refers to making something weaker or less effective."
+  },
+  "measurable_negative_fail": "fail",
+  "@measurable_negative_fail": {
+    "description": "Indicates an inability to achieve or complete a goal."
+  },
+  "measurable_negative_revert": "revert",
+  "@measurable_negative_revert": {
+    "description": "Refers to returning to a previous state or condition."
+  },
+  "@__RELEVANT_WORD": "",
+  "relevant_increase": "increase",
+  "@relevant_increase": {
+    "description": "Indicates a positive change or growth in value, often related to progress."
+  },
+  "relevant_improve": "improve",
+  "@relevant_improve": {
+    "description": "Indicates the process of becoming better or more effective in a given area."
+  },
+  "relevant_optimize": "optimize",
+  "@relevant_optimize": {
+    "description": "Refers to making something as efficient or functional as possible."
+  },
+  "relevant_boost": "boost",
+  "@relevant_boost": {
+    "description": "Refers to enhancing or improving something, usually in terms of performance."
+  },
+  "relevant_enhance": "enhance",
+  "@relevant_enhance": {
+    "description": "Refers to improving the quality or effectiveness of something."
+  },
+  "relevant_expand": "expand",
+  "@relevant_expand": {
+    "description": "Refers to increasing the scope, size, or influence of something."
+  },
+  "relevant_strengthen": "strengthen",
+  "@relevant_strengthen": {
+    "description": "Refers to making something stronger, more effective, or more resilient."
+  },
+  "relevant_develop": "develop",
+  "@relevant_develop": {
+    "description": "Refers to the gradual improvement or progression of something over time."
+  },
+  "relevant_raise": "raise",
+  "@relevant_raise": {
+    "description": "Indicates lifting something to a higher level, often in terms of quality or achievement."
+  },
+  "relevant_accomplish": "accomplish",
+  "@relevant_accomplish": {
+    "description": "Refers to successfully completing a task or goal."
+  },
+
+  "timebound_deadline": "deadline",
+  "timebound_complete": "complete",
+  "timebound_finish": "finish",
+  "timebound_finalize": "finalize",
+  "timebound_achieve": "achieve",
+  "timebound_reach": "reach",
+  "timebound_complete_by": "complete by",
+  "timebound_due": "due",
+  "timebound_end": "end",
+  "timebound_within": "within",
+  "timebound_before": "before",
+  "timebound_on": "on",
+  "timebound_by": "by",
+  "timebound_duration": "duration",
+  "timebound_until": "until",
+  "timebound_start": "start",
+  "timebound_start_from": "start from",
+  "timebound_start_by": "start by",
+  "timebound_timeframe": "timeframe",
+  "timebound_end_by": "end by",
+  "timebound_goal": "goal",
+  "timebound_end_date": "end date",
+  "timebound_in_time": "in time",
+  "timebound_time_limit": "time limit",
+  "timebound_timely": "timely",
+  "timebound_immediate": "immediate",
+  "timebound_promptly": "promptly",
+  "timebound_soon": "soon",
+  "timebound_quickly": "quickly",
+  "timebound_urgent": "urgent",
+  "timebound_scheduled": "scheduled",
+  "timebound_set_date": "set date",
+  "timebound_after": "after",
+  "timebound_soon_after": "soon after",
+  "timebound_next": "next",
+  "timebound_in_the_next": "in the next",
+  "timebound_within_the_next": "within the next",
+  "timebound_upon_completion": "upon completion",
+  "timebound_post": "post",
+
+  "internet_failure_title": "Internet connection failure",
+  "goal_recommend_with_no_internet_alert": "Please note, the accuracy of your goal may be affected if there is no internet connection. Kindly check your connection and try again",
+
+  "goal_desc": "Goal Description (What for?)",
+  "goal_type": "Goal Type",
+  "goal_unit_value": "Value",
+  "goal_unit": "Goal Unit",
+
+  "reps_unit": "reps",
+  "sets_unit": "sets",
+  "l_unit": "liters",
+  "ml_unit": "milliliters",
+  "second_unit": "second",
+  "minute_unit": "minute",
+  "hour_unit": "hour",
+  "page_unit": "page",
+  "cm_unit": "centimeters",
+  "km_unit": "kilometers",
+  "m_unit": "meters",
+  "steps_unit": "steps",
+  "miles_unit": "miles",
+  "custom_unit": "custom",
+
+  "@_GOAL_TYPE": "",
+
+  "goal_completion": "Completion",
+  "goal_count": "Count",
+  "goal_distance": "Distance",
+  "goal_duration": "Duration",
+  "goal_custom": "Custom",
+  "@goal_completion": {
+    "description": "Completion goal type"
+  },
+  "@goal_count": {
+    "description": "Count goal type"
+  },
+  "@goal_distance": {
+    "description": "Distance goal type"
+  },
+  "@goal_duration": {
+    "description": "Duration goal type"
+  },
+  "@goal_custom": {
+    "description": "Custom goal type"
+  },
+
+  "ask_ai_button": "Get SMART Goal Recommendation",
+  "ask_ai_field": "Tell me what you want to do...",
+  "ai_habit_generate_page_title": "Get SMART habit with few word"
 }

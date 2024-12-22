@@ -4,7 +4,7 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
 import '../../../../core/constants/app_color.dart';
 import '../../../../core/constants/app_spacing.dart';
-import '../../../../core/helpers/snack_bar_helper.dart';
+import '../../../../core/helpers/alert_helper.dart';
 import '../../../../generated/l10n.dart';
 import '../bloc/update_info_cubit.dart';
 

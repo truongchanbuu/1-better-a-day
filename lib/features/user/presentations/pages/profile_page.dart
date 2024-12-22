@@ -13,7 +13,7 @@ import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/enums/gender.dart';
 import '../../../../core/extensions/string_extension.dart';
 import '../../../../core/helpers/date_time_helper.dart';
-import '../../../../core/helpers/snack_bar_helper.dart';
+import '../../../../core/helpers/alert_helper.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../injection_container.dart';
 import '../../../auth/presentations/bloc/auth_bloc/auth_bloc.dart';

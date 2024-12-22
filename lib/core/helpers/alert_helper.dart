@@ -9,6 +9,7 @@ class AlertHelper {
       message: message,
       contentType: type,
     );
+
     final snackBar = SnackBar(content: snackBarContent);
 
     ScaffoldMessenger.of(context)

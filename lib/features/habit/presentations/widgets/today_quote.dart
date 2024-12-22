@@ -17,13 +17,13 @@ class _TodayQuoteState extends State<TodayQuote> {
   bool isFinished = false;
   late int randomQuoteNumber;
 
-  static final List<String> quotes = [
-    S.current.habit_quote_1,
-    S.current.habit_quote_2,
-    S.current.habit_quote_3,
-    S.current.habit_quote_4,
-    S.current.habit_quote_5,
-  ];
+  List<String> get quotes => [
+        S.current.habit_quote_1,
+        S.current.habit_quote_2,
+        S.current.habit_quote_3,
+        S.current.habit_quote_4,
+        S.current.habit_quote_5,
+      ];
 
   @override
   void initState() {

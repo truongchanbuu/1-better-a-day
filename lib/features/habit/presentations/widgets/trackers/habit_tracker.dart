@@ -11,7 +11,7 @@ import '../../../../../core/enums/habit/goal_type.dart';
 import '../../../../../core/extensions/context_extension.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../injection_container.dart';
-import '../../../domain/entities/goal_unit.dart';
+import '../../../../../core/enums/habit/goal_unit.dart';
 import '../../../domain/entities/habit_goal.dart';
 import '../../blocs/distance_track/distance_track_cubit.dart';
 import '../../pages/habit_detail_page.dart';

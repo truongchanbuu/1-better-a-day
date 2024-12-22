@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
 
-import 'goal_unit.dart';
+import '../../../../core/enums/habit/goal_unit.dart';
 
 class HabitHistory extends Equatable {
   final String id;

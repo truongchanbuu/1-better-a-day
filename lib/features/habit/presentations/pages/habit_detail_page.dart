@@ -22,7 +22,7 @@ import '../../../../core/helpers/date_time_helper.dart';
 import '../../../../generated/l10n.dart';
 import '../../../shared/presentations/widgets/icon_with_text.dart';
 import '../../../shared/presentations/widgets/text_with_circle_border_container.dart';
-import '../../domain/entities/goal_unit.dart';
+import '../../../../core/enums/habit/goal_unit.dart';
 import '../../domain/entities/habit_entity.dart';
 import '../../domain/entities/habit_goal.dart';
 import '../../domain/entities/habit_history.dart';
@@ -43,7 +43,7 @@ var habit = HabitEntity(
     goalType: GoalType.distance.name,
     targetValue: 10,
     goalUnit: GoalUnit.km.name,
-    goalFrequency: HabitFrequency.daily.name,
+    goalFrequency: 1,
   ),
   iconName: HabitIcon.water.iconName,
   startDate: DateTime(2024, 1, 1),
@@ -51,7 +51,7 @@ var habit = HabitEntity(
   habitCategory: HabitCategory.health.name,
   endDate: DateTime(2024, 12, 31),
   reminderTime: DateTime(2024, 12, 5, 10, 10),
-  habitStatus: HabitStatus.inProgress.name,
+  habitStatus: '',
   habitProgress: 0.48,
 );
 
@@ -214,7 +214,9 @@ class HabitDetailPage extends StatelessWidget {
         TextWithCircleBorderContainer(
             title: habit.timeOfDay.toUpperCaseFirstLetter),
         TextWithCircleBorderContainer(
-            title: habit.habitGoal.goalFrequency.toUpperCaseFirstLetter),
+            title: HabitFrequency.fromNum(habit.habitGoal.goalFrequency)
+                .name
+                .toUpperCaseFirstLetter),
       ],
     );
   }

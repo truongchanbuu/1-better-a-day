@@ -4,18 +4,21 @@ import '../../../../core/constants/app_font_size.dart';
 import '../../../../core/constants/app_spacing.dart';
 
 class IconWithText extends StatelessWidget {
+  final double? width;
   final IconData icon;
   final Color? iconColor;
   final String text;
   final double? iconSize;
   final Color? fontColor;
   final double? fontSize;
+  final FontStyle? fontStyle;
   final FontWeight? fontWeight;
   final Color? backgroundColor;
   final EdgeInsets? padding;
   final EdgeInsets? margin;
   final BorderRadius? borderRadius;
   final Alignment? alignment;
+  final TextAlign? textAlign;
 
   const IconWithText({
     super.key,
@@ -31,11 +34,15 @@ class IconWithText extends StatelessWidget {
     this.margin,
     this.borderRadius,
     this.alignment,
+    this.fontStyle,
+    this.width,
+    this.textAlign,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: width,
       alignment: alignment,
       decoration:
           BoxDecoration(color: backgroundColor, borderRadius: borderRadius),
@@ -57,7 +64,9 @@ class IconWithText extends StatelessWidget {
                 color: fontColor,
                 fontWeight: fontWeight,
                 fontSize: fontSize ?? AppFontSize.h1,
+                fontStyle: fontStyle,
               ),
+              textAlign: textAlign,
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
             ),

@@ -1,4 +1,4 @@
-import '../../../../habit/domain/entities/goal_unit.dart';
+import '../../../../../core/enums/habit/goal_unit.dart';
 import '../achievement_requirement.dart';
 
 class AccumulationRequirement implements AchievementRequirement {

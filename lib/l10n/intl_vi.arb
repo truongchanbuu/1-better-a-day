@@ -38,6 +38,7 @@
       }
     }
   },
+  "friend_title": "anh bạn",
 
   "@__VALIDATION__": "",
   "out_of_range": "Số hiện tại đang vượt quá mức",
@@ -107,9 +108,10 @@
   "password_field": "Mật khẩu",
   "confirm_password_field": "Xác nhận mật khẩu",
 
-  "app_info_section": "Thông tin bổ sung",
+  "additional_information": "Thông tin bổ sung",
   "terms_and_conditions": "Điều khoản & Điều kiện",
   "help_tile": "Trợ giúp",
+  "know_more_about_habit": "Hiểu về thói quen",
 
   "time_of_day_section": "Thời gian trong ngày",
   "dawn_tile": "Bình minh",
@@ -325,6 +327,40 @@
   "habit_quote_4": "Chớ thấy sóng cả mà ngã tay chèo",
   "habit_quote_5": "Mưa dầm thấm lâu, mưa lâu thấm đất",
 
+  "@__HABIT_KNOWLEDGE__": "",
+  "compound_effect": "Hiệu ứng Compound",
+  "compound_effect_description": "Cải thiện 1% mỗi ngày sẽ giúp bạn tốt hơn 37 lần sau một năm.",
+  "pareto_principle": "Quy luật Pareto",
+  "pareto_principle_description": "20% thói quen đúng đắn sẽ mang lại 80% kết quả tích cực.",
+  "power_of_timing": "Sức mạnh của thời điểm",
+  "power_of_timing_description": "Thực hiện thói quen vào cùng một thời điểm mỗi ngày tăng 90% khả năng duy trì.",
+
+  "quote_aristotle": "Chúng ta là những gì chúng ta làm lặp đi lặp lại. Sự xuất sắc không phải là một hành động mà là một thói quen.",
+  "author_aristotle": "Aristotle",
+  "quote_james_clear": "Thói quen nhỏ tạo nên sự khác biệt lớn.",
+  "author_james_clear": "James Clear",
+  "quote_dwayne_johnson": "Thành công không phải là về sự hoàn hảo. Đó là về sự nhất quán.",
+  "author_dwayne_johnson": "Dwayne Johnson",
+
+  "science_tab": "Khoa học",
+  "psy_tab": "Tâm lý",
+  "statistic_info_tab": "Thống kê",
+
+  "science_21_day_rule": "Quy tắc 21 ngày",
+  "science_21_day_rule_description": "Nghiên cứu cho thấy thực sự mất 66 ngày để hình thành một thói quen tự động, không phải 21 ngày như nhiều người vẫn nghĩ.",
+  "science_neuroplasticity": "Neuroplasticity",
+  "science_neuroplasticity_description": "Khi bạn lặp lại một hành vi, não tạo ra các kết nối neural mới, làm cho hành vi đó trở nên tự nhiên hơn theo thời gian.",
+  "science_dopamine_habits": "Dopamine và Thói quen",
+  "science_dopamine_habits_description": "Não tiết ra dopamine không chỉ khi đạt được mục tiêu mà còn khi nhận ra tín hiệu dẫn đến phần thưởng.",
+  "psychology_cue_routine_reward": "Cue-Routine-Reward",
+  "psychology_cue_routine_reward_description": "Thói quen được hình thành từ 3 yếu tố: Tín hiệu kích hoạt, Thói quen, và Phần thưởng.",
+  "psychology_implementation_intentions": "Implementation Intentions",
+  "psychology_implementation_intentions_description": "Xác định cụ thể 'khi nào' và 'ở đâu' bạn sẽ thực hiện một thói quen có thể tăng tỷ lệ thành công lên 2-3 lần.",
+  "statistics_success_rate": "Tỷ lệ thành công",
+  "statistics_success_rate_description": "43% hành động hàng ngày của chúng ta được thực hiện một cách vô thức do thói quen.",
+  "statistics_habit_formation_time": "Thời gian hình thành",
+  "statistics_habit_formation_time_description": "Thời gian hình thành thói quen có thể dao động từ 18 đến 254 ngày tùy thuộc vào độ phức tạp.",
+
   "@__CHALLENGE__": "",
   "discover_tab": "Khám phá thêm những thử thách mới",
   "my_custom_challenge_tab": "Được tạo bởi tôi",
@@ -354,5 +390,479 @@
   "all_achievements_tab": "Tất cả các thành tựu đã đạt được",
   "collection_tab": "Bộ sưu tập",
   "personal_achievements": "Thành tựu cá nhân",
-  "community_challenges": "Thử thách cộng đồng"
+  "community_challenges": "Thử thách cộng đồng",
+
+  "@__ADD_HABIT__": "",
+  "habit_desc": "Mô tả thói quen (Thói quen của bạn là gì?)",
+  "habit_goal": "Mục tiêu thói quen",
+  "specify_title": "Cụ thể - Specify",
+  "measurable_title": "Đo lường - Measurable",
+  "achievable_title": "Đạt được - Achievable",
+  "relevant_title": "Thực tế - Relevant",
+  "time_bound_title": "Thời gian - TimeBound",
+
+  "specify_desc": "Mục tiêu rõ ràng và cụ thể, trả lời được các câu hỏi ai, cái gì, ở đâu, khi nào và tại sao.",
+  "measurement_desc": "Bao gồm các con số hoặc hành động cụ thể có thể được theo dõi và đánh giá.",
+  "achievable_desc": "Thực tế và có thể đạt được trong phạm vi tài nguyên và hạn chế hiện tại của bạn.",
+  "relevant_desc": "Phù hợp với các mục tiêu rộng hơn và tình hình cuộc sống hiện tại của bạn.",
+  "time_bound_desc": "Có thời hạn hoặc khung thời gian rõ ràng để hoàn thành.",
+
+  "habit_category_field_hint": "Chọn loại thói quen",
+  "habit_frequency": "Tần suất",
+  "freq_daily": "Hằng ngày",
+  "freq_monthly": "Hằng tháng",
+  "freq_yearly": "Hằng năm",
+
+  "generate_habit_button": "Tạo thói quen",
+  "summary_title": "Tổng hợp",
+
+  "@__ADD_HABIT_FORM__": "",
+  "@__ADD_HABIT_VALIDATION__": "",
+
+  "add_habit_not_enough_info": "Vui lòng cung cấp ít nhất một trong các thông tin: tên thói quen, mô tả hoặc mục tiêu ngắn gọn để tạo ra mục tiêu SMART chính xác.",
+  "@add_habit_not_enough_info": {
+    "description": "Yêu cầu người dùng cung cấp ít nhất một trong các thông tin cần thiết để tạo ra mục tiêu SMART."
+  },
+  "invalid_num": "Vui lòng nhập một số lớn hơn 0",
+  "invalid_start_date": "Ngày bắt đầu không thể sau ngày kết thúc",
+  "invalid_end_date": "Ngày kết thúc không thể trước ngày bắt đầu",
+
+  "smart_criteria_achieved": "Đạt được các tiêu chuẩn SMART",
+  "specific_excellent": "Mục tiêu của bạn rất rõ ràng và được xác định cụ thể",
+  "specific_good": "Mục tiêu của bạn khá cụ thể nhưng có thể cần thêm chi tiết",
+  "specific_needs_work": "Mục tiêu cần thêm chi tiết cụ thể về những gì bạn muốn đạt được",
+  "specific_poor": "Mục tiêu quá mơ hồ và cần hành động cụ thể",
+
+  "specific_suggestion_1": "Thêm số liệu hoặc số lượng cụ thể để đo lường thành công",
+  "specific_suggestion_2": "Thêm động từ hành động rõ ràng mô tả những gì bạn sẽ làm",
+  "specific_suggestion_3": "Xác định chính xác những gì bạn muốn đạt được",
+
+  "measurable_excellent": "Mục tiêu có các chỉ số và phương pháp theo dõi rõ ràng",
+  "measurable_good": "Mục tiêu có thể đo lường được nhưng cần chỉ số rõ ràng hơn",
+  "measurable_needs_work": "Mục tiêu cần cách thức rõ ràng hơn để đo lường tiến độ",
+  "measurable_poor": "Mục tiêu thiếu tiêu chí đo lường",
+  "measurable_suggestion_1": "Thêm số liệu cụ thể để theo dõi tiến độ",
+  "measurable_suggestion_2": "Thêm cách đo lường thành công",
+
+  "achievable_suggestion_1": "Cân nhắc làm cho mục tiêu dễ đạt hơn bằng cách tránh sử dụng các từ ngữ mang tinh tuyệt đối",
+  "achievable_suggestion_2": "Tránh những mục tiêu không rõ ràng, không thể đo lường hoặc đạt được",
+
+  "relevant_suggestion_1": "Xem xét tại sao bạn cần đạt được mục đích đó",
+
+  "summary_excellent": "Mục tiêu SMART xuất sắc! Tất cả tiêu chí đều được xác định rõ ràng và cân đối.",
+  "summary_good": "Mục tiêu SMART tốt với một số điểm cần cải thiện nhỏ. Điểm: {score}%",
+  "summary_needs_work": "Mục tiêu cần cải thiện ở một số lĩnh vực để thực sự SMART. Điểm: {score}%",
+  "summary_poor": "Mục tiêu cần cải thiện đáng kể để đạt tiêu chí SMART. Điểm: {score}%",
+
+  "@_ACTION_VERBS_EXERCISE": {},
+  "action_exercise_run": "chạy",
+  "action_exercise_walk": "đi bộ",
+  "action_exercise_swim": "bơi",
+  "action_exercise_workout": "tập luyện",
+  "action_exercise_jog": "chạy bộ",
+  "action_exercise_yoga": "tập yoga",
+  "action_exercise_stretch": "giãn cơ",
+  "action_exercise_gym": "đến phòng tập",
+
+  "@_ACTION_VERBS_LEARNING": {},
+  "action_learning_read": "đọc",
+  "action_learning_study": "học",
+  "action_learning_practice": "thực hành",
+  "action_learning_write": "viết",
+  "action_learning_revise": "ôn tập",
+  "action_learning_research": "nghiên cứu",
+  "action_learning_learn": "học hỏi",
+  "action_learning_master": "thành thạo",
+
+  "@_ACTION_VERBS_HEALTH": {},
+  "action_health_meditate": "thiền",
+  "action_health_drink": "uống",
+  "action_health_eat": "ăn",
+  "action_health_sleep": "ngủ",
+  "action_health_breathe": "thở",
+  "action_health_relax": "thư giãn",
+  "action_health_rest": "nghỉ ngơi",
+
+  "@_ACTION_VERBS_PRODUCTIVITY": {},
+  "action_productivity_complete": "hoàn thành",
+  "action_productivity_finish": "kết thúc",
+  "action_productivity_achieve": "đạt được",
+  "action_productivity_accomplish": "thực hiện",
+  "action_productivity_do": "làm",
+  "action_productivity_work": "làm việc về",
+  "action_productivity_start": "bắt đầu",
+  "action_productivity_continue": "tiếp tục",
+
+  "@_ACTION_VERBS_CREATIVE": {},
+  "action_creative_build": "xây dựng",
+  "action_creative_create": "tạo ra",
+  "action_creative_develop": "phát triển",
+  "action_creative_design": "thiết kế",
+  "action_creative_write": "viết",
+  "action_creative_draw": "vẽ",
+  "action_creative_paint": "sơn",
+  "action_creative_compose": "sáng tác",
+
+  "@_ACTION_VERBS_SOCIAL": {},
+  "action_social_connect": "kết nối với",
+  "action_social_meet": "gặp gỡ",
+  "action_social_call": "gọi điện",
+  "action_social_text": "nhắn tin",
+  "action_social_email": "gửi email",
+  "action_social_visit": "thăm",
+  "action_social_spend": "dành thời gian với",
+  "action_social_help": "giúp đỡ",
+
+  "@_ACTION_VERBS_IMPROVEMENT": {},
+  "action_improvement_reduce": "giảm thiểu",
+  "action_improvement_increase": "tăng",
+  "action_improvement_decrease": "giảm",
+  "action_improvement_improve": "cải thiện",
+  "action_improvement_enhance": "nâng cao",
+  "action_improvement_optimize": "tối ưu hóa",
+  "action_improvement_upgrade": "nâng cấp",
+
+  "@_ACTION_VERBS_TRACKING": {},
+  "action_tracking_track": "theo dõi",
+  "action_tracking_measure": "đo lường",
+  "action_tracking_monitor": "giám sát",
+  "action_tracking_record": "ghi lại",
+  "action_tracking_log": "ghi chép",
+  "action_tracking_count": "đếm",
+  "action_tracking_analyze": "phân tích",
+
+  "@_ACTION_VERBS_TIME": {},
+  "action_time_spend": "dành",
+  "action_time_allocate": "phân bổ",
+  "action_time_limit": "giới hạn",
+  "action_time_schedule": "lên lịch",
+  "action_time_plan": "lập kế hoạch",
+  "action_time_organize": "tổ chức",
+  "action_time_manage": "quản lý",
+
+  "@__MEASURABLE_WORD": "",
+  "measurable_meter": "m",
+  "@measurable_meter": {
+    "description": "Đơn vị đo lường: mét"
+  },
+  "measurable_kilometer": "km",
+  "@measurable_kilometer": {
+    "description": "Đơn vị đo lường: kilomet"
+  },
+  "measurable_mile": "mile",
+  "@measurable_mile": {
+    "description": "Đơn vị đo lường: dặm"
+  },
+  "measurable_gram": "g",
+  "@measurable_gram": {
+    "description": "Đơn vị đo lường: gam"
+  },
+  "measurable_kilogram": "kg",
+  "@measurable_kilogram": {
+    "description": "Đơn vị đo lường: kilogram"
+  },
+  "measurable_liter": "l",
+  "@measurable_liter": {
+    "description": "Đơn vị đo lường: lít"
+  },
+  "measurable_milliliter": "ml",
+  "@measurable_milliliter": {
+    "description": "Đơn vị đo lường: mililít"
+  },
+  "measurable_hour": "h",
+  "@measurable_hour": {
+    "description": "Đơn vị thời gian: giờ"
+  },
+  "measurable_minute": "phút",
+  "@measurable_minute": {
+    "description": "Đơn vị thời gian: phút"
+  },
+  "measurable_second": "giây",
+  "@measurable_second": {
+    "description": "Đơn vị thời gian: giây"
+  },
+  "measurable_page": "trang",
+  "@measurable_page": {
+    "description": "Đơn vị sách: trang"
+  },
+  "measurable_step": "bước",
+  "@measurable_step": {
+    "description": "Đơn vị đi bộ: bước"
+  },
+  "measurable_rep": "lần",
+  "@measurable_rep": {
+    "description": "Đơn vị bài tập: lần lặp"
+  },
+  "measurable_set": "hiệp",
+  "@measurable_set": {
+    "description": "Đơn vị bài tập: hiệp"
+  },
+
+  "@__ACHIEVABLE_WORD": "",
+  "measurable_positive_increase": "tăng",
+  "@measurable_positive_increase": {
+    "description": "Chỉ sự gia tăng, thường liên quan đến sự phát triển hoặc cải thiện."
+  },
+  "measurable_positive_improve": "cải thiện",
+  "@measurable_positive_improve": {
+    "description": "Chỉ sự cải thiện, thường gợi ý sự tiến bộ hướng tới một mục tiêu."
+  },
+  "measurable_positive_optimize": "tối ưu hóa",
+  "@measurable_positive_optimize": {
+    "description": "Chỉ việc làm cho một cái gì đó trở nên hiệu quả hoặc chức năng nhất có thể."
+  },
+  "measurable_positive_boost": "tăng cường",
+  "@measurable_positive_boost": {
+    "description": "Chỉ việc làm mạnh mẽ hoặc cải thiện một cái gì đó, thường về mặt hiệu suất."
+  },
+  "measurable_positive_growth": "tăng trưởng",
+  "@measurable_positive_growth": {
+    "description": "Chỉ quá trình gia tăng hoặc mở rộng về kích thước hoặc khả năng."
+  },
+  "measurable_positive_expand": "mở rộng",
+  "@measurable_positive_expand": {
+    "description": "Chỉ việc làm cho một cái gì đó trở nên lớn hơn hoặc rộng lớn hơn."
+  },
+  "measurable_positive_enhance": "nâng cao",
+  "@measurable_positive_enhance": {
+    "description": "Chỉ việc cải thiện một cái gì đó, đặc biệt là về mặt chất lượng."
+  },
+  "measurable_positive_raise": "nâng lên",
+  "@measurable_positive_raise": {
+    "description": "Chỉ việc nâng cao hoặc gia tăng một cái gì đó lên mức cao hơn."
+  },
+  "measurable_positive_develop": "phát triển",
+  "@measurable_positive_develop": {
+    "description": "Chỉ quá trình phát triển hoặc cải thiện theo thời gian."
+  },
+  "measurable_positive_build": "xây dựng",
+  "@measurable_positive_build": {
+    "description": "Chỉ việc xây dựng hoặc tạo ra một cái gì đó, thường liên quan đến tiến trình."
+  },
+  "measurable_positive_complete": "hoàn thành",
+  "@measurable_positive_complete": {
+    "description": "Chỉ việc kết thúc hoặc hoàn thành một nhiệm vụ hoặc dự án."
+  },
+  "measurable_positive_accomplish": "hoàn tất",
+  "@measurable_positive_accomplish": {
+    "description": "Chỉ việc đạt được hoặc hoàn thành một cái gì đó thành công."
+  },
+  "measurable_positive_achieve": "đạt được",
+  "@measurable_positive_achieve": {
+    "description": "Chỉ sự hoàn thành hoặc đạt được một mục tiêu."
+  },
+  "measurable_positive_attain": "đạt tới",
+  "@measurable_positive_attain": {
+    "description": "Chỉ việc đạt được hoặc đạt được một mục tiêu hoặc cấp độ mong muốn."
+  },
+  "measurable_positive_reach": "đạt được",
+  "@measurable_positive_reach": {
+    "description": "Chỉ việc đạt được hoặc đến được một mục tiêu hoặc đích đến."
+  },
+  "measurable_positive_succeed": "thành công",
+  "@measurable_positive_succeed": {
+    "description": "Chỉ việc đạt được thành công hoặc hoàn thành một mục tiêu."
+  },
+  "measurable_positive_master": "làm chủ",
+  "@measurable_positive_master": {
+    "description": "Chỉ việc đạt được sự kiểm soát hoặc sự thành thạo hoàn toàn đối với một cái gì đó."
+  },
+  "measurable_positive_finalize": "hoàn tất",
+  "@measurable_positive_finalize": {
+    "description": "Chỉ việc kết thúc hoặc hoàn thành một nhiệm vụ hoặc dự án."
+  },
+  "measurable_positive_realize": "thực hiện",
+  "@measurable_positive_realize": {
+    "description": "Chỉ việc đạt được hoặc biến một cái gì đó thành hiện thực."
+  },
+  "measurable_positive_deliver": "hoàn thành",
+  "@measurable_positive_deliver": {
+    "description": "Chỉ việc hoàn thành một nhiệm vụ hoặc thực hiện một cam kết."
+  },
+  "measurable_positive_finish": "hoàn tất",
+  "@measurable_positive_finish": {
+    "description": "Chỉ việc hoàn thành một nhiệm vụ hoặc dự án."
+  },
+  "measurable_positive_progress": "tiến bộ",
+  "@measurable_positive_progress": {
+    "description": "Chỉ việc tiến lên hoặc đạt được sự tiến bộ."
+  },
+  "measurable_positive_advance": "tiến tới",
+  "@measurable_positive_advance": {
+    "description": "Chỉ việc tiến lên hoặc đạt được tiến bộ hướng tới một mục tiêu."
+  },
+  "measurable_positive_strengthen": "củng cố",
+  "@measurable_positive_strengthen": {
+    "description": "Chỉ việc làm cho một cái gì đó mạnh mẽ hoặc hiệu quả hơn."
+  },
+  "measurable_positive_cultivate": "nuôi dưỡng",
+  "@measurable_positive_cultivate": {
+    "description": "Chỉ việc phát triển hoặc cải thiện một cái gì đó theo thời gian."
+  },
+  "measurable_positive_refine": "tinh chỉnh",
+  "@measurable_positive_refine": {
+    "description": "Chỉ việc cải thiện một cái gì đó thông qua những điều chỉnh hoặc sửa đổi nhỏ."
+  },
+  "measurable_positive_perfect": "hoàn thiện",
+  "@measurable_positive_perfect": {
+    "description": "Chỉ việc làm cho một cái gì đó hoàn hảo hoặc tốt nhất có thể."
+  },
+
+  "measurable_negative_lose": "mất",
+  "@measurable_negative_lose": {
+    "description": "Chỉ sự giảm sút hoặc thất bại trong việc duy trì một cái gì đó."
+  },
+  "measurable_negative_decline": "suy giảm",
+  "@measurable_negative_decline": {
+    "description": "Chỉ sự giảm sút hoặc xấu đi theo thời gian."
+  },
+  "measurable_negative_diminish": "giảm sút",
+  "@measurable_negative_diminish": {
+    "description": "Chỉ sự làm giảm hoặc giảm hiệu quả của một cái gì đó."
+  },
+  "measurable_negative_decrease": "giảm",
+  "@measurable_negative_decrease": {
+    "description": "Chỉ sự giảm về kích thước, số lượng hoặc chất lượng."
+  },
+  "measurable_negative_weaken": "yếu đi",
+  "@measurable_negative_weaken": {
+    "description": "Chỉ sự làm yếu đi hoặc giảm hiệu quả của một cái gì đó."
+  },
+  "measurable_negative_fail": "thất bại",
+  "@measurable_negative_fail": {
+    "description": "Chỉ việc không thể đạt được hoặc hoàn thành một mục tiêu."
+  },
+  "measurable_negative_revert": "quay lại",
+  "@measurable_negative_revert": {
+    "description": "Chỉ sự quay lại một trạng thái hoặc điều kiện trước đó."
+  },
+  "@__RELEVANT_WORD": "",
+  "relevant_increase": "tăng",
+  "@relevant_increase": {
+    "description": "Chỉ sự thay đổi tích cực hoặc sự phát triển về giá trị, thường liên quan đến tiến bộ."
+  },
+  "relevant_improve": "cải thiện",
+  "@relevant_improve": {
+    "description": "Chỉ quá trình trở nên tốt hơn hoặc hiệu quả hơn trong một lĩnh vực cụ thể."
+  },
+  "relevant_optimize": "tối ưu hóa",
+  "@relevant_optimize": {
+    "description": "Chỉ việc làm cho cái gì đó trở nên hiệu quả hoặc hoạt động tốt nhất có thể."
+  },
+  "relevant_boost": "tăng cường",
+  "@relevant_boost": {
+    "description": "Chỉ việc nâng cao hoặc cải thiện cái gì đó, thường liên quan đến hiệu suất."
+  },
+  "relevant_enhance": "nâng cao",
+  "@relevant_enhance": {
+    "description": "Chỉ việc cải thiện chất lượng hoặc hiệu quả của một cái gì đó."
+  },
+  "relevant_expand": "mở rộng",
+  "@relevant_expand": {
+    "description": "Chỉ việc gia tăng phạm vi, kích thước hoặc ảnh hưởng của cái gì đó."
+  },
+  "relevant_strengthen": "củng cố",
+  "@relevant_strengthen": {
+    "description": "Chỉ việc làm cho cái gì đó mạnh mẽ hơn, hiệu quả hơn hoặc bền vững hơn."
+  },
+  "relevant_develop": "phát triển",
+  "@relevant_develop": {
+    "description": "Chỉ sự cải thiện hoặc tiến bộ dần dần của cái gì đó theo thời gian."
+  },
+  "relevant_raise": "nâng",
+  "@relevant_raise": {
+    "description": "Chỉ việc nâng cái gì đó lên mức cao hơn, thường liên quan đến chất lượng hoặc thành tựu."
+  },
+  "relevant_accomplish": "hoàn thành",
+  "@relevant_accomplish": {
+    "description": "Chỉ việc hoàn thành một nhiệm vụ hoặc mục tiêu thành công."
+  },
+
+  "timebound_deadline": "thời hạn",
+  "timebound_complete": "hoàn thành",
+  "timebound_finish": "kết thúc",
+  "timebound_finalize": "hoàn tất",
+  "timebound_achieve": "đạt được",
+  "timebound_reach": "đạt đến",
+  "timebound_complete_by": "hoàn thành bởi",
+  "timebound_due": "đến hạn",
+  "timebound_end": "kết thúc",
+  "timebound_within": "trong vòng",
+  "timebound_before": "trước",
+  "timebound_on": "vào",
+  "timebound_by": "trước",
+  "timebound_duration": "khoảng thời gian",
+  "timebound_until": "đến khi",
+  "timebound_start": "bắt đầu",
+  "timebound_start_from": "bắt đầu từ",
+  "timebound_start_by": "bắt đầu bởi",
+  "timebound_timeframe": "khung thời gian",
+  "timebound_end_by": "kết thúc bởi",
+  "timebound_goal": "mục tiêu",
+  "timebound_end_date": "ngày kết thúc",
+  "timebound_in_time": "kịp thời",
+  "timebound_time_limit": "giới hạn thời gian",
+  "timebound_timely": "kịp thời",
+  "timebound_immediate": "ngay lập tức",
+  "timebound_promptly": "ngay tức thì",
+  "timebound_soon": "sớm",
+  "timebound_quickly": "nhanh chóng",
+  "timebound_urgent": "khẩn cấp",
+  "timebound_scheduled": "dự kiến",
+  "timebound_set_date": "đặt ngày",
+  "timebound_after": "sau",
+  "timebound_soon_after": "ngay sau khi",
+  "timebound_next": "tiếp theo",
+  "timebound_in_the_next": "trong vòng",
+  "timebound_within_the_next": "trong vòng",
+  "timebound_upon_completion": "sau khi hoàn thành",
+  "timebound_post": "sau",
+
+  "goal_recommend_with_no_internet_alert": "Xin lưu ý, độ chính xác của mục tiêu có thể bị ảnh hưởng nếu không có kết nối internet. Vui lòng kiểm tra kết nối và thử lại.",
+
+  "goal_desc": "Mô tả mục tiêu (Mục tiêu này để làm gì?)",
+  "goal_type": "Loại mục tiêu",
+  "goal_unit_value": "Giá trị",
+  "goal_unit": "Đ.vị",
+
+  "reps_unit": "lần",
+  "sets_unit": "bộ",
+  "l_unit": "l",
+  "ml_unit": "ml",
+  "second_unit": "giây",
+  "minute_unit": "phút",
+  "hour_unit": "giờ",
+  "page_unit": "trang",
+  "cm_unit": "cm",
+  "km_unit": "km",
+  "m_unit": "m",
+  "steps_unit": "bước",
+  "miles_unit": "dặm",
+  "custom_unit": "tùy chỉnh",
+
+  "@_GOAL_TYPE": "",
+  "goal_completion": "Hoàn thành",
+  "goal_count": "Đếm",
+  "goal_distance": "Khoảng cách",
+  "goal_duration": "Thời lượng",
+  "goal_custom": "Tùy chỉnh",
+  "@goal_completion": {
+    "description": "Loại mục tiêu hoàn thành"
+  },
+  "@goal_count": {
+    "description": "Loại mục tiêu đếm"
+  },
+  "@goal_distance": {
+    "description": "Loại mục tiêu khoảng cách"
+  },
+  "@goal_duration": {
+    "description": "Loại mục tiêu thời lượng"
+  },
+  "@goal_custom": {
+    "description": "Loại mục tiêu tùy chỉnh"
+  },
+
+  "ask_ai_button": "Tạo một thói quen chuẩn SMART",
+  "ask_ai_field": "Hãy cho tôi biết bạn đang muốn thực hiện gì...",
+  "ai_habit_generate_page_title": "Tạo ra thói quen chuẩn SMART với vài từ"
 }
