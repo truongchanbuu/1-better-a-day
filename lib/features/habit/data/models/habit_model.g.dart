@@ -20,12 +20,11 @@ HabitModel _$HabitModelFromJson(Map<String, dynamic> json) => HabitModel(
       longestStreak: (json['longestStreak'] as num).toInt(),
       startDate: DateTime.parse(json['startDate'] as String),
       endDate: DateTime.parse(json['endDate'] as String),
-      reminderTime: json['reminderTime'] == null
-          ? null
-          : DateTime.parse(json['reminderTime'] as String),
+      reminderTime: json['reminderTime'] as String?,
       habitStatus: json['habitStatus'] as String,
     );
 
+/// USE HABIT GOAL MODEL NOT HABIT GOAL
 Map<String, dynamic> _$HabitModelToJson(HabitModel instance) =>
     <String, dynamic>{
       'habitId': instance.habitId,
@@ -40,6 +39,6 @@ Map<String, dynamic> _$HabitModelToJson(HabitModel instance) =>
       'longestStreak': instance.longestStreak,
       'startDate': instance.startDate.toIso8601String(),
       'endDate': instance.endDate.toIso8601String(),
-      'reminderTime': instance.reminderTime?.toIso8601String(),
+      'reminderTime': instance.reminderTime,
       'habitStatus': instance.habitStatus,
     };

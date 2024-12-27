@@ -190,6 +190,16 @@ class S {
     );
   }
 
+  /// `Save`
+  String get save_button {
+    return Intl.message(
+      'Save',
+      name: 'save_button',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Active`
   String get active_button {
     return Intl.message(
@@ -205,6 +215,16 @@ class S {
     return Intl.message(
       'Inactive',
       name: 'inactive_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Go Home`
+  String get go_home_button {
+    return Intl.message(
+      'Go Home',
+      name: 'go_home_button',
       desc: '',
       args: [],
     );
@@ -345,6 +365,36 @@ class S {
     return Intl.message(
       'friend',
       name: 'friend_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure to delete this?`
+  String get delete_title {
+    return Intl.message(
+      'Are you sure to delete this?',
+      name: 'delete_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This cannot be undone`
+  String get delete_warning {
+    return Intl.message(
+      'This cannot be undone',
+      name: 'delete_warning',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Not Found`
+  String get not_found {
+    return Intl.message(
+      'Not Found',
+      name: 'not_found',
       desc: '',
       args: [],
     );
@@ -1023,11 +1073,31 @@ class S {
     );
   }
 
+  /// `Habit Description`
+  String get habit_desc {
+    return Intl.message(
+      'Habit Description',
+      name: 'habit_desc',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Habit Details`
   String get habit_detail {
     return Intl.message(
       'Habit Details',
       name: 'habit_detail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Habit Category`
+  String get habit_category {
+    return Intl.message(
+      'Habit Category',
+      name: 'habit_category',
       desc: '',
       args: [],
     );
@@ -1120,6 +1190,16 @@ class S {
       name: 'current_progress',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `{count}% Completed`
+  String completed_progress(Object count) {
+    return Intl.message(
+      '$count% Completed',
+      name: 'completed_progress',
+      desc: '',
+      args: [count],
     );
   }
 
@@ -2707,11 +2787,41 @@ class S {
     );
   }
 
-  /// `Habit Description (What is your habit?)`
-  String get habit_desc {
+  /// `Get some useful pre-set habit`
+  String get get_preset_habit_option {
     return Intl.message(
-      'Habit Description (What is your habit?)',
-      name: 'habit_desc',
+      'Get some useful pre-set habit',
+      name: 'get_preset_habit_option',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create habit with few words`
+  String get add_habit_with_few_words_option {
+    return Intl.message(
+      'Create habit with few words',
+      name: 'add_habit_with_few_words_option',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Customize your own habit`
+  String get add_your_own_habit {
+    return Intl.message(
+      'Customize your own habit',
+      name: 'add_your_own_habit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Habit Description (The purpose and benefits of the habit)`
+  String get add_habit_desc {
+    return Intl.message(
+      'Habit Description (The purpose and benefits of the habit)',
+      name: 'add_habit_desc',
       desc: '',
       args: [],
     );
@@ -2932,6 +3042,46 @@ class S {
     return Intl.message(
       'End date cannot be after start date',
       name: 'invalid_end_date',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please provides more information to generate a better goal`
+  String get invalid_habit_prompt {
+    return Intl.message(
+      'Please provides more information to generate a better goal',
+      name: 'invalid_habit_prompt',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cannot generate habit`
+  String get cannot_generate_habit {
+    return Intl.message(
+      'Cannot generate habit',
+      name: 'cannot_generate_habit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cannot update habit`
+  String get cannot_update_habit {
+    return Intl.message(
+      'Cannot update habit',
+      name: 'cannot_update_habit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No habit found`
+  String get no_habit_found {
+    return Intl.message(
+      'No habit found',
+      name: 'no_habit_found',
       desc: '',
       args: [],
     );
@@ -4442,390 +4592,390 @@ class S {
   }
 
   /// `deadline`
-  String get timebound_deadline {
+  String get time_bound_deadline {
     return Intl.message(
       'deadline',
-      name: 'timebound_deadline',
+      name: 'time_bound_deadline',
       desc: '',
       args: [],
     );
   }
 
   /// `complete`
-  String get timebound_complete {
+  String get time_bound_complete {
     return Intl.message(
       'complete',
-      name: 'timebound_complete',
+      name: 'time_bound_complete',
       desc: '',
       args: [],
     );
   }
 
   /// `finish`
-  String get timebound_finish {
+  String get time_bound_finish {
     return Intl.message(
       'finish',
-      name: 'timebound_finish',
+      name: 'time_bound_finish',
       desc: '',
       args: [],
     );
   }
 
   /// `finalize`
-  String get timebound_finalize {
+  String get time_bound_finalize {
     return Intl.message(
       'finalize',
-      name: 'timebound_finalize',
+      name: 'time_bound_finalize',
       desc: '',
       args: [],
     );
   }
 
   /// `achieve`
-  String get timebound_achieve {
+  String get time_bound_achieve {
     return Intl.message(
       'achieve',
-      name: 'timebound_achieve',
+      name: 'time_bound_achieve',
       desc: '',
       args: [],
     );
   }
 
   /// `reach`
-  String get timebound_reach {
+  String get time_bound_reach {
     return Intl.message(
       'reach',
-      name: 'timebound_reach',
+      name: 'time_bound_reach',
       desc: '',
       args: [],
     );
   }
 
   /// `complete by`
-  String get timebound_complete_by {
+  String get time_bound_complete_by {
     return Intl.message(
       'complete by',
-      name: 'timebound_complete_by',
+      name: 'time_bound_complete_by',
       desc: '',
       args: [],
     );
   }
 
   /// `due`
-  String get timebound_due {
+  String get time_bound_due {
     return Intl.message(
       'due',
-      name: 'timebound_due',
+      name: 'time_bound_due',
       desc: '',
       args: [],
     );
   }
 
   /// `end`
-  String get timebound_end {
+  String get time_bound_end {
     return Intl.message(
       'end',
-      name: 'timebound_end',
+      name: 'time_bound_end',
       desc: '',
       args: [],
     );
   }
 
   /// `within`
-  String get timebound_within {
+  String get time_bound_within {
     return Intl.message(
       'within',
-      name: 'timebound_within',
+      name: 'time_bound_within',
       desc: '',
       args: [],
     );
   }
 
   /// `before`
-  String get timebound_before {
+  String get time_bound_before {
     return Intl.message(
       'before',
-      name: 'timebound_before',
+      name: 'time_bound_before',
       desc: '',
       args: [],
     );
   }
 
   /// `on`
-  String get timebound_on {
+  String get time_bound_on {
     return Intl.message(
       'on',
-      name: 'timebound_on',
+      name: 'time_bound_on',
       desc: '',
       args: [],
     );
   }
 
   /// `by`
-  String get timebound_by {
+  String get time_bound_by {
     return Intl.message(
       'by',
-      name: 'timebound_by',
+      name: 'time_bound_by',
       desc: '',
       args: [],
     );
   }
 
   /// `duration`
-  String get timebound_duration {
+  String get time_bound_duration {
     return Intl.message(
       'duration',
-      name: 'timebound_duration',
+      name: 'time_bound_duration',
       desc: '',
       args: [],
     );
   }
 
   /// `until`
-  String get timebound_until {
+  String get time_bound_until {
     return Intl.message(
       'until',
-      name: 'timebound_until',
+      name: 'time_bound_until',
       desc: '',
       args: [],
     );
   }
 
   /// `start`
-  String get timebound_start {
+  String get time_bound_start {
     return Intl.message(
       'start',
-      name: 'timebound_start',
+      name: 'time_bound_start',
       desc: '',
       args: [],
     );
   }
 
   /// `start from`
-  String get timebound_start_from {
+  String get time_bound_start_from {
     return Intl.message(
       'start from',
-      name: 'timebound_start_from',
+      name: 'time_bound_start_from',
       desc: '',
       args: [],
     );
   }
 
   /// `start by`
-  String get timebound_start_by {
+  String get time_bound_start_by {
     return Intl.message(
       'start by',
-      name: 'timebound_start_by',
+      name: 'time_bound_start_by',
       desc: '',
       args: [],
     );
   }
 
   /// `timeframe`
-  String get timebound_timeframe {
+  String get time_bound_timeframe {
     return Intl.message(
       'timeframe',
-      name: 'timebound_timeframe',
+      name: 'time_bound_timeframe',
       desc: '',
       args: [],
     );
   }
 
   /// `end by`
-  String get timebound_end_by {
+  String get time_bound_end_by {
     return Intl.message(
       'end by',
-      name: 'timebound_end_by',
+      name: 'time_bound_end_by',
       desc: '',
       args: [],
     );
   }
 
   /// `goal`
-  String get timebound_goal {
+  String get time_bound_goal {
     return Intl.message(
       'goal',
-      name: 'timebound_goal',
+      name: 'time_bound_goal',
       desc: '',
       args: [],
     );
   }
 
   /// `end date`
-  String get timebound_end_date {
+  String get time_bound_end_date {
     return Intl.message(
       'end date',
-      name: 'timebound_end_date',
+      name: 'time_bound_end_date',
       desc: '',
       args: [],
     );
   }
 
   /// `in time`
-  String get timebound_in_time {
+  String get time_bound_in_time {
     return Intl.message(
       'in time',
-      name: 'timebound_in_time',
+      name: 'time_bound_in_time',
       desc: '',
       args: [],
     );
   }
 
   /// `time limit`
-  String get timebound_time_limit {
+  String get time_bound_time_limit {
     return Intl.message(
       'time limit',
-      name: 'timebound_time_limit',
+      name: 'time_bound_time_limit',
       desc: '',
       args: [],
     );
   }
 
   /// `timely`
-  String get timebound_timely {
+  String get time_bound_timely {
     return Intl.message(
       'timely',
-      name: 'timebound_timely',
+      name: 'time_bound_timely',
       desc: '',
       args: [],
     );
   }
 
   /// `immediate`
-  String get timebound_immediate {
+  String get time_bound_immediate {
     return Intl.message(
       'immediate',
-      name: 'timebound_immediate',
+      name: 'time_bound_immediate',
       desc: '',
       args: [],
     );
   }
 
   /// `promptly`
-  String get timebound_promptly {
+  String get time_bound_promptly {
     return Intl.message(
       'promptly',
-      name: 'timebound_promptly',
+      name: 'time_bound_promptly',
       desc: '',
       args: [],
     );
   }
 
   /// `soon`
-  String get timebound_soon {
+  String get time_bound_soon {
     return Intl.message(
       'soon',
-      name: 'timebound_soon',
+      name: 'time_bound_soon',
       desc: '',
       args: [],
     );
   }
 
   /// `quickly`
-  String get timebound_quickly {
+  String get time_bound_quickly {
     return Intl.message(
       'quickly',
-      name: 'timebound_quickly',
+      name: 'time_bound_quickly',
       desc: '',
       args: [],
     );
   }
 
   /// `urgent`
-  String get timebound_urgent {
+  String get time_bound_urgent {
     return Intl.message(
       'urgent',
-      name: 'timebound_urgent',
+      name: 'time_bound_urgent',
       desc: '',
       args: [],
     );
   }
 
   /// `scheduled`
-  String get timebound_scheduled {
+  String get time_bound_scheduled {
     return Intl.message(
       'scheduled',
-      name: 'timebound_scheduled',
+      name: 'time_bound_scheduled',
       desc: '',
       args: [],
     );
   }
 
   /// `set date`
-  String get timebound_set_date {
+  String get time_bound_set_date {
     return Intl.message(
       'set date',
-      name: 'timebound_set_date',
+      name: 'time_bound_set_date',
       desc: '',
       args: [],
     );
   }
 
   /// `after`
-  String get timebound_after {
+  String get time_bound_after {
     return Intl.message(
       'after',
-      name: 'timebound_after',
+      name: 'time_bound_after',
       desc: '',
       args: [],
     );
   }
 
   /// `soon after`
-  String get timebound_soon_after {
+  String get time_bound_soon_after {
     return Intl.message(
       'soon after',
-      name: 'timebound_soon_after',
+      name: 'time_bound_soon_after',
       desc: '',
       args: [],
     );
   }
 
   /// `next`
-  String get timebound_next {
+  String get time_bound_next {
     return Intl.message(
       'next',
-      name: 'timebound_next',
+      name: 'time_bound_next',
       desc: '',
       args: [],
     );
   }
 
   /// `in the next`
-  String get timebound_in_the_next {
+  String get time_bound_in_the_next {
     return Intl.message(
       'in the next',
-      name: 'timebound_in_the_next',
+      name: 'time_bound_in_the_next',
       desc: '',
       args: [],
     );
   }
 
   /// `within the next`
-  String get timebound_within_the_next {
+  String get time_bound_within_the_next {
     return Intl.message(
       'within the next',
-      name: 'timebound_within_the_next',
+      name: 'time_bound_within_the_next',
       desc: '',
       args: [],
     );
   }
 
   /// `upon completion`
-  String get timebound_upon_completion {
+  String get time_bound_upon_completion {
     return Intl.message(
       'upon completion',
-      name: 'timebound_upon_completion',
+      name: 'time_bound_upon_completion',
       desc: '',
       args: [],
     );
   }
 
   /// `post`
-  String get timebound_post {
+  String get time_bound_post {
     return Intl.message(
       'post',
-      name: 'timebound_post',
+      name: 'time_bound_post',
       desc: '',
       args: [],
     );
@@ -4851,11 +5001,11 @@ class S {
     );
   }
 
-  /// `Goal Description (What for?)`
-  String get goal_desc {
+  /// `Goal Description (Provides details about the specific goal related to that habit)`
+  String get add_goal_desc {
     return Intl.message(
-      'Goal Description (What for?)',
-      name: 'goal_desc',
+      'Goal Description (Provides details about the specific goal related to that habit)',
+      name: 'add_goal_desc',
       desc: '',
       args: [],
     );
@@ -5108,6 +5258,256 @@ class S {
       name: 'ai_habit_generate_page_title',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `Generated SMART Habit`
+  String get habit_generated_title {
+    return Intl.message(
+      'Generated SMART Habit',
+      name: 'habit_generated_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create habit yourself`
+  String get add_habit_manually {
+    return Intl.message(
+      'Create habit yourself',
+      name: 'add_habit_manually',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Generate another habit`
+  String get regenerate_button {
+    return Intl.message(
+      'Generate another habit',
+      name: 'regenerate_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add successfully`
+  String get add_success {
+    return Intl.message(
+      'Add successfully',
+      name: 'add_success',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Drink enough 2L water a day`
+  String get water_habit_title {
+    return Intl.message(
+      'Drink enough 2L water a day',
+      name: 'water_habit_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Stay hydrated and improve your overall health by drinking 2 liters of water every day`
+  String get water_habit_desc {
+    return Intl.message(
+      'Stay hydrated and improve your overall health by drinking 2 liters of water every day',
+      name: 'water_habit_desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Drink 2L of water daily for the next 30 days to stay hydrated and maintain good health`
+  String get water_habit_goal_desc {
+    return Intl.message(
+      'Drink 2L of water daily for the next 30 days to stay hydrated and maintain good health',
+      name: 'water_habit_goal_desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Walk/Run 2km`
+  String get run_habit_title {
+    return Intl.message(
+      'Walk/Run 2km',
+      name: 'run_habit_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Improve your health and energy by walking or running 2km every morning.`
+  String get run_habit_desc {
+    return Intl.message(
+      'Improve your health and energy by walking or running 2km every morning.',
+      name: 'run_habit_desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Walk or run 2km every morning to enhance fitness and health.`
+  String get run_habit_goal_desc {
+    return Intl.message(
+      'Walk or run 2km every morning to enhance fitness and health.',
+      name: 'run_habit_goal_desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Do exercise every morning`
+  String get exercise_habit_title {
+    return Intl.message(
+      'Do exercise every morning',
+      name: 'exercise_habit_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Improve health and energy by doing exercise every morning`
+  String get exercise_habit_desc {
+    return Intl.message(
+      'Improve health and energy by doing exercise every morning',
+      name: 'exercise_habit_desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Do exercise 30 minutes every morning to enhance health and fitness`
+  String get exercise_habit_goal_desc {
+    return Intl.message(
+      'Do exercise 30 minutes every morning to enhance health and fitness',
+      name: 'exercise_habit_goal_desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `5-Minute Meditation`
+  String get meditation_habit_title {
+    return Intl.message(
+      '5-Minute Meditation',
+      name: 'meditation_habit_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Relax and reduce stress by meditating for 5 minutes each morning.`
+  String get meditation_habit_desc {
+    return Intl.message(
+      'Relax and reduce stress by meditating for 5 minutes each morning.',
+      name: 'meditation_habit_desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Spend 5 minutes each morning meditating to improve focus and clarity.`
+  String get meditation_habit_goal_desc {
+    return Intl.message(
+      'Spend 5 minutes each morning meditating to improve focus and clarity.',
+      name: 'meditation_habit_goal_desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Read 10 Pages`
+  String get reading_habit_title {
+    return Intl.message(
+      'Read 10 Pages',
+      name: 'reading_habit_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enhance your knowledge and skills by reading 10 pages daily.`
+  String get reading_habit_desc {
+    return Intl.message(
+      'Enhance your knowledge and skills by reading 10 pages daily.',
+      name: 'reading_habit_desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Read 10 pages daily to develop a habit of continuous learning.`
+  String get reading_habit_goal_desc {
+    return Intl.message(
+      'Read 10 pages daily to develop a habit of continuous learning.',
+      name: 'reading_habit_goal_desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `2-Hour Focused Study`
+  String get study_habit_title {
+    return Intl.message(
+      '2-Hour Focused Study',
+      name: 'study_habit_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Improve learning efficiency by studying for 2 focused hours every evening.`
+  String get study_habit_desc {
+    return Intl.message(
+      'Improve learning efficiency by studying for 2 focused hours every evening.',
+      name: 'study_habit_desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Focus on studying for 2 hours every evening at 7 PM to boost knowledge.`
+  String get study_habit_goal_desc {
+    return Intl.message(
+      'Focus on studying for 2 hours every evening at 7 PM to boost knowledge.',
+      name: 'study_habit_goal_desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select at least one to add`
+  String get no_habit_item_selected {
+    return Intl.message(
+      'Please select at least one to add',
+      name: 'no_habit_item_selected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to get habits`
+  String get cannot_get_any_habit {
+    return Intl.message(
+      'Failed to get habits',
+      name: 'cannot_get_any_habit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cannot get the habit with name: {name}`
+  String cannot_get_habit_with_name(Object name) {
+    return Intl.message(
+      'Cannot get the habit with name: $name',
+      name: 'cannot_get_habit_with_name',
+      desc: '',
+      args: [name],
     );
   }
 }

@@ -18,10 +18,10 @@ import '../../../../core/helpers/alert_helper.dart';
 import '../../../../generated/l10n.dart';
 import '../../../shared/presentations/blocs/internet/internet_bloc.dart';
 import '../blocs/validate_habit/validate_habit_bloc.dart';
-import '../widgets/add_habit/add_habit_field.dart';
-import '../widgets/add_habit/add_habit_drop_down_field.dart';
-import '../widgets/add_habit/date_field.dart';
-import '../widgets/add_habit/time_field.dart';
+import '../widgets/crud_habit/add_habit_field.dart';
+import '../widgets/crud_habit/add_habit_drop_down_field.dart';
+import '../widgets/crud_habit/date_field.dart';
+import '../widgets/crud_habit/time_field.dart';
 import '../widgets/smart_tooltip.dart';
 
 class AddHabitPage extends StatefulWidget {
@@ -92,7 +92,6 @@ class _AddHabitPageState extends State<AddHabitPage> {
               ),
               BlocListener<ValidateHabitBloc, ValidateHabitState>(
                 listener: (context, state) {
-                  print('CURRENT STATE: $state');
                   if (state is ValidateFailed) {
                     AlertHelper.showAwesomeSnackBar(
                       context,
@@ -123,6 +122,9 @@ class _AddHabitPageState extends State<AddHabitPage> {
           context.isDarkMode ? AppColors.darkText : AppColors.lightText,
       surfaceTintColor:
           context.isDarkMode ? AppColors.darkText : AppColors.lightText,
+      iconTheme: IconThemeData(
+        color: context.isDarkMode ? AppColors.lightText : AppColors.darkText,
+      ),
       actions: [
         SuperTooltip(
           showBarrier: true,
@@ -156,12 +158,12 @@ class _AddHabitPageState extends State<AddHabitPage> {
             _buildAddHabitField(
               validator: _generalValidator,
               eventGenerator: (value) => ChangeHabitDesc(value),
-              label: S.current.habit_desc,
+              label: S.current.add_habit_desc,
             ),
             _spacing,
             AddHabitField(
               validator: _generalValidator,
-              label: S.current.goal_desc,
+              label: S.current.add_goal_desc,
               maxLines: 5,
               onChanged: (value) =>
                   context.read<ValidateHabitBloc>().add(ChangeHabitGoal(value)),

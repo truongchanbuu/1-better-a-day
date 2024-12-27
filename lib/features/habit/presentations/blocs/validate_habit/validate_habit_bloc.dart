@@ -1,7 +1,6 @@
 import 'package:bloc_event_transformers/bloc_event_transformers.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive_ce/hive.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../../core/enums/habit/habit_status.dart';
@@ -135,6 +134,7 @@ class ValidateHabitBloc extends Bloc<ValidateHabitEvent, ValidateHabitState> {
     ValidateHabit event,
     Emitter<ValidateHabitState> emit,
   ) async {
+    emit(Validating());
     if (state.habitName.isEmpty) {
       emit(ValidateFailed(current: state, errorMessage: S.current.empty_field));
       return;
@@ -210,8 +210,7 @@ class ValidateHabitBloc extends Bloc<ValidateHabitEvent, ValidateHabitState> {
       habitCategory: state.habitCategory,
       timeOfDay: HabitTimeOfDay.getPartOfDay(reminderTime) ??
           HabitTimeOfDay.anytime.name,
-      reminderTime: DateTime.now()
-          .copyWith(hour: reminderTime.hour, minute: reminderTime.minute),
+      reminderTime: state.reminderTime,
       habitStatus: DateTime.now().isBefore(state.startDate)
           ? HabitStatus.pending.name
           : HabitStatus.inProgress.name,
@@ -220,9 +219,14 @@ class ValidateHabitBloc extends Bloc<ValidateHabitEvent, ValidateHabitState> {
     );
 
     emit(ValidateSucceed(current: state));
-    habitRepository.createHabit(HabitModel.fromEntity(habit));
-    final repo = await habitRepository.getHabitById(habit.habitId);
-    print('REPO: $repo');
+    await habitRepository.createHabit(HabitModel.fromEntity(
+        habit.copyWith(habitStatus: HabitStatus.inProgress.name)));
+    final createdHabit = await habitRepository.getHabitById(habit.habitId);
+    if (createdHabit != null) {
+      emit(HabitAdded(createdHabit));
+    } else {
+      emit(HabitAddFailed(errorMessage: S.current.cannot_generate_habit));
+    }
   }
 
   void _onHabitUnitChange(

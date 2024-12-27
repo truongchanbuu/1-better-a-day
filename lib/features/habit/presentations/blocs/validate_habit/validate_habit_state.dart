@@ -254,3 +254,20 @@ final class ValidateSucceed extends ValidateHabitState {
           errorMessage: current.errorMessage,
         );
 }
+
+final class Validating extends ValidateHabitState {}
+
+final class HabitAdded extends ValidateHabitState {
+  final HabitEntity habit;
+  HabitAdded(this.habit);
+
+  @override
+  List<Object?> get props => [habit];
+}
+
+final class HabitAddFailed extends ValidateHabitState {
+  HabitAddFailed({super.errorMessage});
+
+  @override
+  List<Object?> get props => [errorMessage];
+}

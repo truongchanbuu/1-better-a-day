@@ -29,9 +29,6 @@ class DateField extends StatefulWidget {
 class _DateFieldState extends State<DateField> {
   late final TextEditingController _textEditingController;
 
-  static const vietnameseDateFormat = 'dd/MM/yyyy';
-  static const englishDateFormat = 'yyyy/MM/dd';
-
   @override
   void initState() {
     super.initState();
@@ -52,8 +49,8 @@ class _DateFieldState extends State<DateField> {
         labelText: widget.labelText,
         hintText: widget.hintText ??
             (context.locale.languageCode == LanguageCode.vi.name
-                ? vietnameseDateFormat
-                : englishDateFormat),
+                ? DateTimeHelper.vietnameseDateFormat
+                : DateTimeHelper.englishDateFormat),
         prefixIcon: const Icon(
           FontAwesomeIcons.clock,
           color: AppColors.grayText,
@@ -83,8 +80,8 @@ class _DateFieldState extends State<DateField> {
     return DateTimeHelper.formatFullDate(
       date,
       pattern: langCode == LanguageCode.vi.name
-          ? vietnameseDateFormat
-          : englishDateFormat,
+          ? DateTimeHelper.vietnameseDateFormat
+          : DateTimeHelper.englishDateFormat,
     );
   }
 }

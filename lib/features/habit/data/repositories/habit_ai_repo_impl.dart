@@ -1,8 +1,13 @@
 import 'dart:convert';
 
 import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:moment_dart/moment_dart.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../../config/log/app_logger.dart';
+import '../../../../core/enums/habit/goal_type.dart';
+import '../../../../core/enums/habit/habit_category.dart';
+import '../../../../core/enums/habit/habit_time_of_day.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../injection_container.dart';
 import '../../domain/repositories/habit_ai_repository.dart';
@@ -31,14 +36,42 @@ class HabitAIRepoImpl implements HabitAIRepository {
       final content = [Content.text(prompt)];
       final response = await model.generateContent(content);
 
-      if (response.text == null) {
+      print("RES: ${response.text}");
+      if (response.text == null ||
+          response.text!.isEmpty ||
+          response.text == '{}') {
+        _appLogger.e("Response text is empty.");
         return null;
       }
 
-      print(
-          'data: ${response.text} - RUNTIME TYPE ${response.text.runtimeType}');
+      final result = HabitResponseValidator.validateAndFormat(response.text!) ??
+          HabitResponseValidator.createDefaultHabit();
+
+      final habit = HabitModel.init();
+      final habitId = const Uuid().v4();
+
+      result['habitId'] = habitId;
+      result['habitProgress'] = habit.habitProgress;
+      result['currentStreak'] = 0;
+      result['longestStreak'] = 0;
+      result['habitStatus'] = habit.habitStatus;
+      result['startDate'] = habit.startDate.toMoment().toIso8601String();
+      result['endDate'] = habit.endDate.toMoment().toIso8601String();
+
+      if (result['habitGoal'] is Map) {
+        final goal = Map<String, dynamic>.from(result['habitGoal']);
+        goal['goalId'] = const Uuid().v4();
+        goal['habitId'] = habitId;
+        goal['currentValue'] = 0;
+        result['habitGoal'] = goal;
+      } else {
+        _appLogger.e("habitGoal structure is invalid.");
+        return null;
+      }
+
+      return HabitModel.fromJson(result);
     } catch (e) {
-      _appLogger.e(e);
+      _appLogger.e("Error generating habit: $e");
       return null;
     }
   }
@@ -100,48 +133,9 @@ class HabitAIRepoImpl implements HabitAIRepository {
       ''';
   }
 
-  String _getDataFromHabitGoal(String goal, {String language = 'en'}) {
-    return '''
-      From this SMART habit goal "$goal" generate only a plain text but in JSON format for the HabitEntity with the following structure:
-        habitTitle: A concise, meaningful title for the habit.
-        habitDesc: A short description explaining the purpose and benefits of the habit.
-        habitGoal: An object specifying:goalDesc: A detailed description of the goal.
-        goalType: The appropriate type from GoalType enum (e.g., count, custom).
-        targetValue: The specific measurable target value (e.g., 2 for 2L).
-        goalFrequency: The frequency (e.g., daily, weekly).
-        goalUnit: The appropriate unit from GoalUnit enum (e.g., l for liters).
-        habitCategory: The relevant category for the habit (choose from HabitCategory: health, lifestyle, nutrition, etc.).
-        timeOfDay: The suggested time of day (morning, afternoon, evening, night, or anytime) for the habit.
-        startDate: Default to the current date in ISO 8601 format.
-        endDate: Default to 21 days after the startDate in ISO 8601 format.
-        reminderTime: A specific time (if needed) to remind the user to perform the habit in ISO 8601 format.
-        Example Response:
-        For the habit "Drinking enough 2L water a day for staying fit and healthy." example generate the following output:
-        {
-          "habitTitle": "Drink 2L Water Daily",
-          "habitDesc": "Stay hydrated and improve your overall health by drinking 2 liters of water every day.",
-          "habitGoal": {
-            "goalDesc": "Drink 2 liters of water daily to stay fit and healthy.",
-            "goalType": "count",
-            "targetValue": 2.0,
-            "goalFrequency": 1,
-            "goalUnit": "l"
-          },
-          "habitCategory": "health",
-          "timeOfDay": "anytime",
-          "startDate": "2024-12-19T00:00:00Z",
-          "endDate": "2025-01-09T00:00:00Z",
-          "reminderTime": "2024-12-19T08:00:00Z"
-        }
-        
-      ${language == 'vi' ? 'Please provide the analysis in Vietnamese.' : ''}
-    ''';
-  }
-
   String _generateSMARThabitGoal(String sentence, {String language = 'en'}) {
     return '''
       From this sentence about what I want to do: "$sentence" generate a SMART habit goal.
-      
         Know that:
         S - Specific: What will you achieve? What will you do?
         M - Measurable: What data will you use to decide whether you've met the goal?
@@ -149,7 +143,8 @@ class HabitAIRepoImpl implements HabitAIRepository {
         R - Relevant: Does the goal align with those of your team or organization? How will the result matter?
         T - Time-bound: What is the deadline for accomplishing the goal?
       
-      Please only returns a plain text but in JSON format (without any explanation) for the HabitEntity with the following structure:
+      Please only returns a only PLAIN TEXT in JSON format (no markdown and without any explanation) for the HabitEntity with the following structure:
+      {
         "habitTitle": A concise, meaningful title for the habit.
         "habitDesc": A short description explaining the purpose and benefits of the habit.
         "habitGoal": An object specifying the goal:
@@ -160,12 +155,12 @@ class HabitAIRepoImpl implements HabitAIRepository {
           "goalFrequency": The frequency in day unit (e.g., 1, 2, 3, ...),
           "goalUnit": The appropriate unit (e.g., l for liters, minute, pages, ...).
          },
-        habitCategory: The relevant category for the habit (choose from HabitCategory: health, lifestyle, nutrition, etc.).
-        timeOfDay: The suggested time of day (morning, afternoon, evening, night, or anytime) for the habit that based on the reminder time.
-        startDate: Default to the current date in ISO 8601 format.
-        endDate: Default to 21 days after the startDate in ISO 8601 format.
-        reminderTime: A specific time (if needed) to remind the user to perform the habit in ISO 8601 format.
-       Example Response:
+        "habitCategory": The relevant category for the habit (choose from HabitCategory: health, lifestyle, nutrition, etc.).
+        "timeOfDay": The suggested time of day (morning, afternoon, evening, night, or anytime) for the habit that based on the reminder time.
+        "reminderTime": A specific time (if needed) to remind the user to perform the habit only in valid String format 'hh:mm'. If user does not specify, you can provide a suitable time as a suggestion (if can) - default can be 6:00 for morning, 12:00 for afternoon, 18:00 for evening and 21:00 for night.
+      }
+      
+      Example Response:
        For the habit "Drinking enough 2L water a day for staying fit and healthy." example generate the following output:
         {
         "habitTitle": "Drink 2L Water Daily",
@@ -178,12 +173,13 @@ class HabitAIRepoImpl implements HabitAIRepository {
           "goalUnit": "l"
         },
         "habitCategory": "health",
-        "timeOfDay": "anytime",
-        "startDate": "2024-12-19T00:00:00Z",
-        "endDate": "2025-01-09T00:00:00Z",
-        "reminderTime": "2024-12-19T08:00:00Z"
+        "timeOfDay": "evening",
+        "reminderTime": "18:00"
         }
-
+    OR:
+      If the sentence is too vague or cannot determine/generate an habit, then please ONLY returns an EMPTY STRING
+    
+    
     ${language == 'vi' ? 'Please provide the analysis in Vietnamese.' : ''}
     ''';
   }
@@ -222,45 +218,45 @@ class HabitAIRepoImpl implements HabitAIRepository {
 
   _AnalysisResult _analyzeTimeBound(String goal) {
     List<String> timeBoundWords = [
-      S.current.timebound_deadline,
-      S.current.timebound_complete,
-      S.current.timebound_finish,
-      S.current.timebound_finalize,
-      S.current.timebound_achieve,
-      S.current.timebound_reach,
-      S.current.timebound_complete_by,
-      S.current.timebound_due,
-      S.current.timebound_end,
-      S.current.timebound_within,
-      S.current.timebound_before,
-      S.current.timebound_on,
-      S.current.timebound_by,
-      S.current.timebound_duration,
-      S.current.timebound_until,
-      S.current.timebound_start,
-      S.current.timebound_start_from,
-      S.current.timebound_start_by,
-      S.current.timebound_timeframe,
-      S.current.timebound_end_by,
-      S.current.timebound_goal,
-      S.current.timebound_end_date,
-      S.current.timebound_in_time,
-      S.current.timebound_time_limit,
-      S.current.timebound_timely,
-      S.current.timebound_immediate,
-      S.current.timebound_promptly,
-      S.current.timebound_soon,
-      S.current.timebound_quickly,
-      S.current.timebound_urgent,
-      S.current.timebound_scheduled,
-      S.current.timebound_set_date,
-      S.current.timebound_after,
-      S.current.timebound_soon_after,
-      S.current.timebound_next,
-      S.current.timebound_in_the_next,
-      S.current.timebound_within_the_next,
-      S.current.timebound_upon_completion,
-      S.current.timebound_post,
+      S.current.time_bound_deadline,
+      S.current.time_bound_complete,
+      S.current.time_bound_finish,
+      S.current.time_bound_finalize,
+      S.current.time_bound_achieve,
+      S.current.time_bound_reach,
+      S.current.time_bound_complete_by,
+      S.current.time_bound_due,
+      S.current.time_bound_end,
+      S.current.time_bound_within,
+      S.current.time_bound_before,
+      S.current.time_bound_on,
+      S.current.time_bound_by,
+      S.current.time_bound_duration,
+      S.current.time_bound_until,
+      S.current.time_bound_start,
+      S.current.time_bound_start_from,
+      S.current.time_bound_start_by,
+      S.current.time_bound_timeframe,
+      S.current.time_bound_end_by,
+      S.current.time_bound_goal,
+      S.current.time_bound_end_date,
+      S.current.time_bound_in_time,
+      S.current.time_bound_time_limit,
+      S.current.time_bound_timely,
+      S.current.time_bound_immediate,
+      S.current.time_bound_promptly,
+      S.current.time_bound_soon,
+      S.current.time_bound_quickly,
+      S.current.time_bound_urgent,
+      S.current.time_bound_scheduled,
+      S.current.time_bound_set_date,
+      S.current.time_bound_after,
+      S.current.time_bound_soon_after,
+      S.current.time_bound_next,
+      S.current.time_bound_in_the_next,
+      S.current.time_bound_within_the_next,
+      S.current.time_bound_upon_completion,
+      S.current.time_bound_post,
     ];
 
     final containsTimeBoundWord =
@@ -371,94 +367,6 @@ class HabitAIRepoImpl implements HabitAIRepository {
   }
 
   _AnalysisResult _analyzeSpecific(String goal) {
-    final actionVerbs = [
-      // Exercise
-      S.current.action_exercise_run,
-      S.current.action_exercise_walk,
-      S.current.action_exercise_swim,
-      S.current.action_exercise_workout,
-      S.current.action_exercise_jog,
-      S.current.action_exercise_yoga,
-      S.current.action_exercise_stretch,
-      S.current.action_exercise_gym,
-
-      // Learning
-      S.current.action_learning_read,
-      S.current.action_learning_study,
-      S.current.action_learning_practice,
-      S.current.action_learning_write,
-      S.current.action_learning_revise,
-      S.current.action_learning_research,
-      S.current.action_learning_learn,
-      S.current.action_learning_master,
-
-      // Health
-      S.current.action_health_meditate,
-      S.current.action_health_drink,
-      S.current.action_health_eat,
-      S.current.action_health_sleep,
-      S.current.action_health_breathe,
-      S.current.action_health_relax,
-      S.current.action_health_rest,
-
-      // Productivity
-      S.current.action_productivity_complete,
-      S.current.action_productivity_finish,
-      S.current.action_productivity_achieve,
-      S.current.action_productivity_accomplish,
-      S.current.action_productivity_do,
-      S.current.action_productivity_work,
-      S.current.action_productivity_start,
-      S.current.action_productivity_continue,
-
-      // Creative
-      S.current.action_creative_build,
-      S.current.action_creative_create,
-      S.current.action_creative_develop,
-      S.current.action_creative_design,
-      S.current.action_creative_write,
-      S.current.action_creative_draw,
-      S.current.action_creative_paint,
-      S.current.action_creative_compose,
-
-      // Social
-      S.current.action_social_connect,
-      S.current.action_social_meet,
-      S.current.action_social_call,
-      S.current.action_social_text,
-      S.current.action_social_email,
-      S.current.action_social_visit,
-      S.current.action_social_spend,
-      S.current.action_social_help,
-
-      // Improvement
-      S.current.action_improvement_reduce,
-      S.current.action_improvement_increase,
-      S.current.action_improvement_decrease,
-      S.current.action_improvement_improve,
-      S.current.action_improvement_enhance,
-      S.current.action_improvement_optimize,
-      S.current.action_improvement_upgrade,
-
-      // Tracking
-      S.current.action_tracking_track,
-      S.current.action_tracking_measure,
-      S.current.action_tracking_monitor,
-      S.current.action_tracking_record,
-      S.current.action_tracking_log,
-      S.current.action_tracking_count,
-      S.current.action_tracking_analyze,
-
-      // Time
-      S.current.action_time_spend,
-      S.current.action_time_allocate,
-      S.current.action_time_limit,
-      S.current.action_time_schedule,
-      S.current.action_time_plan,
-      S.current.action_time_organize,
-      S.current.action_time_manage,
-    ];
-
     final hasActionVerb = actionVerbs.any(goal.contains);
     final hasQuantifier = RegExp(r'\d+').hasMatch(goal);
     final hasDetail = goal.split(' ').length >= 4;
@@ -527,6 +435,94 @@ class HabitAIRepoImpl implements HabitAIRepository {
 
     return template;
   }
+
+  static List<String> get actionVerbs => [
+        // Exercise
+        S.current.action_exercise_run,
+        S.current.action_exercise_walk,
+        S.current.action_exercise_swim,
+        S.current.action_exercise_workout,
+        S.current.action_exercise_jog,
+        S.current.action_exercise_yoga,
+        S.current.action_exercise_stretch,
+        S.current.action_exercise_gym,
+
+        // Learning
+        S.current.action_learning_read,
+        S.current.action_learning_study,
+        S.current.action_learning_practice,
+        S.current.action_learning_write,
+        S.current.action_learning_revise,
+        S.current.action_learning_research,
+        S.current.action_learning_learn,
+        S.current.action_learning_master,
+
+        // Health
+        S.current.action_health_meditate,
+        S.current.action_health_drink,
+        S.current.action_health_eat,
+        S.current.action_health_sleep,
+        S.current.action_health_breathe,
+        S.current.action_health_relax,
+        S.current.action_health_rest,
+
+        // Productivity
+        S.current.action_productivity_complete,
+        S.current.action_productivity_finish,
+        S.current.action_productivity_achieve,
+        S.current.action_productivity_accomplish,
+        S.current.action_productivity_do,
+        S.current.action_productivity_work,
+        S.current.action_productivity_start,
+        S.current.action_productivity_continue,
+
+        // Creative
+        S.current.action_creative_build,
+        S.current.action_creative_create,
+        S.current.action_creative_develop,
+        S.current.action_creative_design,
+        S.current.action_creative_write,
+        S.current.action_creative_draw,
+        S.current.action_creative_paint,
+        S.current.action_creative_compose,
+
+        // Social
+        S.current.action_social_connect,
+        S.current.action_social_meet,
+        S.current.action_social_call,
+        S.current.action_social_text,
+        S.current.action_social_email,
+        S.current.action_social_visit,
+        S.current.action_social_spend,
+        S.current.action_social_help,
+
+        // Improvement
+        S.current.action_improvement_reduce,
+        S.current.action_improvement_increase,
+        S.current.action_improvement_decrease,
+        S.current.action_improvement_improve,
+        S.current.action_improvement_enhance,
+        S.current.action_improvement_optimize,
+        S.current.action_improvement_upgrade,
+
+        // Tracking
+        S.current.action_tracking_track,
+        S.current.action_tracking_measure,
+        S.current.action_tracking_monitor,
+        S.current.action_tracking_record,
+        S.current.action_tracking_log,
+        S.current.action_tracking_count,
+        S.current.action_tracking_analyze,
+
+        // Time
+        S.current.action_time_spend,
+        S.current.action_time_allocate,
+        S.current.action_time_limit,
+        S.current.action_time_schedule,
+        S.current.action_time_plan,
+        S.current.action_time_organize,
+        S.current.action_time_manage,
+      ];
 }
 
 class _AnalysisResult {
@@ -549,5 +545,221 @@ class _AnalysisResult {
       passed: isPassed,
       score: score,
     );
+  }
+}
+
+class HabitResponseValidator {
+  static final _appLogger = getIt.get<AppLogger>();
+
+  // Default values for null fields
+  static Map<String, dynamic> get _defaults => {
+        'habitTitle': 'Untitled Habit',
+        'habitDesc': 'No description provided',
+        'habitCategory': 'lifestyle',
+        'timeOfDay': 'morning',
+        'reminderTime': '09:00',
+      };
+
+  // Default values for null goal fields
+  static const Map<String, dynamic> _goalDefaults = {
+    'goalDesc': 'No goal description provided',
+    'goalType': 'completion',
+    'targetValue': 1.0,
+    'goalFrequency': 1,
+    'goalUnit': 'times',
+  };
+
+  static const Map<String, dynamic> _requiredFields = {
+    'habitTitle': String,
+    'habitDesc': String,
+    'habitGoal': Map<String, dynamic>,
+    'habitCategory': String,
+    'timeOfDay': String,
+    'reminderTime': String,
+  };
+
+  static const _requiredGoalFields = {
+    'goalDesc': String,
+    'goalType': String,
+    'targetValue': double,
+    'goalFrequency': int,
+    'goalUnit': String,
+  };
+
+  static final _validTimeOfDay =
+      HabitTimeOfDay.values.map((e) => e.name).toList();
+  static final _validGoalTypes = GoalType.values.map((e) => e.name).toList();
+  static final _validCategories =
+      HabitCategory.values.map((e) => e.name).toList();
+
+  /// Extract JSON from possible markdown format
+  static String _extractJsonFromResponse(String markdown) {
+    final RegExp codeBlockRegex = RegExp(r'```(?:\w+)?\n([\s\S]*?)\n```');
+
+    final Match? match = codeBlockRegex.firstMatch(markdown);
+
+    if (match != null && match.groupCount >= 1) {
+      return match.group(1) ?? '';
+    }
+
+    return markdown;
+  }
+
+  /// Safely get a string value with default
+  static String _safeString(dynamic value, String defaultValue) {
+    if (value == null || value.toString().trim().isEmpty) {
+      return defaultValue;
+    }
+    return value.toString().trim();
+  }
+
+  /// Safely get a number value with default
+  static double _safeNumber(dynamic value, double defaultValue) {
+    if (value == null) return defaultValue;
+    if (value is num) return value.toDouble();
+    try {
+      return double.parse(value.toString());
+    } catch (_) {
+      return defaultValue;
+    }
+  }
+
+  /// Safely get an integer value with default
+  static int _safeInteger(dynamic value, int defaultValue) {
+    if (value == null) return defaultValue;
+    if (value is int) return value;
+    if (value is double) return value.round();
+    try {
+      return int.parse(value.toString());
+    } catch (_) {
+      return defaultValue;
+    }
+  }
+
+  /// Validate and sanitize habitGoal
+  static Map<String, dynamic> _validateGoal(dynamic goalData) {
+    final Map<String, dynamic> sanitizedGoal = {};
+
+    if (goalData is! Map<String, dynamic>) {
+      return Map<String, dynamic>.from(_goalDefaults);
+    }
+
+    // Sanitize each field
+    sanitizedGoal['goalDesc'] =
+        _safeString(goalData['goalDesc'], _goalDefaults['goalDesc']!);
+
+    sanitizedGoal['goalType'] =
+        _safeString(goalData['goalType'], _goalDefaults['goalType']!)
+            .toLowerCase();
+
+    if (!_validGoalTypes.contains(sanitizedGoal['goalType'])) {
+      sanitizedGoal['goalType'] = _goalDefaults['goalType']!;
+    }
+
+    sanitizedGoal['targetValue'] = _safeNumber(
+        goalData['targetValue'], _goalDefaults['targetValue']! as double);
+
+    sanitizedGoal['goalFrequency'] = _safeInteger(
+        goalData['goalFrequency'], _goalDefaults['goalFrequency']! as int);
+
+    sanitizedGoal['goalUnit'] =
+        _safeString(goalData['goalUnit'], _goalDefaults['goalUnit']!);
+
+    return sanitizedGoal;
+  }
+
+  /// Validates and formats the Gemini response
+  static Map<String, dynamic>? validateAndFormat(String responseText) {
+    try {
+      // Extract and parse JSON
+      final jsonString = _extractJsonFromResponse(responseText.trim());
+      final dynamic decoded = jsonDecode(jsonString);
+
+      if (decoded is! Map<String, dynamic>) {
+        throw const FormatException('Response is not a valid JSON object');
+      }
+
+      for (final field in _requiredFields.entries) {
+        if (!decoded.containsKey(field.key)) {
+          throw FormatException('Missing required field: ${field.key}');
+        }
+
+        if (field.value == String && decoded[field.key] is! String) {
+          decoded[field.key] = "";
+        }
+      }
+
+      final habitGoal = decoded['habitGoal'];
+      if (habitGoal is! Map<String, dynamic>) {
+        throw const FormatException('habitGoal must be an object');
+      }
+
+      // Validate required goal fields
+      for (final field in _requiredGoalFields.entries) {
+        if (!habitGoal.containsKey(field.key)) {
+          throw FormatException('Missing required goal field: ${field.key}');
+        }
+
+        if (field.value == String && habitGoal[field.key] is! String) {
+          throw FormatException(
+              'Invalid type for goal.${field.key}: expected String');
+        }
+        if (field.value == num && habitGoal[field.key] is! num) {
+          throw FormatException(
+              'Invalid type for goal.${field.key}: expected number');
+        }
+      }
+
+      // Create sanitized result map
+      final Map<String, dynamic> result = {};
+
+      // Sanitize basic fields
+      result['habitTitle'] =
+          _safeString(decoded['habitTitle'], _defaults['habitTitle']!);
+
+      result['habitDesc'] =
+          _safeString(decoded['habitDesc'], _defaults['habitDesc']!);
+
+      result['habitCategory'] =
+          _safeString(decoded['habitCategory'], _defaults['habitCategory']!)
+              .toLowerCase();
+
+      if (!_validCategories.contains(result['habitCategory'])) {
+        result['habitCategory'] = _defaults['habitCategory']!;
+      }
+
+      result['timeOfDay'] =
+          _safeString(decoded['timeOfDay'], _defaults['timeOfDay']!)
+              .toLowerCase();
+
+      if (!_validTimeOfDay.contains(result['timeOfDay'])) {
+        result['timeOfDay'] = _defaults['timeOfDay']!;
+      }
+
+      // Handle reminderTime with special format validation
+      String reminderTime =
+          _safeString(decoded['reminderTime'], _defaults['reminderTime']!);
+
+      if (!RegExp(r'^\d{2}:\d{2}$').hasMatch(reminderTime)) {
+        reminderTime = _defaults['reminderTime']!;
+      }
+      result['reminderTime'] = reminderTime;
+
+      // Handle habitGoal
+      result['habitGoal'] = _validateGoal(decoded['habitGoal']);
+
+      return result;
+    } catch (e) {
+      _appLogger.e('Validation error: $e');
+      rethrow;
+    }
+  }
+
+  /// Creates a completely default habit when validation fails
+  static Map<String, dynamic> createDefaultHabit() {
+    return {
+      ..._defaults,
+      'habitGoal': _goalDefaults,
+    };
   }
 }

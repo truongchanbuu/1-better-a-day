@@ -5,5 +5,6 @@ abstract interface class HabitAIRepository {
   Future<OverallAnalysisResult> analyzeGoal(String goal,
       {String language = 'en'});
   OverallAnalysisResult quickAnalyzeGoal(String goal, {String language = 'en'});
-  Future<HabitModel?> generateHabitWithSentence(String sentence);
+  Future<HabitModel?> generateHabitWithSentence(String sentence,
+      {String language = 'en'});
 }

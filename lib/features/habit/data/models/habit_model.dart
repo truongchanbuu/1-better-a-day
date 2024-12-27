@@ -41,7 +41,7 @@ class HabitModel extends HabitEntity implements HiveBaseModel<HabitModel> {
       endDate: DateTime.now().add(const Duration(days: 21)),
       habitStatus: '',
       iconName: '',
-      reminderTime: DateTime.now(),
+      reminderTime: '',
     );
   }
 
@@ -97,7 +97,7 @@ class HabitModel extends HabitEntity implements HiveBaseModel<HabitModel> {
     int? longestStreak,
     DateTime? startDate,
     DateTime? endDate,
-    DateTime? reminderTime,
+    String? reminderTime,
     String? habitStatus,
   }) {
     return HabitModel(
@@ -145,7 +145,24 @@ class HabitModel extends HabitEntity implements HiveBaseModel<HabitModel> {
 
   @override
   HabitModel fromMap(Map<String, dynamic> map) {
-    return HabitModel.fromJson(map);
+    try {
+      final convertedMap = Map<String, dynamic>.from(map);
+
+      final habitGoalData = map['habitGoal'];
+      if (habitGoalData is Map<dynamic, dynamic>) {
+        final convertedGoalMap = <String, dynamic>{};
+        habitGoalData.forEach((key, value) {
+          convertedGoalMap[key.toString()] = value;
+        });
+        convertedMap['habitGoal'] = convertedGoalMap;
+      } else {
+        throw const FormatException('Invalid habitGoal format');
+      }
+
+      return HabitModel.fromJson(convertedMap);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override

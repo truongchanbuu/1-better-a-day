@@ -9,6 +9,7 @@ import '../../../../core/constants/app_font_size.dart';
 import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../generated/l10n.dart';
+import '../../domain/helper/shared_habit_action.dart';
 import '../widgets/habit_list.dart';
 import '../widgets/search_filter/habit_search_filter_bar.dart';
 import '../widgets/habit_section_container.dart';
@@ -28,110 +29,113 @@ class _AllHabitsPageState extends State<AllHabitsPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.all(AppSpacing.paddingL)
-              .copyWith(bottom: AppSpacing.paddingXS),
-          child: Column(
-            children: <Widget>[
-              // General Section
-              HabitSectionContainer(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ListTile(
-                      title: Text(
-                        S.current.statistic_section,
-                        style: const TextStyle(
-                          fontSize: AppFontSize.h2,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      subtitle: Text(
-                        S.current.habits(10),
-                        style: const TextStyle(fontStyle: FontStyle.italic),
-                      ),
-                      onTap: _showStatisticPage,
-                      contentPadding: EdgeInsets.zero,
-                      trailing: const Icon(
-                        FontAwesomeIcons.chevronRight,
-                        color: AppColors.primary,
-                      ),
-                    ),
-                    const SizedBox(height: AppSpacing.marginL),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _BriefStatisticItem(
-                            icon: FontAwesomeIcons.fire,
-                            iconColor: Colors.red,
-                            label: S.current.longest_streak,
-                            value: '10',
-                            valueTextColor: Colors.red,
-                          ),
-                        ),
-                        const SizedBox(width: AppSpacing.marginS),
-                        Expanded(
-                          child: _BriefStatisticItem(
-                            icon: FontAwesomeIcons.listCheck,
-                            iconColor: Colors.blue,
-                            label: S.current.today_tasks,
-                            value: S.current.done_tasks(5, 10),
-                            valueTextColor: Colors.blue,
-                          ),
-                        ),
-                        const SizedBox(width: AppSpacing.marginS),
-                        Expanded(
-                          child: _BriefStatisticItem(
-                            icon: FontAwesomeIcons.crown,
-                            iconColor: Colors.green,
-                            label: S.current.achievement_done,
-                            value: '10',
-                            valueTextColor: Colors.green,
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-              _spacing,
-              // Habit List Title & Filter
-              HabitSectionContainer(
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          S.current.all_habits,
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Scaffold(
+          body: Padding(
+            padding: const EdgeInsets.all(AppSpacing.paddingL)
+                .copyWith(bottom: AppSpacing.paddingXS),
+            child: Column(
+              children: <Widget>[
+                // General Section
+                HabitSectionContainer(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ListTile(
+                        title: Text(
+                          S.current.statistic_section,
                           style: const TextStyle(
                             fontSize: AppFontSize.h2,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        GestureDetector(
-                          onTap: () => setState(
-                              () => _isHabitListView = !_isHabitListView),
-                          child: _isHabitListView
-                              ? const Icon(FontAwesomeIcons.list)
-                              : const Icon(FontAwesomeIcons.grip),
+                        subtitle: Text(
+                          S.current.habits(10),
+                          style: const TextStyle(fontStyle: FontStyle.italic),
                         ),
-                      ],
-                    ),
-                    const SizedBox(height: AppSpacing.marginL),
-                    const HabitSearchFilterBar(),
-                  ],
+                        onTap: _showStatisticPage,
+                        contentPadding: EdgeInsets.zero,
+                        trailing: const Icon(
+                          FontAwesomeIcons.chevronRight,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                      const SizedBox(height: AppSpacing.marginL),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _BriefStatisticItem(
+                              icon: FontAwesomeIcons.fire,
+                              iconColor: Colors.red,
+                              label: S.current.longest_streak,
+                              value: '10',
+                              valueTextColor: Colors.red,
+                            ),
+                          ),
+                          const SizedBox(width: AppSpacing.marginS),
+                          Expanded(
+                            child: _BriefStatisticItem(
+                              icon: FontAwesomeIcons.listCheck,
+                              iconColor: Colors.blue,
+                              label: S.current.today_tasks,
+                              value: S.current.done_tasks(5, 10),
+                              valueTextColor: Colors.blue,
+                            ),
+                          ),
+                          const SizedBox(width: AppSpacing.marginS),
+                          Expanded(
+                            child: _BriefStatisticItem(
+                              icon: FontAwesomeIcons.crown,
+                              iconColor: Colors.green,
+                              label: S.current.achievement_done,
+                              value: '10',
+                              valueTextColor: Colors.green,
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              _spacing,
-              Expanded(
-                child: HabitList(isListView: _isHabitListView),
-              ),
-            ],
+                _spacing,
+                // Habit List Title & Filter
+                HabitSectionContainer(
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            S.current.all_habits,
+                            style: const TextStyle(
+                              fontSize: AppFontSize.h2,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () => setState(
+                                () => _isHabitListView = !_isHabitListView),
+                            child: _isHabitListView
+                                ? const Icon(FontAwesomeIcons.list)
+                                : const Icon(FontAwesomeIcons.grip),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: AppSpacing.marginL),
+                      const HabitSearchFilterBar(),
+                    ],
+                  ),
+                ),
+                _spacing,
+                Expanded(
+                  child: HabitList(isListView: _isHabitListView),
+                ),
+              ],
+            ),
           ),
+          bottomNavigationBar: _buildAddButton(),
         ),
-        bottomNavigationBar: _buildAddButton(),
       ),
     );
   }
@@ -139,7 +143,7 @@ class _AllHabitsPageState extends State<AllHabitsPage> {
   Widget _buildAddButton() {
     return Bounce(
       duration: AppCommons.buttonBounceDuration,
-      onPressed: () {},
+      onPressed: () => SharedHabitAction.showAddHabitOptions(context),
       child: Container(
         decoration: const BoxDecoration(
           color: AppColors.primary,

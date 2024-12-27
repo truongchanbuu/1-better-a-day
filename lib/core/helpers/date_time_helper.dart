@@ -6,6 +6,8 @@ import '../enums/habit/habit_time_of_day.dart';
 
 class DateTimeHelper {
   // General
+  static const vietnameseDateFormat = 'dd/MM/yyyy';
+  static const englishDateFormat = 'yyyy/MM/dd';
   static const String dawnTimeString = '6:00';
   static const String afternoonTimeString = '12:00';
   static const String duskTimeString = '18:00';

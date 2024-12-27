@@ -12,6 +12,7 @@ class TimeField extends StatefulWidget {
   final Function(TimeOfDay time)? onSelected;
   final bool isAlwaysFloating;
   final FormFieldValidator<String>? validator;
+  final String? initialValue;
 
   const TimeField({
     super.key,
@@ -20,6 +21,7 @@ class TimeField extends StatefulWidget {
     this.onSelected,
     this.isAlwaysFloating = true,
     this.validator,
+    this.initialValue,
   });
 
   @override
@@ -33,8 +35,10 @@ class _TimeFieldState extends State<TimeField> {
   void initState() {
     super.initState();
     _editingController = TextEditingController(
-        text: DateTimeHelper.formatTime(
-            DateTimeHelper.timeFromHabitTimeOfDay(widget.timeOfDay)));
+        text: widget.timeOfDay != null
+            ? DateTimeHelper.formatTime(
+                DateTimeHelper.timeFromHabitTimeOfDay(widget.timeOfDay))
+            : widget.initialValue);
   }
 
   @override

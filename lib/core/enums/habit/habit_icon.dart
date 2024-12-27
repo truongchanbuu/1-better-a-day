@@ -1,27 +1,50 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
+import 'package:iconify_flutter_plus/icons/mdi.dart';
+
+import '../../helpers/enum_helper.dart';
 
 enum HabitIcon {
   water('water'),
   exercise('fitness'),
   waking('wake_up'),
-  reading('book');
+  reading('book'),
+  custom('');
 
   final String iconName;
   const HabitIcon(this.iconName);
 
-  static IconData getIconData(String? iconName) {
-    switch (iconName) {
-      case 'fitness':
-        return Icons.fitness_center;
-      case 'book':
-        return FontAwesomeIcons.book;
-      case 'water':
-        return FontAwesomeIcons.droplet;
-      case 'wake_up':
-        return FontAwesomeIcons.sunPlantWilt;
-      default:
-        return Icons.event_repeat;
-    }
-  }
+  Color get habitColor => switch (this) {
+        HabitIcon.water => Colors.blue,
+        HabitIcon.exercise => Colors.green,
+        HabitIcon.waking => Colors.orange,
+        HabitIcon.reading => Colors.brown,
+        HabitIcon.custom => Colors.grey,
+      };
+
+  static HabitIcon fromString(String? str) =>
+      EnumHelper.fromString(values, str) ?? custom;
+
+  Iconify get habitIcon => switch (this) {
+        HabitIcon.water => const Iconify(
+            Mdi.water_drop,
+            color: Colors.blue,
+          ),
+        HabitIcon.exercise => const Iconify(
+            Mdi.human_run,
+            color: Colors.green,
+          ),
+        HabitIcon.waking => const Iconify(
+            Mdi.alarm,
+            color: Colors.orange,
+          ),
+        HabitIcon.reading => const Iconify(
+            Mdi.book_open,
+            color: Colors.black,
+          ),
+        HabitIcon.custom => const Iconify(
+            Mdi.help_circle,
+            color: Colors.purple,
+          ),
+      };
 }

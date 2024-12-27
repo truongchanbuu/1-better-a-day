@@ -10,6 +10,7 @@ import '../../../../core/enums/habit/habit_time_of_day.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../generated/l10n.dart';
 import '../../../auth/presentations/bloc/auth_bloc/auth_bloc.dart';
+import '../../domain/helper/shared_habit_action.dart';
 import '../widgets/today_habit_item.dart';
 import '../widgets/today_quote.dart';
 
@@ -24,8 +25,9 @@ class TodayPage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () => SharedHabitAction.showAddHabitOptions(context),
           shape: const CircleBorder(),
+          tooltip: S.current.add_habit,
           child: const Icon(FontAwesomeIcons.plus),
         ),
         body: SingleChildScrollView(
@@ -35,7 +37,7 @@ class TodayPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '${HabitTimeOfDay.periodOfTheDay.greeting}, ${currentUser.username?.isEmpty ?? false ? S.current.friend_title : currentUser.username}',
+                  '${HabitTimeOfDay.periodOfTheDay.greeting}, ${currentUser.username?.isEmpty ?? true ? S.current.friend_title : currentUser.username}',
                   style: const TextStyle(
                     color: AppColors.primary,
                     fontWeight: FontWeight.bold,

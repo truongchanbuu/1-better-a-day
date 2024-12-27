@@ -21,6 +21,7 @@ import 'features/habit/data/repositories/habit_repo_impl.dart';
 import 'features/habit/domain/repositories/habit_ai_repository.dart';
 import 'features/habit/domain/repositories/habit_repository.dart';
 import 'features/habit/presentations/blocs/ai_habit_generate/ai_habit_generate_bloc.dart';
+import 'features/habit/presentations/blocs/crud/habit_crud_bloc.dart';
 import 'features/habit/presentations/blocs/distance_track/distance_track_cubit.dart';
 import 'features/habit/presentations/blocs/validate_habit/validate_habit_bloc.dart';
 import 'features/settings/presentations/bloc/settings_cubit.dart';
@@ -39,13 +40,13 @@ Future<void> initializeDependencies() async {
   await dotenv.load();
   await Hive.initFlutter();
 
-  final habitBox = await Hive.openBox<Map<String, dynamic>>('habits');
-  getIt.registerSingleton<Box<Map<String, dynamic>>>(habitBox,
+  final habitBox = await Hive.openBox<Map<dynamic, dynamic>>('habits');
+  getIt.registerSingleton<Box<Map<dynamic, dynamic>>>(habitBox,
       instanceName: 'habitBox');
 
   getIt.registerFactory<HiveCRUDInterface<HabitModel>>(
     () => HiveCRUDImplementation<HabitModel>(
-      getIt.get<Box<Map<String, dynamic>>>(instanceName: 'habitBox'),
+      getIt.get<Box<Map<dynamic, dynamic>>>(instanceName: 'habitBox'),
       () => HabitModel.init(),
     ),
   );
@@ -96,8 +97,9 @@ Future<void> initializeDependencies() async {
   getIt.registerSingleton<AuthBloc>(AuthBloc(getIt()));
   getIt.registerSingleton<InternetBloc>(InternetBloc());
   getIt.registerFactory<ValidateHabitBloc>(() => ValidateHabitBloc(getIt()));
-  getIt
-      .registerFactory<AIHabitGenerateBloc>(() => AIHabitGenerateBloc(getIt()));
+  getIt.registerFactory<AIHabitGenerateBloc>(() => AIHabitGenerateBloc(
+      habitAIRepository: getIt(), habitRepository: getIt()));
+  getIt.registerFactory<HabitCrudBloc>(() => HabitCrudBloc(getIt()));
 
   // Cubit
   getIt.registerSingleton<SettingsCubit>(SettingsCubit(getIt()));

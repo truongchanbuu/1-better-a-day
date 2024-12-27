@@ -137,9 +137,8 @@ class HistoryItem extends StatelessWidget {
 
   Widget _buildTarget() {
     final GoalUnit goalUnit = GoalUnit.fromString(history.measurement);
-    String unit = (goalUnit == GoalUnit.custom)
-        ? goalUnit.unitName ?? '___'
-        : goalUnit.name;
+    String unit =
+        (goalUnit == GoalUnit.custom) ? goalUnit.unitName : goalUnit.name;
 
     return ListTile(
       contentPadding: EdgeInsets.zero,

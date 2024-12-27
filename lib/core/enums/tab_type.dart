@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../features/habit/presentations/blocs/crud/habit_crud_bloc.dart';
 import '../../features/habit/presentations/pages/all_habits_page.dart';
 import '../../features/habit/presentations/pages/today_page.dart';
 import '../../features/notification/presentations/pages/notification_page.dart';
 import '../../features/rewards/presentations/pages/challenge_page.dart';
 import '../../features/settings/presentations/pages/settings_page.dart';
 import '../../generated/l10n.dart';
+import '../../injection_container.dart';
 import '../constants/app_color.dart';
 
 enum TabType {
@@ -55,7 +58,12 @@ enum TabType {
       case TabType.notifications:
         return const NotificationPage();
       case TabType.habits:
-        return const AllHabitsPage();
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider(create: (context) => getIt.get<HabitCrudBloc>())
+          ],
+          child: const AllHabitsPage(),
+        );
       case TabType.challenges:
         return const ChallengesPage();
     }

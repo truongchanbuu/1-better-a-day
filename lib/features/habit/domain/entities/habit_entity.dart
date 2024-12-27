@@ -17,7 +17,7 @@ class HabitEntity extends Equatable {
   final int longestStreak;
   final DateTime startDate;
   final DateTime endDate;
-  final DateTime? reminderTime;
+  final String? reminderTime;
   final String habitStatus;
 
   const HabitEntity({
@@ -50,7 +50,7 @@ class HabitEntity extends Equatable {
     int? longestStreak,
     DateTime? startDate,
     DateTime? endDate,
-    DateTime? reminderTime,
+    String? reminderTime,
     String? habitStatus,
   }) {
     return HabitEntity(

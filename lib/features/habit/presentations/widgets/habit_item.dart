@@ -1,8 +1,11 @@
 import 'dart:async';
 
 import 'package:animated_switcher_plus/animated_switcher_plus.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -10,15 +13,29 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import '../../../../core/constants/app_color.dart';
 import '../../../../core/constants/app_font_size.dart';
 import '../../../../core/constants/app_spacing.dart';
+import '../../../../core/enums/habit/goal_unit.dart';
+import '../../../../core/enums/habit/habit_category.dart';
 import '../../../../core/extensions/context_extension.dart';
+import '../../../../core/extensions/num_extension.dart';
 import '../../../../generated/l10n.dart';
+import '../../../shared/presentations/widgets/confirm_delete_dialog.dart';
+import '../../domain/entities/habit_entity.dart';
+import '../blocs/crud/habit_crud_bloc.dart';
+import 'crud_habit/edit_template_dialog.dart';
+import 'generated_habit.dart';
 import 'habit_action_button.dart';
 
 enum HabitAction { skip, complete, nothing }
 
 class HabitItem extends StatefulWidget {
+  final HabitEntity habit;
   final bool isListView;
-  const HabitItem({super.key, this.isListView = true});
+
+  const HabitItem({
+    super.key,
+    required this.habit,
+    this.isListView = true,
+  });
 
   static const figureTextStyle = TextStyle(
     fontSize: AppFontSize.labelMedium,
@@ -38,40 +55,54 @@ class _HabitItemState extends State<HabitItem> {
   bool _isOverlay = false;
   HabitAction currentAction = HabitAction.nothing;
 
+  late HabitEntity currentHabit;
+
   @override
   void initState() {
     super.initState();
     _itemKey = GlobalKey();
+    currentHabit = widget.habit;
   }
 
   static const _sliderMotion = DrawerMotion();
 
   @override
   Widget build(BuildContext context) {
-    return Slidable(
-      startActionPane: ActionPane(motion: _sliderMotion, children: [
-        SlidableAction(
-          onPressed: (context) {},
-          icon: FontAwesomeIcons.penToSquare,
-          foregroundColor: AppColors.lightText,
-          backgroundColor: Colors.green,
-          label: widget.isListView ? S.current.edit_button : null,
+    return BlocListener<HabitCrudBloc, HabitCrudState>(
+      listener: (context, state) {
+        if (state is HabitCrudSucceed) {
+          if (state.action == HabitCrudAction.update) {
+            setState(() {
+              currentHabit = state.habits.first;
+            });
+          }
+        }
+      },
+      child: Slidable(
+        startActionPane: ActionPane(motion: _sliderMotion, children: [
+          SlidableAction(
+            onPressed: _onEditHabit,
+            icon: FontAwesomeIcons.penToSquare,
+            foregroundColor: AppColors.lightText,
+            backgroundColor: Colors.green,
+            label: widget.isListView ? S.current.edit_button : null,
+          ),
+        ]),
+        endActionPane: ActionPane(motion: _sliderMotion, children: [
+          SlidableAction(
+            onPressed: _onDeleteHabit,
+            icon: FontAwesomeIcons.trash,
+            foregroundColor: AppColors.lightText,
+            backgroundColor: AppColors.error,
+            label: widget.isListView ? S.current.delete_button : null,
+          ),
+        ]),
+        child: AnimatedSwitcherPlus.flipY(
+          duration: const Duration(milliseconds: 300),
+          child: currentAction != HabitAction.nothing
+              ? _buildCover()
+              : _buildItemWithOverlay(),
         ),
-      ]),
-      endActionPane: ActionPane(motion: _sliderMotion, children: [
-        SlidableAction(
-          onPressed: (context) {},
-          icon: FontAwesomeIcons.trash,
-          foregroundColor: AppColors.lightText,
-          backgroundColor: AppColors.error,
-          label: widget.isListView ? S.current.delete_button : null,
-        ),
-      ]),
-      child: AnimatedSwitcherPlus.flipY(
-        duration: const Duration(milliseconds: 300),
-        child: currentAction != HabitAction.nothing
-            ? _buildCover()
-            : _buildItemWithOverlay(),
       ),
     );
   }
@@ -116,7 +147,9 @@ class _HabitItemState extends State<HabitItem> {
       },
       child: Stack(
         children: [
-          widget.isListView ? const _ListViewItem() : const _GridViewItem(),
+          widget.isListView
+              ? _ListViewItem(habit: currentHabit)
+              : _GridViewItem(habit: currentHabit),
           if (_isOverlay)
             Positioned.fill(
               child: Container(
@@ -173,10 +206,69 @@ class _HabitItemState extends State<HabitItem> {
               currentAction = HabitAction.nothing;
             }));
   }
+
+  void _onEditHabit(BuildContext funcContext) {
+    final habitCrudBloc = funcContext.read<HabitCrudBloc>();
+    const editHabitDialogTag = 'edit_habit_dialog';
+
+    SmartDialog.show(
+      tag: editHabitDialogTag,
+      builder: (ctx) => EditTemplateDialog(
+        child: BlocProvider.value(
+          value: habitCrudBloc,
+          child: BlocListener<HabitCrudBloc, HabitCrudState>(
+            listener: (blocCtx, state) {
+              if (state is HabitCrudSucceed) {
+                if (state.action == HabitCrudAction.update) {
+                  AwesomeDialog(
+                    context: context,
+                    dialogType: DialogType.success,
+                    title: S.current.success_title,
+                    desc: S.current.update_success_title,
+                  ).show();
+
+                  SmartDialog.dismiss(tag: editHabitDialogTag);
+                }
+              } else if (state is HabitCrudFailed) {
+                AwesomeDialog(
+                  context: context,
+                  dialogType: DialogType.error,
+                  title: S.current.failure_title,
+                  desc: state.errorMessage,
+                ).show();
+              }
+            },
+            child: GeneratedHabit(
+              habit: currentHabit,
+              onEdit: (habit) => habitCrudBloc.add(EditHabit(
+                id: currentHabit.habitId,
+                updatedHabit: currentHabit,
+              )),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _onDeleteHabit(BuildContext ctx) async {
+    final habitCrudBloc = context.read<HabitCrudBloc>();
+    bool isAllowed = await SmartDialog.show<bool>(
+            builder: (innerCtx) => ConfirmDeleteDialog(
+                  onDelete: () => SmartDialog.dismiss(result: true),
+                  onCancel: () => SmartDialog.dismiss(result: false),
+                )) ??
+        false;
+
+    if (isAllowed) {
+      habitCrudBloc.add(DeleteHabit(currentHabit.habitId));
+    }
+  }
 }
 
 class _ListViewItem extends StatelessWidget {
-  const _ListViewItem();
+  final HabitEntity habit;
+  const _ListViewItem({required this.habit});
 
   @override
   Widget build(BuildContext context) {
@@ -196,25 +288,30 @@ class _ListViewItem extends StatelessWidget {
       ),
       margin: const EdgeInsets.all(AppSpacing.marginXS),
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.paddingM),
-      child: const Column(
+      child: Column(
         children: [
           ListTile(
             titleAlignment: ListTileTitleAlignment.center,
             title: Text(
-              'Reading Book',
-              style: TextStyle(
+              habit.habitTitle,
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: AppFontSize.h3,
               ),
+              maxLines: 5,
             ),
-            subtitle:
-                _HabitMeasurementLabel(textStyle: HabitItem.figureTextStyle),
-            trailing: _HabitIconLabel(),
+            subtitle: _HabitMeasurementLabel(
+              category: habit.habitCategory,
+              targetValue: habit.habitGoal.targetValue,
+              goalUnit: habit.habitGoal.goalUnit,
+              textStyle: HabitItem.figureTextStyle,
+            ),
+            trailing: _HabitIconLabel(category: habit.habitCategory),
             contentPadding: EdgeInsets.zero,
           ),
-          _HabitProgress(),
+          _HabitProgress(progress: habit.habitProgress),
           Padding(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
               bottom: AppSpacing.marginS,
               top: AppSpacing.marginXS,
             ),
@@ -222,11 +319,12 @@ class _ListViewItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '30% Complete',
+                  S.current.completed_progress(
+                      (habit.habitProgress * 100).toStringAsFixedWithoutZero()),
                   style: HabitItem.figureTextStyle,
                 ),
                 Text(
-                  '10 day streak',
+                  habit.currentStreak.toString(),
                   style: HabitItem.figureTextStyle,
                 ),
               ],
@@ -239,7 +337,8 @@ class _ListViewItem extends StatelessWidget {
 }
 
 class _GridViewItem extends StatefulWidget {
-  const _GridViewItem();
+  final HabitEntity habit;
+  const _GridViewItem({required this.habit});
 
   @override
   State<_GridViewItem> createState() => _GridViewItemState();
@@ -251,7 +350,7 @@ class _GridViewItemState extends State<_GridViewItem> {
   @override
   void initState() {
     super.initState();
-    _progressNotifier = ValueNotifier(0.3);
+    _progressNotifier = ValueNotifier(widget.habit.habitProgress);
   }
 
   @override
@@ -263,25 +362,29 @@ class _GridViewItemState extends State<_GridViewItem> {
   @override
   Widget build(BuildContext context) {
     return GridTile(
-      header: const Padding(
-        padding: EdgeInsets.all(AppSpacing.marginS),
+      header: Padding(
+        padding: const EdgeInsets.all(AppSpacing.marginS),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            _HabitMeasurementLabel(textStyle: HabitItem.figureTextStyle),
-            _HabitIconLabel(),
+            _HabitMeasurementLabel(
+              category: widget.habit.habitCategory,
+              targetValue: widget.habit.habitGoal.targetValue,
+              goalUnit: widget.habit.habitGoal.goalUnit,
+              textStyle: HabitItem.figureTextStyle,
+            ),
+            _HabitIconLabel(category: widget.habit.habitCategory),
           ],
         ),
       ),
-      footer: const Center(
+      footer: Center(
         child: Padding(
-          padding: EdgeInsets.symmetric(
-              vertical: AppSpacing.paddingS, horizontal: AppSpacing.paddingXS),
+          padding: const EdgeInsets.all(AppSpacing.paddingS),
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Text(
-              'Reading Book',
-              style: TextStyle(
+              widget.habit.habitTitle,
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: AppFontSize.labelLarge,
               ),
@@ -330,22 +433,25 @@ class _GridViewItemState extends State<_GridViewItem> {
 }
 
 class _HabitIconLabel extends StatelessWidget {
-  const _HabitIconLabel();
+  final String category;
+  const _HabitIconLabel({required this.category});
 
   @override
   Widget build(BuildContext context) {
+    final habitCategory = HabitCategory.fromString(category);
+
     return Container(
       decoration: BoxDecoration(
-        color: Colors.blue.withOpacity(0.2),
+        color: habitCategory.color.withOpacity(0.2),
         borderRadius: const BorderRadius.all(
           Radius.circular(AppSpacing.circleRadius),
         ),
       ),
       padding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.paddingS, vertical: AppSpacing.paddingXS),
-      child: const Text(
-        'Learning',
-        style: TextStyle(
+      child: Text(
+        habitCategory.categoryName,
+        style: const TextStyle(
           color: Colors.blue,
           fontWeight: FontWeight.bold,
           fontSize: AppFontSize.labelMedium,
@@ -356,13 +462,14 @@ class _HabitIconLabel extends StatelessWidget {
 }
 
 class _HabitProgress extends StatelessWidget {
-  const _HabitProgress();
+  final double progress;
+  const _HabitProgress({this.progress = 0.0});
 
   @override
   Widget build(BuildContext context) {
     return LinearPercentIndicator(
       padding: EdgeInsets.zero,
-      percent: 0.3,
+      percent: progress,
       progressColor: AppColors.primary,
       backgroundColor: AppColors.grayBackgroundColor,
     );
@@ -370,23 +477,36 @@ class _HabitProgress extends StatelessWidget {
 }
 
 class _HabitMeasurementLabel extends StatelessWidget {
+  final String category;
+  final String goalUnit;
+  final double targetValue;
   final TextStyle? textStyle;
-  const _HabitMeasurementLabel({this.textStyle});
+
+  const _HabitMeasurementLabel({
+    required this.category,
+    required this.goalUnit,
+    required this.targetValue,
+    this.textStyle,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final unit = GoalUnit.fromString(goalUnit);
+    final unitName = unit == GoalUnit.custom ? goalUnit : unit.unitName;
+    final habitCategory = HabitCategory.fromString(category);
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.paddingS),
       child: Row(
         children: <Widget>[
-          const Icon(
-            FontAwesomeIcons.book,
-            color: Colors.green,
+          Icon(
+            habitCategory.iconData,
+            color: habitCategory.color,
             size: 20,
           ),
           const SizedBox(width: AppSpacing.marginXS),
           Text(
-            '30 min',
+            '$targetValue $unitName',
             style: textStyle,
           ),
         ],

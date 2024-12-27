@@ -50,7 +50,7 @@ var habit = HabitEntity(
   timeOfDay: HabitTimeOfDay.morning.name,
   habitCategory: HabitCategory.health.name,
   endDate: DateTime(2024, 12, 31),
-  reminderTime: DateTime(2024, 12, 5, 10, 10),
+  reminderTime: '',
   habitStatus: '',
   habitProgress: 0.48,
 );
@@ -184,7 +184,7 @@ class HabitDetailPage extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         child: Row(
           children: [
-            Icon(HabitIcon.getIconData(habit.iconName)),
+            HabitIcon.fromString(habit.iconName).habitIcon,
             const SizedBox(width: AppSpacing.marginS),
             Text(
               habit.habitTitle,

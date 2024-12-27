@@ -133,6 +133,7 @@ dependencies:
   flutter_bounce: ^1.1.0
   flutter_slidable: ^3.1.1
   animated_switcher_plus: ^1.1.0
+  flutter_animate: ^4.5.2
 
   # Permission
   permission_handler: ^11.3.1

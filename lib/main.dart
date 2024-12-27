@@ -3,19 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
-import 'package:hive_ce_flutter/hive_flutter.dart';
+import 'package:hive_ce/hive.dart';
 
 import 'config/theme/app_theme.dart';
 import 'core/constants/app_common.dart';
 import 'features/auth/presentations/bloc/auth_bloc/auth_bloc.dart';
-import 'features/habit/presentations/blocs/validate_habit/validate_habit_bloc.dart';
-import 'features/habit/presentations/pages/add_habit_page.dart';
-import 'features/habit/presentations/pages/add_habit_with_ai_page.dart';
+import 'features/habit/data/models/habit_model.dart';
 import 'features/settings/presentations/bloc/settings_cubit.dart';
 import 'features/shared/presentations/blocs/internet/internet_bloc.dart';
+import 'features/shared/presentations/pages/app_view.dart';
 import 'firebase_options.dart';
 import 'generated/l10n.dart';
 import 'injection_container.dart';
+import 'services/hive_crud_service.dart';
 
 // TODO: PACKAGES:
 // - TIME_PLANNER FOR TIME SCHEDULE
@@ -39,7 +39,8 @@ class MyApp extends StatelessWidget {
           create: (_) =>
               getIt.get<AuthBloc>()..add(AuthUserSubscriptionRequest()),
         ),
-        BlocProvider(create: (context) => getIt.get<SettingsCubit>())
+        BlocProvider(create: (context) => getIt.get<SettingsCubit>()),
+        BlocProvider(create: (context) => getIt.get<InternetBloc>())
       ],
       child: const AppContainer(),
     );
@@ -69,14 +70,7 @@ class AppContainer extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      // home: const AppView(),
-      home: MultiBlocProvider(
-        providers: [
-          BlocProvider(create: (context) => getIt.get<ValidateHabitBloc>()),
-          BlocProvider(create: (context) => getIt.get<InternetBloc>())
-        ],
-        child: const AddHabitWithAIPage(),
-      ),
+      home: const AppView(),
     );
   }
 }
