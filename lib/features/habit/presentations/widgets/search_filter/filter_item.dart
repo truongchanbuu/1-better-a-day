@@ -7,7 +7,7 @@ import '../../../../../core/constants/app_color.dart';
 import '../../../../../core/constants/app_font_size.dart';
 import '../../../../../core/constants/app_spacing.dart';
 import '../../../../../core/extensions/context_extension.dart';
-import 'progressing_slider.dart';
+import 'habit_progressing_status_slider.dart';
 
 enum FilterType { selection, range }
 
@@ -18,6 +18,7 @@ class FilterItem extends StatefulWidget {
   final String title;
   final double width;
   final VoidCallback? onTap;
+  final ValueChanged<String?>? onChanged;
   final IconStyleData? iconStyleData;
 
   const FilterItem({
@@ -29,6 +30,7 @@ class FilterItem extends StatefulWidget {
     this.selected,
     this.onTap,
     this.iconStyleData,
+    this.onChanged,
   });
 
   @override
@@ -37,6 +39,7 @@ class FilterItem extends StatefulWidget {
 
 class FilterItemState extends State<FilterItem> {
   String? selected;
+  String? title;
 
   @override
   void initState() {
@@ -64,7 +67,9 @@ class FilterItemState extends State<FilterItem> {
         margin: const EdgeInsets.only(right: AppSpacing.marginS),
         child: DropdownButtonFormField2<String>(
           hint: Text(
-            widget.title,
+            title != null && widget.type == FilterType.range
+                ? title!
+                : widget.title,
             style: _textStyle,
           ),
           iconStyleData: widget.iconStyleData ?? const IconStyleData(),
@@ -86,6 +91,8 @@ class FilterItemState extends State<FilterItem> {
             setState(() {
               selected = value;
             });
+
+            widget.onChanged?.call(selected);
           },
           selectedItemBuilder: (context) =>
               widget.items.map((item) => Text(item.toString())).toList(),
@@ -120,9 +127,28 @@ class FilterItemState extends State<FilterItem> {
     }
   }
 
-  void _openRangeSlider() {
-    SmartDialog.show(
-      builder: (context) => const ProgressingSlider(),
+  void _openRangeSlider() async {
+    final String? paramProgressing = selected?.replaceAll('%', '');
+    final String? selectedProgressing = await SmartDialog.show<String>(
+      builder: (context) => HabitProgressingStatusSlider(
+        singleValue: (paramProgressing?.isNotEmpty ?? false) &&
+                !paramProgressing!.contains('-')
+            ? double.parse(paramProgressing)
+            : 0,
+        rangeValues: (paramProgressing?.isNotEmpty ?? false) &&
+                paramProgressing!.contains('-')
+            ? paramProgressing
+            : '',
+      ),
     );
+
+    if (selectedProgressing != null) {
+      setState(() {
+        selected = '$selectedProgressing%';
+        title = selected;
+      });
+
+      widget.onChanged?.call(selected);
+    }
   }
 }

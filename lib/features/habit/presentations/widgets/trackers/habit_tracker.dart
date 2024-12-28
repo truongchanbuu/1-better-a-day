@@ -14,15 +14,19 @@ import '../../../../../injection_container.dart';
 import '../../../../../core/enums/habit/goal_unit.dart';
 import '../../../domain/entities/habit_goal.dart';
 import '../../blocs/distance_track/distance_track_cubit.dart';
-import '../../pages/habit_detail_page.dart';
 import 'distance_tracker.dart';
 import 'progress_tracker.dart';
 import 'time_tracker.dart';
 
 class HabitTracker extends StatefulWidget {
+  final String habitId;
   final HabitGoal habitGoal;
 
-  const HabitTracker({super.key, required this.habitGoal});
+  const HabitTracker({
+    super.key,
+    required this.habitId,
+    required this.habitGoal,
+  });
 
   @override
   State<HabitTracker> createState() => _HabitTrackerState();
@@ -41,6 +45,7 @@ class _HabitTrackerState extends State<HabitTracker> {
   @override
   void initState() {
     super.initState();
+
     trackStatus = DayStatus.inProgress;
     _habitGoal = widget.habitGoal;
     _goalUnit = GoalUnit.fromString(_habitGoal.goalUnit);
@@ -55,7 +60,7 @@ class _HabitTrackerState extends State<HabitTracker> {
     return Column(
       children: [
         _getTracker(),
-        const SizedBox(height: AppSpacing.marginM),
+        const SizedBox(height: AppSpacing.marginS),
         _buildCompletionTracker(),
       ],
     );
@@ -63,12 +68,12 @@ class _HabitTrackerState extends State<HabitTracker> {
 
   Widget _getTracker() {
     switch (_goalType) {
-      case GoalType.count:
+      case GoalType.count || GoalType.completion:
         if (_goalUnit == GoalUnit.l || _goalUnit == GoalUnit.ml) {
           return _buildWaterDrinkingTracker();
         }
 
-        return Container();
+        return const SizedBox.shrink();
       case GoalType.duration:
         return _buildTimerTracker();
       case GoalType.distance:
@@ -95,7 +100,8 @@ class _HabitTrackerState extends State<HabitTracker> {
 
   Widget _buildWaterDrinkingTracker() {
     return ProgressTracker(
-      goalType: GoalType.fromString(habit.habitGoal.goalType),
+      habitId: widget.habitId,
+      goalType: GoalType.completion,
       currentValue: _habitGoal.currentValue,
       targetValue: _habitGoal.targetValue,
       goalUnit: _goalUnit,

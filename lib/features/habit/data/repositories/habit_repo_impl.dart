@@ -17,7 +17,7 @@ class HabitRepoImpl implements HabitRepository {
 
   // [GET]
   @override
-  Future<List<HabitModel>> getAllHabit() async => await crudService.readAll();
+  Future<List<HabitModel>> getAllHabits() async => await crudService.readAll();
 
   @override
   Future<HabitModel?> getHabitById(String id) async =>

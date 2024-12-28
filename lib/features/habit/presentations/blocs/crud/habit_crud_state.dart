@@ -4,6 +4,8 @@ enum HabitCrudAction {
   add,
   addList,
   getAll,
+  getBySearchValues,
+  getByKeyword,
   getByIds,
   getByCategory,
   getByStatus,

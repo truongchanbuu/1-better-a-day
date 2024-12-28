@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../../core/enums/habit/goal_unit.dart';
 
@@ -8,17 +9,15 @@ class HabitHistory extends Equatable {
   final String habitId;
   final DateTime date;
   final String executionStatus;
-  final String overallStatus;
-
   final DateTime? startTime;
   final DateTime? endTime;
   final Duration? duration;
-
   final String? note;
   final int? rating;
   final String? mood;
-
   final double? quantity;
+  final double? targetValue;
+  final double currentValue;
   final String? measurement;
   final Map<String, dynamic>? customData;
 
@@ -27,7 +26,6 @@ class HabitHistory extends Equatable {
     required this.habitId,
     required this.date,
     required this.executionStatus,
-    required this.overallStatus,
     this.startTime,
     this.endTime,
     this.duration,
@@ -35,10 +33,30 @@ class HabitHistory extends Equatable {
     this.rating,
     this.mood,
     this.quantity,
+    this.currentValue = 0,
+    this.targetValue,
     this.measurement,
     this.customData,
   }) : assert(measurement != GoalUnit.custom.name || customData != null,
             'customData must not be null when measurement is custom');
+
+  factory HabitHistory.init() {
+    return HabitHistory(
+      id: const Uuid().v4(),
+      habitId: '',
+      date: DateTime.now(),
+      executionStatus: '',
+      startTime: null,
+      endTime: null,
+      duration: null,
+      note: null,
+      rating: null,
+      mood: null,
+      quantity: null,
+      measurement: null,
+      customData: null,
+    );
+  }
 
   HabitHistory copyWith({
     String? id,
@@ -47,7 +65,8 @@ class HabitHistory extends Equatable {
     DateTime? completedAt,
     bool? isCompleted,
     String? executionStatus,
-    String? overallStatus,
+    double? currentValue,
+    double? targetValue,
     ValueGetter<DateTime?>? startTime,
     ValueGetter<DateTime?>? endTime,
     ValueGetter<Duration?>? duration,
@@ -63,7 +82,8 @@ class HabitHistory extends Equatable {
       habitId: habitId ?? this.habitId,
       date: date ?? this.date,
       executionStatus: executionStatus ?? this.executionStatus,
-      overallStatus: overallStatus ?? this.overallStatus,
+      currentValue: currentValue ?? this.currentValue,
+      targetValue: targetValue ?? this.targetValue,
       startTime: startTime != null ? startTime() : this.startTime,
       endTime: endTime != null ? endTime() : this.endTime,
       duration: duration != null ? duration() : this.duration,
@@ -83,10 +103,11 @@ class HabitHistory extends Equatable {
       habitId,
       date,
       executionStatus,
-      overallStatus,
       startTime,
       endTime,
       duration,
+      currentValue,
+      targetValue,
       note,
       rating,
       mood,

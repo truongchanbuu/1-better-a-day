@@ -4,16 +4,28 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 
 import '../../../../core/constants/app_color.dart';
+import '../../../../core/constants/app_font_size.dart';
 import '../../../../core/constants/app_spacing.dart';
-import '../../../../core/enums/habit/habit_status.dart';
 import '../../../../generated/l10n.dart';
+import '../../../../injection_container.dart';
 import '../../domain/entities/habit_entity.dart';
 import '../blocs/crud/habit_crud_bloc.dart';
+import '../blocs/habit_history_crud/habit_history_crud_bloc.dart';
 import 'habit_item.dart';
 
 class HabitList extends StatefulWidget {
   final bool isListView;
-  const HabitList({super.key, this.isListView = true});
+  final String category;
+  final String status;
+  final String progress;
+
+  const HabitList({
+    super.key,
+    this.isListView = true,
+    required this.category,
+    required this.status,
+    required this.progress,
+  });
 
   @override
   State<HabitList> createState() => _HabitListState();
@@ -25,9 +37,25 @@ class _HabitListState extends State<HabitList> {
   @override
   void initState() {
     super.initState();
-    context
-        .read<HabitCrudBloc>()
-        .add(GetListOfHabitsByStatus(HabitStatus.inProgress.name));
+    context.read<HabitCrudBloc>().add(GetAllHabits());
+  }
+
+  @override
+  void didUpdateWidget(covariant HabitList oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.category.isNotEmpty ||
+        widget.status.isNotEmpty ||
+        widget.progress.isNotEmpty) {
+      context.read<HabitCrudBloc>().add(
+            SearchHabits(
+              category: widget.category,
+              status: widget.status,
+              progress: widget.progress,
+            ),
+          );
+    } else {
+      context.read<HabitCrudBloc>().add(GetAllHabits());
+    }
   }
 
   @override
@@ -35,7 +63,9 @@ class _HabitListState extends State<HabitList> {
     return BlocBuilder<HabitCrudBloc, HabitCrudState>(
       builder: (context, state) {
         if (state is HabitCrudSucceed) {
-          if (state.action == HabitCrudAction.getByStatus) {
+          if (state.action == HabitCrudAction.getAll ||
+              state.action == HabitCrudAction.getBySearchValues ||
+              state.action == HabitCrudAction.getByKeyword) {
             habits = state.habits;
           } else if (state.action == HabitCrudAction.delete) {
             habits.removeWhere(
@@ -97,20 +127,25 @@ class _HabitListState extends State<HabitList> {
   }
 
   Widget _buildItem(BuildContext context, int index) {
-    return HabitItem(
-      habit: habits[index],
-      isListView: widget.isListView,
+    return BlocProvider(
+      create: (context) => getIt.get<HabitHistoryCrudBloc>(),
+      child: HabitItem(
+        habit: habits[index],
+        isListView: widget.isListView,
+      ),
     );
   }
 
   Widget _buildNoDataView() {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           S.current.no_habit_found,
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             color: AppColors.grayText,
+            fontSize: AppFontSize.h3,
           ),
         ),
         const SizedBox(height: AppSpacing.marginXS),
@@ -124,7 +159,6 @@ class _HabitListState extends State<HabitList> {
     );
   }
 
-  Future<void> _onRefresh() async => context
-      .read<HabitCrudBloc>()
-      .add(GetListOfHabitsByStatus(HabitStatus.inProgress.name));
+  Future<void> _onRefresh() async =>
+      context.read<HabitCrudBloc>().add(GetAllHabits());
 }

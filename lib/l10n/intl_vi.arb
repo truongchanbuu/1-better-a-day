@@ -1,7 +1,7 @@
 {
   "@@locale": "vi",
 
-  "@__COMMON__": "",
+  "@__COMMON__": {},
   "term_and_condition_statement": "Bằng cách đăng nhập/đăng ký, bạn chấp nhận Điều khoản và Điều kiện của chúng tôi và đồng ý với Chính sách Quyền riêng tư",
   "success_title": "Thành công",
   "failure_title": "Thất bại",
@@ -44,11 +44,11 @@
   "delete_title": "Bạn có chắc muốn xóa không?",
   "delete_warning": "Hành động này sẽ không thể hoàn tác",
 
-  "@__VALIDATION__": "",
+  "@__VALIDATION__": {},
   "out_of_range": "Số hiện tại đang vượt quá mức",
   "not_found": "Không tìm thấy",
 
-  "@__AUTHENTICATION__": "",
+  "@__AUTHENTICATION__": {},
   "logout_button": "Đăng xuất",
   "recovery_description": "Một email đặt lại mật khẩu sẽ được gửi tới email của bạn",
   "re_auth_with_google": "Xác thực với Google",
@@ -59,7 +59,7 @@
   "update_success_title": "Cập nhật thành công",
   "verify_email_sent": "Một mail vừa được gửi vào email mới của bạn",
 
-  "@__ACCOUNT_VALIDATION__": "",
+  "@__ACCOUNT_VALIDATION__": {},
   "try_again": "Vui lòng thử lại sau",
   "empty_field": "Vui lòng không để trống trường này",
   "invalid_form": "Vui lòng kiểm tra lại thông tin của bạn",
@@ -80,13 +80,13 @@
   "invalid_age": "Vui lòng chọn một độ tuổi phù hợp",
   "passwords_do_not_match": "Mật khẩu không trùng khớp",
 
-  "@__DRAWER__": "",
+  "@__DRAWER__": {},
   "today": "Hôm nay",
   "settings": "Cài đặt",
   "notifications": "Thông báo",
   "all_habits": "Tất cả thói quen",
 
-  "@__SETTING__": "",
+  "@__SETTING__": {},
   "general_section": "Chung",
   "language_tile": "Ngôn ngữ",
   "english_choice": "Tiếng Anh",
@@ -125,7 +125,7 @@
 
   "no_date_selected": "Chưa ngày nào được chọn",
 
-  "@__HABIT__": "",
+  "@__HABIT__": {},
   "habits": "{count, plural, =0{0 thói quen} =1{1 thói quen} other{{count} thói quen}}",
   "habit_name": "Tên thói quen",
   "habit_desc": "Mô tả thói quen",
@@ -158,13 +158,13 @@
   "mark_as_done": "Đã thực hiện",
   "mark_as_pause": "Tạm dừng",
 
-  "habit_status_failed": "Thất bại",
-  "habit_status_in_progress": "Đang thực hiện",
-  "habit_status_paused": "Tạm dừng",
-  "habit_status_skipped": "Bỏ qua",
-  "habit_status_achieved": "Đạt được",
-  "habit_status_pending": "Chờ xử lý",
-  "habit_status_unknown": "Không xác định",
+  "status_failed": "Thất bại",
+  "status_in_progress": "Đang thực hiện",
+  "status_paused": "Tạm dừng",
+  "status_skipped": "Bỏ qua",
+  "status_achieved": "Đạt được",
+  "status_pending": "Chờ xử lý",
+  "status_unkown": "Không xác định",
 
 
   "habit_failure_reason_lack_of_time": "Thiếu thời gian",
@@ -189,7 +189,7 @@
   "habit_pause_reason_unknown": "Không xác định",
 
   "habit_category_health": "Sức khỏe",
-  "habit_category_learning": "Học tập",
+  "habit_category_education": "Học tập",
   "habit_category_productivity": "Năng suất",
   "habit_category_mindfulness": "Chánh niệm",
   "habit_category_lifestyle": "Phong cách sống",
@@ -201,14 +201,14 @@
   "habit_category_unknown": "Không xác định",
 
   "tracker_section": "Theo dõi",
-  "add_water_button": "Thêm 250ML",
-  "remove_water_button": "Giảm 250ML",
+  "add_water_button": "Thêm {count}ML",
+  "remove_water_button": "Giảm {count}ML",
   "start_tracking": "Bắt đầu theo dõi",
   "pause_tracking": "Dừng theo dõi",
   "current_distance": "Quãng đường hiện tại",
   "total_distance": "Tổng quãng đường",
 
-  "@__TRACK_ERROR__": "",
+  "@__TRACK_ERROR__": {},
   "not_allow_track": "Chúng tôi không được cấp quyền để theo dõi quãng đường di chuyển của bạn",
 
   "history_section": "Lịch sử thực hiện",
@@ -217,7 +217,10 @@
   "mood_title": "Tâm trạng",
   "date_title": "Ngày",
 
-  "@__STATISTIC__": "",
+  "history_empty": "Không có lịch sử nào được tìm thấy",
+  "cannot_store_history": "Không thể lưu lịch sử",
+
+  "@__STATISTIC__": {},
   "all_statistic_page": "Tất cả",
   "active_statistic_page": "Đang thực hiện",
   "pause_statistic_page": "Tạm ngưng",
@@ -319,10 +322,10 @@
   "reminder_section": "Nhắc nhở",
   "add_reminder": "Thêm lịch nhắc nhở",
 
-  "@__NOTIFICATION__": "",
+  "@__NOTIFICATION__": {},
   "notification_screen_title": "Giữ vững thói quen của bạn!",
 
-  "@__TODAY__": "",
+  "@__TODAY__": {},
   "default_greeting": "Chào",
   "morning_greeting": "Chào buổi sáng",
   "afternoon_greeting": "Chào buổi trưa",
@@ -335,7 +338,7 @@
   "habit_quote_4": "Chớ thấy sóng cả mà ngã tay chèo",
   "habit_quote_5": "Mưa dầm thấm lâu, mưa lâu thấm đất",
 
-  "@__HABIT_KNOWLEDGE__": "",
+  "@__HABIT_KNOWLEDGE__": {},
   "compound_effect": "Hiệu ứng Compound",
   "compound_effect_description": "Cải thiện 1% mỗi ngày sẽ giúp bạn tốt hơn 37 lần sau một năm.",
   "pareto_principle": "Quy luật Pareto",
@@ -369,7 +372,7 @@
   "statistics_habit_formation_time": "Thời gian hình thành",
   "statistics_habit_formation_time_description": "Thời gian hình thành thói quen có thể dao động từ 18 đến 254 ngày tùy thuộc vào độ phức tạp.",
 
-  "@__CHALLENGE__": "",
+  "@__CHALLENGE__": {},
   "discover_tab": "Khám phá thêm những thử thách mới",
   "my_custom_challenge_tab": "Được tạo bởi tôi",
   "my_reward_tab": "Phần thưởng",
@@ -400,7 +403,7 @@
   "personal_achievements": "Thành tựu cá nhân",
   "community_challenges": "Thử thách cộng đồng",
 
-  "@__ADD_HABIT__": "",
+  "@__ADD_HABIT__": {},
   "get_preset_habit_option": "Chọn các thói quen có sẵn",
   "add_habit_with_few_words_option": "Tạo thói quen mới chỉ với vài từ",
   "add_your_own_habit": "Tự thiết lập thói quen của bạn",
@@ -428,8 +431,8 @@
   "generate_habit_button": "Tạo thói quen",
   "summary_title": "Tổng hợp",
 
-  "@__ADD_HABIT_FORM__": "",
-  "@__ADD_HABIT_VALIDATION__": "",
+  "@__ADD_HABIT_FORM__": {},
+  "@__ADD_HABIT_VALIDATION__": {},
   "add_habit_not_enough_info": "Vui lòng cung cấp ít nhất một trong các thông tin: tên thói quen, mô tả hoặc mục tiêu ngắn gọn để tạo ra mục tiêu SMART chính xác.",
   "invalid_num": "Vui lòng nhập một số lớn hơn 0",
   "invalid_start_date": "Ngày bắt đầu không thể sau ngày kết thúc",
@@ -438,8 +441,10 @@
   "cannot_generate_habit": "Không thể tạo thói quen",
   "cannot_update_habit": "Không thể cập nhật thói quen",
   "no_habit_found": "Không tìm thấy thói quen nào",
+  "start_value_must_be_less_than_end": "Giá trị bắt đầu phải nhỏ hơn giá trị kết thúc",
+  "end_value_must_be_greater_than_start": "Giá trị kết thúc phải lớn hơn giá trị bắt đầu",
 
-  "@__CHALLENGE_VALIDATION__": "",
+  "@__CHALLENGE_VALIDATION__": {},
   "smart_criteria_achieved": "Đạt được các tiêu chuẩn SMART",
   "specific_excellent": "Mục tiêu của bạn rất rõ ràng và được xác định cụ thể",
   "specific_good": "Mục tiêu của bạn khá cụ thể nhưng có thể cần thêm chi tiết",
@@ -553,7 +558,7 @@
   "action_time_organize": "tổ chức",
   "action_time_manage": "quản lý",
 
-  "@__MEASURABLE_WORD": "",
+  "@__MEASURABLE_WORD": {},
   "measurable_meter": "m",
   "@measurable_meter": {
     "description": "Đơn vị đo lường: mét"
@@ -611,7 +616,7 @@
     "description": "Đơn vị bài tập: hiệp"
   },
 
-  "@__ACHIEVABLE_WORD": "",
+  "@__ACHIEVABLE_WORD": {},
   "measurable_positive_increase": "tăng",
   "@measurable_positive_increase": {
     "description": "Chỉ sự gia tăng, thường liên quan đến sự phát triển hoặc cải thiện."
@@ -749,7 +754,7 @@
   "@measurable_negative_revert": {
     "description": "Chỉ sự quay lại một trạng thái hoặc điều kiện trước đó."
   },
-  "@__RELEVANT_WORD": "",
+  "@__RELEVANT_WORD": {},
   "relevant_increase": "tăng",
   "@relevant_increase": {
     "description": "Chỉ sự thay đổi tích cực hoặc sự phát triển về giá trị, thường liên quan đến tiến bộ."
@@ -853,7 +858,7 @@
   "miles_unit": "dặm",
   "custom_unit": "tùy chỉnh",
 
-  "@_GOAL_TYPE": "",
+  "@_GOAL_TYPE": {},
   "goal_completion": "Hoàn thành",
   "goal_count": "Đếm",
   "goal_distance": "Khoảng cách",
@@ -883,7 +888,7 @@
   "add_success": "Tạo thành công",
   "regenerate_button": "Tạo thói quen khác",
 
-  "@__PRESET_HABIT__": "",
+  "@__PRESET_HABIT__": {},
   "water_habit_title": "Uống đủ 2L nước mỗi ngày",
   "water_habit_desc": "Giữ cơ thể luôn đủ nước và cải thiện sức khỏe tổng thể bằng cách uống 2 lít nước mỗi ngày",
   "water_habit_goal_desc": "Uống 2 lít nước mỗi ngày trong 30 ngày tới để giữ cơ thể luôn đủ nước và duy trì sức khỏe tốt",
@@ -910,6 +915,26 @@
 
   "no_habit_item_selected": "Vui lòng chọn ít nhất một thói quen để thêm",
   "cannot_get_any_habit": "Không thể lấy các thói quen",
-  "cannot_get_habit_with_name": "Không thể lấy thói quen: {name}"
+  "cannot_get_habit_with_name": "Không thể lấy thói quen: {name}",
 
+  "all_selection": "Tất cả",
+
+  "@__STREAK_STATEMENT__": {},
+  "default_short_streak": "Tuyệt vời! Bạn đã duy trì chuỗi {count} ngày liên tiếp",
+  "streak_short_0": "Bắt đầu nào! Bạn đã bắt đầu thói quen mới!",
+  "streak_short_1": "Khởi đầu tuyệt vời! Bạn đã đạt được 1 ngày không bỏ lỡ!",
+  "streak_short_3": "Cố lên! Bạn đã duy trì được 3 ngày liên tiếp rồi!",
+  "streak_short_7": "Xuất sắc! Bạn đã hoàn thành 7 ngày liên tiếp!",
+
+  "default_medium_streak": "Tuyệt vời! Bạn đã duy trì chuỗi {count} ngày liên tiếp",  "streak_medium_10": "Tuyệt vời! Bạn đã duy trì được 10 ngày không gián đoạn!",
+  "streak_medium_15": "Không ngừng nỗ lực! Bạn đã đạt được 15 ngày liên tục!",
+  "streak_medium_30": "Bạn thật tuyệt! Đã duy trì 30 ngày kiên trì và đều đặn!",
+
+  "default_long_streak": "Tuyệt vời! Bạn đã duy trì chuỗi {count} ngày liên tiếp",
+  "streak_long_40": "Kinh ngạc! Bạn đã duy trì thói quen liên tiếp 40 ngày!",
+  "streak_long_60": "Thật không thể tin nổi! Bạn đã đạt được 60 ngày streak!",
+  "streak_long_100": "Tuyệt vời! Bạn đã giữ vững streak 100 ngày không gián đoạn!",
+  "streak_very_long_150": "Không thể tin được! Bạn đã duy trì thói quen suốt 150 ngày!",
+  "streak_very_long_200": "Đáng khâm phục! Bạn đã giữ streak 200 ngày liên tiếp!",
+  "streak_very_long_365": "Bạn là người hùng! Đã đạt được 365 ngày không bỏ lỡ!"
 }

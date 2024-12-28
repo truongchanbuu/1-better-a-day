@@ -57,14 +57,6 @@ final class DeleteHabit extends HabitCrudEvent {
   List<Object> get props => [id];
 }
 
-final class UpdateHabit extends HabitCrudEvent {
-  final String id;
-  const UpdateHabit(this.id);
-
-  @override
-  List<Object> get props => [id];
-}
-
 final class EditHabit extends HabitCrudEvent {
   final String id;
   final HabitEntity updatedHabit;
@@ -72,4 +64,24 @@ final class EditHabit extends HabitCrudEvent {
 
   @override
   List<Object> get props => [id, updatedHabit];
+}
+
+final class SearchHabits extends HabitCrudEvent {
+  final String? category;
+  final String? status;
+  final String? progress;
+
+  const SearchHabits({
+    this.category,
+    this.status,
+    this.progress,
+  });
+}
+
+final class SearchByKeyword extends HabitCrudEvent {
+  final String keyword;
+  const SearchByKeyword(this.keyword);
+
+  @override
+  List<Object> get props => [keyword];
 }

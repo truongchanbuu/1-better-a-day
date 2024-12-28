@@ -9,6 +9,7 @@ import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 import '../../../../core/constants/app_color.dart';
+import '../../../../core/constants/app_common.dart';
 import '../../../../core/constants/app_font_size.dart';
 import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/enums/habit/habit_category.dart';
@@ -84,7 +85,7 @@ class _PresetHabitPageState extends State<PresetHabitPage> {
                   );
 
                   alertDialog.show();
-                  await Future.delayed(const Duration(seconds: 5));
+                  await Future.delayed(AppCommons.alertShowDuration);
                   alertDialog.dismiss();
 
                   setState(() {

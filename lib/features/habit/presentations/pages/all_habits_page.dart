@@ -23,6 +23,9 @@ class AllHabitsPage extends StatefulWidget {
 }
 
 class _AllHabitsPageState extends State<AllHabitsPage> {
+  String category = '';
+  String status = '';
+  String progress = '';
   bool _isHabitListView = true;
 
   static const _spacing = SizedBox(height: AppSpacing.marginL);
@@ -123,13 +126,26 @@ class _AllHabitsPageState extends State<AllHabitsPage> {
                         ],
                       ),
                       const SizedBox(height: AppSpacing.marginL),
-                      const HabitSearchFilterBar(),
+                      HabitSearchFilterBar(
+                        onFilterChanged: (category, status, progress) {
+                          setState(() {
+                            this.category = category;
+                            this.status = status;
+                            this.progress = progress;
+                          });
+                        },
+                      ),
                     ],
                   ),
                 ),
                 _spacing,
                 Expanded(
-                  child: HabitList(isListView: _isHabitListView),
+                  child: HabitList(
+                    category: category,
+                    status: status,
+                    progress: progress,
+                    isListView: _isHabitListView,
+                  ),
                 ),
               ],
             ),

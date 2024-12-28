@@ -15,14 +15,19 @@ import 'features/auth/domain/repositories/auth_repository.dart';
 import 'features/auth/presentations/bloc/auth_bloc/auth_bloc.dart';
 import 'features/auth/presentations/bloc/login/login_cubit.dart';
 import 'features/auth/presentations/bloc/signup/signup_cubit.dart';
+import 'features/habit/data/models/habit_history_model.dart';
 import 'features/habit/data/models/habit_model.dart';
 import 'features/habit/data/repositories/habit_ai_repo_impl.dart';
+import 'features/habit/data/repositories/habit_history_repo_impl.dart';
 import 'features/habit/data/repositories/habit_repo_impl.dart';
+import 'features/habit/domain/entities/habit_history.dart';
 import 'features/habit/domain/repositories/habit_ai_repository.dart';
+import 'features/habit/domain/repositories/habit_history_repository.dart';
 import 'features/habit/domain/repositories/habit_repository.dart';
 import 'features/habit/presentations/blocs/ai_habit_generate/ai_habit_generate_bloc.dart';
 import 'features/habit/presentations/blocs/crud/habit_crud_bloc.dart';
 import 'features/habit/presentations/blocs/distance_track/distance_track_cubit.dart';
+import 'features/habit/presentations/blocs/habit_history_crud/habit_history_crud_bloc.dart';
 import 'features/habit/presentations/blocs/validate_habit/validate_habit_bloc.dart';
 import 'features/settings/presentations/bloc/settings_cubit.dart';
 import 'features/shared/presentations/blocs/internet/internet_bloc.dart';
@@ -43,11 +48,21 @@ Future<void> initializeDependencies() async {
   final habitBox = await Hive.openBox<Map<dynamic, dynamic>>('habits');
   getIt.registerSingleton<Box<Map<dynamic, dynamic>>>(habitBox,
       instanceName: 'habitBox');
-
   getIt.registerFactory<HiveCRUDInterface<HabitModel>>(
     () => HiveCRUDImplementation<HabitModel>(
       getIt.get<Box<Map<dynamic, dynamic>>>(instanceName: 'habitBox'),
       () => HabitModel.init(),
+    ),
+  );
+
+  final habitHistoryBox =
+      await Hive.openBox<Map<dynamic, dynamic>>('habitHistories');
+  getIt.registerSingleton<Box<Map<dynamic, dynamic>>>(habitHistoryBox,
+      instanceName: 'habitHistoryBox');
+  getIt.registerFactory<HiveCRUDInterface<HabitHistoryModel>>(
+    () => HiveCRUDImplementation<HabitHistoryModel>(
+      getIt.get<Box<Map<dynamic, dynamic>>>(instanceName: 'habitHistoryBox'),
+      () => HabitHistoryModel.fromEntity(HabitHistory.init()),
     ),
   );
 
@@ -92,6 +107,8 @@ Future<void> initializeDependencies() async {
   ));
   getIt.registerSingleton<HabitAIRepository>(HabitAIRepoImpl(getIt()));
   getIt.registerSingleton<HabitRepository>(HabitRepoImpl(getIt()));
+  getIt
+      .registerSingleton<HabitHistoryRepository>(HabitHistoryRepoImpl(getIt()));
 
   // Bloc
   getIt.registerSingleton<AuthBloc>(AuthBloc(getIt()));
@@ -100,6 +117,8 @@ Future<void> initializeDependencies() async {
   getIt.registerFactory<AIHabitGenerateBloc>(() => AIHabitGenerateBloc(
       habitAIRepository: getIt(), habitRepository: getIt()));
   getIt.registerFactory<HabitCrudBloc>(() => HabitCrudBloc(getIt()));
+  getIt.registerFactory<HabitHistoryCrudBloc>(
+      () => HabitHistoryCrudBloc(getIt()));
 
   // Cubit
   getIt.registerSingleton<SettingsCubit>(SettingsCubit(getIt()));

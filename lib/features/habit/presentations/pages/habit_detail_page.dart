@@ -1,7 +1,11 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bounce/flutter_bounce.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:moment_dart/moment_dart.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
@@ -11,167 +15,192 @@ import '../../../../core/constants/app_font_size.dart';
 import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/enums/habit/day_status.dart';
 import '../../../../core/enums/habit/goal_type.dart';
-import '../../../../core/enums/habit/habit_category.dart';
 import '../../../../core/enums/habit/habit_frequency.dart';
 import '../../../../core/enums/habit/habit_icon.dart';
 import '../../../../core/enums/habit/habit_status.dart';
-import '../../../../core/enums/habit/habit_time_of_day.dart';
 import '../../../../core/extensions/context_extension.dart';
+import '../../../../core/extensions/num_extension.dart';
 import '../../../../core/extensions/string_extension.dart';
 import '../../../../core/helpers/date_time_helper.dart';
 import '../../../../generated/l10n.dart';
+import '../../../shared/presentations/widgets/confirm_delete_dialog.dart';
 import '../../../shared/presentations/widgets/icon_with_text.dart';
 import '../../../shared/presentations/widgets/text_with_circle_border_container.dart';
-import '../../../../core/enums/habit/goal_unit.dart';
 import '../../domain/entities/habit_entity.dart';
-import '../../domain/entities/habit_goal.dart';
 import '../../domain/entities/habit_history.dart';
+import '../blocs/crud/habit_crud_bloc.dart';
+import '../widgets/crud_habit/edit_template_dialog.dart';
+import '../widgets/generated_habit.dart';
 import '../widgets/habit_section_container.dart';
 import '../widgets/habit_streak_calendar.dart';
 import '../widgets/reminder_section_item.dart';
 import '../widgets/trackers/habit_tracker.dart';
-import 'habit_history_page.dart';
 
-var habit = HabitEntity(
-  habitId: 'habit1',
-  habitTitle: 'Water Drinking',
-  habitDesc: 'Drink 2L of water every day.',
-  habitGoal: HabitGoal(
-    goalId: 'g1',
-    habitId: 'habit1',
-    goalDesc: 'Stay fit and healthy',
-    goalType: GoalType.distance.name,
-    targetValue: 10,
-    goalUnit: GoalUnit.km.name,
-    goalFrequency: 1,
-  ),
-  iconName: HabitIcon.water.iconName,
-  startDate: DateTime(2024, 1, 1),
-  timeOfDay: HabitTimeOfDay.morning.name,
-  habitCategory: HabitCategory.health.name,
-  endDate: DateTime(2024, 12, 31),
-  reminderTime: '',
-  habitStatus: '',
-  habitProgress: 0.48,
-);
-
-class HabitDetailPage extends StatelessWidget {
-  // final HabitEntity habit;
+class HabitDetailPage extends StatefulWidget {
+  final HabitEntity habit;
   const HabitDetailPage({
     super.key,
-    // required this.habit,
+    required this.habit,
   });
 
-  static const CrossAxisAlignment _sectionColAlignment =
-      CrossAxisAlignment.start;
+  @override
+  State<HabitDetailPage> createState() => _HabitDetailPageState();
+}
+
+class _HabitDetailPageState extends State<HabitDetailPage> {
+  late HabitEntity currentHabit;
+  List<HabitHistory> histories = [];
+
+  @override
+  initState() {
+    super.initState();
+    currentHabit = widget.habit;
+  }
+
   static const SizedBox _spacing = SizedBox(height: AppSpacing.marginM);
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        backgroundColor: context.isDarkMode
-            ? AppColors.primaryDark
-            : AppColors.grayBackgroundColor,
-        appBar: _buildAppBar(context),
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: _sectionColAlignment,
-            children: [
-              // General
-              _SectionContainer(
-                title: S.current.habit_detail,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      color: context.isDarkMode
-                          ? AppColors.primaryDark
-                          : AppColors.primary,
-                      borderRadius: BorderRadius.circular(AppSpacing.radiusS),
-                    ),
-                    padding: const EdgeInsets.all(AppSpacing.paddingS),
-                    margin: const EdgeInsets.symmetric(
-                        vertical: AppSpacing.marginM),
-                    child: AnimatedTextKit(
-                      repeatForever: false,
-                      animatedTexts: [
-                        TypewriterAnimatedText(
-                          habit.habitGoal.goalDesc,
-                          speed: const Duration(milliseconds: 200),
-                          textStyle: const TextStyle(
-                            color: AppColors.lightText,
-                            fontSize: AppFontSize.h3,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Text(
-                    habit.habitDesc,
-                    style: const TextStyle(fontSize: AppFontSize.labelLarge),
-                  ),
-                  _spacing,
-                  _buildHabitIcons(),
-                ],
-              ),
-
-              // Progress
-              _SectionContainer(
-                title: S.current.progress_section,
-                children: [
-                  _buildStreak(),
-                  _spacing,
-                  _buildProgressingBar(context),
-                  _spacing,
-                  ..._buildDateTimeInfo(context),
-                  _spacing,
-                  HabitStreakCalendar(
-                    disable: true,
-                    completedDates: DateTimeHelper.getDatesByStatus(
-                        logs, DayStatus.completed),
-                    failedDates:
-                        DateTimeHelper.getDatesByStatus(logs, DayStatus.failed),
-                    skippedDates: DateTimeHelper.getDatesByStatus(
-                        logs, DayStatus.skipped),
-                    onDaySelected: (firstDate, secondDate) {},
-                  ),
-                ],
-              ),
-
-              // Tracker
-              if (habit.habitGoal.goalType != GoalType.custom.name)
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<HabitCrudBloc, HabitCrudState>(
+            listener: (context, state) {
+              if (state is HabitCrudSucceed) {
+                if (state.action == HabitCrudAction.update) {
+                  setState(() {
+                    currentHabit = state.habits.first;
+                  });
+                }
+              }
+            },
+          )
+        ],
+        child: Scaffold(
+          backgroundColor: context.isDarkMode
+              ? AppColors.primaryDark
+              : AppColors.grayBackgroundColor,
+          appBar: _buildAppBar(context),
+          body: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // General
                 _SectionContainer(
-                  width: MediaQuery.of(context).size.width,
-                  title: S.current.tracker_section,
+                  title: S.current.habit_detail,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: AppSpacing.marginM),
-                      child: HabitTracker(habitGoal: habit.habitGoal),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        color: context.isDarkMode
+                            ? AppColors.primaryDark
+                            : AppColors.primary,
+                        borderRadius: BorderRadius.circular(AppSpacing.radiusS),
+                      ),
+                      padding: const EdgeInsets.all(AppSpacing.paddingS),
+                      margin: const EdgeInsets.symmetric(
+                        vertical: AppSpacing.marginM,
+                      ),
+                      child: AnimatedTextKit(
+                        repeatForever: false,
+                        animatedTexts: [
+                          TypewriterAnimatedText(
+                            currentHabit.habitDesc,
+                            speed: const Duration(milliseconds: 200),
+                            textStyle: const TextStyle(
+                              color: AppColors.lightText,
+                              fontSize: AppFontSize.h4,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Text(
+                      currentHabit.habitGoal.goalDesc,
+                      style: const TextStyle(
+                        fontSize: AppFontSize.h4,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      maxLines: 5,
+                    ),
+                    _spacing,
+                    _buildHabitIcons(),
+                  ],
+                ),
+
+                // Progress
+                _SectionContainer(
+                  title: S.current.progress_section,
+                  children: [
+                    _buildStreak(),
+                    _spacing,
+                    _buildProgressingBar(context),
+                    _spacing,
+                    ..._buildDateTimeInfo(context),
+                    _spacing,
+                    HabitStreakCalendar(
+                      disable: true,
+                      completedDates: DateTimeHelper.getDatesByStatus(
+                          histories, DayStatus.completed),
+                      failedDates: DateTimeHelper.getDatesByStatus(
+                          histories, DayStatus.failed),
+                      skippedDates: DateTimeHelper.getDatesByStatus(
+                          histories, DayStatus.skipped),
+                      onDaySelected: (firstDate, secondDate) {},
                     ),
                   ],
                 ),
 
-              // History
-              _SectionContainer(
-                title: S.current.history_section,
-                children: [
-                  ...logs.map((history) => _HistoryBriefITem(history: history)),
-                  _spacing,
-                  _buildAllDetailHistoryButton(context),
-                ],
-              ),
+                // Tracker
+                if (currentHabit.habitGoal.goalType != GoalType.custom.name)
+                  _SectionContainer(
+                    width: MediaQuery.of(context).size.width,
+                    title: S.current.tracker_section,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: AppSpacing.marginM),
+                        child: HabitTracker(
+                          habitId: currentHabit.habitId,
+                          habitGoal: currentHabit.habitGoal,
+                        ),
+                      ),
+                    ],
+                  ),
 
-              // Reminder
-              _SectionContainer(
-                title: S.current.reminder_section,
-                children: const [
-                  _spacing,
-                  ReminderSectionItem(),
-                ],
-              ),
-            ],
+                // History
+                _SectionContainer(
+                  title: S.current.history_section,
+                  children: [
+                    if (histories.isEmpty)
+                      Center(
+                        child: Text(
+                          S.current.history_empty,
+                          style: const TextStyle(
+                            color: AppColors.grayText,
+                            fontSize: AppFontSize.h4,
+                          ),
+                        ),
+                      )
+                    else ...<Widget>[
+                      ...histories.take(5).map(
+                          (history) => _HistoryBriefITem(history: history)),
+                      _spacing,
+                      _buildAllDetailHistoryButton(context),
+                    ],
+                  ],
+                ),
+
+                // Reminder
+                _SectionContainer(
+                  title: S.current.reminder_section,
+                  children: const [
+                    _spacing,
+                    ReminderSectionItem(),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -179,15 +208,18 @@ class HabitDetailPage extends StatelessWidget {
   }
 
   AppBar _buildAppBar(BuildContext context) {
+    final iconData = HabitIcon.fromString(currentHabit.iconName).habitIcon;
     return AppBar(
+      leadingWidth: 30,
       title: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            HabitIcon.fromString(habit.iconName).habitIcon,
+            Iconify(iconData.icon, color: AppColors.lightText, size: 25),
             const SizedBox(width: AppSpacing.marginS),
             Text(
-              habit.habitTitle,
+              currentHabit.habitTitle,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
@@ -210,13 +242,14 @@ class HabitDetailPage extends StatelessWidget {
       spacing: 10,
       children: [
         TextWithCircleBorderContainer(
-            title: habit.habitCategory.toUpperCaseFirstLetter),
+            title: currentHabit.habitCategory.toUpperCaseFirstLetter),
         TextWithCircleBorderContainer(
-            title: habit.timeOfDay.toUpperCaseFirstLetter),
+            title: currentHabit.timeOfDay.toUpperCaseFirstLetter),
         TextWithCircleBorderContainer(
-            title: HabitFrequency.fromNum(habit.habitGoal.goalFrequency)
-                .name
-                .toUpperCaseFirstLetter),
+          title: HabitFrequency.fromNum(currentHabit.habitGoal.goalFrequency)
+              .name
+              .toUpperCaseFirstLetter,
+        ),
       ],
     );
   }
@@ -224,7 +257,6 @@ class HabitDetailPage extends StatelessWidget {
   // Progress Section
   Widget _buildStreak() {
     return ListTile(
-      // TODO: NEED TO CHANGE BASED ON THE STATUS
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -232,7 +264,7 @@ class HabitDetailPage extends StatelessWidget {
             icon: FontAwesomeIcons.calendarCheck,
             text: S.current.longest_streak,
             iconColor: AppColors.success,
-            fontSize: AppFontSize.h3,
+            fontSize: AppFontSize.h4,
           ),
           Container(
             decoration: const BoxDecoration(
@@ -247,9 +279,9 @@ class HabitDetailPage extends StatelessWidget {
             ),
             padding: const EdgeInsets.all(AppSpacing.paddingS)
                 .copyWith(right: AppSpacing.paddingM),
-            child: const IconWithText(
+            child: IconWithText(
               icon: Icons.emoji_events,
-              text: '40 days',
+              text: currentHabit.longestStreak.toString(),
               fontColor: AppColors.lightText,
               fontWeight: FontWeight.bold,
               iconColor: Colors.amber,
@@ -258,12 +290,12 @@ class HabitDetailPage extends StatelessWidget {
           ),
         ],
       ),
-      subtitle: const Padding(
-        padding: EdgeInsets.symmetric(vertical: AppSpacing.marginM),
+      subtitle: Padding(
+        padding: const EdgeInsets.symmetric(vertical: AppSpacing.marginM),
         child: IconWithText(
           icon: Icons.celebration,
           iconColor: Colors.red,
-          text: 'Amazing! You\'ve maintained a 40 day streak',
+          text: currentHabit.getStreakMessage,
           fontSize: AppFontSize.bodyLarge,
         ),
       ),
@@ -277,20 +309,21 @@ class HabitDetailPage extends StatelessWidget {
     return [
       _DateTimeSectionItem(
         title: S.current.start_date,
-        subtitle:
-            DateTimeHelper.formatFullDate(habit.startDate, locale: locale),
+        subtitle: DateTimeHelper.formatFullDate(currentHabit.startDate,
+            locale: locale),
         icon: FontAwesomeIcons.flagCheckered,
         backgroundColor: Colors.blue,
       ),
       _DateTimeSectionItem(
         title: S.current.end_date,
-        subtitle: DateTimeHelper.formatFullDate(habit.endDate, locale: locale),
+        subtitle:
+            DateTimeHelper.formatFullDate(currentHabit.endDate, locale: locale),
         icon: FontAwesomeIcons.stopwatch,
         backgroundColor: Colors.green,
       ),
       _DateTimeSectionItem(
         title: S.current.target_title,
-        subtitle: habit.habitGoal.target,
+        subtitle: currentHabit.habitGoal.target,
         icon: FontAwesomeIcons.bullseye,
         backgroundColor: Colors.purple,
       ),
@@ -298,10 +331,10 @@ class HabitDetailPage extends StatelessWidget {
   }
 
   Widget _buildProgressingBar(BuildContext context) {
-    final habitProgressPercent = habit.habitProgress * 100;
+    final habitProgressPercent = currentHabit.habitProgress * 100;
 
     return Column(
-      crossAxisAlignment: _sectionColAlignment,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AnimatedTextKit(
           isRepeatingAnimation: false,
@@ -332,13 +365,13 @@ class HabitDetailPage extends StatelessWidget {
           ),
           barRadius: const Radius.circular(AppSpacing.circleRadius),
           lineHeight: 20,
-          percent: habit.habitProgress,
+          percent: currentHabit.habitProgress,
           center: Text(
-            '$habitProgressPercent%',
+            '${habitProgressPercent.toStringAsFixedWithoutZero()}%',
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: habit.habitProgress < 0.5
-                  ? Colors.indigo
+              color: currentHabit.habitProgress < 0.5
+                  ? Colors.black
                   : AppColors.lightText,
             ),
           ),
@@ -374,11 +407,65 @@ class HabitDetailPage extends StatelessWidget {
 
   void _onShowMenuBottomSheet(BuildContext context) {
     showModalBottomSheet(
-        context: context,
-        builder: (context) => _HabitMenuActions(
-              onEdit: () {},
-              onDelete: () {},
-            ));
+      context: context,
+      builder: (context) => _HabitMenuActions(
+        onEdit: _onEditHabit,
+        onDelete: _onDeleteHabit,
+      ),
+    );
+  }
+
+  Future<void> _onDeleteHabit() async {
+    final navigator = Navigator.of(context);
+    final habitCrudBloc = context.read<HabitCrudBloc>();
+    bool isAllowed = await SmartDialog.show<bool>(
+            builder: (innerCtx) => ConfirmDeleteDialog(
+                  onDelete: () => SmartDialog.dismiss(result: true),
+                  onCancel: () => SmartDialog.dismiss(result: false),
+                )) ??
+        false;
+
+    if (isAllowed) {
+      habitCrudBloc.add(DeleteHabit(currentHabit.habitId));
+      navigator.popUntil(ModalRoute.withName('/'));
+    }
+  }
+
+  void _onEditHabit() {
+    Navigator.pop(context);
+    SmartDialog.show(
+      builder: (ctx) => BlocProvider.value(
+        value: context.read<HabitCrudBloc>(),
+        child: BlocListener<HabitCrudBloc, HabitCrudState>(
+          listener: (blocContext, state) async {
+            if (state is HabitCrudSucceed) {
+              final alertDialog = AwesomeDialog(
+                context: context,
+                dialogType: DialogType.success,
+                title: S.current.success_title,
+                desc: S.current.add_success,
+              );
+
+              await Future.delayed(const Duration(milliseconds: 500));
+              SmartDialog.dismiss();
+              await Future.delayed(const Duration(milliseconds: 200));
+              alertDialog.show();
+              await Future.delayed(const Duration(seconds: 5));
+              alertDialog.dismiss();
+            }
+          },
+          child: EditTemplateDialog(
+            child: GeneratedHabit(
+                habit: currentHabit,
+                onEdit: (habit) {
+                  context
+                      .read<HabitCrudBloc>()
+                      .add(EditHabit(id: habit.habitId, updatedHabit: habit));
+                }),
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -462,7 +549,7 @@ class _SectionContainer extends StatelessWidget {
       width: width,
       margin: _habitMargin.copyWith(top: 0),
       child: Column(
-        crossAxisAlignment: HabitDetailPage._sectionColAlignment,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _SectionTitle(title: title),
           ...children,
@@ -479,9 +566,9 @@ class _HistoryBriefITem extends StatelessWidget {
   static const String _unAchievedTaskTime = '__:__';
   @override
   Widget build(BuildContext context) {
-    final habitStatus = HabitStatus.fromString(history.executionStatus);
-    final iconData = habitStatus.habitStatusIcon;
-    final iconColor = habitStatus.habitStatusColor;
+    final status = DayStatus.fromString(history.executionStatus);
+    final iconData = status.statusIcon;
+    final iconColor = status.statusColor;
     final String? completedTime =
         history.endTime?.toMoment().formatTimeWithSeconds();
 

@@ -1,13 +1,10 @@
-import 'package:json_annotation/json_annotation.dart';
-
 import '../../../../core/resources/hive_base_model.dart';
 import '../../domain/entities/habit_entity.dart';
 import '../../domain/entities/habit_goal.dart';
 import 'habit_goal_model.dart';
 
-part 'habit_model.g.dart';
+part 'habit_model.custom.dart';
 
-@JsonSerializable()
 class HabitModel extends HabitEntity implements HiveBaseModel<HabitModel> {
   HabitModel({
     required super.habitId,

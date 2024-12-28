@@ -18,20 +18,33 @@ enum HabitStatus {
   String get statusName {
     switch (this) {
       case HabitStatus.failed:
-        return S.current.habit_status_failed;
+        return S.current.status_failed;
       case HabitStatus.inProgress:
-        return S.current.habit_status_in_progress;
+        return S.current.status_in_progress;
       case HabitStatus.paused:
-        return S.current.habit_status_paused;
+        return S.current.status_paused;
       case HabitStatus.skipped:
-        return S.current.habit_status_skipped;
+        return S.current.status_skipped;
       case HabitStatus.achieved:
-        return S.current.habit_status_achieved;
+        return S.current.status_achieved;
       case HabitStatus.pending:
-        return S.current.habit_status_pending;
+        return S.current.status_pending;
       default:
-        return S.current.habit_status_unknown;
+        return S.current.status_unkown;
     }
+  }
+
+  static HabitStatus fromMultiLangString(String? str) {
+    final statusMap = {
+      S.current.status_failed: failed,
+      S.current.status_in_progress: inProgress,
+      S.current.status_paused: paused,
+      S.current.status_skipped: skipped,
+      S.current.status_achieved: achieved,
+      S.current.status_pending: pending,
+    };
+
+    return statusMap[str] ?? pending;
   }
 
   IconData get habitStatusIcon {

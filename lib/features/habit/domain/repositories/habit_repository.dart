@@ -6,7 +6,7 @@ abstract interface class HabitRepository {
   Future<List<HabitModel>> getHabitsByName(String name);
   Future<List<HabitModel>> getHabitsByCategory(String category);
   Future<List<HabitModel>> getHabitsByStatus(String status);
-  Future<List<HabitModel>> getAllHabit();
+  Future<List<HabitModel>> getAllHabits();
   Future<void> updateHabit(String id, HabitModel updated);
   Future<void> deleteHabitById(String id);
 }

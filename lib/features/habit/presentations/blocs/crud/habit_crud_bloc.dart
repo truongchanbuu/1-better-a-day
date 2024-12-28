@@ -25,6 +25,8 @@ class HabitCrudBloc extends Bloc<HabitCrudEvent, HabitCrudState> {
     on<GetListOfHabitsByIds>(_onGetListOfHabits);
     on<GetListOfHabitsByCategory>(_onGetHabitsByCategory);
     on<GetListOfHabitsByStatus>(_onGetHabitsByStatus);
+    on<SearchHabits>(_onSearchHabits);
+    on<SearchByKeyword>(_onSearchByKeyword);
     on<DeleteHabit>(_onDeleteHabit);
     on<EditHabit>(_onEditHabit);
   }
@@ -135,7 +137,7 @@ class HabitCrudBloc extends Bloc<HabitCrudEvent, HabitCrudState> {
       GetAllHabits event, Emitter<HabitCrudState> emit) async {
     emit(Executing());
     try {
-      final habits = await habitRepository.getAllHabit();
+      final habits = await habitRepository.getAllHabits();
       emit(HabitCrudSucceed(
           action: HabitCrudAction.getAll,
           habits: habits.map((e) => e.toEntity()).toList()));
@@ -186,6 +188,81 @@ class HabitCrudBloc extends Bloc<HabitCrudEvent, HabitCrudState> {
               habits: [updatedOne!.toEntity()]));
         }
       }
+    } catch (e) {
+      _appLogger.e(e);
+      emit(HabitCrudFailed(S.current.cannot_get_any_habit));
+    }
+  }
+
+  FutureOr<void> _onSearchHabits(
+      SearchHabits event, Emitter<HabitCrudState> emit) async {
+    emit(Executing());
+    try {
+      List<HabitEntity> habits = (await habitRepository.getAllHabits())
+          .map((e) => e.toEntity())
+          .toList();
+
+      if (event.category?.isNotEmpty ?? false) {
+        habits = habits
+            .where((habit) => habit.habitCategory == event.category)
+            .toList();
+      }
+
+      if (event.status?.isNotEmpty ?? false) {
+        habits =
+            habits.where((habit) => habit.habitStatus == event.status).toList();
+      }
+
+      if (event.progress?.isNotEmpty ?? false) {
+        String cleanProgress = event.progress!.split('%').first;
+        if (cleanProgress.contains('-')) {
+          final range = cleanProgress.split('-');
+          habits = habits.where((habit) {
+            final progress = habit.habitProgress;
+            return progress >= int.parse(range.first) &&
+                progress <= int.parse(range.last);
+          }).toList();
+        } else {
+          habits = habits
+              .where(
+                  (habit) => habit.habitProgress == double.parse(cleanProgress))
+              .toList();
+        }
+      }
+
+      emit(HabitCrudSucceed(
+          action: HabitCrudAction.getBySearchValues, habits: habits));
+    } catch (e) {
+      _appLogger.e(e);
+      emit(HabitCrudFailed(S.current.cannot_get_any_habit));
+    }
+  }
+
+  FutureOr<void> _onSearchByKeyword(
+      SearchByKeyword event, Emitter<HabitCrudState> emit) async {
+    emit(Executing());
+    try {
+      final habits = (await habitRepository.getAllHabits())
+          .map((e) => e.toEntity())
+          .toList();
+
+      if (event.keyword.isEmpty) {
+        emit(HabitCrudFailed(S.current.cannot_get_any_habit));
+        return;
+      }
+
+      final filteredHabits = habits.where((habit) {
+        final keyword = event.keyword.toLowerCase();
+        return habit.habitTitle.toLowerCase().contains(keyword) ||
+            habit.habitDesc.toLowerCase().contains(keyword) ||
+            habit.habitGoal.goalDesc.toLowerCase().contains(keyword) ||
+            habit.habitCategory.toLowerCase().contains(keyword);
+      }).toList();
+
+      emit(HabitCrudSucceed(
+        action: HabitCrudAction.getByKeyword,
+        habits: filteredHabits,
+      ));
     } catch (e) {
       _appLogger.e(e);
       emit(HabitCrudFailed(S.current.cannot_get_any_habit));

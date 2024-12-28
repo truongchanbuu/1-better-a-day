@@ -1,17 +1,24 @@
 import 'package:animated_switcher_plus/animated_switcher_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bounce/flutter_bounce.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../../core/constants/app_color.dart';
 import '../../../../../core/constants/app_common.dart';
 import '../../../../../core/constants/app_spacing.dart';
+import '../../../../../core/enums/habit/habit_category.dart';
+import '../../../../../core/enums/habit/habit_status.dart';
 import '../../../../../core/extensions/context_extension.dart';
 import '../../../../../generated/l10n.dart';
+import '../../blocs/crud/habit_crud_bloc.dart';
 import 'filter_item.dart';
 
 class HabitSearchFilterBar extends StatefulWidget {
-  const HabitSearchFilterBar({super.key});
+  final void Function(String category, String status, String progress)
+      onFilterChanged;
+
+  const HabitSearchFilterBar({super.key, required this.onFilterChanged});
 
   @override
   State<HabitSearchFilterBar> createState() => _HabitSearchFilterBarState();
@@ -19,6 +26,11 @@ class HabitSearchFilterBar extends StatefulWidget {
 
 class _HabitSearchFilterBarState extends State<HabitSearchFilterBar> {
   late final TextEditingController _searchController;
+
+  List<String> rangeValues = [''];
+  String _selectedCategory = '';
+  String _selectedStatus = '';
+  String _selectedProgress = '';
 
   bool _isFilterSectionShown = false;
 
@@ -34,6 +46,7 @@ class _HabitSearchFilterBarState extends State<HabitSearchFilterBar> {
     super.dispose();
   }
 
+  String allSelection = S.current.all_selection;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -51,20 +64,38 @@ class _HabitSearchFilterBarState extends State<HabitSearchFilterBar> {
                   hintText: S.current.searching_title,
                   border: const OutlineInputBorder(),
                   enabledBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: AppColors.grayText)),
+                    borderSide: BorderSide(color: AppColors.grayText),
+                  ),
                 ),
                 textInputAction: TextInputAction.search,
+                onChanged: (value) {
+                  if (value.isEmpty) {
+                    context.read<HabitCrudBloc>().add(GetAllHabits());
+                  }
+                },
               ),
             ),
             const SizedBox(width: AppSpacing.marginS),
             _SearchFilterActionButton(
-              onPressed: () {},
+              onPressed: _onSearch,
               icon: FontAwesomeIcons.magnifyingGlass,
             ),
             const SizedBox(width: AppSpacing.marginXS),
             _SearchFilterActionButton(
-              onPressed: () => setState(
-                  () => _isFilterSectionShown = !_isFilterSectionShown),
+              onPressed: () => setState(() {
+                _isFilterSectionShown = !_isFilterSectionShown;
+                if (!_isFilterSectionShown) {
+                  _selectedCategory = '';
+                  _selectedStatus = '';
+                  _selectedProgress = '';
+
+                  widget.onFilterChanged(
+                    _selectedCategory,
+                    _selectedStatus,
+                    _selectedProgress,
+                  );
+                }
+              }),
               icon: Icons.sort,
             ),
           ],
@@ -74,28 +105,83 @@ class _HabitSearchFilterBarState extends State<HabitSearchFilterBar> {
           switchOutCurve: Curves.easeIn,
           duration: const Duration(milliseconds: 250),
           child: _isFilterSectionShown
-              ? const Padding(
-                  key: ValueKey('filter_section'),
-                  padding: EdgeInsets.only(top: AppSpacing.marginS),
+              ? Padding(
+                  key: const ValueKey('filter_section'),
+                  padding: const EdgeInsets.only(top: AppSpacing.marginS),
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
                       children: [
                         FilterItem(
-                          width: 120,
-                          title: 'Title',
-                          items: ['A', 'B', 'C', 'D'],
+                          width: 200,
+                          selected: allSelection,
+                          title: S.current.habit_category,
+                          items: HabitCategory.values
+                              .takeWhile(
+                                  (value) => value != HabitCategory.custom)
+                              .map((e) => e.categoryName)
+                              .toList()
+                            ..insert(0, allSelection),
+                          onChanged: (value) {
+                            if (value != null) {
+                              if (value == allSelection) {
+                                _selectedCategory = '';
+                              } else {
+                                final selectedCategory =
+                                    HabitCategory.fromMultiLangString(value);
+                                _selectedCategory =
+                                    selectedCategory?.name ?? '';
+                              }
+                              widget.onFilterChanged(_selectedCategory,
+                                  _selectedStatus, _selectedProgress);
+                            }
+                          },
                         ),
                         FilterItem(
-                          width: 120,
-                          title: 'Status',
-                          items: ['A', 'B', 'C'],
+                          width: 200,
+                          selected: allSelection,
+                          title: S.current.status_title,
+                          items: HabitStatus.values
+                              .map((e) => e.statusName)
+                              .toList()
+                            ..insert(0, allSelection),
+                          onChanged: (value) {
+                            if (value != null) {
+                              if (value == allSelection) {
+                                _selectedStatus = '';
+                              } else {
+                                final selected =
+                                    HabitStatus.fromMultiLangString(value);
+                                _selectedStatus = selected.name;
+                              }
+
+                              widget.onFilterChanged(_selectedCategory,
+                                  _selectedStatus, _selectedProgress);
+                            }
+                          },
                         ),
                         FilterItem(
                           width: 165,
-                          title: 'Progressing',
-                          items: [],
+                          title: S.current.progress_section,
+                          items: rangeValues,
+                          selected: rangeValues.first,
                           type: FilterType.range,
+                          onChanged: (value) {
+                            if (value?.isNotEmpty ?? false) {
+                              final selectedProgress = value!.split('%').first;
+                              _selectedProgress = selectedProgress;
+
+                              widget.onFilterChanged(
+                                _selectedCategory,
+                                _selectedStatus,
+                                _selectedProgress,
+                              );
+
+                              setState(() {
+                                rangeValues = [value];
+                              });
+                            }
+                          },
                         ),
                       ],
                     ),
@@ -105,6 +191,13 @@ class _HabitSearchFilterBarState extends State<HabitSearchFilterBar> {
         )
       ],
     );
+  }
+
+  void _onSearch() {
+    final searchValue = _searchController.text;
+    if (searchValue.isNotEmpty) {
+      context.read<HabitCrudBloc>().add(SearchByKeyword(searchValue));
+    }
   }
 }
 

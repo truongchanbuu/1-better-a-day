@@ -17,84 +17,6 @@ import '../widgets/habit_history/history_item.dart';
 import '../widgets/search_filter/habit_date_picker.dart';
 import '../widgets/search_filter/filter_item.dart';
 
-final logs = [
-  HabitHistory(
-    id: '1',
-    habitId: 'habit1',
-    date: DateTime(2024, 12, 4),
-    executionStatus: DayStatus.completed.name,
-    overallStatus: HabitStatus.achieved.name,
-    startTime: DateTime(2024, 1, 1, 7, 0),
-    endTime: DateTime(2024, 1, 1, 8, 0),
-    duration: const Duration(hours: 1),
-    note: 'Great start to the year!',
-    rating: 5,
-    mood: Mood.good.name,
-    quantity: 1.0,
-    measurement: GoalUnit.m.name,
-  ),
-  HabitHistory(
-    id: '2',
-    habitId: 'habit1',
-    date: DateTime(2024, 12, 5),
-    executionStatus: DayStatus.completed.name,
-    overallStatus: HabitStatus.achieved.name,
-    startTime: DateTime(2024, 1, 2, 8, 0),
-    endTime: DateTime(2024, 1, 2, 9, 0),
-    duration: const Duration(hours: 1),
-    note: 'Missed the target.',
-    rating: 2,
-    mood: Mood.bad.name,
-    quantity: 1.0,
-    measurement: 'hour',
-  ),
-  HabitHistory(
-    id: '3',
-    habitId: 'habit1',
-    date: DateTime(2024, 12, 6),
-    executionStatus: DayStatus.completed.name,
-    overallStatus: HabitStatus.achieved.name,
-    startTime: DateTime(2024, 1, 2, 8, 0),
-    endTime: DateTime(2024, 1, 2, 9, 0),
-    duration: const Duration(hours: 1),
-    note: 'Missed the target.',
-    rating: 2,
-    mood: Mood.bad.name,
-    quantity: 1.0,
-    measurement: 'hour',
-  ),
-  HabitHistory(
-    id: '4',
-    habitId: 'habit1',
-    date: DateTime(2024, 12, 7),
-    executionStatus: DayStatus.skipped.name,
-    overallStatus: HabitStatus.inProgress.name,
-    startTime: DateTime(2024, 1, 2, 8, 0),
-    endTime: DateTime(2024, 1, 2, 9, 0),
-    duration: const Duration(hours: 1),
-    note: 'Missed the target.',
-    rating: 2,
-    mood: Mood.bad.name,
-    quantity: 1.0,
-    measurement: 'hour',
-  ),
-  HabitHistory(
-    id: '5',
-    habitId: 'habit1',
-    date: DateTime(2024, 12, 8),
-    executionStatus: DayStatus.failed.name,
-    overallStatus: HabitStatus.failed.name,
-    startTime: DateTime(2024, 1, 2, 8, 0),
-    endTime: DateTime(2024, 1, 2, 9, 0),
-    duration: const Duration(hours: 1),
-    note: 'Missed the target.',
-    rating: 2,
-    mood: Mood.bad.name,
-    quantity: 1.0,
-    measurement: 'hour',
-  ),
-];
-
 class HabitHistoryPage extends StatefulWidget {
   const HabitHistoryPage({super.key});
 
@@ -118,12 +40,12 @@ class _HabitHistoryPageState extends State<HabitHistoryPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 HabitStreakCalendar(
-                  completedDates: DateTimeHelper.getDatesByStatus(
-                      logs, DayStatus.completed),
+                  completedDates:
+                      DateTimeHelper.getDatesByStatus([], DayStatus.completed),
                   failedDates:
-                      DateTimeHelper.getDatesByStatus(logs, DayStatus.failed),
+                      DateTimeHelper.getDatesByStatus([], DayStatus.failed),
                   skippedDates:
-                      DateTimeHelper.getDatesByStatus(logs, DayStatus.skipped),
+                      DateTimeHelper.getDatesByStatus([], DayStatus.skipped),
                   onDaySelected: (date, status) {},
                 ),
                 const SizedBox(height: AppSpacing.marginM),
@@ -146,7 +68,7 @@ class _HabitHistoryPageState extends State<HabitHistoryPage> {
                       : const SizedBox.shrink(),
                 ),
                 const SizedBox(height: AppSpacing.marginM),
-                ...logs.map((history) => HistoryItem(history: history)),
+                ...[].map((history) => HistoryItem(history: history)),
               ],
             ),
           ),

@@ -11,34 +11,51 @@ import '../../../../../core/extensions/context_extension.dart';
 import '../../../../../core/formatters/range_input_formatter.dart';
 import '../../../../../generated/l10n.dart';
 
-class ProgressingSlider extends StatefulWidget {
-  const ProgressingSlider({super.key});
+class HabitProgressingStatusSlider extends StatefulWidget {
+  final double singleValue;
+  final String rangeValues;
+  const HabitProgressingStatusSlider({
+    super.key,
+    this.singleValue = 0.0,
+    this.rangeValues = '',
+  });
 
   @override
-  State<ProgressingSlider> createState() => _ProgressingSliderState();
+  State<HabitProgressingStatusSlider> createState() =>
+      _HabitProgressingStatusSliderState();
 }
 
-class _ProgressingSliderState extends State<ProgressingSlider> {
-  final _textStyle = const TextStyle(
-    fontWeight: FontWeight.bold,
-    fontSize: AppFontSize.h3,
-  );
-  final _inputDecoration = const InputDecoration(
-    border: OutlineInputBorder(),
-    contentPadding: EdgeInsets.all(AppSpacing.paddingS),
-  );
-
+class _HabitProgressingStatusSliderState
+    extends State<HabitProgressingStatusSlider> {
   late final TextEditingController _singleController;
+  late final TextEditingController _startController, _endController;
   late final FocusNode _singleFocus, _startFocus, _endFocus;
 
-  SfRangeValues _rangeValues = const SfRangeValues(0.0, 0.0);
-  double _singleValue = 0.0;
+  late double _singleValue;
   bool _isRangeMode = false;
   bool _isEditing = false;
+  late SfRangeValues _rangeValues;
 
   @override
   void initState() {
     super.initState();
+    _singleValue = widget.singleValue;
+
+    if (widget.rangeValues.isNotEmpty) {
+      final values = widget.rangeValues.split('-');
+      _rangeValues = SfRangeValues(
+        double.tryParse(values[0]) ?? 0,
+        double.tryParse(values[1]) ?? 100,
+      );
+      _isRangeMode = true;
+    } else {
+      _rangeValues = const SfRangeValues(0.0, 100.0);
+    }
+
+    _startController =
+        TextEditingController(text: _rangeValues.start.toInt().toString());
+    _endController =
+        TextEditingController(text: _rangeValues.end.toInt().toString());
     _singleController =
         TextEditingController(text: _singleValue.toInt().toString());
     _singleFocus = FocusNode();
@@ -55,6 +72,14 @@ class _ProgressingSliderState extends State<ProgressingSlider> {
     super.dispose();
   }
 
+  final _textStyle = const TextStyle(
+    fontWeight: FontWeight.bold,
+    fontSize: AppFontSize.h3,
+  );
+  final _inputDecoration = const InputDecoration(
+    border: OutlineInputBorder(),
+    contentPadding: EdgeInsets.all(AppSpacing.paddingS),
+  );
   @override
   Widget build(BuildContext context) {
     final isDark = context.isDarkMode;
@@ -106,6 +131,12 @@ class _ProgressingSliderState extends State<ProgressingSlider> {
       onDoubleTap: () => setState(() {
         _isEditing = true;
         (_isRangeMode ? _startFocus : _singleFocus).requestFocus();
+        if (!_isRangeMode) {
+          _singleController.text = _singleValue.toInt().toString();
+        } else {
+          _startController.text = _rangeValues.start.toInt().toString();
+          _endController.text = _rangeValues.end.toInt().toString();
+        }
       }),
       child: Row(
         children: [
@@ -136,20 +167,28 @@ class _ProgressingSliderState extends State<ProgressingSlider> {
     return Row(
       children: [
         _buildTextField(
+          controller: _startController,
           focus: _startFocus,
           onSubmitted: (_) => _endFocus.requestFocus(),
-          onChanged: (value) => setState(() => _rangeValues =
-              _rangeValues.copyWith(start: double.tryParse(value) ?? 0)),
+          onChanged: (value) => setState(() {
+            if (value.isEmpty) return;
+            double startValue = double.tryParse(value) ?? 0;
+
+            _rangeValues = _rangeValues.copyWith(start: startValue);
+          }),
           min: 0,
           max: _rangeValues.end.toInt(),
         ),
         Text(' - ', style: _textStyle),
         _buildTextField(
+          controller: _endController,
           focus: _endFocus,
           onSubmitted: (_) => setState(() => _isEditing = false),
           onChanged: (value) => setState(() {
-            _rangeValues =
-                _rangeValues.copyWith(end: double.tryParse(value) ?? 0);
+            if (value.isEmpty) return;
+            double endValue = double.tryParse(value) ?? 0;
+
+            _rangeValues = _rangeValues.copyWith(end: endValue);
           }),
           min: _rangeValues.start.toInt(),
           max: 100,
@@ -224,17 +263,20 @@ class _ProgressingSliderState extends State<ProgressingSlider> {
         TextButton(
           onPressed: SmartDialog.dismiss,
           style: _textButtonStyle,
-          child: Text(S.current.cancel_button,
-              style: const TextStyle(
-                color: AppColors.error,
-              )),
+          child: Text(
+            S.current.cancel_button,
+            style: const TextStyle(
+              color: AppColors.error,
+            ),
+          ),
         ),
         TextButton(
-            onPressed: () {},
-            style: _textButtonStyle,
-            child: Text(
-              S.current.accept_button,
-            )),
+          onPressed: _onAccept,
+          style: _textButtonStyle,
+          child: Text(
+            S.current.accept_button,
+          ),
+        ),
       ],
     );
   }
@@ -247,5 +289,15 @@ class _ProgressingSliderState extends State<ProgressingSlider> {
       _singleController.clear();
       _isEditing = false;
     });
+  }
+
+  void _onAccept() {
+    if (!_isRangeMode) {
+      SmartDialog.dismiss(result: _singleValue.toInt().toString());
+    } else {
+      SmartDialog.dismiss(
+        result: '${_rangeValues.start.toInt()}-${_rangeValues.end.toInt()}',
+      );
+    }
   }
 }

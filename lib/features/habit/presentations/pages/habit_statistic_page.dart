@@ -13,7 +13,6 @@ import '../widgets/statistic/general_statistic.dart';
 import '../widgets/statistic/in_progress_statistic.dart';
 import '../widgets/statistic/paused_statistic.dart';
 import '../widgets/statistic/statistic_habit_list.dart';
-import 'habit_detail_page.dart';
 
 class HabitStatisticPage extends StatefulWidget {
   const HabitStatisticPage({super.key});
@@ -95,7 +94,7 @@ class _HabitStatisticPageState extends State<HabitStatisticPage> {
                   ),
                 ),
                 _spacing,
-                StatisticHabitList(habits: [habit]),
+                const StatisticHabitList(habits: []),
               ],
             ),
           ),

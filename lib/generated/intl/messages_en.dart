@@ -23,61 +23,74 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m0(count) =>
       "${Intl.plural(count, zero: 'Achieved: 0', one: 'Achieved: 1', other: 'Achieved: ${count}')}";
 
-  static String m1(name) => "Cannot get the habit with name: ${name}";
+  static String m1(count) => "Add ${count}ML";
 
-  static String m2(selection, percentageValue) => "${Intl.select(selection, {
+  static String m2(name) => "Cannot get the habit with name: ${name}";
+
+  static String m3(selection, percentageValue) => "${Intl.select(selection, {
             'positive': '+${percentageValue}% compared to last week',
             'negative': '-${percentageValue}% compared to last week',
             'neutral': 'No change from last week',
             'other': 'No change from last week',
           })}";
 
-  static String m3(count) => "${count}% Completed";
+  static String m4(count) => "${count}% Completed";
 
-  static String m4(count) =>
+  static String m5(count) =>
       "${Intl.plural(count, zero: 'No completion', one: '1 completion', other: '${count} completions')}";
 
-  static String m5(completedTasks, totalTasks) =>
-      "${completedTasks}/${totalTasks}";
-
   static String m6(count) =>
-      "${Intl.plural(count, zero: 'Failed: 0', one: 'Failed: 1', other: 'Failed: ${count}')}";
+      "Awesome! You\'ve maintained a ${count} day streak";
 
   static String m7(count) =>
-      "${Intl.plural(count, zero: 'No habits', one: '1 habit', other: '${count} habits')}";
+      "Awesome! You\'ve maintained a ${count} day streak";
 
   static String m8(count) =>
-      "${Intl.plural(count, zero: 'In Progress: 0', one: 'In Progress: 1', other: 'In Progress: ${count}')}";
+      "Awesome! You\'ve maintained a ${count} day streak";
 
-  static String m9(count) =>
-      "${Intl.plural(count, zero: ' \"Today\" ', one: 'A day ago', other: 'Last ${count} days')}";
+  static String m9(completedTasks, totalTasks) =>
+      "${completedTasks}/${totalTasks}";
 
-  static String m10(value) => "You are ${value}% on your way";
+  static String m10(count) =>
+      "${Intl.plural(count, zero: 'Failed: 0', one: 'Failed: 1', other: 'Failed: ${count}')}";
 
-  static String m11(count, total, time) =>
-      "Progress: ${count}/${total} ${time}";
+  static String m11(count) =>
+      "${Intl.plural(count, zero: 'No habits', one: '1 habit', other: '${count} habits')}";
 
   static String m12(count) =>
-      "${Intl.plural(count, zero: 'No participant', one: '1 participant', other: '${count} participants')}";
+      "${Intl.plural(count, zero: 'In Progress: 0', one: 'In Progress: 1', other: 'In Progress: ${count}')}";
 
   static String m13(count) =>
+      "${Intl.plural(count, zero: ' \"Today\" ', one: 'A day ago', other: 'Last ${count} days')}";
+
+  static String m14(value) => "You are ${value}% on your way";
+
+  static String m15(count, total, time) =>
+      "Progress: ${count}/${total} ${time}";
+
+  static String m16(count) =>
+      "${Intl.plural(count, zero: 'No participant', one: '1 participant', other: '${count} participants')}";
+
+  static String m17(count) =>
       "${Intl.plural(count, zero: 'Paused: 0', one: 'Paused: 1', other: 'Paused: ${count}')}";
 
-  static String m14(score) =>
+  static String m18(count) => "Remove ${count}ML";
+
+  static String m19(score) =>
       "Good SMART goal with minor areas for improvement. Score: ${score}%";
 
-  static String m15(score) =>
+  static String m20(score) =>
       "Goal needs work in several areas to be truly SMART. Score: ${score}%";
 
-  static String m16(score) =>
+  static String m21(score) =>
       "Goal needs significant improvement to meet SMART criteria. Score: ${score}%";
 
-  static String m17(count) => "Total: ${count}";
+  static String m22(count) => "Total: ${count}";
 
-  static String m18(count) =>
+  static String m23(count) =>
       "${Intl.plural(count, zero: 'No Achievements', one: '1 Achievement', other: '${count} Achievements')}";
 
-  static String m19(count) =>
+  static String m24(count) =>
       "${Intl.plural(count, zero: 'No Streak', one: '1 Streak', other: '${count} Streaks')}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
@@ -221,7 +234,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Create habit with few words"),
         "add_reminder": MessageLookupByLibrary.simpleMessage("Add reminder"),
         "add_success": MessageLookupByLibrary.simpleMessage("Add successfully"),
-        "add_water_button": MessageLookupByLibrary.simpleMessage("Add 250ML"),
+        "add_water_button": m1,
         "add_your_own_habit":
             MessageLookupByLibrary.simpleMessage("Customize your own habit"),
         "additional_information":
@@ -237,6 +250,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "all_detail_history":
             MessageLookupByLibrary.simpleMessage("All Detail History"),
         "all_habits": MessageLookupByLibrary.simpleMessage("All Habits"),
+        "all_selection": MessageLookupByLibrary.simpleMessage("All"),
         "all_statistic_page": MessageLookupByLibrary.simpleMessage("All"),
         "ask_ai_button": MessageLookupByLibrary.simpleMessage(
             "Get SMART Goal Recommendation"),
@@ -259,7 +273,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Cannot generate habit"),
         "cannot_get_any_habit":
             MessageLookupByLibrary.simpleMessage("Failed to get habits"),
-        "cannot_get_habit_with_name": m1,
+        "cannot_get_habit_with_name": m2,
+        "cannot_store_history":
+            MessageLookupByLibrary.simpleMessage("Cannot store history"),
         "cannot_update_habit":
             MessageLookupByLibrary.simpleMessage("Cannot update habit"),
         "category_based_completion_rate":
@@ -267,13 +283,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "category_distribution":
             MessageLookupByLibrary.simpleMessage("Category Distribution"),
         "challenges_screen": MessageLookupByLibrary.simpleMessage("Challenges"),
-        "change_from_last_week": m2,
+        "change_from_last_week": m3,
         "cm_unit": MessageLookupByLibrary.simpleMessage("centimeters"),
         "collection_tab": MessageLookupByLibrary.simpleMessage("Collections"),
         "community_challenges":
             MessageLookupByLibrary.simpleMessage("Community Challenges"),
-        "completed_progress": m3,
-        "completion": m4,
+        "completed_progress": m4,
+        "completion": m5,
         "completion_rate":
             MessageLookupByLibrary.simpleMessage("Completion Rate"),
         "compound_effect":
@@ -294,6 +310,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "dawn_tile": MessageLookupByLibrary.simpleMessage("Dawn"),
         "day_title": MessageLookupByLibrary.simpleMessage("Day"),
         "default_greeting": MessageLookupByLibrary.simpleMessage("Greetings"),
+        "default_long_streak": m6,
+        "default_medium_streak": m7,
+        "default_short_streak": m8,
         "delete_button": MessageLookupByLibrary.simpleMessage("Delete"),
         "delete_title": MessageLookupByLibrary.simpleMessage(
             "Are you sure to delete this?"),
@@ -302,7 +321,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "detail_section": MessageLookupByLibrary.simpleMessage("Detail"),
         "discover_tab": MessageLookupByLibrary.simpleMessage("Discover"),
         "display_name": MessageLookupByLibrary.simpleMessage("Display Name"),
-        "done_tasks": m5,
+        "done_tasks": m9,
         "duration_title": MessageLookupByLibrary.simpleMessage("Duration"),
         "dusk_tile": MessageLookupByLibrary.simpleMessage("Dusk"),
         "edit_button": MessageLookupByLibrary.simpleMessage("Edit"),
@@ -311,6 +330,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "empty_field": MessageLookupByLibrary.simpleMessage(
             "Please do not empty the field"),
         "end_date": MessageLookupByLibrary.simpleMessage("End Date"),
+        "end_value_must_be_greater_than_start":
+            MessageLookupByLibrary.simpleMessage(
+                "End value must be greater than start value"),
         "english_choice": MessageLookupByLibrary.simpleMessage("English"),
         "evening_greeting":
             MessageLookupByLibrary.simpleMessage("Good Evening"),
@@ -320,7 +342,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Do exercise 30 minutes every morning to enhance health and fitness"),
         "exercise_habit_title":
             MessageLookupByLibrary.simpleMessage("Do exercise every morning"),
-        "failed": m6,
+        "failed": m10,
         "failed_habit": MessageLookupByLibrary.simpleMessage("Failed Habit"),
         "failed_rate": MessageLookupByLibrary.simpleMessage("Failed Rate"),
         "failed_statistic_page": MessageLookupByLibrary.simpleMessage("Failed"),
@@ -352,6 +374,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Habit Category"),
         "habit_category_creativity":
             MessageLookupByLibrary.simpleMessage("Creativity"),
+        "habit_category_education":
+            MessageLookupByLibrary.simpleMessage("Education"),
         "habit_category_environmental":
             MessageLookupByLibrary.simpleMessage("Environmental"),
         "habit_category_field_hint":
@@ -359,8 +383,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "habit_category_finance":
             MessageLookupByLibrary.simpleMessage("Finance"),
         "habit_category_health": MessageLookupByLibrary.simpleMessage("Health"),
-        "habit_category_learning":
-            MessageLookupByLibrary.simpleMessage("Learning"),
         "habit_category_lifestyle":
             MessageLookupByLibrary.simpleMessage("Lifestyle"),
         "habit_category_mindfulness":
@@ -429,23 +451,16 @@ class MessageLookup extends MessageLookupByLibrary {
             "Drop by drop is the water pot filled"),
         "habit_quote_5": MessageLookupByLibrary.simpleMessage(
             "Success is the sum of small efforts repeated day in and day out"),
-        "habit_status_achieved":
-            MessageLookupByLibrary.simpleMessage("Achieved"),
         "habit_status_distribution":
             MessageLookupByLibrary.simpleMessage("Status Distribution"),
-        "habit_status_failed": MessageLookupByLibrary.simpleMessage("Failed"),
-        "habit_status_in_progress":
-            MessageLookupByLibrary.simpleMessage("In Progress"),
-        "habit_status_paused": MessageLookupByLibrary.simpleMessage("Paused"),
-        "habit_status_pending": MessageLookupByLibrary.simpleMessage("Pending"),
-        "habit_status_skipped": MessageLookupByLibrary.simpleMessage("Skipped"),
-        "habit_status_unknown": MessageLookupByLibrary.simpleMessage("Unknown"),
-        "habits": m7,
+        "habits": m11,
         "help_tile": MessageLookupByLibrary.simpleMessage("Help"),
+        "history_empty":
+            MessageLookupByLibrary.simpleMessage("No history found"),
         "history_section": MessageLookupByLibrary.simpleMessage("History"),
         "hour_unit": MessageLookupByLibrary.simpleMessage("hour"),
         "imperial_unit": MessageLookupByLibrary.simpleMessage("Imperial Unit"),
-        "in_progress": m8,
+        "in_progress": m12,
         "in_progress_habit":
             MessageLookupByLibrary.simpleMessage("In Progress Habit"),
         "inactive_button": MessageLookupByLibrary.simpleMessage("Inactive"),
@@ -480,7 +495,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("More Knowledge about habit"),
         "l_unit": MessageLookupByLibrary.simpleMessage("liters"),
         "language_tile": MessageLookupByLibrary.simpleMessage("Language"),
-        "last_n_day": m9,
+        "last_n_day": m13,
         "less_title": MessageLookupByLibrary.simpleMessage("Less"),
         "light_theme": MessageLookupByLibrary.simpleMessage("Light Theme"),
         "loading_title": MessageLookupByLibrary.simpleMessage("Loading..."),
@@ -636,27 +651,27 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Keep your habits on track!"),
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
         "notify_at": MessageLookupByLibrary.simpleMessage("Notify at:"),
-        "on_your_way": m10,
+        "on_your_way": m14,
         "operation_not_allowed": MessageLookupByLibrary.simpleMessage(
             "Operation is not allowed. Please contact support."),
         "out_of_range":
             MessageLookupByLibrary.simpleMessage("The number is out of range"),
         "overall_completion_rate":
             MessageLookupByLibrary.simpleMessage("Overall Completion Rate"),
-        "overall_progress": m11,
+        "overall_progress": m15,
         "page_unit": MessageLookupByLibrary.simpleMessage("page"),
         "pareto_principle":
             MessageLookupByLibrary.simpleMessage("Pareto Principle"),
         "pareto_principle_description": MessageLookupByLibrary.simpleMessage(
             "20% of the right habits will bring 80% of the positive results."),
-        "participant": m12,
+        "participant": m16,
         "password_field": MessageLookupByLibrary.simpleMessage("Password"),
         "passwords_do_not_match":
             MessageLookupByLibrary.simpleMessage("Password does not match"),
         "pause_statistic_page": MessageLookupByLibrary.simpleMessage("Pause"),
         "pause_tracking":
             MessageLookupByLibrary.simpleMessage("Pause Tracking"),
-        "paused": m13,
+        "paused": m17,
         "paused_habit": MessageLookupByLibrary.simpleMessage("Paused Habit"),
         "personal_achievements":
             MessageLookupByLibrary.simpleMessage("Personal Achievements"),
@@ -681,6 +696,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "psychology_implementation_intentions_description":
             MessageLookupByLibrary.simpleMessage(
                 "Specifying \'when\' and \'where\' you will perform a habit can increase success rates by 2-3 times."),
+        "quick_add_water_button":
+            MessageLookupByLibrary.simpleMessage("Quick Add"),
         "quote_aristotle": MessageLookupByLibrary.simpleMessage(
             "We are what we repeatedly do. Excellence, then, is not an act, but a habit."),
         "quote_dwayne_johnson": MessageLookupByLibrary.simpleMessage(
@@ -719,8 +736,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Consider explaining why this goal is important to you"),
         "relevant_title": MessageLookupByLibrary.simpleMessage("Relevant"),
         "reminder_section": MessageLookupByLibrary.simpleMessage("Reminder"),
-        "remove_water_button":
-            MessageLookupByLibrary.simpleMessage("Remove 250ML"),
+        "remove_water_button": m18,
         "reps_unit": MessageLookupByLibrary.simpleMessage("reps"),
         "reset_password":
             MessageLookupByLibrary.simpleMessage("Reset Password"),
@@ -786,6 +802,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "start_date": MessageLookupByLibrary.simpleMessage("Start Date"),
         "start_tracking":
             MessageLookupByLibrary.simpleMessage("Start Tracking"),
+        "start_value_must_be_less_than_end":
+            MessageLookupByLibrary.simpleMessage(
+                "Start value must be less than end value"),
         "statistic_info_tab":
             MessageLookupByLibrary.simpleMessage("Statistics"),
         "statistic_section": MessageLookupByLibrary.simpleMessage("Statistics"),
@@ -798,8 +817,42 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Success Rate"),
         "statistics_success_rate_description": MessageLookupByLibrary.simpleMessage(
             "43% of our daily actions are performed unconsciously due to habits."),
+        "status_achieved": MessageLookupByLibrary.simpleMessage("Achieved"),
+        "status_failed": MessageLookupByLibrary.simpleMessage("Failed"),
+        "status_in_progress":
+            MessageLookupByLibrary.simpleMessage("In Progress"),
+        "status_paused": MessageLookupByLibrary.simpleMessage("Paused"),
+        "status_pending": MessageLookupByLibrary.simpleMessage("Pending"),
+        "status_skipped": MessageLookupByLibrary.simpleMessage("Skipped"),
         "status_title": MessageLookupByLibrary.simpleMessage("Status"),
+        "status_unkown": MessageLookupByLibrary.simpleMessage("Unknown"),
         "steps_unit": MessageLookupByLibrary.simpleMessage("steps"),
+        "streak_long_100": MessageLookupByLibrary.simpleMessage(
+            "Fantastic! You\'ve kept a 100-day streak!"),
+        "streak_long_40": MessageLookupByLibrary.simpleMessage(
+            "Incredible! You\'re on a 40-day streak!"),
+        "streak_long_60": MessageLookupByLibrary.simpleMessage(
+            "Unbelievable! You\'ve hit a 60-day streak!"),
+        "streak_medium_10": MessageLookupByLibrary.simpleMessage(
+            "Amazing! You\'ve kept a 10-day streak going!"),
+        "streak_medium_15": MessageLookupByLibrary.simpleMessage(
+            "Keep pushing! You\'ve achieved 15 days continuously!"),
+        "streak_medium_30": MessageLookupByLibrary.simpleMessage(
+            "You\'re awesome! Maintained 30 days straight!"),
+        "streak_short_0": MessageLookupByLibrary.simpleMessage(
+            "Getting started! Complete your first day without missing!"),
+        "streak_short_1": MessageLookupByLibrary.simpleMessage(
+            "Great start! You\'ve completed 1 day without missing!"),
+        "streak_short_3": MessageLookupByLibrary.simpleMessage(
+            "Keep it up! You\'ve maintained 3 consecutive days!"),
+        "streak_short_7": MessageLookupByLibrary.simpleMessage(
+            "Excellent! You\'ve reached 7 days in a row!"),
+        "streak_very_long_150": MessageLookupByLibrary.simpleMessage(
+            "Unbelievable! You\'ve kept a 150-day streak!"),
+        "streak_very_long_200": MessageLookupByLibrary.simpleMessage(
+            "Admirable! You\'ve maintained a 200-day streak!"),
+        "streak_very_long_365": MessageLookupByLibrary.simpleMessage(
+            "You\'re a hero! Achieved a 365-day streak!"),
         "study_habit_desc": MessageLookupByLibrary.simpleMessage(
             "Improve learning efficiency by studying for 2 focused hours every evening."),
         "study_habit_goal_desc": MessageLookupByLibrary.simpleMessage(
@@ -809,9 +862,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "success_title": MessageLookupByLibrary.simpleMessage("Success"),
         "summary_excellent": MessageLookupByLibrary.simpleMessage(
             "Excellent SMART goal! All criteria are well_defined and balanced."),
-        "summary_good": m14,
-        "summary_needs_work": m15,
-        "summary_poor": m16,
+        "summary_good": m19,
+        "summary_needs_work": m20,
+        "summary_poor": m21,
         "summary_title": MessageLookupByLibrary.simpleMessage("Summary"),
         "target_title": MessageLookupByLibrary.simpleMessage("Target"),
         "term_and_condition_statement": MessageLookupByLibrary.simpleMessage(
@@ -883,14 +936,14 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Daily Time Slots Map"),
         "today": MessageLookupByLibrary.simpleMessage("Today"),
         "today_tasks": MessageLookupByLibrary.simpleMessage("Today Tasks"),
-        "total": m17,
-        "total_achievement": m18,
+        "total": m22,
+        "total_achievement": m23,
         "total_distance":
             MessageLookupByLibrary.simpleMessage("Total Distance"),
         "total_habit": MessageLookupByLibrary.simpleMessage("Total Habit"),
         "total_paused_time":
             MessageLookupByLibrary.simpleMessage("Total Pause Time"),
-        "total_streak": m19,
+        "total_streak": m24,
         "tracker_section": MessageLookupByLibrary.simpleMessage("Tracker"),
         "trend_section": MessageLookupByLibrary.simpleMessage("Trend"),
         "try_again":

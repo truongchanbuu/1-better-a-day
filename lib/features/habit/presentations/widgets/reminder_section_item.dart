@@ -65,6 +65,8 @@ class _ReminderSectionItemState extends State<ReminderSectionItem> {
                 : S.current.inactive_button,
             fontSize: _reminderFontSize,
             iconSize: 22,
+            fontWeight: isReminder ? FontWeight.bold : FontWeight.normal,
+            fontColor: isReminder ? AppColors.primary : null,
             iconColor: isReminder ? AppColors.primary : null,
           ),
           value: isReminder,

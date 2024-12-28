@@ -48,12 +48,29 @@ enum HabitCategory {
   static HabitCategory fromString(String? str) =>
       EnumHelper.fromString(values, str) ?? custom;
 
+  static HabitCategory? fromMultiLangString(String? str) {
+    final categoryMap = {
+      S.current.habit_category_health: health,
+      S.current.habit_category_education: education,
+      S.current.habit_category_productivity: productivity,
+      S.current.habit_category_mindfulness: mindfulness,
+      S.current.habit_category_lifestyle: lifestyle,
+      S.current.habit_category_nutrition: nutrition,
+      S.current.habit_category_social: social,
+      S.current.habit_category_finance: finance,
+      S.current.habit_category_creativity: creativity,
+      S.current.habit_category_environmental: environmental,
+    };
+
+    return categoryMap[str];
+  }
+
   String get categoryName {
     switch (this) {
       case health:
         return S.current.habit_category_health;
       case education:
-        return S.current.habit_category_learning;
+        return S.current.habit_category_education;
       case productivity:
         return S.current.habit_category_productivity;
       case mindfulness:
@@ -73,23 +90,6 @@ enum HabitCategory {
       default:
         return S.current.habit_category_unknown;
     }
-  }
-
-  static HabitCategory? fromMultiLangString(String? str) {
-    final categoryMap = {
-      S.current.habit_category_health: health,
-      S.current.habit_category_learning: education,
-      S.current.habit_category_productivity: productivity,
-      S.current.habit_category_mindfulness: mindfulness,
-      S.current.habit_category_lifestyle: lifestyle,
-      S.current.habit_category_nutrition: nutrition,
-      S.current.habit_category_social: social,
-      S.current.habit_category_finance: finance,
-      S.current.habit_category_creativity: creativity,
-      S.current.habit_category_environmental: environmental,
-    };
-
-    return categoryMap[str];
   }
 
   Color get color {

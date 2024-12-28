@@ -1,7 +1,7 @@
 {
   "@@locale": "en",
 
-  "@__COMMON__": "",
+  "@__COMMON__": {},
   "term_and_condition_statement": "By signing in/signing up, you accept our Terms and Conditions and consent to our Privacy Policy",
   "success_title": "Success",
   "failure_title": "Failure",
@@ -44,11 +44,11 @@
   "delete_title": "Are you sure to delete this?",
   "delete_warning": "This cannot be undone",
 
-  "@__VALIDATION__": "",
+  "@__VALIDATION__": {},
   "not_found": "Not Found",
   "out_of_range": "The number is out of range",
 
-  "@__AUTHENTICATION__": "",
+  "@__AUTHENTICATION__": {},
   "logout_button": "Log out",
   "recovery_description": "An reset-password mail will be sent to your email",
   "re_auth_with_google": "Re-authenticate with Google",
@@ -59,7 +59,7 @@
   "update_success_title": "Update Success",
   "verify_email_sent": "A mail has been sent to your new email",
 
-  "@__ACCOUNT_VALIDATION__": "",
+  "@__ACCOUNT_VALIDATION__": {},
   "try_again": "Please try again later",
   "empty_field": "Please do not empty the field",
   "invalid_form": "Please check your information again",
@@ -80,14 +80,14 @@
   "invalid_age": "Please select a valid age",
   "passwords_do_not_match": "Password does not match",
 
-  "@__DRAWER__": "",
+  "@__DRAWER__": {},
   "today": "Today",
   "settings": "Settings",
   "notifications": "Notifications",
   "all_habits": "All Habits",
   "challenges_screen": "Challenges",
 
-  "@__SETTING__": "",
+  "@__SETTING__": {},
   "general_section": "General",
   "language_tile": "Language",
   "english_choice": "English",
@@ -126,7 +126,7 @@
 
   "no_date_selected": "No Date Selected",
 
-  "@__HABIT__": "",
+  "@__HABIT__": {},
   "habits": "{count, plural, =0{No habits} =1{1 habit} other{{count} habits}}",
   "habit_name": "Habit Name",
   "habit_desc": "Habit Description",
@@ -159,13 +159,13 @@
   "mark_as_done": "Mark as done",
   "mark_as_pause": "Mark as pause",
 
-  "habit_status_failed": "Failed",
-  "habit_status_in_progress": "In Progress",
-  "habit_status_paused": "Paused",
-  "habit_status_skipped": "Skipped",
-  "habit_status_achieved": "Achieved",
-  "habit_status_pending": "Pending",
-  "habit_status_unknown": "Unknown",
+  "status_failed": "Failed",
+  "status_in_progress": "In Progress",
+  "status_paused": "Paused",
+  "status_skipped": "Skipped",
+  "status_achieved": "Achieved",
+  "status_pending": "Pending",
+  "status_unkown": "Unknown",
 
   "habit_failure_reason_lack_of_time": "Lack of Time",
   "habit_failure_reason_lack_of_motivation": "Lack of Motivation",
@@ -189,7 +189,7 @@
   "habit_pause_reason_unknown": "Unknown",
 
   "habit_category_health": "Health",
-  "habit_category_learning": "Learning",
+  "habit_category_education": "Education",
   "habit_category_productivity": "Productivity",
   "habit_category_mindfulness": "Mindfulness",
   "habit_category_lifestyle": "Lifestyle",
@@ -201,14 +201,15 @@
   "habit_category_unknown": "Unknown",
 
   "tracker_section": "Tracker",
-  "add_water_button": "Add 250ML",
-  "remove_water_button": "Remove 250ML",
+  "add_water_button": "Add {count}ML",
+  "remove_water_button": "Remove {count}ML",
+  "quick_add_water_button": "Quick Add",
   "start_tracking": "Start Tracking",
   "pause_tracking": "Pause Tracking",
   "current_distance": "Current Distance",
   "total_distance": "Total Distance",
 
-  "@__TRACK_ERROR__": "",
+  "@__TRACK_ERROR__": {},
   "not_allow_track": "We don't have permission to track your distance",
 
   "history_section": "History",
@@ -217,7 +218,10 @@
   "mood_title": "Mood",
   "date_title": "Date",
 
-  "@__STATISTIC__": "",
+  "history_empty": "No history found",
+  "cannot_store_history": "Cannot store history",
+
+  "@__STATISTIC__": {},
   "all_statistic_page": "All",
   "active_statistic_page": "Active",
   "pause_statistic_page": "Pause",
@@ -319,11 +323,11 @@
   "reminder_section": "Reminder",
   "add_reminder": "Add reminder",
 
-  "@__NOTIFICATION__": "",
+  "@__NOTIFICATION__": {},
   "notification_screen_title": "Keep your habits on track!",
   "notify_at": "Notify at:",
 
-  "@__TODAY__": "",
+  "@__TODAY__": {},
   "default_greeting": "Greetings",
   "morning_greeting": "Good morning",
   "afternoon_greeting": "Good Afternoon",
@@ -336,7 +340,7 @@
   "habit_quote_4": "Drop by drop is the water pot filled",
   "habit_quote_5": "Success is the sum of small efforts repeated day in and day out",
 
-  "@__HABIT_KNOWLEDGE__": "",
+  "@__HABIT_KNOWLEDGE__": {},
   "compound_effect": "Compound Effect",
   "compound_effect_description": "Improving 1% each day will make you 37 times better after a year.",
   "pareto_principle": "Pareto Principle",
@@ -371,7 +375,7 @@
   "statistics_habit_formation_time_description": "The time to form a habit can range from 18 to 254 days depending on complexity.",
 
 
-  "@__CHALLENGE__": "",
+  "@__CHALLENGE__": {},
   "discover_tab": "Discover",
   "my_custom_challenge_tab": "My Custom Challenges",
   "my_reward_tab": "My Rewards",
@@ -401,7 +405,7 @@
   "personal_achievements": "Personal Achievements",
   "community_challenges": "Community Challenges",
 
-  "@__ADD_HABIT__": "",
+  "@__ADD_HABIT__": {},
   "get_preset_habit_option": "Get some useful pre-set habit",
   "add_habit_with_few_words_option": "Create habit with few words",
   "add_your_own_habit": "Customize your own habit",
@@ -429,8 +433,8 @@
   "generate_habit_button": "Generate Habit",
   "summary_title": "Summary",
 
-  "@__ADD_HABIT_FORM__": "",
-  "@__ADD_HABIT_VALIDATION__": "",
+  "@__ADD_HABIT_FORM__": {},
+  "@__ADD_HABIT_VALIDATION__": {},
   "add_habit_not_enough_info": "Please provide at least one in habit name, description or brief goal to generate accurate SMART goal",
   "invalid_num": "Please enter number that greater than 0",
   "invalid_start_date": "Start date cannot be after end date",
@@ -439,6 +443,8 @@
   "cannot_generate_habit": "Cannot generate habit",
   "cannot_update_habit": "Cannot update habit",
   "no_habit_found": "No habit found",
+  "start_value_must_be_less_than_end": "Start value must be less than end value",
+  "end_value_must_be_greater_than_start": "End value must be greater than start value",
 
   "smart_criteria_achieved": "SMART Achieved",
   "specific_excellent": "Your goal is very clear and well_defined with specific details",
@@ -538,7 +544,7 @@
     }
   },
 
-  "@__ACTION_WORD_EXERCISE": "",
+  "@__ACTION_WORD_EXERCISE": {},
   "action_exercise_run": "run",
   "action_exercise_walk": "walk",
   "action_exercise_swim": "swim",
@@ -547,7 +553,7 @@
   "action_exercise_yoga": "practice yoga",
   "action_exercise_stretch": "stretch",
   "action_exercise_gym": "go to gym",
-  "@__ACTION_VERBS_LEARNING": "",
+  "@__ACTION_VERBS_LEARNING": {},
   "action_learning_read": "read",
   "action_learning_study": "study",
   "action_learning_practice": "practice",
@@ -556,7 +562,7 @@
   "action_learning_research": "research",
   "action_learning_learn": "learn",
   "action_learning_master": "master",
-  "@__ACTION_VERBS_HEALTH": "",
+  "@__ACTION_VERBS_HEALTH": {},
   "action_health_meditate": "meditate",
   "action_health_drink": "drink",
   "action_health_eat": "eat",
@@ -564,7 +570,7 @@
   "action_health_breathe": "breathe",
   "action_health_relax": "relax",
   "action_health_rest": "rest",
-  "@__ACTION_VERBS_PRODUCTIVITY": "",
+  "@__ACTION_VERBS_PRODUCTIVITY": {},
   "action_productivity_complete": "complete",
   "action_productivity_finish": "finish",
   "action_productivity_achieve": "achieve",
@@ -573,7 +579,7 @@
   "action_productivity_work": "work on",
   "action_productivity_start": "start",
   "action_productivity_continue": "continue",
-  "@__ACTION_VERBS_CREATIVE": "",
+  "@__ACTION_VERBS_CREATIVE": {},
   "action_creative_build": "build",
   "action_creative_create": "create",
   "action_creative_develop": "develop",
@@ -582,7 +588,7 @@
   "action_creative_draw": "draw",
   "action_creative_paint": "paint",
   "action_creative_compose": "compose",
-  "@__ACTION_VERBS_SOCIAL": "",
+  "@__ACTION_VERBS_SOCIAL": {},
   "action_social_connect": "connect with",
   "action_social_meet": "meet",
   "action_social_call": "call",
@@ -591,7 +597,7 @@
   "action_social_visit": "visit",
   "action_social_spend": "spend time with",
   "action_social_help": "help",
-  "@__ACTION_VERBS_IMPROVEMENT": "",
+  "@__ACTION_VERBS_IMPROVEMENT": {},
   "action_improvement_reduce": "reduce",
   "action_improvement_increase": "increase",
   "action_improvement_decrease": "decrease",
@@ -599,7 +605,7 @@
   "action_improvement_enhance": "enhance",
   "action_improvement_optimize": "optimize",
   "action_improvement_upgrade": "upgrade",
-  "@__ACTION_VERBS_TRACKING": "",
+  "@__ACTION_VERBS_TRACKING": {},
   "action_tracking_track": "track",
   "action_tracking_measure": "measure",
   "action_tracking_monitor": "monitor",
@@ -608,7 +614,7 @@
   "action_tracking_count": "count",
   "action_tracking_analyze": "analyze",
 
-  "@__ACTION_VERBS_TIME": "",
+  "@__ACTION_VERBS_TIME": {},
   "action_time_spend": "spend",
   "action_time_allocate": "allocate",
   "action_time_limit": "limit",
@@ -617,7 +623,7 @@
   "action_time_organize": "organize",
   "action_time_manage": "manage",
 
-  "@__MEASURABLE_WORD": "",
+  "@__MEASURABLE_WORD": {},
   "measurable_meter": "m",
   "@measurable_meter": {
     "description": "Unit of measurement: meter"
@@ -675,7 +681,7 @@
     "description": "Unit of walking: set"
   },
 
-  "@__ACHIEVABLE_WORD": "",
+  "@__ACHIEVABLE_WORD": {},
   "measurable_positive_increase": "increase",
   "@measurable_positive_increase": {
     "description": "Indicates an increase, often associated with growth or improvement."
@@ -812,7 +818,7 @@
   "@measurable_negative_revert": {
     "description": "Refers to returning to a previous state or condition."
   },
-  "@__RELEVANT_WORD": "",
+  "@__RELEVANT_WORD": {},
   "relevant_increase": "increase",
   "@relevant_increase": {
     "description": "Indicates a positive change or growth in value, often related to progress."
@@ -917,7 +923,7 @@
   "miles_unit": "miles",
   "custom_unit": "custom",
 
-  "@_GOAL_TYPE": "",
+  "@_GOAL_TYPE": {},
 
   "goal_completion": "Completion",
   "goal_count": "Count",
@@ -948,7 +954,7 @@
   "regenerate_button": "Generate another habit",
   "add_success": "Add successfully",
 
-  "@__PRESET_HABIT__": "",
+  "@__PRESET_HABIT__": {},
   "water_habit_title": "Drink enough 2L water a day",
   "water_habit_desc": "Stay hydrated and improve your overall health by drinking 2 liters of water every day",
   "water_habit_goal_desc": "Drink 2L of water daily for the next 30 days to stay hydrated and maintain good health",
@@ -975,5 +981,27 @@
 
   "no_habit_item_selected": "Please select at least one to add",
   "cannot_get_any_habit": "Failed to get habits",
-  "cannot_get_habit_with_name": "Cannot get the habit with name: {name}"
+  "cannot_get_habit_with_name": "Cannot get the habit with name: {name}",
+
+  "all_selection": "All",
+
+  "@__STREAK_STATEMENT__": {},
+  "default_short_streak": "Awesome! You've maintained a {count} day streak",
+  "streak_short_0": "Getting started! Complete your first day without missing!",
+  "streak_short_1": "Great start! You've completed 1 day without missing!",
+  "streak_short_3": "Keep it up! You've maintained 3 consecutive days!",
+  "streak_short_7": "Excellent! You've reached 7 days in a row!",
+
+  "default_medium_streak": "Awesome! You've maintained a {count} day streak",
+  "streak_medium_10": "Amazing! You've kept a 10-day streak going!",
+  "streak_medium_15": "Keep pushing! You've achieved 15 days continuously!",
+  "streak_medium_30": "You're awesome! Maintained 30 days straight!",
+
+  "default_long_streak": "Awesome! You've maintained a {count} day streak",
+  "streak_long_40": "Incredible! You're on a 40-day streak!",
+  "streak_long_60": "Unbelievable! You've hit a 60-day streak!",
+  "streak_long_100": "Fantastic! You've kept a 100-day streak!",
+  "streak_very_long_150": "Unbelievable! You've kept a 150-day streak!",
+  "streak_very_long_200": "Admirable! You've maintained a 200-day streak!",
+  "streak_very_long_365": "You're a hero! Achieved a 365-day streak!"
 }

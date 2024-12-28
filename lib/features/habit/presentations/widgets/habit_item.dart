@@ -7,10 +7,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import '../../../../core/constants/app_color.dart';
+import '../../../../core/constants/app_common.dart';
 import '../../../../core/constants/app_font_size.dart';
 import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/enums/habit/goal_unit.dart';
@@ -21,6 +23,8 @@ import '../../../../generated/l10n.dart';
 import '../../../shared/presentations/widgets/confirm_delete_dialog.dart';
 import '../../domain/entities/habit_entity.dart';
 import '../blocs/crud/habit_crud_bloc.dart';
+import '../blocs/habit_history_crud/habit_history_crud_bloc.dart';
+import '../pages/habit_detail_page.dart';
 import 'crud_habit/edit_template_dialog.dart';
 import 'generated_habit.dart';
 import 'habit_action_button.dart';
@@ -68,41 +72,30 @@ class _HabitItemState extends State<HabitItem> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<HabitCrudBloc, HabitCrudState>(
-      listener: (context, state) {
-        if (state is HabitCrudSucceed) {
-          if (state.action == HabitCrudAction.update) {
-            setState(() {
-              currentHabit = state.habits.first;
-            });
-          }
-        }
-      },
-      child: Slidable(
-        startActionPane: ActionPane(motion: _sliderMotion, children: [
-          SlidableAction(
-            onPressed: _onEditHabit,
-            icon: FontAwesomeIcons.penToSquare,
-            foregroundColor: AppColors.lightText,
-            backgroundColor: Colors.green,
-            label: widget.isListView ? S.current.edit_button : null,
-          ),
-        ]),
-        endActionPane: ActionPane(motion: _sliderMotion, children: [
-          SlidableAction(
-            onPressed: _onDeleteHabit,
-            icon: FontAwesomeIcons.trash,
-            foregroundColor: AppColors.lightText,
-            backgroundColor: AppColors.error,
-            label: widget.isListView ? S.current.delete_button : null,
-          ),
-        ]),
-        child: AnimatedSwitcherPlus.flipY(
-          duration: const Duration(milliseconds: 300),
-          child: currentAction != HabitAction.nothing
-              ? _buildCover()
-              : _buildItemWithOverlay(),
+    return Slidable(
+      startActionPane: ActionPane(motion: _sliderMotion, children: [
+        SlidableAction(
+          onPressed: _onEditHabit,
+          icon: FontAwesomeIcons.penToSquare,
+          foregroundColor: AppColors.lightText,
+          backgroundColor: Colors.green,
+          label: widget.isListView ? S.current.edit_button : null,
         ),
+      ]),
+      endActionPane: ActionPane(motion: _sliderMotion, children: [
+        SlidableAction(
+          onPressed: _onDeleteHabit,
+          icon: FontAwesomeIcons.trash,
+          foregroundColor: AppColors.lightText,
+          backgroundColor: AppColors.error,
+          label: widget.isListView ? S.current.delete_button : null,
+        ),
+      ]),
+      child: AnimatedSwitcherPlus.flipY(
+        duration: const Duration(milliseconds: 300),
+        child: currentAction != HabitAction.nothing
+            ? _buildCover()
+            : _buildItemWithOverlay(),
       ),
     );
   }
@@ -140,7 +133,8 @@ class _HabitItemState extends State<HabitItem> {
 
   Widget _buildItemWithOverlay() {
     return GestureDetector(
-      onTap: () {
+      onTap: _navigateToHabitDetail,
+      onLongPress: () {
         setState(() {
           _isOverlay = !_isOverlay;
         });
@@ -209,25 +203,30 @@ class _HabitItemState extends State<HabitItem> {
 
   void _onEditHabit(BuildContext funcContext) {
     final habitCrudBloc = funcContext.read<HabitCrudBloc>();
-    const editHabitDialogTag = 'edit_habit_dialog';
 
     SmartDialog.show(
-      tag: editHabitDialogTag,
       builder: (ctx) => EditTemplateDialog(
         child: BlocProvider.value(
           value: habitCrudBloc,
           child: BlocListener<HabitCrudBloc, HabitCrudState>(
-            listener: (blocCtx, state) {
+            listener: (blocCtx, state) async {
               if (state is HabitCrudSucceed) {
                 if (state.action == HabitCrudAction.update) {
-                  AwesomeDialog(
+                  SmartDialog.dismiss();
+                  final alertDialog = AwesomeDialog(
                     context: context,
                     dialogType: DialogType.success,
                     title: S.current.success_title,
                     desc: S.current.update_success_title,
-                  ).show();
+                    btnOkOnPress: () {},
+                  )..show();
 
-                  SmartDialog.dismiss(tag: editHabitDialogTag);
+                  await Future.delayed(AppCommons.alertShowDuration);
+                  alertDialog.dismiss();
+
+                  setState(() {
+                    currentHabit = state.habits.first;
+                  });
                 }
               } else if (state is HabitCrudFailed) {
                 AwesomeDialog(
@@ -242,7 +241,7 @@ class _HabitItemState extends State<HabitItem> {
               habit: currentHabit,
               onEdit: (habit) => habitCrudBloc.add(EditHabit(
                 id: currentHabit.habitId,
-                updatedHabit: currentHabit,
+                updatedHabit: habit,
               )),
             ),
           ),
@@ -263,6 +262,24 @@ class _HabitItemState extends State<HabitItem> {
     if (isAllowed) {
       habitCrudBloc.add(DeleteHabit(currentHabit.habitId));
     }
+  }
+
+  void _navigateToHabitDetail() {
+    Navigator.push(
+      context,
+      PageTransition(
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: context.read<HabitCrudBloc>()),
+            BlocProvider.value(
+                value: context.read<HabitHistoryCrudBloc>()
+                  ..add(HabitHistoryCrudListByHabitId(currentHabit.habitId))),
+          ],
+          child: HabitDetailPage(habit: currentHabit),
+        ),
+        type: PageTransitionType.leftToRight,
+      ),
+    );
   }
 }
 

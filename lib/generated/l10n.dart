@@ -1254,70 +1254,70 @@ class S {
   }
 
   /// `Failed`
-  String get habit_status_failed {
+  String get status_failed {
     return Intl.message(
       'Failed',
-      name: 'habit_status_failed',
+      name: 'status_failed',
       desc: '',
       args: [],
     );
   }
 
   /// `In Progress`
-  String get habit_status_in_progress {
+  String get status_in_progress {
     return Intl.message(
       'In Progress',
-      name: 'habit_status_in_progress',
+      name: 'status_in_progress',
       desc: '',
       args: [],
     );
   }
 
   /// `Paused`
-  String get habit_status_paused {
+  String get status_paused {
     return Intl.message(
       'Paused',
-      name: 'habit_status_paused',
+      name: 'status_paused',
       desc: '',
       args: [],
     );
   }
 
   /// `Skipped`
-  String get habit_status_skipped {
+  String get status_skipped {
     return Intl.message(
       'Skipped',
-      name: 'habit_status_skipped',
+      name: 'status_skipped',
       desc: '',
       args: [],
     );
   }
 
   /// `Achieved`
-  String get habit_status_achieved {
+  String get status_achieved {
     return Intl.message(
       'Achieved',
-      name: 'habit_status_achieved',
+      name: 'status_achieved',
       desc: '',
       args: [],
     );
   }
 
   /// `Pending`
-  String get habit_status_pending {
+  String get status_pending {
     return Intl.message(
       'Pending',
-      name: 'habit_status_pending',
+      name: 'status_pending',
       desc: '',
       args: [],
     );
   }
 
   /// `Unknown`
-  String get habit_status_unknown {
+  String get status_unkown {
     return Intl.message(
       'Unknown',
-      name: 'habit_status_unknown',
+      name: 'status_unkown',
       desc: '',
       args: [],
     );
@@ -1523,11 +1523,11 @@ class S {
     );
   }
 
-  /// `Learning`
-  String get habit_category_learning {
+  /// `Education`
+  String get habit_category_education {
     return Intl.message(
-      'Learning',
-      name: 'habit_category_learning',
+      'Education',
+      name: 'habit_category_education',
       desc: '',
       args: [],
     );
@@ -1633,21 +1633,31 @@ class S {
     );
   }
 
-  /// `Add 250ML`
-  String get add_water_button {
+  /// `Add {count}ML`
+  String add_water_button(Object count) {
     return Intl.message(
-      'Add 250ML',
+      'Add ${count}ML',
       name: 'add_water_button',
       desc: '',
-      args: [],
+      args: [count],
     );
   }
 
-  /// `Remove 250ML`
-  String get remove_water_button {
+  /// `Remove {count}ML`
+  String remove_water_button(Object count) {
     return Intl.message(
-      'Remove 250ML',
+      'Remove ${count}ML',
       name: 'remove_water_button',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Quick Add`
+  String get quick_add_water_button {
+    return Intl.message(
+      'Quick Add',
+      name: 'quick_add_water_button',
       desc: '',
       args: [],
     );
@@ -1748,6 +1758,26 @@ class S {
     return Intl.message(
       'Date',
       name: 'date_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No history found`
+  String get history_empty {
+    return Intl.message(
+      'No history found',
+      name: 'history_empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cannot store history`
+  String get cannot_store_history {
+    return Intl.message(
+      'Cannot store history',
+      name: 'cannot_store_history',
       desc: '',
       args: [],
     );
@@ -3082,6 +3112,26 @@ class S {
     return Intl.message(
       'No habit found',
       name: 'no_habit_found',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start value must be less than end value`
+  String get start_value_must_be_less_than_end {
+    return Intl.message(
+      'Start value must be less than end value',
+      name: 'start_value_must_be_less_than_end',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `End value must be greater than start value`
+  String get end_value_must_be_greater_than_start {
+    return Intl.message(
+      'End value must be greater than start value',
+      name: 'end_value_must_be_greater_than_start',
       desc: '',
       args: [],
     );
@@ -5508,6 +5558,176 @@ class S {
       name: 'cannot_get_habit_with_name',
       desc: '',
       args: [name],
+    );
+  }
+
+  /// `All`
+  String get all_selection {
+    return Intl.message(
+      'All',
+      name: 'all_selection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Awesome! You've maintained a {count} day streak`
+  String default_short_streak(Object count) {
+    return Intl.message(
+      'Awesome! You\'ve maintained a $count day streak',
+      name: 'default_short_streak',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Getting started! Complete your first day without missing!`
+  String get streak_short_0 {
+    return Intl.message(
+      'Getting started! Complete your first day without missing!',
+      name: 'streak_short_0',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Great start! You've completed 1 day without missing!`
+  String get streak_short_1 {
+    return Intl.message(
+      'Great start! You\'ve completed 1 day without missing!',
+      name: 'streak_short_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Keep it up! You've maintained 3 consecutive days!`
+  String get streak_short_3 {
+    return Intl.message(
+      'Keep it up! You\'ve maintained 3 consecutive days!',
+      name: 'streak_short_3',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Excellent! You've reached 7 days in a row!`
+  String get streak_short_7 {
+    return Intl.message(
+      'Excellent! You\'ve reached 7 days in a row!',
+      name: 'streak_short_7',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Awesome! You've maintained a {count} day streak`
+  String default_medium_streak(Object count) {
+    return Intl.message(
+      'Awesome! You\'ve maintained a $count day streak',
+      name: 'default_medium_streak',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Amazing! You've kept a 10-day streak going!`
+  String get streak_medium_10 {
+    return Intl.message(
+      'Amazing! You\'ve kept a 10-day streak going!',
+      name: 'streak_medium_10',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Keep pushing! You've achieved 15 days continuously!`
+  String get streak_medium_15 {
+    return Intl.message(
+      'Keep pushing! You\'ve achieved 15 days continuously!',
+      name: 'streak_medium_15',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You're awesome! Maintained 30 days straight!`
+  String get streak_medium_30 {
+    return Intl.message(
+      'You\'re awesome! Maintained 30 days straight!',
+      name: 'streak_medium_30',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Awesome! You've maintained a {count} day streak`
+  String default_long_streak(Object count) {
+    return Intl.message(
+      'Awesome! You\'ve maintained a $count day streak',
+      name: 'default_long_streak',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Incredible! You're on a 40-day streak!`
+  String get streak_long_40 {
+    return Intl.message(
+      'Incredible! You\'re on a 40-day streak!',
+      name: 'streak_long_40',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unbelievable! You've hit a 60-day streak!`
+  String get streak_long_60 {
+    return Intl.message(
+      'Unbelievable! You\'ve hit a 60-day streak!',
+      name: 'streak_long_60',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fantastic! You've kept a 100-day streak!`
+  String get streak_long_100 {
+    return Intl.message(
+      'Fantastic! You\'ve kept a 100-day streak!',
+      name: 'streak_long_100',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unbelievable! You've kept a 150-day streak!`
+  String get streak_very_long_150 {
+    return Intl.message(
+      'Unbelievable! You\'ve kept a 150-day streak!',
+      name: 'streak_very_long_150',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Admirable! You've maintained a 200-day streak!`
+  String get streak_very_long_200 {
+    return Intl.message(
+      'Admirable! You\'ve maintained a 200-day streak!',
+      name: 'streak_very_long_200',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You're a hero! Achieved a 365-day streak!`
+  String get streak_very_long_365 {
+    return Intl.message(
+      'You\'re a hero! Achieved a 365-day streak!',
+      name: 'streak_very_long_365',
+      desc: '',
+      args: [],
     );
   }
 }

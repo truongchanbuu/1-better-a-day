@@ -1,4 +1,4 @@
-abstract class HiveBaseModel<T> {
+abstract interface class HiveBaseModel<T> {
   dynamic get key;
   Map<String, dynamic> toMap();
   T fromMap(Map<String, dynamic> map);
