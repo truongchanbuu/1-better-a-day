@@ -158,6 +158,9 @@
   "target_title": "Target",
   "mark_as_done": "Mark as done",
   "mark_as_pause": "Mark as pause",
+  "daily_completed": "You completed this habit today",
+  "daily_paused": "You delayed this habit today",
+  "rate_and_note_completed_habit": "Rate & Note",
 
   "status_failed": "Failed",
   "status_in_progress": "In Progress",
@@ -202,7 +205,7 @@
 
   "tracker_section": "Tracker",
   "add_water_button": "Add {count}ML",
-  "remove_water_button": "Remove {count}ML",
+  "remove_water_button": "Remove {count}ssucML",
   "quick_add_water_button": "Quick Add",
   "start_tracking": "Start Tracking",
   "pause_tracking": "Pause Tracking",
@@ -219,6 +222,7 @@
   "date_title": "Date",
 
   "history_empty": "No history found",
+  "cannot_get_any_history": "Cannot get any history",
   "cannot_store_history": "Cannot store history",
 
   "@__STATISTIC__": {},

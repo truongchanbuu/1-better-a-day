@@ -157,6 +157,9 @@
   "on_your_way": "Bạn đã đi được {value}% chặng đường",
   "mark_as_done": "Đã thực hiện",
   "mark_as_pause": "Tạm dừng",
+  "daily_completed": "Bạn đã hoàn thành thói quen cho ngày hôm nay",
+  "daily_paused": "Bạn đã tạm dừng thói quen này hôm nay",
+  "rate_and_note_completed_habit": "Đánh giá và ghi chú",
 
   "status_failed": "Thất bại",
   "status_in_progress": "Đang thực hiện",
@@ -218,6 +221,7 @@
   "date_title": "Ngày",
 
   "history_empty": "Không có lịch sử nào được tìm thấy",
+  "cannot_get_any_history": "Không thể lấy bất cứ lịch sử nào",
   "cannot_store_history": "Không thể lưu lịch sử",
 
   "@__STATISTIC__": {},

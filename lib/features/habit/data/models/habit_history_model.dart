@@ -23,7 +23,6 @@ class HabitHistoryModel extends HabitHistory implements HiveBaseModel {
     super.quantity,
     super.rating,
     super.currentValue,
-    super.targetValue,
   });
 
   /// Factory method to create an instance from JSON.
@@ -50,7 +49,6 @@ class HabitHistoryModel extends HabitHistory implements HiveBaseModel {
       quantity: quantity,
       rating: rating,
       currentValue: currentValue,
-      targetValue: targetValue,
     );
   }
 
@@ -71,22 +69,19 @@ class HabitHistoryModel extends HabitHistory implements HiveBaseModel {
       quantity: entity.quantity,
       rating: entity.rating,
       currentValue: entity.currentValue,
-      targetValue: entity.targetValue,
     );
   }
 
   /// Returns a new instance with updated properties.
   @override
-  HabitHistory copyWith({
+  HabitHistoryModel copyWith({
     String? id,
     String? habitId,
     DateTime? date,
     DateTime? completedAt,
     bool? isCompleted,
     String? executionStatus,
-    String? overallStatus,
     double? currentValue,
-    double? targetValue,
     ValueGetter<DateTime?>? startTime,
     ValueGetter<DateTime?>? endTime,
     ValueGetter<Duration?>? duration,
@@ -102,7 +97,6 @@ class HabitHistoryModel extends HabitHistory implements HiveBaseModel {
       habitId: habitId ?? this.habitId,
       date: date ?? this.date,
       currentValue: currentValue ?? this.currentValue,
-      targetValue: targetValue ?? this.targetValue,
       executionStatus: executionStatus ?? this.executionStatus,
       startTime: startTime?.call() ?? this.startTime,
       endTime: endTime?.call() ?? this.endTime,

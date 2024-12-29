@@ -10,7 +10,7 @@ import '../../../../core/enums/habit/habit_time_of_day.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../generated/l10n.dart';
 import '../../../auth/presentations/bloc/auth_bloc/auth_bloc.dart';
-import '../../domain/helper/shared_habit_action.dart';
+import '../helper/shared_habit_action.dart';
 import '../widgets/today_habit_item.dart';
 import '../widgets/today_quote.dart';
 

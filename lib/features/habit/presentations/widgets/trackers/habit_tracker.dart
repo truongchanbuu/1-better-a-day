@@ -13,7 +13,10 @@ import '../../../../../generated/l10n.dart';
 import '../../../../../injection_container.dart';
 import '../../../../../core/enums/habit/goal_unit.dart';
 import '../../../domain/entities/habit_goal.dart';
+import '../../../domain/entities/habit_history.dart';
 import '../../blocs/distance_track/distance_track_cubit.dart';
+import '../../blocs/habit_history_crud/habit_history_crud_bloc.dart';
+import '../../helper/shared_habit_action.dart';
 import 'distance_tracker.dart';
 import 'progress_tracker.dart';
 import 'time_tracker.dart';
@@ -42,9 +45,14 @@ class _HabitTrackerState extends State<HabitTracker> {
   late GoalType _goalType;
   late HabitGoal _habitGoal;
 
+  late HabitHistory history;
+
   @override
   void initState() {
     super.initState();
+    context
+        .read<HabitHistoryCrudBloc>()
+        .add(GetTodayHabitHistory(widget.habitId));
 
     trackStatus = DayStatus.inProgress;
     _habitGoal = widget.habitGoal;
@@ -57,12 +65,49 @@ class _HabitTrackerState extends State<HabitTracker> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        _getTracker(),
-        const SizedBox(height: AppSpacing.marginS),
-        _buildCompletionTracker(),
-      ],
+    return BlocListener<HabitHistoryCrudBloc, HabitHistoryCrudState>(
+      listener: (context, state) {
+        if (state is DailyHabitCompleted) {
+          trackStatus = DayStatus.completed;
+
+          SharedHabitAction.showDailyCompletionDialog(
+            context: context,
+            status: trackStatus.name,
+          );
+        } else if (state is DailyHabitPaused) {
+          trackStatus = DayStatus.completed;
+
+          SharedHabitAction.showDailyCompletionDialog(
+            context: context,
+            status: trackStatus.name,
+          );
+        }
+      },
+      child: Column(
+        children: [
+          _getTracker(),
+          BlocBuilder<HabitHistoryCrudBloc, HabitHistoryCrudState>(
+            builder: (context, state) {
+              if (state is! HabitHistoryCrudSuccess ||
+                  state.histories.isEmpty ||
+                  (state.histories.isNotEmpty &&
+                      state.histories.first.executionStatus ==
+                          DayStatus.completed.name)) {
+                return const SizedBox.shrink();
+              }
+
+              history = state.histories.first;
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: AppSpacing.marginS),
+                  _buildCompletionTracker(),
+                ],
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 
@@ -135,6 +180,11 @@ class _HabitTrackerState extends State<HabitTracker> {
           _habitGoal =
               _habitGoal.copyWith(currentValue: _habitGoal.targetValue);
         });
+
+        context.read<HabitHistoryCrudBloc>().add(SetHabitHistoryStatus(
+              historyId: history.id,
+              status: DayStatus.completed.name,
+            ));
       },
     );
   }
@@ -147,7 +197,12 @@ class _HabitTrackerState extends State<HabitTracker> {
       title: S.current.mark_as_pause,
       backgroundColor: AppColors.warning,
       successColor: AppColors.warning,
-      onPressed: () {},
+      onPressed: () {
+        context.read<HabitHistoryCrudBloc>().add(SetHabitHistoryStatus(
+              historyId: history.id,
+              status: DayStatus.paused.name,
+            ));
+      },
     );
   }
 

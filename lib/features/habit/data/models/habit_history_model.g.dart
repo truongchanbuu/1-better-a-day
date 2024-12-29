@@ -28,7 +28,6 @@ HabitHistoryModel _$HabitHistoryModelFromJson(Map<String, dynamic> json) =>
       quantity: (json['quantity'] as num?)?.toDouble(),
       rating: (json['rating'] as num?)?.toInt(),
       currentValue: (json['currentValue'] as num?)?.toDouble() ?? 0,
-      targetValue: (json['targetValue'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$HabitHistoryModelToJson(HabitHistoryModel instance) =>
@@ -44,8 +43,7 @@ Map<String, dynamic> _$HabitHistoryModelToJson(HabitHistoryModel instance) =>
       'rating': instance.rating,
       'mood': instance.mood,
       'quantity': instance.quantity,
+      'currentValue': instance.currentValue,
       'measurement': instance.measurement,
       'customData': instance.customData,
-      'currentValue': instance.currentValue,
-      'targetValue': instance.targetValue,
     };

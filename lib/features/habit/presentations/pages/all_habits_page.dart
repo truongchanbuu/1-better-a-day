@@ -9,7 +9,7 @@ import '../../../../core/constants/app_font_size.dart';
 import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../generated/l10n.dart';
-import '../../domain/helper/shared_habit_action.dart';
+import '../helper/shared_habit_action.dart';
 import '../widgets/habit_list.dart';
 import '../widgets/search_filter/habit_search_filter_bar.dart';
 import '../widgets/habit_section_container.dart';

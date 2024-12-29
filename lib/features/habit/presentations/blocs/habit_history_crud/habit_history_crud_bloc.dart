@@ -5,10 +5,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moment_dart/moment_dart.dart';
 
 import '../../../../../config/log/app_logger.dart';
+import '../../../../../core/enums/habit/day_status.dart';
+import '../../../../../core/helpers/date_time_helper.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../injection_container.dart';
 import '../../../data/models/habit_history_model.dart';
-import '../../../data/repositories/habit_ai_repo_impl.dart';
 import '../../../domain/entities/habit_history.dart';
 import '../../../domain/repositories/habit_history_repository.dart';
 
@@ -22,7 +23,9 @@ class HabitHistoryCrudBloc
       : super(HabitHistoryCrudInitial()) {
     on<HabitHistoryCrudCreate>(_onCreateHistory);
     on<HabitHistoryCrudListByHabitId>(_onGetHistoriesByHabitId);
+    on<GetTodayHabitHistory>(_onGetTodayHabitHistory);
     on<AddWaterHabitHistory>(_onAddWaterHabit);
+    on<SetHabitHistoryStatus>(_onSetHabitHistoryStatus);
   }
 
   final _appLogger = getIt.get<AppLogger>();
@@ -79,16 +82,89 @@ class HabitHistoryCrudBloc
         orElse: () => HabitHistoryModel.fromEntity(HabitHistory.init()),
       );
 
-      todayHistory.copyWith(
+      final currentValue = todayHistory.currentValue + event.quantity;
+
+      if (currentValue >= event.targetValue) {
+        emit(DailyHabitCompleted());
+      }
+
+      final updatedHistory = todayHistory.copyWith(
         habitId: event.habitId,
-        quantity: () => ((todayHistory.quantity ?? 0) + event.quantity),
+        quantity: () => event.targetValue.toDouble(),
+        currentValue: currentValue,
+        executionStatus:
+            todayHistory.executionStatus != DayStatus.completed.name &&
+                    currentValue >= (todayHistory.quantity ?? 0)
+                ? DayStatus.completed.name
+                : DayStatus.inProgress.name,
       );
+
+      if (todayHistory.id.isEmpty) {
+        await habitHistoryRepository
+            .createHabitHistory(HabitHistoryModel.fromEntity(updatedHistory));
+      } else {
+        await habitHistoryRepository
+            .updateHabitHistory(HabitHistoryModel.fromEntity(updatedHistory));
+      }
 
       emit(HabitHistoryCrudSuccess(
           HabitHistoryCrudEventType.update, [todayHistory.toEntity()]));
     } catch (e) {
       _appLogger.e(e.toString());
       emit(HabitHistoryCrudFailure(e.toString()));
+    }
+  }
+
+  FutureOr<void> _onGetTodayHabitHistory(
+      GetTodayHabitHistory event, Emitter<HabitHistoryCrudState> emit) async {
+    try {
+      List<HabitHistoryModel> habits = await habitHistoryRepository
+          .getHabitHistoriesByHabitId(event.habitId);
+
+      habits = habits.where((e) => DateTimeHelper.isToday(e.date)).toList();
+
+      HabitHistoryModel todayHistory;
+      if (habits.isEmpty) {
+        todayHistory = HabitHistoryModel.fromEntity(
+            HabitHistory.init().copyWith(habitId: event.habitId));
+
+        await habitHistoryRepository.createHabitHistory(todayHistory);
+      } else {
+        todayHistory = habits.first;
+      }
+
+      emit(HabitHistoryCrudSuccess(
+          HabitHistoryCrudEventType.read, [todayHistory.toEntity()]));
+    } catch (e) {
+      _appLogger.e(e.toString());
+      emit(HabitHistoryCrudFailure(S.current.cannot_get_any_history));
+    }
+  }
+
+  FutureOr<void> _onSetHabitHistoryStatus(
+      SetHabitHistoryStatus event, Emitter<HabitHistoryCrudState> emit) async {
+    try {
+      HabitHistoryModel? habit =
+          await habitHistoryRepository.getHabitHistoryById(event.historyId);
+
+      if (habit == null) {
+        emit(HabitHistoryCrudFailure(S.current.history_empty));
+      } else {
+        habit = habit.copyWith(executionStatus: event.status);
+        await habitHistoryRepository.updateHabitHistory(habit);
+
+        if (event.status == DayStatus.completed) {
+          emit(DailyHabitCompleted());
+        } else {
+          emit(DailyHabitPaused());
+        }
+
+        emit(HabitHistoryCrudSuccess(
+            HabitHistoryCrudEventType.update, [habit.toEntity()]));
+      }
+    } catch (e) {
+      _appLogger.e(e.toString());
+      emit(HabitHistoryCrudFailure(S.current.cannot_get_any_history));
     }
   }
 }

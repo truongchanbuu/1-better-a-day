@@ -74,7 +74,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m17(count) =>
       "${Intl.plural(count, zero: 'Paused: 0', one: 'Paused: 1', other: 'Paused: ${count}')}";
 
-  static String m18(count) => "Remove ${count}ML";
+  static String m18(count) => "Remove ${count}ssucML";
 
   static String m19(score) =>
       "Good SMART goal with minor areas for improvement. Score: ${score}%";
@@ -273,6 +273,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Cannot generate habit"),
         "cannot_get_any_habit":
             MessageLookupByLibrary.simpleMessage("Failed to get habits"),
+        "cannot_get_any_history":
+            MessageLookupByLibrary.simpleMessage("Cannot get any history"),
         "cannot_get_habit_with_name": m2,
         "cannot_store_history":
             MessageLookupByLibrary.simpleMessage("Cannot store history"),
@@ -305,6 +307,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "current_progress":
             MessageLookupByLibrary.simpleMessage("Current Progress"),
         "custom_unit": MessageLookupByLibrary.simpleMessage("custom"),
+        "daily_completed": MessageLookupByLibrary.simpleMessage(
+            "You completed this habit today"),
+        "daily_paused": MessageLookupByLibrary.simpleMessage(
+            "You delayed this habit today"),
         "dark_theme": MessageLookupByLibrary.simpleMessage("Dark Theme"),
         "date_title": MessageLookupByLibrary.simpleMessage("Date"),
         "dawn_tile": MessageLookupByLibrary.simpleMessage("Dawn"),
@@ -704,6 +710,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Success is not about perfection. It\'s about consistency."),
         "quote_james_clear": MessageLookupByLibrary.simpleMessage(
             "Small habits make a big difference."),
+        "rate_and_note_completed_habit":
+            MessageLookupByLibrary.simpleMessage("Rate & Note"),
         "re_auth_with_email":
             MessageLookupByLibrary.simpleMessage("Re-authenticate with Email"),
         "re_auth_with_google":

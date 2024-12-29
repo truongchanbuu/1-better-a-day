@@ -29,6 +29,7 @@ import '../../../shared/presentations/widgets/text_with_circle_border_container.
 import '../../domain/entities/habit_entity.dart';
 import '../../domain/entities/habit_history.dart';
 import '../blocs/crud/habit_crud_bloc.dart';
+import '../blocs/habit_history_crud/habit_history_crud_bloc.dart';
 import '../widgets/crud_habit/edit_template_dialog.dart';
 import '../widgets/generated_habit.dart';
 import '../widgets/habit_section_container.dart';

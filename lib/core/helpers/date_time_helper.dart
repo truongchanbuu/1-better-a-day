@@ -1,5 +1,7 @@
 import 'package:intl/intl.dart';
+import 'package:moment_dart/moment_dart.dart';
 
+import '../../features/habit/data/repositories/habit_ai_repo_impl.dart';
 import '../../features/habit/domain/entities/habit_history.dart';
 import '../enums/habit/day_status.dart';
 import '../enums/habit/habit_time_of_day.dart';
@@ -12,6 +14,11 @@ class DateTimeHelper {
   static const String afternoonTimeString = '12:00';
   static const String duskTimeString = '18:00';
   static const String nightTimeString = '21:00';
+
+  static bool isToday(DateTime? date) {
+    if (date == null) return false;
+    return DateTime.now().toMoment().isAtSameDayAs(date);
+  }
 
   static String formatFullDate(DateTime date,
           {String locale = 'en', String? pattern}) =>

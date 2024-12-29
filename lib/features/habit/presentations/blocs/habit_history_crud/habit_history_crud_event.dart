@@ -68,3 +68,20 @@ final class AddWaterHabitHistory extends HabitHistoryCrudEvent {
   @override
   List<Object> get props => [habitId, quantity, targetValue];
 }
+
+final class GetTodayHabitHistory extends HabitHistoryCrudEvent {
+  final String habitId;
+  const GetTodayHabitHistory(this.habitId);
+
+  @override
+  List<Object> get props => [habitId];
+}
+
+final class SetHabitHistoryStatus extends HabitHistoryCrudEvent {
+  final String historyId;
+  final String status;
+  const SetHabitHistoryStatus({required this.historyId, required this.status});
+
+  @override
+  List<Object> get props => [historyId, status];
+}

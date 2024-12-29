@@ -279,6 +279,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Không thể tạo thói quen"),
         "cannot_get_any_habit":
             MessageLookupByLibrary.simpleMessage("Không thể lấy các thói quen"),
+        "cannot_get_any_history": MessageLookupByLibrary.simpleMessage(
+            "Không thể lấy bất cứ lịch sử nào"),
         "cannot_get_habit_with_name": m2,
         "cannot_store_history":
             MessageLookupByLibrary.simpleMessage("Không thể lưu lịch sử"),
@@ -310,6 +312,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "current_progress":
             MessageLookupByLibrary.simpleMessage("Tiến độ hiện tại"),
         "custom_unit": MessageLookupByLibrary.simpleMessage("tùy chỉnh"),
+        "daily_completed": MessageLookupByLibrary.simpleMessage(
+            "Bạn đã hoàn thành thói quen cho ngày hôm nay"),
+        "daily_paused": MessageLookupByLibrary.simpleMessage(
+            "Bạn đã tạm dừng thói quen này hôm nay"),
         "dark_theme": MessageLookupByLibrary.simpleMessage("Chế độ tối"),
         "date_title": MessageLookupByLibrary.simpleMessage("Ngày"),
         "dawn_tile": MessageLookupByLibrary.simpleMessage("Bình minh"),
@@ -716,6 +722,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Thành công không phải là về sự hoàn hảo. Đó là về sự nhất quán."),
         "quote_james_clear": MessageLookupByLibrary.simpleMessage(
             "Thói quen nhỏ tạo nên sự khác biệt lớn."),
+        "rate_and_note_completed_habit":
+            MessageLookupByLibrary.simpleMessage("Đánh giá và ghi chú"),
         "re_auth_with_email":
             MessageLookupByLibrary.simpleMessage("Xác thực với Email"),
         "re_auth_with_google":

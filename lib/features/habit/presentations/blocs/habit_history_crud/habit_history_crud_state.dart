@@ -21,11 +21,11 @@ final class HabitHistoryCrudInProgress extends HabitHistoryCrudState {}
 
 final class HabitHistoryCrudSuccess extends HabitHistoryCrudState {
   final HabitHistoryCrudEventType type;
-  final List<HabitHistory> habitHistory;
-  const HabitHistoryCrudSuccess(this.type, this.habitHistory);
+  final List<HabitHistory> histories;
+  const HabitHistoryCrudSuccess(this.type, this.histories);
 
   @override
-  List<Object> get props => [type, habitHistory];
+  List<Object> get props => [type, histories];
 }
 
 final class HabitHistoryCrudFailure extends HabitHistoryCrudState {
@@ -35,3 +35,7 @@ final class HabitHistoryCrudFailure extends HabitHistoryCrudState {
   @override
   List<Object> get props => [message];
 }
+
+final class DailyHabitCompleted extends HabitHistoryCrudState {}
+
+final class DailyHabitPaused extends HabitHistoryCrudState {}

@@ -11,8 +11,8 @@ import '../../../../../core/constants/app_color.dart';
 import '../../../../../core/constants/app_common.dart';
 import '../../../../../core/constants/app_font_size.dart';
 import '../../../../../core/constants/app_spacing.dart';
+import '../../../../../core/enums/habit/day_status.dart';
 import '../../../../../core/enums/habit/goal_type.dart';
-import '../../../../../core/enums/tab_type.dart';
 import '../../../../../core/extensions/context_extension.dart';
 import '../../../../../core/extensions/num_extension.dart';
 import '../../../../../core/extensions/string_extension.dart';
@@ -21,6 +21,7 @@ import '../../../../shared/presentations/widgets/icon_with_text.dart';
 import '../../../../../core/enums/habit/goal_unit.dart';
 import '../../../../shared/presentations/widgets/text_with_circle_border_container.dart';
 import '../../blocs/habit_history_crud/habit_history_crud_bloc.dart';
+import '../../helper/shared_habit_action.dart';
 
 class ProgressTracker extends StatefulWidget {
   final String habitId;
@@ -48,6 +49,7 @@ class _ProgressTrackerState extends State<ProgressTracker> {
   bool _percentMode = false;
   int waterAmount = 250;
   double _currentValue = 0;
+  bool _isCompleted = false;
 
   @override
   void initState() {
@@ -72,7 +74,31 @@ class _ProgressTrackerState extends State<ProgressTracker> {
         },
         child: BlocListener<HabitHistoryCrudBloc, HabitHistoryCrudState>(
           listener: (context, state) {
-            print(state);
+            if (state is HabitHistoryCrudSuccess) {
+              setState(() {
+                _isCompleted = state.histories.first.executionStatus ==
+                    DayStatus.completed.name;
+              });
+
+              if (state.type == HabitHistoryCrudEventType.update ||
+                  state.type == HabitHistoryCrudEventType.read) {
+                setState(() {
+                  _currentValue =
+                      _getCurrentValueOnMl(state.histories.first.currentValue);
+                });
+              }
+            } else if (state is DailyHabitCompleted) {
+              if (SmartDialog.checkExist(tag: 'water_settings')) {
+                SmartDialog.dismiss(tag: 'water_settings');
+              }
+
+              SharedHabitAction.showDailyCompletionDialog(
+                  context: context, status: DayStatus.completed.name);
+
+              setState(() {
+                _isCompleted = true;
+              });
+            }
           },
           child: _isCircleProgressBuilt
               ? _buildCircleProgress()
@@ -87,7 +113,7 @@ class _ProgressTrackerState extends State<ProgressTracker> {
       valueColor: _valueColor,
       backgroundColor: _progressBackgroundColor,
       center: _buildProgressCenterText(),
-      value: _getAvailableValue,
+      value: _currentValue,
       borderRadius: AppSpacing.circleRadius,
       borderColor: Colors.transparent,
       borderWidth: 1,
@@ -103,21 +129,22 @@ class _ProgressTrackerState extends State<ProgressTracker> {
           child: LiquidCircularProgressIndicator(
             valueColor: _valueColor,
             backgroundColor: _progressBackgroundColor,
-            value: _getAvailableValue,
+            value: _currentValue,
             center: _buildProgressCenterText(),
             direction: Axis.vertical,
           ),
         ),
-        if (widget.isActionButtonShown) ...[
+        if (widget.isActionButtonShown && !_isCompleted) ...[
           const SizedBox(height: AppSpacing.marginL),
           _WaterActionButtons(
+            habitId: widget.habitId,
+            targetValue: _targetValueInLiter,
             waterAmount: waterAmount,
             onBtnPressed: () {
-              print(widget.habitId);
               context.read<HabitHistoryCrudBloc>().add(AddWaterHabitHistory(
                     habitId: widget.habitId,
                     quantity: waterAmount,
-                    targetValue: widget.targetValue.toInt(),
+                    targetValue: _targetValueInLiter,
                   ));
             },
           ),
@@ -130,9 +157,7 @@ class _ProgressTrackerState extends State<ProgressTracker> {
     return Text(
       _getProgressValue(),
       style: TextStyle(
-        color: _getAvailableValue >= 0.55
-            ? AppColors.lightText
-            : AppColors.primary,
+        color: _currentValue >= 0.55 ? AppColors.lightText : AppColors.primary,
         fontWeight: FontWeight.bold,
         fontSize: AppFontSize.h4,
       ),
@@ -141,8 +166,12 @@ class _ProgressTrackerState extends State<ProgressTracker> {
 
   String _getProgressValue() {
     return _percentMode
-        ? '${(_currentValue / widget.targetValue).toStringAsFixedWithoutZero(1)}%'
-        : '${_currentValue.toStringAsFixedWithoutZero(1)} / ${widget.targetValue} ${widget.goalUnit.name.toUpperCaseFirstLetter}';
+        ? '${((_currentValue / widget.targetValue) * 100).toStringAsFixedWithoutZero(1)}%'
+        : '${_currentValue.toStringAsFixedWithoutZero(2)} / ${widget.targetValue} ${widget.goalUnit.name.toUpperCaseFirstLetter}';
+  }
+
+  double _getCurrentValueOnMl(double currentValue) {
+    return widget.goalUnit == GoalUnit.l ? currentValue / 1000 : currentValue;
   }
 
   bool get _isCircleProgressBuilt =>
@@ -150,13 +179,20 @@ class _ProgressTrackerState extends State<ProgressTracker> {
           widget.goalType == GoalType.completion) &&
       (widget.goalUnit == GoalUnit.l || widget.goalUnit == GoalUnit.ml);
 
-  double get _getAvailableValue => _currentValue.clamp(0, 1);
+  int get _targetValueInLiter => widget.goalUnit == GoalUnit.l
+      ? (widget.targetValue * 1000).toInt()
+      : widget.targetValue.toInt();
 }
 
 class _WaterActionButtons extends StatelessWidget {
+  final String habitId;
+  final int targetValue;
   final VoidCallback onBtnPressed;
   final int waterAmount;
+
   const _WaterActionButtons({
+    required this.habitId,
+    required this.targetValue,
     required this.onBtnPressed,
     required this.waterAmount,
   });
@@ -164,7 +200,7 @@ class _WaterActionButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _buildWaterInteractiveButton(
-      onSettingPressed: _onSettingPressed,
+      onSettingPressed: () => _onSettingPressed(context),
       text: S.current.add_water_button(waterAmount),
       backgroundColor: AppColors.success,
       icon: FontAwesomeIcons.plus,
@@ -221,13 +257,27 @@ class _WaterActionButtons extends StatelessWidget {
     );
   }
 
-  void _onSettingPressed() {
-    SmartDialog.show(builder: (context) => const _WaterActionButtonSettings());
+  void _onSettingPressed(BuildContext context) {
+    SmartDialog.show(
+        tag: 'water_settings',
+        builder: (ctx) => BlocProvider.value(
+              value: context.read<HabitHistoryCrudBloc>(),
+              child: _WaterActionButtonSettings(
+                onAmountSubmit: (value) {
+                  context.read<HabitHistoryCrudBloc>().add(AddWaterHabitHistory(
+                        habitId: habitId,
+                        quantity: value,
+                        targetValue: targetValue,
+                      ));
+                },
+              ),
+            ));
   }
 }
 
 class _WaterActionButtonSettings extends StatefulWidget {
-  const _WaterActionButtonSettings();
+  final void Function(int value) onAmountSubmit;
+  const _WaterActionButtonSettings({required this.onAmountSubmit});
 
   @override
   State<_WaterActionButtonSettings> createState() =>
@@ -277,7 +327,10 @@ class _WaterActionButtonSettingsState
                 ),
                 hintText: 'ml',
                 suffixIcon: IconButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    widget.onAmountSubmit(
+                        int.tryParse(_amountController.text) ?? 0);
+                  },
                   icon: const Icon(
                     FontAwesomeIcons.check,
                     color: AppColors.primary,
@@ -311,8 +364,7 @@ class _WaterActionButtonSettingsState
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(
-                            right: AppSpacing.paddingXS,
-                          ),
+                              right: AppSpacing.paddingXS),
                           child: TextWithCircleBorderContainer(
                             title: e.toString(),
                             fontSize: AppFontSize.bodyLarge,

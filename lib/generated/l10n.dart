@@ -1253,6 +1253,36 @@ class S {
     );
   }
 
+  /// `You completed this habit today`
+  String get daily_completed {
+    return Intl.message(
+      'You completed this habit today',
+      name: 'daily_completed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You delayed this habit today`
+  String get daily_paused {
+    return Intl.message(
+      'You delayed this habit today',
+      name: 'daily_paused',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rate & Note`
+  String get rate_and_note_completed_habit {
+    return Intl.message(
+      'Rate & Note',
+      name: 'rate_and_note_completed_habit',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Failed`
   String get status_failed {
     return Intl.message(
@@ -1643,10 +1673,10 @@ class S {
     );
   }
 
-  /// `Remove {count}ML`
+  /// `Remove {count}ssucML`
   String remove_water_button(Object count) {
     return Intl.message(
-      'Remove ${count}ML',
+      'Remove ${count}ssucML',
       name: 'remove_water_button',
       desc: '',
       args: [count],
@@ -1768,6 +1798,16 @@ class S {
     return Intl.message(
       'No history found',
       name: 'history_empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cannot get any history`
+  String get cannot_get_any_history {
+    return Intl.message(
+      'Cannot get any history',
+      name: 'cannot_get_any_history',
       desc: '',
       args: [],
     );

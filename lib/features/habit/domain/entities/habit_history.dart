@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../../core/enums/habit/day_status.dart';
 import '../../../../core/enums/habit/goal_unit.dart';
 
 class HabitHistory extends Equatable {
@@ -16,7 +17,6 @@ class HabitHistory extends Equatable {
   final int? rating;
   final String? mood;
   final double? quantity;
-  final double? targetValue;
   final double currentValue;
   final String? measurement;
   final Map<String, dynamic>? customData;
@@ -34,7 +34,6 @@ class HabitHistory extends Equatable {
     this.mood,
     this.quantity,
     this.currentValue = 0,
-    this.targetValue,
     this.measurement,
     this.customData,
   }) : assert(measurement != GoalUnit.custom.name || customData != null,
@@ -45,7 +44,8 @@ class HabitHistory extends Equatable {
       id: const Uuid().v4(),
       habitId: '',
       date: DateTime.now(),
-      executionStatus: '',
+      currentValue: 0,
+      executionStatus: DayStatus.inProgress.name,
       startTime: null,
       endTime: null,
       duration: null,
@@ -66,7 +66,6 @@ class HabitHistory extends Equatable {
     bool? isCompleted,
     String? executionStatus,
     double? currentValue,
-    double? targetValue,
     ValueGetter<DateTime?>? startTime,
     ValueGetter<DateTime?>? endTime,
     ValueGetter<Duration?>? duration,
@@ -83,7 +82,6 @@ class HabitHistory extends Equatable {
       date: date ?? this.date,
       executionStatus: executionStatus ?? this.executionStatus,
       currentValue: currentValue ?? this.currentValue,
-      targetValue: targetValue ?? this.targetValue,
       startTime: startTime != null ? startTime() : this.startTime,
       endTime: endTime != null ? endTime() : this.endTime,
       duration: duration != null ? duration() : this.duration,
@@ -107,7 +105,6 @@ class HabitHistory extends Equatable {
       endTime,
       duration,
       currentValue,
-      targetValue,
       note,
       rating,
       mood,
