@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 
-import '../../../../core/constants/app_color.dart';
-import '../../../../core/constants/app_font_size.dart';
 import '../../../../core/constants/app_spacing.dart';
+import '../../../../core/enums/habit/habit_category.dart';
+import '../../../../core/enums/habit/habit_status.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../injection_container.dart';
+import '../../../shared/presentations/widgets/not_found_and_refresh.dart';
 import '../../domain/entities/habit_entity.dart';
 import '../blocs/crud/habit_crud_bloc.dart';
 import '../blocs/habit_history_crud/habit_history_crud_bloc.dart';
@@ -15,8 +16,8 @@ import 'habit_item.dart';
 
 class HabitList extends StatefulWidget {
   final bool isListView;
-  final String category;
-  final String status;
+  final HabitCategory? category;
+  final HabitStatus? status;
   final String progress;
 
   const HabitList({
@@ -43,8 +44,8 @@ class _HabitListState extends State<HabitList> {
   @override
   void didUpdateWidget(covariant HabitList oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.category.isNotEmpty ||
-        widget.status.isNotEmpty ||
+    if ((widget.category != null && widget.category != oldWidget.category) ||
+        (widget.status != null && widget.status != oldWidget.status) ||
         widget.progress.isNotEmpty) {
       context.read<HabitCrudBloc>().add(
             SearchHabits(
@@ -62,6 +63,7 @@ class _HabitListState extends State<HabitList> {
   Widget build(BuildContext context) {
     return BlocBuilder<HabitCrudBloc, HabitCrudState>(
       builder: (context, state) {
+        print(state);
         if (state is HabitCrudSucceed) {
           if (state.action == HabitCrudAction.getAll ||
               state.action == HabitCrudAction.getBySearchValues ||
@@ -97,7 +99,10 @@ class _HabitListState extends State<HabitList> {
         switchOutCurve: Curves.ease,
         duration: const Duration(milliseconds: 300),
         child: habits.isEmpty
-            ? _buildNoDataView()
+            ? NotFoundAndRefresh(
+                title: S.current.no_habit_found,
+                onRefresh: _onRefresh,
+              )
             : widget.isListView
                 ? _buildListView()
                 : _buildGridView(),
@@ -133,29 +138,6 @@ class _HabitListState extends State<HabitList> {
         habit: habits[index],
         isListView: widget.isListView,
       ),
-    );
-  }
-
-  Widget _buildNoDataView() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          S.current.no_habit_found,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            color: AppColors.grayText,
-            fontSize: AppFontSize.h3,
-          ),
-        ),
-        const SizedBox(height: AppSpacing.marginXS),
-        IconButton(
-            onPressed: _onRefresh,
-            icon: const Icon(
-              Icons.refresh,
-              color: AppColors.grayText,
-            )),
-      ],
     );
   }
 

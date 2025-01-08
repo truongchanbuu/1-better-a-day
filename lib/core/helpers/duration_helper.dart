@@ -5,7 +5,7 @@ class DurationHelper {
     switch (unit) {
       case GoalUnit.second:
         return Duration(seconds: value.toInt());
-      case GoalUnit.minute:
+      case GoalUnit.minutes:
         return Duration(minutes: value.toInt());
       case GoalUnit.hour:
         return Duration(hours: value.toInt());

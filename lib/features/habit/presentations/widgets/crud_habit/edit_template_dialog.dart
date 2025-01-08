@@ -16,12 +16,8 @@ class EditTemplateDialog extends StatelessWidget {
         borderRadius:
             const BorderRadius.all(Radius.circular(AppSpacing.radiusM)),
       ),
-      height: MediaQuery.of(context).size.height - 280,
-      margin: const EdgeInsets.all(AppSpacing.marginM),
       padding: const EdgeInsets.all(AppSpacing.paddingS),
-      child: SingleChildScrollView(
-        child: child,
-      ),
+      child: child,
     );
   }
 }

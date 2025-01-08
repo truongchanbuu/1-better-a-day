@@ -11,11 +11,6 @@ class HabitHistoryRepoImpl implements HabitHistoryRepository {
   Future<void> createHabitHistory(HabitHistoryModel habitHistory) async =>
       await crudService.create(habitHistory);
 
-  // [DELETE]
-  @override
-  Future<void> deleteHabitHistory(String id) async =>
-      await crudService.delete(id);
-
   // [GET]
   @override
   Future<List<HabitHistoryModel>> getHabitHistories() async =>
@@ -34,4 +29,12 @@ class HabitHistoryRepoImpl implements HabitHistoryRepository {
   @override
   Future<void> updateHabitHistory(HabitHistoryModel habitHistory) async =>
       await crudService.update(habitHistory.id, habitHistory);
+
+  // [DELETE]
+  @override
+  Future<void> deleteHabitHistory(String id) async =>
+      await crudService.delete(id);
+
+  @override
+  Future<void> deleteAllHistories() async => await crudService.deleteAll();
 }

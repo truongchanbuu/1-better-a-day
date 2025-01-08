@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../config/log/app_logger.dart';
+import '../../../../../core/enums/habit/habit_category.dart';
 import '../../../../../core/enums/habit/habit_status.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../injection_container.dart';
@@ -36,7 +37,7 @@ class HabitCrudBloc extends Bloc<HabitCrudEvent, HabitCrudState> {
     emit(Executing());
     try {
       await habitRepository.createHabit(HabitModel.fromEntity(
-          event.habit.copyWith(habitStatus: HabitStatus.inProgress.name)));
+          event.habit.copyWith(habitStatus: HabitStatus.inProgress)));
       final created = await habitRepository.getHabitById(event.habit.habitId);
 
       if (created == null) {
@@ -57,7 +58,7 @@ class HabitCrudBloc extends Bloc<HabitCrudEvent, HabitCrudState> {
     try {
       await Future.wait(event.habits.map((habit) => habitRepository.createHabit(
           HabitModel.fromEntity(
-              habit.copyWith(habitStatus: HabitStatus.inProgress.name)))));
+              habit.copyWith(habitStatus: HabitStatus.inProgress)))));
 
       final createdHabits = await Future.wait(event.habits.map(
           (habit) async => await habitRepository.getHabitById(habit.habitId)));
@@ -202,13 +203,13 @@ class HabitCrudBloc extends Bloc<HabitCrudEvent, HabitCrudState> {
           .map((e) => e.toEntity())
           .toList();
 
-      if (event.category?.isNotEmpty ?? false) {
+      if (event.category != null) {
         habits = habits
             .where((habit) => habit.habitCategory == event.category)
             .toList();
       }
 
-      if (event.status?.isNotEmpty ?? false) {
+      if (event.status != null) {
         habits =
             habits.where((habit) => habit.habitStatus == event.status).toList();
       }
@@ -256,7 +257,7 @@ class HabitCrudBloc extends Bloc<HabitCrudEvent, HabitCrudState> {
         return habit.habitTitle.toLowerCase().contains(keyword) ||
             habit.habitDesc.toLowerCase().contains(keyword) ||
             habit.habitGoal.goalDesc.toLowerCase().contains(keyword) ||
-            habit.habitCategory.toLowerCase().contains(keyword);
+            habit.habitCategory.name.toLowerCase().contains(keyword);
       }).toList();
 
       emit(HabitCrudSucceed(

@@ -39,7 +39,7 @@ class _StatisticHabitItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final HabitStatus habitStatus = HabitStatus.fromString(habit.habitStatus);
+    final HabitStatus habitStatus = habit.habitStatus;
 
     return Container(
       decoration: BoxDecoration(

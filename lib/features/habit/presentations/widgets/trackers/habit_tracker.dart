@@ -2,6 +2,8 @@ import 'package:animated_switcher_plus/animated_switcher_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
+import 'package:iconify_flutter_plus/icons/ant_design.dart';
 import 'package:rounded_loading_button_plus/rounded_loading_button.dart';
 
 import '../../../../../core/constants/app_color.dart';
@@ -50,14 +52,15 @@ class _HabitTrackerState extends State<HabitTracker> {
   @override
   void initState() {
     super.initState();
-    context
-        .read<HabitHistoryCrudBloc>()
-        .add(GetTodayHabitHistory(widget.habitId));
+    context.read<HabitHistoryCrudBloc>().add(GetTodayHabitHistory(
+        habitId: widget.habitId,
+        unit: widget.habitGoal.goalUnit,
+        targetValue: widget.habitGoal.targetValue));
 
     trackStatus = DayStatus.inProgress;
     _habitGoal = widget.habitGoal;
-    _goalUnit = GoalUnit.fromString(_habitGoal.goalUnit);
-    _goalType = GoalType.fromString(_habitGoal.goalType);
+    _goalUnit = _habitGoal.goalUnit;
+    _goalType = _habitGoal.goalType;
 
     _doneBtnController = RoundedLoadingButtonController();
     _pauseBtnController = RoundedLoadingButtonController();
@@ -75,7 +78,7 @@ class _HabitTrackerState extends State<HabitTracker> {
             status: trackStatus.name,
           );
         } else if (state is DailyHabitPaused) {
-          trackStatus = DayStatus.completed;
+          trackStatus = DayStatus.paused;
 
           SharedHabitAction.showDailyCompletionDialog(
             context: context,
@@ -83,30 +86,37 @@ class _HabitTrackerState extends State<HabitTracker> {
           );
         }
       },
-      child: Column(
-        children: [
-          _getTracker(),
-          BlocBuilder<HabitHistoryCrudBloc, HabitHistoryCrudState>(
-            builder: (context, state) {
-              if (state is! HabitHistoryCrudSuccess ||
-                  state.histories.isEmpty ||
-                  (state.histories.isNotEmpty &&
-                      state.histories.first.executionStatus ==
-                          DayStatus.completed.name)) {
-                return const SizedBox.shrink();
-              }
+      child: BlocBuilder<HabitHistoryCrudBloc, HabitHistoryCrudState>(
+        buildWhen: (previous, current) => current is HabitHistoryCrudSuccess,
+        builder: (context, state) {
+          if (state is! HabitHistoryCrudSuccess || state.histories.isEmpty) {
+            return const SizedBox.shrink();
+          }
 
-              history = state.histories.first;
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: AppSpacing.marginS),
-                  _buildCompletionTracker(),
-                ],
-              );
-            },
-          ),
-        ],
+          history = state.histories.first;
+          if ([DayStatus.completed, DayStatus.paused]
+              .contains(history.executionStatus)) {
+            bool isCompleted = history.executionStatus == DayStatus.completed;
+            return Center(
+              child: Iconify(
+                isCompleted
+                    ? AntDesign.check_circle_fill
+                    : AntDesign.pause_circle_fill,
+                color: isCompleted ? Colors.green : Colors.amber,
+                size: 40,
+              ),
+            );
+          }
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _getTracker(),
+              const SizedBox(height: AppSpacing.marginS),
+              _buildCompletionTracker(),
+            ],
+          );
+        },
       ),
     );
   }
@@ -147,7 +157,7 @@ class _HabitTrackerState extends State<HabitTracker> {
     return ProgressTracker(
       habitId: widget.habitId,
       goalType: GoalType.completion,
-      currentValue: _habitGoal.currentValue,
+      currentValue: history.currentValue,
       targetValue: _habitGoal.targetValue,
       goalUnit: _goalUnit,
       isActionButtonShown: (trackStatus != DayStatus.completed &&
@@ -183,7 +193,7 @@ class _HabitTrackerState extends State<HabitTracker> {
 
         context.read<HabitHistoryCrudBloc>().add(SetHabitHistoryStatus(
               historyId: history.id,
-              status: DayStatus.completed.name,
+              status: DayStatus.completed,
             ));
       },
     );
@@ -200,7 +210,7 @@ class _HabitTrackerState extends State<HabitTracker> {
       onPressed: () {
         context.read<HabitHistoryCrudBloc>().add(SetHabitHistoryStatus(
               historyId: history.id,
-              status: DayStatus.paused.name,
+              status: DayStatus.paused,
             ));
       },
     );

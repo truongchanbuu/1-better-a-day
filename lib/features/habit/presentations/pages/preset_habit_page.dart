@@ -4,7 +4,6 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
@@ -13,7 +12,6 @@ import '../../../../core/constants/app_common.dart';
 import '../../../../core/constants/app_font_size.dart';
 import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/enums/habit/habit_category.dart';
-import '../../../../core/enums/habit/habit_icon.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/helpers/date_time_helper.dart';
 import '../../../../core/helpers/setting_helper.dart';
@@ -40,7 +38,7 @@ class _PresetHabitPageState extends State<PresetHabitPage> {
 
   List<HabitEntity> presetHabits = [];
   List<HabitEntity> allAvailableHabits = [];
-  String? selected;
+  HabitCategory? selected;
 
   bool _isAllSelected = false;
 
@@ -63,6 +61,16 @@ class _PresetHabitPageState extends State<PresetHabitPage> {
     super.dispose();
   }
 
+  void _updateHabits(List<HabitEntity> habits) {
+    setState(() {
+      final storedHabits = habits.map((e) => e.habitId).toList();
+      allAvailableHabits = allAvailableHabits
+          .where((e) => !storedHabits.contains(e.habitId))
+          .toList();
+      presetHabits = allAvailableHabits;
+    });
+  }
+
   static const _spacing = SizedBox(height: AppSpacing.marginS);
   @override
   Widget build(BuildContext context) {
@@ -75,36 +83,25 @@ class _PresetHabitPageState extends State<PresetHabitPage> {
             BlocListener<HabitCrudBloc, HabitCrudState>(
               listener: (context, state) async {
                 if (state is HabitCrudSucceed &&
-                    state.action == HabitCrudAction.add) {
+                    (state.action == HabitCrudAction.add ||
+                        state.action == HabitCrudAction.addList)) {
                   final alertDialog = AwesomeDialog(
                     context: context,
                     dialogType: DialogType.success,
                     title: S.current.success_title,
                     desc: S.current.add_success,
                     barrierColor: Colors.transparent.withOpacity(0.2),
+                    onDismissCallback: (type) {
+                      _updateHabits(state.habits);
+                    },
                   );
 
                   alertDialog.show();
                   await Future.delayed(AppCommons.alertShowDuration);
                   alertDialog.dismiss();
-
-                  setState(() {
-                    allAvailableHabits = allAvailableHabits
-                        .where((e) => e.habitId != state.habits.first.habitId)
-                        .toList();
-                    presetHabits = allAvailableHabits;
-                  });
                 } else if (state is HabitCrudSucceed &&
                     state.action == HabitCrudAction.getAll) {
-                  final storedHabits =
-                      state.habits.map((e) => e.habitId).toList();
-
-                  setState(() {
-                    allAvailableHabits = allAvailableHabits
-                        .where((e) => !storedHabits.contains(e.habitId))
-                        .toList();
-                    presetHabits = allAvailableHabits;
-                  });
+                  _updateHabits(state.habits);
                 } else if (state is HabitCrudFailed) {
                   AwesomeDialog(
                     context: context,
@@ -118,12 +115,7 @@ class _PresetHabitPageState extends State<PresetHabitPage> {
             BlocListener<AIHabitGenerateBloc, AIHabitGenerateState>(
               listener: (context, state) {
                 if (state is AddHabitSucceed) {
-                  setState(() {
-                    allAvailableHabits = allAvailableHabits
-                        .where((e) => e.habitId != state.habit.habitId)
-                        .toList();
-                    presetHabits = allAvailableHabits;
-                  });
+                  _updateHabits([state.habit]);
                 }
               },
             )
@@ -163,6 +155,8 @@ class _PresetHabitPageState extends State<PresetHabitPage> {
                               onLongPressed: (habitId) => setState(() {
                                 if (!selectedHabitIds.contains(habitId)) {
                                   selectedHabitIds.add(habitId);
+                                } else {
+                                  selectedHabitIds.remove(habitId);
                                 }
                               }),
                               onPressed: (habitId) {
@@ -277,7 +271,10 @@ class _PresetHabitPageState extends State<PresetHabitPage> {
   }
 
   void _onHabitDetailDisplay(HabitEntity habit) {
-    SmartDialog.show(
+    showModalBottomSheet(
+      isScrollControlled: true,
+      useSafeArea: true,
+      context: context,
       builder: (ctx) => BlocProvider.value(
         value: context.read<AIHabitGenerateBloc>(),
         child: EditTemplateDialog(
@@ -291,8 +288,8 @@ class _PresetHabitPageState extends State<PresetHabitPage> {
                   desc: S.current.add_success,
                 );
 
-                await Future.delayed(const Duration(milliseconds: 500));
-                SmartDialog.dismiss();
+                Navigator.pop(context);
+
                 await Future.delayed(const Duration(milliseconds: 200));
                 alertDialog.show();
                 await Future.delayed(const Duration(seconds: 5));
@@ -312,8 +309,8 @@ class _PresetHabitPageState extends State<PresetHabitPage> {
 }
 
 class _CategoryFilter extends StatefulWidget {
-  final void Function(String? selected)? onSelected;
-  final String? selected;
+  final void Function(HabitCategory? selected)? onSelected;
+  final HabitCategory? selected;
   const _CategoryFilter({this.selected, this.onSelected});
 
   @override
@@ -321,7 +318,7 @@ class _CategoryFilter extends StatefulWidget {
 }
 
 class _CategoryFilterState extends State<_CategoryFilter> {
-  String? selected;
+  HabitCategory? selected;
 
   @override
   void initState() {
@@ -332,28 +329,24 @@ class _CategoryFilterState extends State<_CategoryFilter> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: context.isDarkMode ? AppColors.darkText : AppColors.lightText,
-        borderRadius:
-            const BorderRadius.all(Radius.circular(AppSpacing.circleRadius)),
-        boxShadow: const [
-          BoxShadow(
-            blurRadius: 2,
-            spreadRadius: 2,
-            color: Colors.black12,
-          )
-        ],
-      ),
       padding: const EdgeInsets.all(AppSpacing.paddingXS),
       child: DropdownButtonHideUnderline(
-        child: DropdownButton2(
-          hint: Text(selected != null
-              ? HabitCategory.fromString(selected!).categoryName
-              : S.current.all_habits),
+        child: DropdownButton2<HabitCategory>(
+          buttonStyleData: ButtonStyleData(
+            decoration: BoxDecoration(
+              color:
+                  context.isDarkMode ? AppColors.darkText : AppColors.lightText,
+              borderRadius: const BorderRadius.all(
+                Radius.circular(AppSpacing.circleRadius),
+              ),
+            ),
+          ),
+          hint: Text(
+              selected != null ? selected!.categoryName : S.current.all_habits),
           items: HabitCategory.values
               .take(HabitCategory.values.length - 1)
-              .map((e) => DropdownMenuItem(
-                    value: e.name,
+              .map((e) => DropdownMenuItem<HabitCategory>(
+                    value: e,
                     child: Text(e.categoryName),
                   ))
               .toList(),
@@ -364,8 +357,10 @@ class _CategoryFilterState extends State<_CategoryFilter> {
             ),
           ),
           onChanged: (value) {
-            setState(() => selected = value);
-            widget.onSelected?.call(selected);
+            if (value != null) {
+              setState(() => selected = value);
+              widget.onSelected?.call(selected);
+            }
           },
         ),
       ),
@@ -403,7 +398,7 @@ class _HabitItemState extends State<_HabitItem> {
   @override
   Widget build(BuildContext context) {
     final langCode = context.locale.languageCode;
-    final habitIcon = HabitIcon.fromString(widget.habit.iconName);
+    final habitIcon = widget.habit.habitIcon;
 
     return GestureDetector(
       onDoubleTap: widget.onDoubleTap,
@@ -415,7 +410,7 @@ class _HabitItemState extends State<_HabitItem> {
             decoration: BoxDecoration(
               color: context.isDarkMode
                   ? AppColors.darkText
-                  : habitIcon.habitColor.withOpacity(0.2),
+                  : habitIcon.color.withOpacity(0.2),
               borderRadius:
                   const BorderRadius.all(Radius.circular(AppSpacing.radiusS)),
             ),
@@ -425,9 +420,9 @@ class _HabitItemState extends State<_HabitItem> {
             child: Row(
               children: [
                 Iconify(
-                  habitIcon.habitIcon.icon,
+                  habitIcon.icon,
                   size: 30,
-                  color: habitIcon.habitIcon.color,
+                  color: habitIcon.color,
                 ),
                 const SizedBox(width: AppSpacing.marginM),
                 Expanded(
@@ -457,12 +452,12 @@ class _HabitItemState extends State<_HabitItem> {
                         fontSize: AppFontSize.labelLarge,
                       ),
                       _HabitItem._spacing,
-                      IconWithText(
-                        icon: Icons.access_time,
-                        text: widget.habit.reminderTime ?? '__ : __',
-                        iconSize: 20,
-                        fontSize: AppFontSize.labelLarge,
-                      ),
+                      // IconWithText(
+                      //   icon: Icons.access_time,
+                      //   text: widget.habit.reminderTime ?? '__ : __',
+                      //   iconSize: 20,
+                      //   fontSize: AppFontSize.labelLarge,
+                      // ),
                     ],
                   ),
                 ),

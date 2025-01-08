@@ -1,25 +1,27 @@
 import 'package:equatable/equatable.dart';
-import 'package:json_annotation/json_annotation.dart';
 
+import '../../../../core/enums/habit/habit_category.dart';
+import '../../../../core/enums/habit/habit_status.dart';
+import '../../../../core/enums/habit/habit_time_of_day.dart';
+import 'habit_icon.dart';
 import '../../../../generated/l10n.dart';
 import 'habit_goal.dart';
 
-@JsonSerializable()
 class HabitEntity extends Equatable {
   final String habitId;
   final String habitTitle;
-  final String? iconName;
+  final HabitIcon habitIcon;
   final String habitDesc;
   final double habitProgress;
   final HabitGoal habitGoal;
-  final String habitCategory;
-  final String timeOfDay;
+  final HabitCategory habitCategory;
+  final HabitTimeOfDay timeOfDay;
   final int currentStreak;
   final int longestStreak;
   final DateTime startDate;
   final DateTime endDate;
-  final String? reminderTime;
-  final String habitStatus;
+  final HabitStatus habitStatus;
+  final Set<String> reminderTimes;
 
   const HabitEntity({
     required this.habitId,
@@ -33,31 +35,31 @@ class HabitEntity extends Equatable {
     required this.startDate,
     this.currentStreak = 0,
     this.longestStreak = 0,
-    this.iconName,
-    this.reminderTime,
+    required this.habitIcon,
+    this.reminderTimes = const {},
     this.habitProgress = 0,
   });
 
   HabitEntity copyWith({
     String? habitId,
     String? habitTitle,
-    String? iconName,
+    HabitIcon? habitIcon,
     String? habitDesc,
     HabitGoal? habitGoal,
-    String? habitCategory,
+    HabitCategory? habitCategory,
     double? habitProgress,
-    String? timeOfDay,
+    HabitTimeOfDay? timeOfDay,
     int? currentStreak,
     int? longestStreak,
     DateTime? startDate,
     DateTime? endDate,
-    String? reminderTime,
-    String? habitStatus,
+    Set<String>? reminderTimes,
+    HabitStatus? habitStatus,
   }) {
     return HabitEntity(
       habitId: habitId ?? this.habitId,
       habitTitle: habitTitle ?? this.habitTitle,
-      iconName: iconName ?? this.iconName,
+      habitIcon: habitIcon ?? this.habitIcon,
       habitDesc: habitDesc ?? this.habitDesc,
       habitGoal: habitGoal ?? this.habitGoal,
       habitCategory: habitCategory ?? this.habitCategory,
@@ -67,7 +69,7 @@ class HabitEntity extends Equatable {
       timeOfDay: timeOfDay ?? this.timeOfDay,
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
-      reminderTime: reminderTime ?? this.reminderTime,
+      reminderTimes: reminderTimes ?? this.reminderTimes,
       habitStatus: habitStatus ?? this.habitStatus,
     );
   }
@@ -78,7 +80,7 @@ class HabitEntity extends Equatable {
       habitId,
       habitTitle,
       habitDesc,
-      iconName,
+      habitIcon,
       habitGoal,
       habitCategory,
       habitProgress,
@@ -87,7 +89,7 @@ class HabitEntity extends Equatable {
       timeOfDay,
       startDate,
       endDate,
-      reminderTime,
+      reminderTimes,
       habitStatus,
     ];
   }

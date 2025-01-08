@@ -9,4 +9,5 @@ abstract interface class HabitRepository {
   Future<List<HabitModel>> getAllHabits();
   Future<void> updateHabit(String id, HabitModel updated);
   Future<void> deleteHabitById(String id);
+  Future<void> deleteAll();
 }

@@ -5,12 +5,10 @@ import 'package:moment_dart/moment_dart.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../config/log/app_logger.dart';
-import '../../../../core/enums/habit/goal_type.dart';
-import '../../../../core/enums/habit/habit_category.dart';
-import '../../../../core/enums/habit/habit_time_of_day.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../injection_container.dart';
 import '../../domain/repositories/habit_ai_repository.dart';
+import '../helpers/habit_ai_repo_helper.dart';
 import '../models/habit_analysis_result.dart';
 import '../models/habit_model.dart';
 import '../models/overall_analysis_result.dart';
@@ -27,16 +25,16 @@ class HabitAIRepoImpl implements HabitAIRepository {
   final _appLogger = getIt.get<AppLogger>();
 
   HabitAIRepoImpl(this.model);
-
   @override
   Future<HabitModel?> generateHabitWithSentence(String sentence,
       {String language = 'en'}) async {
     try {
-      final prompt = _generateSMARThabitGoal(sentence, language: language);
+      final prompt = generateSMARTHabitPrompt(sentence, language: language);
       final content = [Content.text(prompt)];
       final response = await model.generateContent(content);
 
-      print("RES: ${response.text}");
+      _appLogger.d("AI Response: ${response.text}");
+
       if (response.text == null ||
           response.text!.isEmpty ||
           response.text == '{}') {
@@ -44,32 +42,49 @@ class HabitAIRepoImpl implements HabitAIRepository {
         return null;
       }
 
-      final result = HabitResponseValidator.validateAndFormat(response.text!) ??
-          HabitResponseValidator.createDefaultHabit();
+      // Initialize validator and validate response
+      final validator = HabitResponseValidator();
+      final validationResult = validator.validateAndFormat(response.text!);
 
-      final habit = HabitModel.init();
-      final habitId = const Uuid().v4();
-
-      result['habitId'] = habitId;
-      result['habitProgress'] = habit.habitProgress;
-      result['currentStreak'] = 0;
-      result['longestStreak'] = 0;
-      result['habitStatus'] = habit.habitStatus;
-      result['startDate'] = habit.startDate.toMoment().toIso8601String();
-      result['endDate'] = habit.endDate.toMoment().toIso8601String();
-
-      if (result['habitGoal'] is Map) {
-        final goal = Map<String, dynamic>.from(result['habitGoal']);
-        goal['goalId'] = const Uuid().v4();
-        goal['habitId'] = habitId;
-        goal['currentValue'] = 0;
-        result['habitGoal'] = goal;
-      } else {
-        _appLogger.e("habitGoal structure is invalid.");
+      if (!validationResult.isValid || validationResult.data == null) {
+        _appLogger
+            .e("Validation failed: ${validationResult.errors.join(', ')}");
         return null;
       }
 
-      return HabitModel.fromJson(result);
+      // Get validated data
+      final validatedData = Map<String, dynamic>.from(validationResult.data!);
+      final habit = HabitModel.init();
+      final habitId = const Uuid().v4();
+
+      // Merge validated data with additional fields
+      final enrichedData = {
+        ...validatedData,
+        'habitId': habitId,
+        'habitProgress': habit.habitProgress,
+        'currentStreak': 0,
+        'longestStreak': 0,
+        'habitStatus': habit.habitStatus.name,
+        'startDate': habit.startDate.toMoment().toIso8601String(),
+        'endDate': habit.endDate.toMoment().toIso8601String(),
+      };
+
+      // Process habit goal
+      final habitGoal = validatedData['habitGoal'];
+      if (habitGoal is Map<String, dynamic>) {
+        enrichedData['habitGoal'] = {
+          ...habitGoal,
+          'goalId': const Uuid().v4(),
+          'habitId': habitId,
+          'currentValue': 0,
+        };
+      } else {
+        _appLogger.e("Invalid habit goal structure");
+        return null;
+      }
+
+      _appLogger.d("Creating habit model with data: $enrichedData");
+      return HabitModel.fromJson(enrichedData);
     } catch (e) {
       _appLogger.e("Error generating habit: $e");
       return null;
@@ -133,54 +148,144 @@ class HabitAIRepoImpl implements HabitAIRepository {
       ''';
   }
 
-  String _generateSMARThabitGoal(String sentence, {String language = 'en'}) {
+  String generateSMARTHabitPrompt(String sentence, {String language = 'en'}) {
     return '''
-      From this sentence about what I want to do: "$sentence" generate a SMART habit goal.
-        Know that:
-        S - Specific: What will you achieve? What will you do?
-        M - Measurable: What data will you use to decide whether you've met the goal?
-        A - Achievable: Are you sure you can do this? Do you have the right skills and resources?
-        R - Relevant: Does the goal align with those of your team or organization? How will the result matter?
-        T - Time-bound: What is the deadline for accomplishing the goal?
-      
-      Please only returns a only PLAIN TEXT in JSON format (no markdown and without any explanation) for the HabitEntity with the following structure:
-      {
-        "habitTitle": A concise, meaningful title for the habit.
-        "habitDesc": A short description explaining the purpose and benefits of the habit.
-        "habitGoal": An object specifying the goal:
-         {
-          "goalDesc": Description provides details about the specific goal related to that habit, which includes the target, type, and why it's necessary to achieve it,
-          "goalType": The appropriate type of goal (e.g., completion, count, distance, duration),
-          "targetValue": A specific measurable number that displays target of the goal,
-          "goalFrequency": The frequency in day unit (e.g., 1, 2, 3, ...),
-          "goalUnit": The appropriate unit (e.g., l for liters, minute, pages, ...).
-         },
-        "habitCategory": The relevant category for the habit (choose from HabitCategory: health, lifestyle, nutrition, etc.).
-        "timeOfDay": The suggested time of day (morning, afternoon, evening, night, or anytime) for the habit that based on the reminder time.
-        "reminderTime": A specific time (if needed) to remind the user to perform the habit only in valid String format 'hh:mm'. If user does not specify, you can provide a suitable time as a suggestion (if can) - default can be 6:00 for morning, 12:00 for afternoon, 18:00 for evening and 21:00 for night.
-      }
-      
-      Example Response:
-       For the habit "Drinking enough 2L water a day for staying fit and healthy." example generate the following output:
-        {
-        "habitTitle": "Drink 2L Water Daily",
-        "habitDesc": "Stay hydrated and improve your overall health by drinking 2 liters of water every day.",
-        "habitGoal": {
-          "goalDesc": "Drink 2 liters of water daily to stay fit and healthy.",
-          "goalType": "count",
-          "targetValue": 2.0,
-          "goalFrequency": 1,
-          "goalUnit": "l"
-        },
-        "habitCategory": "health",
-        "timeOfDay": "evening",
-        "reminderTime": "18:00"
-        }
-    OR:
-      If the sentence is too vague or cannot determine/generate an habit, then please ONLY returns an EMPTY STRING
-    
-    
-    ${language == 'vi' ? 'Please provide the analysis in Vietnamese.' : ''}
+You are a specialized AI assistant for habit formation using SMART criteria. Analyze this habit intention: "$sentence" and create a detailed habit structure.
+
+Instructions:
+1. Analyze the input for SMART elements:
+   - Specific: What exactly needs to be done?
+   - Measurable: What are the quantifiable metrics?
+   - Achievable: Is it realistic given normal constraints?
+   - Relevant: Does it align with personal development?
+   - Time-bound: What's the frequency and timing?
+
+2. Goal Types and Units Guide:
+   - Duration goals: Use minutes (e.g., meditation, exercise)
+   - Count goals: Use appropriate units (pages, glasses, steps)
+   - Completion goals: Simple yes/no tasks
+   - Distance goals: Use km or m
+
+3. Icon Selection Rules:
+   - Health: {
+       "key": "health_heart",
+       "icon": "<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="48" height="48" preserveAspectRatio="xMidYMid meet" viewBox="0 0 48 48"><path fill="currentColor" d="M6 18.724C6 12.641 10.036 7 15.563 7c3.835 0 6.68 2.53 8.437 6.121C25.756 9.531 28.602 7 32.438 7 37.965 7 42 12.642 42 18.724 42 31.744 24 41 24 41S6 32.304 6 18.724Z"/></svg>",
+       "color": "#FF4081"
+   }
+   - Education: {
+       "key": "education_book",
+       "icon": "<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="M13 12h7v1.5h-7m0-4h7V11h-7m0 3.5h7V16h-7m8-12H3a2 2 0 00-2 2v13a2 2 0 002 2h18a2 2 0 002-2V6a2 2 0 00-2-2m0 15h-9V6h9"/></svg>",
+       "color": "#4CAF50"
+   }
+   - Productivity: {
+       "key": "productivity_lightning",
+       "icon": "<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="M11 2v2.07A8.002 8.002 0 004.07 11H2v2h2.07A8.002 8.002 0 0011 19.93V22h2v-2.07A8.002 8.002 0 0019.93 13H22v-2h-2.07A8.002 8.002 0 0013 4.07V2m-2 4.08V8h2V6.09c2.5.41 4.5 2.41 4.92 4.91H16v2h1.91c-.41 2.5-2.41 4.5-4.91 4.92V16h-2v1.91C8.5 17.5 6.5 15.5 6.08 13H8v-2H6.09C6.5 8.5 8.5 6.5 11 6.08M12 11a1 1 0 00-1 1 1 1 0 001 1 1 1 0 001-1 1 1 0 00-1-1Z"/></svg>",
+       "color": "#FFC107"
+   }
+   - Mindfulness: {
+       "key": "mindfulness_meditation",
+       "icon": "<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="M12 4c1.11 0 2 .89 2 2s-.89 2-2 2-2-.89-2-2 .9-2 2-2m9 12v-2c-2.24 0-4.16-.96-5.6-2.68l-1.34-1.6A1.98 1.98 0 0012.53 9H11.5c-.61 0-1.17.26-1.55.72l-1.34 1.6C7.16 13.04 5.24 14 3 14v2c2.77 0 5.19-1.17 7-3.25V15l-3.88 1.55c-.67.27-1.12.95-1.12 1.66C5 19.2 5.8 20 6.79 20H9v-.5a2.5 2.5 0 012.5-2.5h3c.28 0 .5.22.5.5s-.22.5-.5.5h-3c-.83 0-1.5.67-1.5 1.5v.5h7.21c.99 0 1.79-.8 1.79-1.79 0-.71-.45-1.39-1.12-1.66L14 15v-2.25c1.81 2.08 4.23 3.25 7 3.25Z"/></svg>",
+       "color": "#9C27B0"
+   }
+   - Lifestyle: {
+       "key": "lifestyle_home",
+       "icon": "<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="M4.5 11A1.5 1.5 0 006 9.5 1.5 1.5 0 004.5 8 1.5 1.5 0 003 9.5 1.5 1.5 0 004.5 11m17.67-1.83c0-3.87-3.13-7-7-7a7 7 0 00-7 7c0 3.47 2.52 6.33 5.83 6.89V20H6v-3h1v-4a1 1 0 00-1-1H3a1 1 0 00-1 1v4h1v5h16v-2h-3v-3.88a7 7 0 006.17-6.95Z"/></svg>",
+       "color": "#3F51B5"
+   }
+   - Nutrition: {
+       "key": "nutrition_apple",
+       "icon": "<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="48" height="48" preserveAspectRatio="xMidYMid meet" viewBox="0 0 48 48"><g fill="currentColor"><path fill-rule="evenodd" d="M7.065 17.388c-1.122-1.027-1.888-2.693-2.038-5.384a.954.954 0 01.977-.996c1.675.03 2.958.144 3.938.433.42-1.089 1.257-2.116 2.512-3.055a.913.913 0 011.092 0c1.266.946 2.106 1.983 2.523 3.082 1.009-.34 2.302-.438 3.93-.462a.954.954 0 01.974.998c-.15 2.691-.916 4.357-2.038 5.383.548.409.866 1.093.75 1.834A119.747 119.747 0 0118.176 27H12v2h5.705a122.579 122.579 0 01-2.958 10.209 1.828 1.828 0 01-3.494 0A116.1 116.1 0 019.917 35H12v-2H9.341c-.946-3.391-1.65-6.47-2.161-9H11v-2H6.793c-.2-1.085-.357-2.02-.477-2.78a1.902 1.902 0 01.749-1.832Zm7.134-5.211.682 1.8 1.825-.614c.503-.169 1.184-.27 2.154-.32-.297 1.932-1.012 2.748-1.665 3.17-.931.602-2.288.785-4.165.787h-.06c-1.877-.002-3.234-.185-4.165-.788-.652-.421-1.366-1.236-1.664-3.164 1.001.055 1.713.157 2.235.311l1.768.522.664-1.72c.19-.495.559-1.05 1.192-1.634.64.59 1.01 1.151 1.199 1.65Zm19.508 1.53c-1.973 1.973-2.165 4.727-1.056 7.32C37.505 17.85 43 21.78 43 28c0 5.523-4.925 10-11 10s-11-4.477-11-10c0-5.792 4.765-9.6 9.34-7.53-.781-2.8-.377-5.848 1.953-8.177l1.414 1.414Zm6.263 16.535a1 1 0 10-1.94-.485 4.426 4.426 0 01-3.273 3.273 1 1 0 00.486 1.94 6.426 6.426 0 004.727-4.727Z" clip-rule="evenodd"/><path d="M34 18c3 0 5-2 5-5-3 0-5 2-5 5Z"/></g></svg>",
+       "color": "#8BC34A"
+   }
+   - Social: {
+       "key": "social_group",
+       "icon": "<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="M12 5.5A3.5 3.5 0 0115.5 9a3.5 3.5 0 01-3.5 3.5A3.5 3.5 0 018.5 9 3.5 3.5 0 0112 5.5M5 8c.56 0 1.08.15 1.53.42-.15 1.43.27 2.85 1.13 3.96C7.16 13.34 6.16 14 5 14a3 3 0 01-3-3 3 3 0 013-3m14 0a3 3 0 013 3 3 3 0 01-3 3c-1.16 0-2.16-.66-2.66-1.62a5.536 5.536 0 001.13-3.96c.45-.27.97-.42 1.53-.42M5.5 18.25c0-2.07 2.91-3.75 6.5-3.75s6.5 1.68 6.5 3.75V20h-13v-1.75M0 20v-1.5c0-1.39 1.89-2.56 4.45-2.9-.59.68-.95 1.62-.95 2.65V20H0m24 0h-3.5v-1.75c0-1.03-.36-1.97-.95-2.65 2.56.34 4.45 1.51 4.45 2.9V20Z"/></svg>",
+       "color": "#00BCD4"
+   }
+   - Finance: {
+       "key": "finance_money",
+       "icon": "<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="M3 6h18v12H3V6m9 3a3 3 0 013 3 3 3 0 01-3 3 3 3 0 01-3-3 3 3 0 013-3M7 8a2 2 0 01-2 2v4a2 2 0 012 2h10a2 2 0 012-2v-4a2 2 0 01-2-2H7Z"/></svg>",
+       "color": "#009688"
+   }
+   - Creativity: {
+       "key": "creativity_palette",
+       "icon": "<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95l.77 1.49c.23.45.26.98.06 1.45-.19.47-.58.84-1.06 1l-.79.25a1.687 1.687 0 01-1.86-.55L14.44 18c-.89-.15-1.73-.53-2.44-1.1-.5.15-1 .23-1.5.23-.88 0-1.76-.27-2.5-.79-.53.16-1.07.23-1.62.22-.79.01-1.57-.15-2.3-.45a4.105 4.105 0 01-2.43-3.61c-.08-.72.04-1.45.35-2.11-.29-.75-.32-1.57-.07-2.33C2.3 7.11 3 6.32 3.87 5.82c.58-1.69 2.21-2.82 4-2.7 1.6-1.5 4.05-1.66 5.83-.37.42-.11.86-.17 1.3-.17 1.36-.03 2.65.57 3.5 1.64 2.04.53 3.5 2.35 3.58 4.47.05 1.11-.25 2.2-.86 3.13.07.36.11.72.11 1.09m-5-1.41c.57.07 1.02.5 1.02 1.07a1 1 0 01-1 1h-.63c-.32.9-.88 1.69-1.62 2.29.25.09.51.14.77.21 5.13-.07 4.53-3.2 4.53-3.25a2.592 2.592 0 00-2.69-2.49 1 1 0 01-1-1 1 1 0 011-1c1.23.03 2.41.49 3.33 1.3.05-.29.08-.59.08-.89-.06-1.24-.62-2.32-2.87-2.53-1.25-2.96-4.4-1.32-4.4-.4-.03.23.21.72.25.75a1 1 0 011 1c0 .55-.45 1-1 1-.53-.02-1.03-.22-1.43-.56-.48.31-1.03.5-1.6.56-.57.05-1.04-.35-1.07-.9a.968.968 0 01.88-1.1c.16-.02.94-.14.94-.77 0-.66.25-1.29.68-1.79-.92-.25-1.91.08-2.91 1.29C6.75 5 6 5.25 5.45 7.2 4.5 7.67 4 8 3.78 9c1.08-.22 2.19-.13 3.22.25.5.19.78.75.59 1.29-.19.52-.77.78-1.29.59-.73-.32-1.55-.34-2.3-.06-.32.27-.32.83-.32 1.27 0 .74.37 1.43 1 1.83.53.27 1.12.41 1.71.4-.15-.26-.28-.53-.39-.81a1.038 1.038 0 011.96-.68c.4 1.14 1.42 1.92 2.62 2.05 1.37-.07 2.59-.88 3.19-2.13.23-1.38 1.34-1.5 2.56-1.5m2 7.47-.62-1.3-.71.16 1 1.25.33-.11m-4.65-8.61a1 1 0 00-.91-1.03c-.71-.04-1.4.2-1.93.67-.57.58-.87 1.38-.84 2.19a1 1 0 001 1c.57 0 1-.45 1-1 0-.27.07-.54.23-.76.12-.1.27-.15.43-.15.55.03 1.02-.38 1.02-.92Z"/></svg>",
+       "color": "#E91E63"
+   }
+   - Environmental: {
+       "key": "environmental_tree",
+       "icon": "<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="M2 22v-2s5-2 10-2 10 2 10 2v2H2m9.3-12.9c-1.2-3.9-7.3-3-7.3-3s.2 7.8 5.9 6.6C9.5 9.8 8 9 8 9c2.8 0 3 3.4 3 3.4V17h2v-4.2s0-3.9 3-4.9c0 0-2 3-2 5 7 .7 7-8.9 7-8.9s-8.9-1-9.7 5.1Z"/></svg>",
+       "color": "#4CAF50"
+   }
+   - Custom: {
+       "key": "custom_star",
+       "icon": "<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="M12 15.5A3.5 3.5 0 018.5 12 3.5 3.5 0 0112 8.5a3.5 3.5 0 013.5 3.5 3.5 3.5 0 01-3.5 3.5m7.43-2.53c.04-.32.07-.64.07-.97 0-.33-.03-.66-.07-1l2.11-1.63c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.31-.61-.22l-2.49 1c-.52-.39-1.06-.73-1.69-.98l-.37-2.65A.506.506 0 0014 2h-4c-.25 0-.46.18-.5.42l-.37 2.65c-.63.25-1.17.59-1.69.98l-2.49-1c-.22-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64L4.57 11c-.04.34-.07.67-.07 1 0 .33.03.65.07.97l-2.11 1.66c-.19.15-.25.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1.01c.52.4 1.06.74 1.69.99l.37 2.65c.04.24.25.42.5.42h4c.25 0 .46-.18.5-.42l.37-2.65c.63-.26 1.17-.59 1.69-.99l2.49 1.01c.22.08.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.66Z"/></svg>",
+       "color": "#757575"
+   }
+
+4. Frequency Generation Rules:
+   - For daily habits: Use "daily" type
+   - For weekly habits: Use "weekDays" with specific days (2=Monday to 8=Sunday)
+   - For monthly habits: Use "monthly" with specific dates (1-31)
+   - For interval-based: Use "interval" with appropriate TimeInterval
+
+5. Time of Day Guidelines:
+   morning: 5:00-11:59
+   afternoon: 12:00-16:59
+   evening: 17:00-20:59
+   night: 21:00-4:59
+   anytime: Based on flexibility
+
+Return a JSON string with this exact structure (no markdown, no explanation):
+{
+  "habitTitle": string, // A concise, meaningful title for the habit.
+  "habitDesc": string, // A short description explaining the purpose and benefits of the habit.
+  "habitGoal": {
+    "goalDesc": string, // Description provides details about the specific goal related to that habit, which includes the target, type, and why it's necessary to achieve it.
+    "goalType": "completion"|"count"|"distance"|"duration",
+    "targetValue": number,
+    "goalFrequency": {
+      "type": "interval"|"daily"|"weekDays"|"monthly",
+      "interval": {"value": number, "type": "months"|"days"|"hours"|"minutes"} | null,
+      "monthlyDate": [number] | null,
+      "weekDays": [number] | null,
+      "lastCompletionTime": null
+    },
+    "goalUnit": "reps"|"sets"|"l"|"ml"|"page"|"day"|"second"|"minute"|"hour"|"cm"|"km"|"m"|"steps"|"miles"|"times",
+  },
+  "habitIcon": {
+    "key": string,
+    "icon": string (use exact SVG string from icon selection rules),
+    "color": string (hex color from icon selection rules)
+  },
+  "habitCategory": string,
+  "timeOfDay": string,
+  "reminderTimes": [string],
+  "habitStatus": "inProgress",
+}
+
+Reminder Times Template:
+morning: ["06:00", "08:00"]
+afternoon: ["12:00", "14:00"]
+evening: ["18:00", "19:00"]
+night: ["21:00", "22:00"]
+anytime: Based on context
+
+Example inputs and expected handling:
+✓ "Read 20 pages every morning" (Specific count, time)
+✓ "Meditate for 10 minutes daily" (Specific duration, frequency)
+✓ "Exercise 3 times a week" (Specific frequency)
+✗ "Be more healthy" (Too vague)
+✗ "Read more" (Not measurable)
+
+${language == 'vi' ? '''Additional Vietnamese context:
+        - Translate all descriptions and titles to Vietnamese
+        - Keep technical terms (habitTitle, goalType, etc.) in English
+        - Use Vietnamese time and date formats
+        - Adapt reminder times to Vietnamese daily routines
+        ''' : ''}
+
+    If input lacks SMART elements, return an empty string.
     ''';
   }
 
@@ -545,221 +650,5 @@ class _AnalysisResult {
       passed: isPassed,
       score: score,
     );
-  }
-}
-
-class HabitResponseValidator {
-  static final _appLogger = getIt.get<AppLogger>();
-
-  // Default values for null fields
-  static Map<String, dynamic> get _defaults => {
-        'habitTitle': 'Untitled Habit',
-        'habitDesc': 'No description provided',
-        'habitCategory': 'lifestyle',
-        'timeOfDay': 'morning',
-        'reminderTime': '09:00',
-      };
-
-  // Default values for null goal fields
-  static const Map<String, dynamic> _goalDefaults = {
-    'goalDesc': 'No goal description provided',
-    'goalType': 'completion',
-    'targetValue': 1.0,
-    'goalFrequency': 1,
-    'goalUnit': 'times',
-  };
-
-  static const Map<String, dynamic> _requiredFields = {
-    'habitTitle': String,
-    'habitDesc': String,
-    'habitGoal': Map<String, dynamic>,
-    'habitCategory': String,
-    'timeOfDay': String,
-    'reminderTime': String,
-  };
-
-  static const _requiredGoalFields = {
-    'goalDesc': String,
-    'goalType': String,
-    'targetValue': double,
-    'goalFrequency': int,
-    'goalUnit': String,
-  };
-
-  static final _validTimeOfDay =
-      HabitTimeOfDay.values.map((e) => e.name).toList();
-  static final _validGoalTypes = GoalType.values.map((e) => e.name).toList();
-  static final _validCategories =
-      HabitCategory.values.map((e) => e.name).toList();
-
-  /// Extract JSON from possible markdown format
-  static String _extractJsonFromResponse(String markdown) {
-    final RegExp codeBlockRegex = RegExp(r'```(?:\w+)?\n([\s\S]*?)\n```');
-
-    final Match? match = codeBlockRegex.firstMatch(markdown);
-
-    if (match != null && match.groupCount >= 1) {
-      return match.group(1) ?? '';
-    }
-
-    return markdown;
-  }
-
-  /// Safely get a string value with default
-  static String _safeString(dynamic value, String defaultValue) {
-    if (value == null || value.toString().trim().isEmpty) {
-      return defaultValue;
-    }
-    return value.toString().trim();
-  }
-
-  /// Safely get a number value with default
-  static double _safeNumber(dynamic value, double defaultValue) {
-    if (value == null) return defaultValue;
-    if (value is num) return value.toDouble();
-    try {
-      return double.parse(value.toString());
-    } catch (_) {
-      return defaultValue;
-    }
-  }
-
-  /// Safely get an integer value with default
-  static int _safeInteger(dynamic value, int defaultValue) {
-    if (value == null) return defaultValue;
-    if (value is int) return value;
-    if (value is double) return value.round();
-    try {
-      return int.parse(value.toString());
-    } catch (_) {
-      return defaultValue;
-    }
-  }
-
-  /// Validate and sanitize habitGoal
-  static Map<String, dynamic> _validateGoal(dynamic goalData) {
-    final Map<String, dynamic> sanitizedGoal = {};
-
-    if (goalData is! Map<String, dynamic>) {
-      return Map<String, dynamic>.from(_goalDefaults);
-    }
-
-    // Sanitize each field
-    sanitizedGoal['goalDesc'] =
-        _safeString(goalData['goalDesc'], _goalDefaults['goalDesc']!);
-
-    sanitizedGoal['goalType'] =
-        _safeString(goalData['goalType'], _goalDefaults['goalType']!)
-            .toLowerCase();
-
-    if (!_validGoalTypes.contains(sanitizedGoal['goalType'])) {
-      sanitizedGoal['goalType'] = _goalDefaults['goalType']!;
-    }
-
-    sanitizedGoal['targetValue'] = _safeNumber(
-        goalData['targetValue'], _goalDefaults['targetValue']! as double);
-
-    sanitizedGoal['goalFrequency'] = _safeInteger(
-        goalData['goalFrequency'], _goalDefaults['goalFrequency']! as int);
-
-    sanitizedGoal['goalUnit'] =
-        _safeString(goalData['goalUnit'], _goalDefaults['goalUnit']!);
-
-    return sanitizedGoal;
-  }
-
-  /// Validates and formats the Gemini response
-  static Map<String, dynamic>? validateAndFormat(String responseText) {
-    try {
-      // Extract and parse JSON
-      final jsonString = _extractJsonFromResponse(responseText.trim());
-      final dynamic decoded = jsonDecode(jsonString);
-
-      if (decoded is! Map<String, dynamic>) {
-        throw const FormatException('Response is not a valid JSON object');
-      }
-
-      for (final field in _requiredFields.entries) {
-        if (!decoded.containsKey(field.key)) {
-          throw FormatException('Missing required field: ${field.key}');
-        }
-
-        if (field.value == String && decoded[field.key] is! String) {
-          decoded[field.key] = "";
-        }
-      }
-
-      final habitGoal = decoded['habitGoal'];
-      if (habitGoal is! Map<String, dynamic>) {
-        throw const FormatException('habitGoal must be an object');
-      }
-
-      // Validate required goal fields
-      for (final field in _requiredGoalFields.entries) {
-        if (!habitGoal.containsKey(field.key)) {
-          throw FormatException('Missing required goal field: ${field.key}');
-        }
-
-        if (field.value == String && habitGoal[field.key] is! String) {
-          throw FormatException(
-              'Invalid type for goal.${field.key}: expected String');
-        }
-        if (field.value == num && habitGoal[field.key] is! num) {
-          throw FormatException(
-              'Invalid type for goal.${field.key}: expected number');
-        }
-      }
-
-      // Create sanitized result map
-      final Map<String, dynamic> result = {};
-
-      // Sanitize basic fields
-      result['habitTitle'] =
-          _safeString(decoded['habitTitle'], _defaults['habitTitle']!);
-
-      result['habitDesc'] =
-          _safeString(decoded['habitDesc'], _defaults['habitDesc']!);
-
-      result['habitCategory'] =
-          _safeString(decoded['habitCategory'], _defaults['habitCategory']!)
-              .toLowerCase();
-
-      if (!_validCategories.contains(result['habitCategory'])) {
-        result['habitCategory'] = _defaults['habitCategory']!;
-      }
-
-      result['timeOfDay'] =
-          _safeString(decoded['timeOfDay'], _defaults['timeOfDay']!)
-              .toLowerCase();
-
-      if (!_validTimeOfDay.contains(result['timeOfDay'])) {
-        result['timeOfDay'] = _defaults['timeOfDay']!;
-      }
-
-      // Handle reminderTime with special format validation
-      String reminderTime =
-          _safeString(decoded['reminderTime'], _defaults['reminderTime']!);
-
-      if (!RegExp(r'^\d{2}:\d{2}$').hasMatch(reminderTime)) {
-        reminderTime = _defaults['reminderTime']!;
-      }
-      result['reminderTime'] = reminderTime;
-
-      // Handle habitGoal
-      result['habitGoal'] = _validateGoal(decoded['habitGoal']);
-
-      return result;
-    } catch (e) {
-      _appLogger.e('Validation error: $e');
-      rethrow;
-    }
-  }
-
-  /// Creates a completely default habit when validation fails
-  static Map<String, dynamic> createDefaultHabit() {
-    return {
-      ..._defaults,
-      'habitGoal': _goalDefaults,
-    };
   }
 }

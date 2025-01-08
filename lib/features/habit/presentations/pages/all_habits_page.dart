@@ -7,6 +7,8 @@ import '../../../../core/constants/app_color.dart';
 import '../../../../core/constants/app_common.dart';
 import '../../../../core/constants/app_font_size.dart';
 import '../../../../core/constants/app_spacing.dart';
+import '../../../../core/enums/habit/habit_category.dart';
+import '../../../../core/enums/habit/habit_status.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../generated/l10n.dart';
 import '../helper/shared_habit_action.dart';
@@ -23,8 +25,8 @@ class AllHabitsPage extends StatefulWidget {
 }
 
 class _AllHabitsPageState extends State<AllHabitsPage> {
-  String category = '';
-  String status = '';
+  HabitCategory? category;
+  HabitStatus? status;
   String progress = '';
   bool _isHabitListView = true;
 

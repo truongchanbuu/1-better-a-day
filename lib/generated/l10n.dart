@@ -1283,6 +1283,86 @@ class S {
     );
   }
 
+  /// `Pick Icon`
+  String get pick_icon {
+    return Intl.message(
+      'Pick Icon',
+      name: 'pick_icon',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pick Color`
+  String get pick_color {
+    return Intl.message(
+      'Pick Color',
+      name: 'pick_color',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Heath and Sport`
+  String get health_and_sport {
+    return Intl.message(
+      'Heath and Sport',
+      name: 'health_and_sport',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Education and Improvement`
+  String get education_and_improvement {
+    return Intl.message(
+      'Education and Improvement',
+      name: 'education_and_improvement',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mental Health`
+  String get mental_health {
+    return Intl.message(
+      'Mental Health',
+      name: 'mental_health',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Daily Routine`
+  String get daily_routine {
+    return Intl.message(
+      'Daily Routine',
+      name: 'daily_routine',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Productivity`
+  String get productivity {
+    return Intl.message(
+      'Productivity',
+      name: 'productivity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Social and Family`
+  String get society_and_family {
+    return Intl.message(
+      'Social and Family',
+      name: 'society_and_family',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Failed`
   String get status_failed {
     return Intl.message(
@@ -1344,10 +1424,20 @@ class S {
   }
 
   /// `Unknown`
-  String get status_unkown {
+  String get status_unknown {
     return Intl.message(
       'Unknown',
-      name: 'status_unkown',
+      name: 'status_unknown',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Completed`
+  String get status_completed {
+    return Intl.message(
+      'Completed',
+      name: 'status_completed',
       desc: '',
       args: [],
     );
@@ -1788,6 +1878,56 @@ class S {
     return Intl.message(
       'Date',
       name: 'date_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Great`
+  String get mood_great {
+    return Intl.message(
+      'Great',
+      name: 'mood_great',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Good`
+  String get mood_good {
+    return Intl.message(
+      'Good',
+      name: 'mood_good',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Neutral`
+  String get mood_neutral {
+    return Intl.message(
+      'Neutral',
+      name: 'mood_neutral',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bad`
+  String get mood_bad {
+    return Intl.message(
+      'Bad',
+      name: 'mood_bad',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Terrible`
+  String get mood_terrible {
+    return Intl.message(
+      'Terrible',
+      name: 'mood_terrible',
       desc: '',
       args: [],
     );
@@ -3054,6 +3194,84 @@ class S {
       name: 'freq_yearly',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `Value`
+  String get freq_value {
+    return Intl.message(
+      'Value',
+      name: 'freq_value',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Weekdays`
+  String get weekday_title {
+    return Intl.message(
+      'Weekdays',
+      name: 'weekday_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Time Interval`
+  String get time_interval {
+    return Intl.message(
+      'Time Interval',
+      name: 'time_interval',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{n, plural, one {Every {n} month} other {Every {n} months}}`
+  String every_n_month(num n) {
+    return Intl.plural(
+      n,
+      one: 'Every $n month',
+      other: 'Every $n months',
+      name: 'every_n_month',
+      desc: '',
+      args: [n],
+    );
+  }
+
+  /// `{n, plural, one {Every {n} day} other {Every {n} days}}`
+  String every_n_day(num n) {
+    return Intl.plural(
+      n,
+      one: 'Every $n day',
+      other: 'Every $n days',
+      name: 'every_n_day',
+      desc: '',
+      args: [n],
+    );
+  }
+
+  /// `{n, plural, one {Every {n} minute} other {Every {n} minutes}}`
+  String every_n_minute(num n) {
+    return Intl.plural(
+      n,
+      one: 'Every $n minute',
+      other: 'Every $n minutes',
+      name: 'every_n_minute',
+      desc: '',
+      args: [n],
+    );
+  }
+
+  /// `{n, plural, one {Every {n} hour} other {Every {n} hours}}`
+  String every_n_hour(num n) {
+    return Intl.plural(
+      n,
+      one: 'Every $n hour',
+      other: 'Every $n hours',
+      name: 'every_n_hour',
+      desc: '',
+      args: [n],
     );
   }
 
@@ -5091,6 +5309,16 @@ class S {
     );
   }
 
+  /// `Goal Description`
+  String get goal_desc {
+    return Intl.message(
+      'Goal Description',
+      name: 'goal_desc',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Goal Description (Provides details about the specific goal related to that habit)`
   String get add_goal_desc {
     return Intl.message(
@@ -5166,6 +5394,16 @@ class S {
     return Intl.message(
       'milliliters',
       name: 'ml_unit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `day`
+  String get day_unit {
+    return Intl.message(
+      'day',
+      name: 'day_unit',
       desc: '',
       args: [],
     );
@@ -5256,6 +5494,16 @@ class S {
     return Intl.message(
       'miles',
       name: 'miles_unit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `times`
+  String get times_unit {
+    return Intl.message(
+      'times',
+      name: 'times_unit',
       desc: '',
       args: [],
     );
@@ -5766,6 +6014,66 @@ class S {
     return Intl.message(
       'You\'re a hero! Achieved a 365-day streak!',
       name: 'streak_very_long_365',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Drinking Time`
+  String get water_reminder_title {
+    return Intl.message(
+      'Drinking Time',
+      name: 'water_reminder_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Running Time`
+  String get run_reminder_title {
+    return Intl.message(
+      'Running Time',
+      name: 'run_reminder_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Exercise Time`
+  String get exercise_reminder_title {
+    return Intl.message(
+      'Exercise Time',
+      name: 'exercise_reminder_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mediation Time`
+  String get meditation_reminder_title {
+    return Intl.message(
+      'Mediation Time',
+      name: 'meditation_reminder_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reading Time`
+  String get reading_reminder_title {
+    return Intl.message(
+      'Reading Time',
+      name: 'reading_reminder_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Study Time`
+  String get study_reminder_title {
+    return Intl.message(
+      'Study Time',
+      name: 'study_reminder_title',
       desc: '',
       args: [],
     );

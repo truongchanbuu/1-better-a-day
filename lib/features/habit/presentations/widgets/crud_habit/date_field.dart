@@ -55,6 +55,7 @@ class _DateFieldState extends State<DateField> {
           FontAwesomeIcons.clock,
           color: AppColors.grayText,
         ),
+        errorMaxLines: 4,
         border: const OutlineInputBorder(),
         focusedBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: AppColors.primary),

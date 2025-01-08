@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+import '../../../../core/enums/habit/day_status.dart';
+import '../../../../core/enums/habit/goal_unit.dart';
+import '../../../../core/enums/habit/mood.dart';
 import '../../../../core/resources/hive_base_model.dart';
 import '../../domain/entities/habit_history.dart';
 
@@ -8,7 +11,7 @@ part 'habit_history_model.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class HabitHistoryModel extends HabitHistory implements HiveBaseModel {
-  HabitHistoryModel({
+  const HabitHistoryModel({
     required super.id,
     required super.habitId,
     required super.date,
@@ -20,7 +23,7 @@ class HabitHistoryModel extends HabitHistory implements HiveBaseModel {
     super.mood,
     super.customData,
     super.note,
-    super.quantity,
+    super.targetValue,
     super.rating,
     super.currentValue,
   });
@@ -46,7 +49,7 @@ class HabitHistoryModel extends HabitHistory implements HiveBaseModel {
       mood: mood,
       customData: customData,
       note: note,
-      quantity: quantity,
+      targetValue: targetValue,
       rating: rating,
       currentValue: currentValue,
     );
@@ -66,7 +69,7 @@ class HabitHistoryModel extends HabitHistory implements HiveBaseModel {
       mood: entity.mood,
       customData: entity.customData,
       note: entity.note,
-      quantity: entity.quantity,
+      targetValue: entity.targetValue,
       rating: entity.rating,
       currentValue: entity.currentValue,
     );
@@ -78,18 +81,16 @@ class HabitHistoryModel extends HabitHistory implements HiveBaseModel {
     String? id,
     String? habitId,
     DateTime? date,
-    DateTime? completedAt,
-    bool? isCompleted,
-    String? executionStatus,
+    DayStatus? executionStatus,
     double? currentValue,
     ValueGetter<DateTime?>? startTime,
     ValueGetter<DateTime?>? endTime,
     ValueGetter<Duration?>? duration,
     ValueGetter<String?>? note,
     ValueGetter<int?>? rating,
-    ValueGetter<String?>? mood,
-    ValueGetter<double?>? quantity,
-    ValueGetter<String?>? measurement,
+    ValueGetter<Mood?>? mood,
+    ValueGetter<double?>? targetValue,
+    ValueGetter<GoalUnit?>? measurement,
     ValueGetter<Map<String, dynamic>?>? customData,
   }) {
     return HabitHistoryModel(
@@ -105,7 +106,7 @@ class HabitHistoryModel extends HabitHistory implements HiveBaseModel {
       mood: mood?.call() ?? this.mood,
       customData: customData?.call() ?? this.customData,
       note: note?.call() ?? this.note,
-      quantity: quantity?.call() ?? this.quantity,
+      targetValue: targetValue?.call() ?? this.targetValue,
       rating: rating?.call() ?? this.rating,
     );
   }

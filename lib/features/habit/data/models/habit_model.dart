@@ -1,3 +1,9 @@
+import 'package:json_annotation/json_annotation.dart';
+
+import '../../../../core/enums/habit/habit_category.dart';
+import '../../../../core/enums/habit/habit_status.dart';
+import '../../../../core/enums/habit/habit_time_of_day.dart';
+import '../../domain/entities/habit_icon.dart';
 import '../../../../core/resources/hive_base_model.dart';
 import '../../domain/entities/habit_entity.dart';
 import '../../domain/entities/habit_goal.dart';
@@ -9,7 +15,7 @@ class HabitModel extends HabitEntity implements HiveBaseModel<HabitModel> {
   HabitModel({
     required super.habitId,
     required super.habitTitle,
-    super.iconName,
+    required super.habitIcon,
     required super.habitDesc,
     required super.habitProgress,
     required HabitGoalModel habitGoal,
@@ -19,7 +25,7 @@ class HabitModel extends HabitEntity implements HiveBaseModel<HabitModel> {
     required super.longestStreak,
     required super.startDate,
     required super.endDate,
-    super.reminderTime,
+    super.reminderTimes,
     required super.habitStatus,
   }) : super(habitGoal: habitGoal.toEntity());
 
@@ -30,15 +36,15 @@ class HabitModel extends HabitEntity implements HiveBaseModel<HabitModel> {
       habitDesc: '',
       habitProgress: 0,
       habitGoal: HabitGoalModel.fromEntity(HabitGoal.init()),
-      habitCategory: '',
-      timeOfDay: '',
+      habitCategory: HabitCategory.custom,
+      timeOfDay: HabitTimeOfDay.anytime,
       currentStreak: 0,
       longestStreak: 0,
       startDate: DateTime.now(),
       endDate: DateTime.now().add(const Duration(days: 21)),
-      habitStatus: '',
-      iconName: '',
-      reminderTime: '',
+      habitStatus: HabitStatus.inProgress,
+      habitIcon: HabitIcon.fromKey(PredefinedHabitIconKey.custom),
+      reminderTimes: const {},
     );
   }
 
@@ -54,10 +60,10 @@ class HabitModel extends HabitEntity implements HiveBaseModel<HabitModel> {
       habitStatus: habitStatus,
       startDate: startDate,
       habitProgress: habitProgress,
-      iconName: iconName,
+      habitIcon: habitIcon,
       currentStreak: currentStreak,
       longestStreak: longestStreak,
-      reminderTime: reminderTime,
+      reminderTimes: reminderTimes,
     );
   }
 
@@ -75,43 +81,8 @@ class HabitModel extends HabitEntity implements HiveBaseModel<HabitModel> {
       startDate: entity.startDate,
       endDate: entity.endDate,
       habitStatus: entity.habitStatus,
-      reminderTime: entity.reminderTime,
-      iconName: entity.iconName,
-    );
-  }
-
-  @override
-  HabitModel copyWith({
-    String? habitId,
-    String? habitTitle,
-    String? iconName,
-    String? habitDesc,
-    HabitGoal? habitGoal,
-    String? habitCategory,
-    double? habitProgress,
-    String? timeOfDay,
-    int? currentStreak,
-    int? longestStreak,
-    DateTime? startDate,
-    DateTime? endDate,
-    String? reminderTime,
-    String? habitStatus,
-  }) {
-    return HabitModel(
-      habitId: habitId ?? this.habitId,
-      habitTitle: habitTitle ?? this.habitTitle,
-      iconName: iconName ?? this.iconName,
-      habitDesc: habitDesc ?? this.habitDesc,
-      habitProgress: habitProgress ?? this.habitProgress,
-      habitGoal: HabitGoalModel.fromEntity(habitGoal ?? this.habitGoal),
-      habitCategory: habitCategory ?? this.habitCategory,
-      timeOfDay: timeOfDay ?? this.timeOfDay,
-      currentStreak: currentStreak ?? this.currentStreak,
-      longestStreak: longestStreak ?? this.longestStreak,
-      startDate: startDate ?? this.startDate,
-      endDate: endDate ?? this.endDate,
-      reminderTime: reminderTime ?? this.reminderTime,
-      habitStatus: habitStatus ?? this.habitStatus,
+      reminderTimes: entity.reminderTimes,
+      habitIcon: entity.habitIcon,
     );
   }
 
@@ -121,11 +92,46 @@ class HabitModel extends HabitEntity implements HiveBaseModel<HabitModel> {
   Map<String, dynamic> toJson() => _$HabitModelToJson(this);
 
   @override
+  HabitModel copyWith({
+    String? habitId,
+    String? habitTitle,
+    HabitIcon? habitIcon,
+    String? habitDesc,
+    HabitGoal? habitGoal,
+    HabitCategory? habitCategory,
+    double? habitProgress,
+    HabitTimeOfDay? timeOfDay,
+    int? currentStreak,
+    int? longestStreak,
+    DateTime? startDate,
+    DateTime? endDate,
+    Set<String>? reminderTimes,
+    HabitStatus? habitStatus,
+  }) {
+    return HabitModel(
+      habitId: habitId ?? this.habitId,
+      habitTitle: habitTitle ?? this.habitTitle,
+      habitIcon: habitIcon ?? this.habitIcon,
+      habitDesc: habitDesc ?? this.habitDesc,
+      habitProgress: habitProgress ?? this.habitProgress,
+      habitGoal: HabitGoalModel.fromEntity(habitGoal ?? this.habitGoal),
+      habitCategory: habitCategory ?? this.habitCategory,
+      timeOfDay: timeOfDay ?? this.timeOfDay,
+      currentStreak: currentStreak ?? this.currentStreak,
+      longestStreak: longestStreak ?? this.longestStreak,
+      startDate: startDate ?? this.startDate,
+      endDate: endDate ?? this.endDate,
+      reminderTimes: reminderTimes ?? this.reminderTimes,
+      habitStatus: habitStatus ?? this.habitStatus,
+    );
+  }
+
+  @override
   List<Object?> get props {
     return [
       habitId,
       habitTitle,
-      iconName,
+      habitIcon,
       habitDesc,
       habitProgress,
       habitGoal,
@@ -135,7 +141,7 @@ class HabitModel extends HabitEntity implements HiveBaseModel<HabitModel> {
       longestStreak,
       startDate,
       endDate,
-      reminderTime,
+      reminderTimes,
       habitStatus,
     ];
   }
@@ -152,6 +158,15 @@ class HabitModel extends HabitEntity implements HiveBaseModel<HabitModel> {
           convertedGoalMap[key.toString()] = value;
         });
         convertedMap['habitGoal'] = convertedGoalMap;
+      } else {
+        throw const FormatException('Invalid habitGoal format');
+      }
+
+      final habitIcon = map['habitIcon'];
+      if (habitIcon is Map<dynamic, dynamic>) {
+        final convertedHabitIcon = <String, dynamic>{};
+        habitIcon.forEach((k, v) => convertedHabitIcon[k.toString()] = v);
+        convertedMap['habitIcon'] = convertedHabitIcon;
       } else {
         throw const FormatException('Invalid habitGoal format');
       }

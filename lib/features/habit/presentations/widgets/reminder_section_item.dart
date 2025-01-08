@@ -23,21 +23,6 @@ class _ReminderSectionItemState extends State<ReminderSectionItem> {
   static const double _reminderIconSize = 20;
   @override
   Widget build(BuildContext context) {
-    // return ListTile(
-    //   onTap: () {},
-    //   leading: const Icon(
-    //     FontAwesomeIcons.plus,
-    //     color: AppColors.primary,
-    //   ),
-    //   title: Text(
-    //     S.current.add_reminder,
-    //     style: const TextStyle(
-    //       fontWeight: FontWeight.bold,
-    //       color: AppColors.primary,
-    //     ),
-    //   ),
-    // );
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

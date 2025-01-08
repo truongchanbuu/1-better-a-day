@@ -15,6 +15,9 @@ class HabitRepoImpl implements HabitRepository {
   @override
   Future<void> deleteHabitById(String id) async => await crudService.delete(id);
 
+  @override
+  Future<void> deleteAll() async => await crudService.deleteAll();
+
   // [GET]
   @override
   Future<List<HabitModel>> getAllHabits() async => await crudService.readAll();

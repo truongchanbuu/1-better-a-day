@@ -33,22 +33,27 @@ class HiveCRUDImplementation<T extends HiveBaseModel>
       return instance.fromMap(Map<String, dynamic>.from(map));
     } catch (e) {
       _appLogger.e("Read error: $e");
-      return null;
+      rethrow;
     }
   }
 
   @override
   Future<List<T>> readAll() async {
-    try {
-      return box.values.map((map) {
-        T instance = createInstance();
-        instance = instance.fromMap(Map.from(map));
-        return instance;
-      }).toList();
-    } catch (e) {
-      _appLogger.e("ReadAll error: $e");
-      return [];
-    }
+    // try {
+    //   return box.values.map((map) {
+    //     T instance = createInstance();
+    //     instance = instance.fromMap(Map.from(map));
+    //     return instance;
+    //   }).toList();
+    // } catch (e) {
+    //   _appLogger.e("ReadAll error: $e");
+    //   return [];
+    // }
+    return box.values.map((map) {
+      T instance = createInstance();
+      instance = instance.fromMap(Map.from(map));
+      return instance;
+    }).toList();
   }
 
   @override

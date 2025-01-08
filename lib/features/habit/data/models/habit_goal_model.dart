@@ -1,23 +1,28 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import '../../../../core/enums/habit/goal_type.dart';
+import '../../../../core/enums/habit/goal_unit.dart';
 import '../../../../core/resources/hive_base_model.dart';
+import '../../domain/entities/habit_frequency.dart';
 import '../../domain/entities/habit_goal.dart';
 
 part 'habit_goal_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class HabitGoalModel extends HabitGoal
     implements HiveBaseModel<HabitGoalModel> {
+  @JsonKey(fromJson: _goalFrequencyFromJson, name: 'goalFrequency')
+  final HabitFrequency goalFreq;
+
   const HabitGoalModel({
     required super.goalId,
     required super.habitId,
     required super.goalDesc,
     required super.goalType,
-    required super.currentValue,
     required super.targetValue,
-    required super.goalFrequency,
+    required this.goalFreq,
     required super.goalUnit,
-  });
+  }) : super(goalFrequency: goalFreq);
 
   HabitGoal toEntity() {
     return HabitGoal(
@@ -28,7 +33,6 @@ class HabitGoalModel extends HabitGoal
       targetValue: targetValue,
       goalUnit: goalUnit,
       goalFrequency: goalFrequency,
-      currentValue: currentValue,
     );
   }
 
@@ -38,9 +42,8 @@ class HabitGoalModel extends HabitGoal
       habitId: entity.habitId,
       goalDesc: entity.goalDesc,
       goalType: entity.goalType,
-      currentValue: entity.currentValue,
       targetValue: entity.targetValue,
-      goalFrequency: entity.goalFrequency,
+      goalFreq: entity.goalFrequency,
       goalUnit: entity.goalUnit,
     );
   }
@@ -50,20 +53,19 @@ class HabitGoalModel extends HabitGoal
     String? goalId,
     String? habitId,
     String? goalDesc,
-    String? goalType,
+    GoalType? goalType,
     double? currentValue,
     double? targetValue,
-    int? goalFrequency,
-    String? goalUnit,
+    HabitFrequency? goalFrequency,
+    GoalUnit? goalUnit,
   }) {
     return HabitGoalModel(
       goalId: goalId ?? this.goalId,
       habitId: habitId ?? this.habitId,
       goalDesc: goalDesc ?? this.goalDesc,
       goalType: goalType ?? this.goalType,
-      currentValue: currentValue ?? this.currentValue,
       targetValue: targetValue ?? this.targetValue,
-      goalFrequency: goalFrequency ?? this.goalFrequency,
+      goalFreq: goalFrequency ?? this.goalFrequency,
       goalUnit: goalUnit ?? this.goalUnit,
     );
   }
@@ -73,6 +75,16 @@ class HabitGoalModel extends HabitGoal
   factory HabitGoalModel.fromJson(Map<String, dynamic> json) =>
       _$HabitGoalModelFromJson(json);
 
+  static HabitFrequency _goalFrequencyFromJson(dynamic json) {
+    if (json is Map<String, dynamic>) {
+      return HabitFrequency.fromJson(json);
+    } else if (json is Map<dynamic, dynamic>) {
+      return HabitFrequency.fromJson(Map<String, dynamic>.from(json));
+    } else {
+      throw const FormatException('Invalid format for goalFrequency');
+    }
+  }
+
   @override
   List<Object> get props {
     return [
@@ -80,7 +92,6 @@ class HabitGoalModel extends HabitGoal
       habitId,
       goalDesc,
       goalType,
-      currentValue,
       targetValue,
       goalFrequency,
       goalUnit,
@@ -89,7 +100,22 @@ class HabitGoalModel extends HabitGoal
 
   @override
   HabitGoalModel fromMap(Map<String, dynamic> map) {
-    return HabitGoalModel.fromJson(map);
+    try {
+      final convertedMap = Map<String, dynamic>.from(map);
+
+      final goalFreq = map['goalFrequency'];
+      if (goalFreq is Map<dynamic, dynamic>) {
+        final convertedGoalFreq = <String, dynamic>{};
+        goalFreq.forEach((k, v) => convertedGoalFreq[k.toString()] = v);
+        convertedMap['goalFrequency'] = convertedGoalFreq;
+      } else {
+        throw const FormatException('Invalid goal frequency format');
+      }
+
+      return HabitGoalModel.fromJson(convertedMap);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override

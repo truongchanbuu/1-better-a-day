@@ -67,8 +67,8 @@ final class EditHabit extends HabitCrudEvent {
 }
 
 final class SearchHabits extends HabitCrudEvent {
-  final String? category;
-  final String? status;
+  final HabitCategory? category;
+  final HabitStatus? status;
   final String? progress;
 
   const SearchHabits({

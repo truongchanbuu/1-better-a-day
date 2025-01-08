@@ -1,18 +1,45 @@
 import 'package:animated_emoji/animated_emoji.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+import '../../../generated/l10n.dart';
 import '../../helpers/enum_helper.dart';
 
 enum Mood {
+  @JsonValue('great')
   great,
+  @JsonValue('good')
   good,
+  @JsonValue('neutral')
   neutral,
+  @JsonValue('bad')
   bad,
+  @JsonValue('terrible')
   terrible;
 
   static Mood fromString(String? str) =>
       EnumHelper.fromString(values, str) ?? neutral;
+
+  static Mood fromMultiString(String? str) {
+    final moodMap = {
+      S.current.mood_great: great,
+      S.current.mood_good: good,
+      S.current.mood_neutral: neutral,
+      S.current.mood_bad: bad,
+      S.current.mood_terrible: terrible,
+    };
+
+    return moodMap[str] ?? neutral;
+  }
+
+  String get moodName => switch (this) {
+        great => S.current.mood_great,
+        good => S.current.mood_good,
+        neutral => S.current.mood_neutral,
+        bad => S.current.mood_bad,
+        terrible => S.current.mood_terrible,
+      };
 
   Color get color {
     switch (this) {

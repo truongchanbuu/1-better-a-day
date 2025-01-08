@@ -4,26 +4,28 @@ sealed class ValidateHabitState extends Equatable {
   final String habitName;
   final String habitDesc;
   final HabitGoal habitGoal;
-  final String reminderTime;
-  final String habitCategory;
+  final HabitIcon habitIcon;
+  final Set<String> reminderTimes;
+  final HabitCategory habitCategory;
   final DateTime startDate;
   final DateTime endDate;
-  final String habitFrequency;
   final String? errorMessage;
 
   ValidateHabitState({
     this.habitName = '',
     this.habitDesc = '',
-    this.habitCategory = '',
-    this.habitFrequency = '',
-    this.reminderTime = '',
+    this.habitCategory = HabitCategory.custom,
+    this.reminderTimes = const {},
+    HabitIcon? habitIcon,
     HabitGoal? habitGoal,
     DateTime? startDate,
     DateTime? endDate,
     this.errorMessage,
   })  : habitGoal = habitGoal ?? HabitGoal.init(),
         startDate = startDate ?? DateTime.now(),
-        endDate = endDate ?? DateTime.now().add(const Duration(days: 21));
+        endDate = endDate ?? DateTime.now().add(const Duration(days: 21)),
+        habitIcon =
+            habitIcon ?? HabitIcon.fromKey(PredefinedHabitIconKey.custom);
 
   @override
   List<Object?> get props => [
@@ -33,8 +35,9 @@ sealed class ValidateHabitState extends Equatable {
         habitCategory,
         startDate,
         endDate,
-        habitFrequency,
+        habitIcon,
         errorMessage,
+        reminderTimes,
       ];
 }
 
@@ -47,11 +50,11 @@ final class HabitNameChanged extends ValidateHabitState {
   }) : super(
           habitDesc: current.habitDesc,
           habitGoal: current.habitGoal,
-          reminderTime: current.reminderTime,
+          reminderTimes: current.reminderTimes,
           habitCategory: current.habitCategory,
           startDate: current.startDate,
           endDate: current.endDate,
-          habitFrequency: current.habitFrequency,
+          habitIcon: current.habitIcon,
           errorMessage: current.errorMessage,
         );
 }
@@ -63,11 +66,11 @@ final class HabitDescChanged extends ValidateHabitState {
   }) : super(
           habitName: current.habitName,
           habitGoal: current.habitGoal,
-          reminderTime: current.reminderTime,
+          reminderTimes: current.reminderTimes,
           habitCategory: current.habitCategory,
           startDate: current.startDate,
           endDate: current.endDate,
-          habitFrequency: current.habitFrequency,
+          habitIcon: current.habitIcon,
           errorMessage: current.errorMessage,
         );
 }
@@ -80,11 +83,11 @@ final class HabitGoalDescChanged extends ValidateHabitState {
           habitName: current.habitName,
           habitDesc: current.habitDesc,
           habitGoal: current.habitGoal.copyWith(goalDesc: habitGoalDesc),
-          reminderTime: current.reminderTime,
+          reminderTimes: current.reminderTimes,
           habitCategory: current.habitCategory,
           startDate: current.startDate,
           endDate: current.endDate,
-          habitFrequency: current.habitFrequency,
+          habitIcon: current.habitIcon,
           errorMessage: current.errorMessage,
         );
 }
@@ -92,16 +95,16 @@ final class HabitGoalDescChanged extends ValidateHabitState {
 final class HabitGoalTypeChanged extends ValidateHabitState {
   HabitGoalTypeChanged({
     required ValidateHabitState current,
-    required String goalType,
+    required GoalType goalType,
   }) : super(
           habitName: current.habitName,
           habitDesc: current.habitDesc,
           habitGoal: current.habitGoal.copyWith(goalType: goalType),
-          reminderTime: current.reminderTime,
+          reminderTimes: current.reminderTimes,
           habitCategory: current.habitCategory,
           startDate: current.startDate,
           endDate: current.endDate,
-          habitFrequency: current.habitFrequency,
+          habitIcon: current.habitIcon,
           errorMessage: current.errorMessage,
         );
 }
@@ -114,11 +117,11 @@ final class HabitGoalTargetValueChanged extends ValidateHabitState {
           habitName: current.habitName,
           habitDesc: current.habitDesc,
           habitGoal: current.habitGoal.copyWith(targetValue: targetValue),
-          reminderTime: current.reminderTime,
+          reminderTimes: current.reminderTimes,
           habitCategory: current.habitCategory,
           startDate: current.startDate,
           endDate: current.endDate,
-          habitFrequency: current.habitFrequency,
+          habitIcon: current.habitIcon,
           errorMessage: current.errorMessage,
         );
 }
@@ -126,16 +129,16 @@ final class HabitGoalTargetValueChanged extends ValidateHabitState {
 final class HabitGoalUnitChanged extends ValidateHabitState {
   HabitGoalUnitChanged({
     required ValidateHabitState current,
-    required String unit,
+    required GoalUnit unit,
   }) : super(
           habitName: current.habitName,
           habitDesc: current.habitDesc,
           habitGoal: current.habitGoal.copyWith(goalUnit: unit),
-          reminderTime: current.reminderTime,
+          reminderTimes: current.reminderTimes,
           habitCategory: current.habitCategory,
           startDate: current.startDate,
           endDate: current.endDate,
-          habitFrequency: current.habitFrequency,
+          habitIcon: current.habitIcon,
           errorMessage: current.errorMessage,
         );
 }
@@ -148,10 +151,10 @@ final class HabitCategoryChanged extends ValidateHabitState {
           habitName: current.habitName,
           habitDesc: current.habitDesc,
           habitGoal: current.habitGoal,
-          reminderTime: current.reminderTime,
+          reminderTimes: current.reminderTimes,
           startDate: current.startDate,
           endDate: current.endDate,
-          habitFrequency: current.habitFrequency,
+          habitIcon: current.habitIcon,
           errorMessage: current.errorMessage,
         );
 }
@@ -159,7 +162,7 @@ final class HabitCategoryChanged extends ValidateHabitState {
 final class HabitTimeReminderChanged extends ValidateHabitState {
   HabitTimeReminderChanged({
     required ValidateHabitState current,
-    required super.reminderTime,
+    required super.reminderTimes,
   }) : super(
           habitName: current.habitName,
           habitDesc: current.habitDesc,
@@ -167,7 +170,22 @@ final class HabitTimeReminderChanged extends ValidateHabitState {
           habitCategory: current.habitCategory,
           startDate: current.startDate,
           endDate: current.endDate,
-          habitFrequency: current.habitFrequency,
+          habitIcon: current.habitIcon,
+          errorMessage: current.errorMessage,
+        );
+}
+
+final class HabitIconChanged extends ValidateHabitState {
+  HabitIconChanged({
+    required ValidateHabitState current,
+    required super.habitIcon,
+  }) : super(
+          habitName: current.habitName,
+          habitDesc: current.habitDesc,
+          habitGoal: current.habitGoal,
+          habitCategory: current.habitCategory,
+          startDate: current.startDate,
+          endDate: current.endDate,
           errorMessage: current.errorMessage,
         );
 }
@@ -175,16 +193,16 @@ final class HabitTimeReminderChanged extends ValidateHabitState {
 final class HabitFrequencyChanged extends ValidateHabitState {
   HabitFrequencyChanged({
     required ValidateHabitState current,
-    required int frequency,
+    required HabitFrequency habitFrequency,
   }) : super(
           habitName: current.habitName,
           habitDesc: current.habitDesc,
-          habitGoal: current.habitGoal.copyWith(goalFrequency: frequency),
-          reminderTime: current.reminderTime,
+          habitGoal: current.habitGoal.copyWith(goalFrequency: habitFrequency),
+          reminderTimes: current.reminderTimes,
           habitCategory: current.habitCategory,
           startDate: current.startDate,
           endDate: current.endDate,
-          habitFrequency: frequency.toString(),
+          habitIcon: current.habitIcon,
           errorMessage: current.errorMessage,
         );
 }
@@ -197,11 +215,11 @@ final class HabitStartDateChanged extends ValidateHabitState {
           habitName: current.habitName,
           habitDesc: current.habitDesc,
           habitGoal: current.habitGoal,
-          reminderTime: current.reminderTime,
+          reminderTimes: current.reminderTimes,
           habitCategory: current.habitCategory,
           startDate: startDate,
           endDate: current.endDate,
-          habitFrequency: current.habitFrequency,
+          habitIcon: current.habitIcon,
           errorMessage: current.errorMessage,
         );
 }
@@ -214,11 +232,11 @@ final class HabitEndDateChanged extends ValidateHabitState {
           habitName: current.habitName,
           habitDesc: current.habitDesc,
           habitGoal: current.habitGoal,
-          reminderTime: current.reminderTime,
+          reminderTimes: current.reminderTimes,
           habitCategory: current.habitCategory,
           startDate: current.startDate,
+          habitIcon: current.habitIcon,
           endDate: endDate,
-          habitFrequency: current.habitFrequency,
           errorMessage: current.errorMessage,
         );
 }
@@ -231,11 +249,11 @@ final class ValidateFailed extends ValidateHabitState {
           habitName: current.habitName,
           habitDesc: current.habitDesc,
           habitGoal: current.habitGoal,
-          reminderTime: current.reminderTime,
+          reminderTimes: current.reminderTimes,
           habitCategory: current.habitCategory,
           startDate: current.startDate,
+          habitIcon: current.habitIcon,
           endDate: current.endDate,
-          habitFrequency: current.habitFrequency,
           errorMessage: errorMessage,
         );
 }
@@ -246,16 +264,29 @@ final class ValidateSucceed extends ValidateHabitState {
           habitName: current.habitName,
           habitDesc: current.habitDesc,
           habitGoal: current.habitGoal,
-          reminderTime: current.reminderTime,
+          reminderTimes: current.reminderTimes,
           habitCategory: current.habitCategory,
+          habitIcon: current.habitIcon,
           startDate: current.startDate,
           endDate: current.endDate,
-          habitFrequency: current.habitFrequency,
           errorMessage: current.errorMessage,
         );
 }
 
-final class Validating extends ValidateHabitState {}
+final class Validating extends ValidateHabitState {
+  Validating(ValidateHabitState current)
+      : super(
+          reminderTimes: current.reminderTimes,
+          endDate: current.endDate,
+          startDate: current.startDate,
+          errorMessage: current.errorMessage,
+          habitGoal: current.habitGoal,
+          habitDesc: current.habitDesc,
+          habitCategory: current.habitCategory,
+          habitName: current.habitName,
+          habitIcon: current.habitIcon,
+        );
+}
 
 final class HabitAdded extends ValidateHabitState {
   final HabitEntity habit;

@@ -21,7 +21,6 @@ import '../../../../shared/presentations/widgets/icon_with_text.dart';
 import '../../../../../core/enums/habit/goal_unit.dart';
 import '../../../../shared/presentations/widgets/text_with_circle_border_container.dart';
 import '../../blocs/habit_history_crud/habit_history_crud_bloc.dart';
-import '../../helper/shared_habit_action.dart';
 
 class ProgressTracker extends StatefulWidget {
   final String habitId;
@@ -76,8 +75,11 @@ class _ProgressTrackerState extends State<ProgressTracker> {
           listener: (context, state) {
             if (state is HabitHistoryCrudSuccess) {
               setState(() {
-                _isCompleted = state.histories.first.executionStatus ==
-                    DayStatus.completed.name;
+                _isCompleted = state.histories.isNotEmpty &&
+                    (state.histories.first.executionStatus ==
+                            DayStatus.completed.name ||
+                        state.histories.first.executionStatus ==
+                            DayStatus.paused.name);
               });
 
               if (state.type == HabitHistoryCrudEventType.update ||
@@ -87,17 +89,6 @@ class _ProgressTrackerState extends State<ProgressTracker> {
                       _getCurrentValueOnMl(state.histories.first.currentValue);
                 });
               }
-            } else if (state is DailyHabitCompleted) {
-              if (SmartDialog.checkExist(tag: 'water_settings')) {
-                SmartDialog.dismiss(tag: 'water_settings');
-              }
-
-              SharedHabitAction.showDailyCompletionDialog(
-                  context: context, status: DayStatus.completed.name);
-
-              setState(() {
-                _isCompleted = true;
-              });
             }
           },
           child: _isCircleProgressBuilt
@@ -129,7 +120,7 @@ class _ProgressTrackerState extends State<ProgressTracker> {
           child: LiquidCircularProgressIndicator(
             valueColor: _valueColor,
             backgroundColor: _progressBackgroundColor,
-            value: _currentValue,
+            value: percentPerTargetValue,
             center: _buildProgressCenterText(),
             direction: Axis.vertical,
           ),
@@ -157,7 +148,9 @@ class _ProgressTrackerState extends State<ProgressTracker> {
     return Text(
       _getProgressValue(),
       style: TextStyle(
-        color: _currentValue >= 0.55 ? AppColors.lightText : AppColors.primary,
+        color: percentPerTargetValue >= 0.5
+            ? AppColors.lightText
+            : AppColors.primary,
         fontWeight: FontWeight.bold,
         fontSize: AppFontSize.h4,
       ),
@@ -166,9 +159,11 @@ class _ProgressTrackerState extends State<ProgressTracker> {
 
   String _getProgressValue() {
     return _percentMode
-        ? '${((_currentValue / widget.targetValue) * 100).toStringAsFixedWithoutZero(1)}%'
+        ? '${(percentPerTargetValue * 100).toStringAsFixedWithoutZero(1)}%'
         : '${_currentValue.toStringAsFixedWithoutZero(2)} / ${widget.targetValue} ${widget.goalUnit.name.toUpperCaseFirstLetter}';
   }
+
+  double get percentPerTargetValue => _currentValue / widget.targetValue;
 
   double _getCurrentValueOnMl(double currentValue) {
     return widget.goalUnit == GoalUnit.l ? currentValue / 1000 : currentValue;

@@ -1,17 +1,22 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../../../../core/constants/app_color.dart';
 import '../../../../core/enums/habit/day_status.dart';
+import '../../../../core/extensions/context_extension.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../injection_container.dart';
+import '../../domain/entities/habit_icon.dart';
 import '../blocs/ai_habit_generate/ai_habit_generate_bloc.dart';
 import '../blocs/crud/habit_crud_bloc.dart';
 import '../blocs/validate_habit/validate_habit_bloc.dart';
 import '../pages/add_habit_page.dart';
 import '../pages/add_habit_with_ai_page.dart';
 import '../pages/preset_habit_page.dart';
+import '../widgets/crud_habit/habit_icon_color_picker.dart';
 
 class SharedHabitAction {
   static void showAddHabitOptions(BuildContext context) {
@@ -98,4 +103,21 @@ class SharedHabitAction {
   }
 
   static void _onRateAndNote() {}
+
+  static void onPickIcon({
+    HabitIcon? selected,
+    required void Function(HabitIcon habitIcon) onSelect,
+  }) {
+    SmartDialog.show(
+      builder: (ctx) => Container(
+        height: MediaQuery.of(ctx).size.height * 0.8,
+        width: MediaQuery.of(ctx).size.width * 0.9,
+        color: ctx.isDarkMode ? AppColors.darkText : AppColors.lightText,
+        child: HabitIconPicker(
+          selected: selected,
+          onSelect: onSelect,
+        ),
+      ),
+    );
+  }
 }

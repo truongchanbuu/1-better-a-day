@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -22,6 +23,7 @@ import '../../../../core/extensions/num_extension.dart';
 import '../../../../generated/l10n.dart';
 import '../../../shared/presentations/widgets/confirm_delete_dialog.dart';
 import '../../domain/entities/habit_entity.dart';
+import '../../domain/entities/habit_icon.dart';
 import '../blocs/crud/habit_crud_bloc.dart';
 import '../blocs/habit_history_crud/habit_history_crud_bloc.dart';
 import '../pages/habit_detail_page.dart';
@@ -65,6 +67,12 @@ class _HabitItemState extends State<HabitItem> {
   void initState() {
     super.initState();
     _itemKey = GlobalKey();
+    currentHabit = widget.habit;
+  }
+
+  @override
+  void didUpdateWidget(covariant HabitItem oldWidget) {
+    super.didUpdateWidget(oldWidget);
     currentHabit = widget.habit;
   }
 
@@ -318,9 +326,10 @@ class _ListViewItem extends StatelessWidget {
               maxLines: 5,
             ),
             subtitle: _HabitMeasurementLabel(
+              habitIcon: habit.habitIcon,
               category: habit.habitCategory,
               targetValue: habit.habitGoal.targetValue,
-              goalUnit: habit.habitGoal.goalUnit,
+              goalUnit: habit.habitGoal.goalUnit.name,
               textStyle: HabitItem.figureTextStyle,
             ),
             trailing: _HabitIconLabel(category: habit.habitCategory),
@@ -385,9 +394,10 @@ class _GridViewItemState extends State<_GridViewItem> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             _HabitMeasurementLabel(
+              habitIcon: widget.habit.habitIcon,
               category: widget.habit.habitCategory,
               targetValue: widget.habit.habitGoal.targetValue,
-              goalUnit: widget.habit.habitGoal.goalUnit,
+              goalUnit: widget.habit.habitGoal.goalUnit.name,
               textStyle: HabitItem.figureTextStyle,
             ),
             _HabitIconLabel(category: widget.habit.habitCategory),
@@ -450,16 +460,14 @@ class _GridViewItemState extends State<_GridViewItem> {
 }
 
 class _HabitIconLabel extends StatelessWidget {
-  final String category;
+  final HabitCategory category;
   const _HabitIconLabel({required this.category});
 
   @override
   Widget build(BuildContext context) {
-    final habitCategory = HabitCategory.fromString(category);
-
     return Container(
       decoration: BoxDecoration(
-        color: habitCategory.color.withOpacity(0.2),
+        color: category.color.withOpacity(0.2),
         borderRadius: const BorderRadius.all(
           Radius.circular(AppSpacing.circleRadius),
         ),
@@ -467,9 +475,9 @@ class _HabitIconLabel extends StatelessWidget {
       padding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.paddingS, vertical: AppSpacing.paddingXS),
       child: Text(
-        habitCategory.categoryName,
-        style: const TextStyle(
-          color: Colors.blue,
+        category.categoryName,
+        style: TextStyle(
+          color: category.color,
           fontWeight: FontWeight.bold,
           fontSize: AppFontSize.labelMedium,
         ),
@@ -494,13 +502,15 @@ class _HabitProgress extends StatelessWidget {
 }
 
 class _HabitMeasurementLabel extends StatelessWidget {
-  final String category;
+  final HabitIcon habitIcon;
+  final HabitCategory? category;
   final String goalUnit;
   final double targetValue;
   final TextStyle? textStyle;
 
   const _HabitMeasurementLabel({
-    required this.category,
+    required this.habitIcon,
+    this.category,
     required this.goalUnit,
     required this.targetValue,
     this.textStyle,
@@ -510,17 +520,12 @@ class _HabitMeasurementLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     final unit = GoalUnit.fromString(goalUnit);
     final unitName = unit == GoalUnit.custom ? goalUnit : unit.unitName;
-    final habitCategory = HabitCategory.fromString(category);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.paddingS),
       child: Row(
         children: <Widget>[
-          Icon(
-            habitCategory.iconData,
-            color: habitCategory.color,
-            size: 20,
-          ),
+          _buildIcon(),
           const SizedBox(width: AppSpacing.marginXS),
           Text(
             '$targetValue $unitName',
@@ -528,6 +533,23 @@ class _HabitMeasurementLabel extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildIcon() {
+    if (habitIcon.key != PredefinedHabitIconKey.custom.name ||
+        category == null) {
+      return Iconify(
+        habitIcon.icon,
+        color: habitIcon.color,
+        size: 20,
+      );
+    }
+
+    return Icon(
+      category!.iconData,
+      color: category!.color,
+      size: 20,
     );
   }
 }

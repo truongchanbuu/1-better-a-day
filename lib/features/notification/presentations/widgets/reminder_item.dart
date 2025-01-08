@@ -78,14 +78,14 @@ class ReminderItem extends StatelessWidget {
                     fontStyle: FontStyle.italic,
                   ),
                 ),
-                _spacing,
-                IconWithText(
-                  icon: FontAwesomeIcons.fire,
-                  iconSize: 20,
-                  iconColor: Colors.red,
-                  fontSize: AppFontSize.bodyMedium,
-                  text: S.current.total_streak(reminder.habitStreak),
-                ),
+                // _spacing,
+                // IconWithText(
+                //   icon: FontAwesomeIcons.fire,
+                //   iconSize: 20,
+                //   iconColor: Colors.red,
+                //   fontSize: AppFontSize.bodyMedium,
+                //   text: S.current.total_streak(reminder.habitStreak),
+                // ),
               ],
             ),
             trailing: GestureDetector(

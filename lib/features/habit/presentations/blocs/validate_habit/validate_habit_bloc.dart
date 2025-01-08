@@ -1,14 +1,22 @@
+import 'dart:async';
+
 import 'package:bloc_event_transformers/bloc_event_transformers.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../../../core/enums/habit/goal_type.dart';
+import '../../../../../core/enums/habit/goal_unit.dart';
+import '../../../../../core/enums/habit/habit_category.dart';
+import '../../../../../core/extensions/time_of_day_extension.dart';
 import '../../../../../core/enums/habit/habit_status.dart';
 import '../../../../../core/enums/habit/habit_time_of_day.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../data/models/habit_model.dart';
 import '../../../domain/entities/habit_entity.dart';
+import '../../../domain/entities/habit_frequency.dart';
 import '../../../domain/entities/habit_goal.dart';
+import '../../../domain/entities/habit_icon.dart';
 import '../../../domain/repositories/habit_repository.dart';
 
 part 'validate_habit_event.dart';
@@ -49,6 +57,7 @@ class ValidateHabitBloc extends Bloc<ValidateHabitEvent, ValidateHabitState> {
       _onHabitFrequencyChanged,
       transformer: debounce(_debounceTime),
     );
+    on<ChangeHabitIcon>(_onHabitIconChanged);
     on<ChangeRemindTime>(_onHabitReminderChanged);
     on<ChangeStartDate>(_onStartDateChanged);
     on<ChangeEndDate>(_onEndDateChanged);
@@ -105,7 +114,8 @@ class ValidateHabitBloc extends Bloc<ValidateHabitEvent, ValidateHabitState> {
     ChangeFrequency event,
     Emitter<ValidateHabitState> emit,
   ) {
-    emit(HabitFrequencyChanged(current: state, frequency: event.frequency));
+    emit(
+        HabitFrequencyChanged(current: state, habitFrequency: event.frequency));
   }
 
   void _onHabitReminderChanged(
@@ -113,7 +123,7 @@ class ValidateHabitBloc extends Bloc<ValidateHabitEvent, ValidateHabitState> {
     Emitter<ValidateHabitState> emit,
   ) {
     emit(HabitTimeReminderChanged(
-        current: state, reminderTime: event.reminderTime));
+        current: state, reminderTimes: event.reminderTimes));
   }
 
   void _onStartDateChanged(
@@ -134,7 +144,18 @@ class ValidateHabitBloc extends Bloc<ValidateHabitEvent, ValidateHabitState> {
     ValidateHabit event,
     Emitter<ValidateHabitState> emit,
   ) async {
-    emit(Validating());
+    HabitTimeOfDay getTimeOfDay() {
+      if (state.reminderTimes.isEmpty) return HabitTimeOfDay.anytime;
+      if (state.reminderTimes.length == 1) {
+        return HabitTimeOfDay.getPartOfDay(
+                TimeOfDayExtension.tryParse(state.reminderTimes.first)) ??
+            HabitTimeOfDay.anytime;
+      }
+
+      return HabitTimeOfDay.anytime;
+    }
+
+    emit(Validating(state));
     if (state.habitName.isEmpty) {
       emit(ValidateFailed(current: state, errorMessage: S.current.empty_field));
       return;
@@ -150,25 +171,10 @@ class ValidateHabitBloc extends Bloc<ValidateHabitEvent, ValidateHabitState> {
       return;
     }
 
-    if (state.habitGoal.goalType.isEmpty) {
-      emit(ValidateFailed(current: state, errorMessage: S.current.empty_field));
-      return;
-    }
-
     if (state.habitGoal.targetValue <= 0) {
       emit(ValidateFailed(
           current: state,
           errorMessage: 'Goal target value must be greater than 0'));
-      return;
-    }
-
-    if (state.habitGoal.goalUnit.isEmpty) {
-      emit(ValidateFailed(current: state, errorMessage: S.current.empty_field));
-      return;
-    }
-
-    if (state.habitCategory.isEmpty) {
-      emit(ValidateFailed(current: state, errorMessage: S.current.empty_field));
       return;
     }
 
@@ -185,20 +191,15 @@ class ValidateHabitBloc extends Bloc<ValidateHabitEvent, ValidateHabitState> {
       return;
     }
 
-    if (state.reminderTime.isEmpty) {
-      emit(ValidateFailed(
-          current: state, errorMessage: 'Reminder time must be set'));
-      return;
-    }
-
-    if (state.habitGoal.goalFrequency <= 0) {
+    if (!state.habitGoal.goalFrequency.isValid) {
       emit(ValidateFailed(
           current: state, errorMessage: 'Frequency must be greater than 0'));
       return;
     }
 
+    emit(ValidateSucceed(current: state));
+
     final habitId = const Uuid().v4();
-    final reminderTime = HabitTimeOfDay.stringToTimeOfDay(state.reminderTime);
     final habit = HabitEntity(
       habitId: habitId,
       habitTitle: state.habitName,
@@ -208,19 +209,18 @@ class ValidateHabitBloc extends Bloc<ValidateHabitEvent, ValidateHabitState> {
         habitId: habitId,
       ),
       habitCategory: state.habitCategory,
-      timeOfDay: HabitTimeOfDay.getPartOfDay(reminderTime) ??
-          HabitTimeOfDay.anytime.name,
-      reminderTime: state.reminderTime,
+      timeOfDay: getTimeOfDay(),
       habitStatus: DateTime.now().isBefore(state.startDate)
-          ? HabitStatus.pending.name
-          : HabitStatus.inProgress.name,
+          ? HabitStatus.pending
+          : HabitStatus.inProgress,
       startDate: state.startDate,
       endDate: state.endDate,
+      habitIcon: state.habitIcon,
+      reminderTimes: state.reminderTimes,
     );
 
-    emit(ValidateSucceed(current: state));
     await habitRepository.createHabit(HabitModel.fromEntity(
-        habit.copyWith(habitStatus: HabitStatus.inProgress.name)));
+        habit.copyWith(habitStatus: HabitStatus.inProgress)));
     final createdHabit = await habitRepository.getHabitById(habit.habitId);
     if (createdHabit != null) {
       emit(HabitAdded(createdHabit));
@@ -234,5 +234,10 @@ class ValidateHabitBloc extends Bloc<ValidateHabitEvent, ValidateHabitState> {
     Emitter<ValidateHabitState> emit,
   ) {
     emit(HabitGoalUnitChanged(current: state, unit: event.unit));
+  }
+
+  FutureOr<void> _onHabitIconChanged(
+      ChangeHabitIcon event, Emitter<ValidateHabitState> emit) {
+    emit(HabitIconChanged(current: state, habitIcon: event.habitIcon));
   }
 }

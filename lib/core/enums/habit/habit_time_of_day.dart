@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 import '../../../generated/l10n.dart';
 import '../../helpers/enum_helper.dart';
 
 enum HabitTimeOfDay {
+  @JsonValue('morning')
   morning,
+  @JsonValue('afternoon')
   afternoon,
+  @JsonValue('evening')
   evening,
+  @JsonValue('night')
   night,
+  @JsonValue('anytime')
   anytime;
 
   static TimeOfDay stringToTimeOfDay(String time) {
@@ -17,22 +23,6 @@ enum HabitTimeOfDay {
     return TimeOfDay(hour: hour, minute: minute);
   }
 
-  static String? getPartOfDay(TimeOfDay? time) {
-    final int? hour = time?.hour;
-
-    if (hour == null) return null;
-
-    if (hour >= 5 && hour < 12) {
-      return morning.name;
-    } else if (hour >= 12 && hour < 17) {
-      return afternoon.name;
-    } else if (hour >= 17 && hour < 21) {
-      return evening.name;
-    } else {
-      return night.name;
-    }
-  }
-
   String get greeting => switch (this) {
         HabitTimeOfDay.morning => S.current.morning_greeting,
         HabitTimeOfDay.afternoon => S.current.afternoon_greeting,
@@ -40,6 +30,21 @@ enum HabitTimeOfDay {
         HabitTimeOfDay.night => S.current.night_greeting,
         HabitTimeOfDay.anytime => S.current.default_greeting,
       };
+
+  static HabitTimeOfDay? getPartOfDay(TimeOfDay? time) {
+    final int? hour = time?.hour;
+    if (hour == null) return null;
+
+    if (hour >= 5 && hour < 12) {
+      return morning;
+    } else if (hour >= 12 && hour < 17) {
+      return afternoon;
+    } else if (hour >= 17 && hour < 21) {
+      return evening;
+    } else {
+      return night;
+    }
+  }
 
   static HabitTimeOfDay get periodOfTheDay {
     final int hour = DateTime.now().hour;

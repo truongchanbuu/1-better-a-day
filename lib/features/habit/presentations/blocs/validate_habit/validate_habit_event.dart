@@ -32,7 +32,7 @@ final class ChangeHabitGoal extends ValidateHabitEvent {
 }
 
 final class ChangeGoalType extends ValidateHabitEvent {
-  final String goalType;
+  final GoalType goalType;
   const ChangeGoalType(this.goalType);
 
   @override
@@ -48,7 +48,7 @@ final class ChangeGoalTargetValue extends ValidateHabitEvent {
 }
 
 final class ChangeGoalTargetUnit extends ValidateHabitEvent {
-  final String unit;
+  final GoalUnit unit;
   const ChangeGoalTargetUnit(this.unit);
 
   @override
@@ -56,7 +56,7 @@ final class ChangeGoalTargetUnit extends ValidateHabitEvent {
 }
 
 final class ChangeHabitCategory extends ValidateHabitEvent {
-  final String category;
+  final HabitCategory category;
   const ChangeHabitCategory(this.category);
 
   @override
@@ -64,15 +64,15 @@ final class ChangeHabitCategory extends ValidateHabitEvent {
 }
 
 final class ChangeRemindTime extends ValidateHabitEvent {
-  final String reminderTime;
-  const ChangeRemindTime(this.reminderTime);
+  final Set<String> reminderTimes;
+  const ChangeRemindTime(this.reminderTimes);
 
   @override
-  List<Object?> get props => [reminderTime];
+  List<Object?> get props => [reminderTimes];
 }
 
 final class ChangeFrequency extends ValidateHabitEvent {
-  final int frequency;
+  final HabitFrequency frequency;
   const ChangeFrequency(this.frequency);
 
   @override
@@ -93,6 +93,14 @@ final class ChangeEndDate extends ValidateHabitEvent {
 
   @override
   List<Object?> get props => [endDate];
+}
+
+final class ChangeHabitIcon extends ValidateHabitEvent {
+  final HabitIcon habitIcon;
+  const ChangeHabitIcon(this.habitIcon);
+
+  @override
+  List<Object?> get props => [habitIcon];
 }
 
 final class ValidateHabit extends ValidateHabitEvent {}

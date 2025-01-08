@@ -1,7 +1,9 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:super_tooltip/super_tooltip.dart';
 
 import '../../../../core/constants/app_color.dart';
@@ -10,18 +12,23 @@ import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/enums/habit/goal_type.dart';
 import '../../../../core/enums/habit/goal_unit.dart';
 import '../../../../core/enums/habit/habit_category.dart';
-import '../../../../core/enums/habit/habit_frequency.dart';
 import '../../../../core/enums/habit/habit_time_of_day.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/string_extension.dart';
+import '../../../../core/extensions/time_of_day_extension.dart';
 import '../../../../core/helpers/alert_helper.dart';
 import '../../../../generated/l10n.dart';
 import '../../../shared/presentations/blocs/internet/internet_bloc.dart';
+import '../../domain/entities/habit_frequency.dart';
+import '../../domain/entities/habit_icon.dart';
 import '../blocs/validate_habit/validate_habit_bloc.dart';
+import '../helper/shared_habit_action.dart';
 import '../widgets/crud_habit/add_habit_field.dart';
 import '../widgets/crud_habit/add_habit_drop_down_field.dart';
 import '../widgets/crud_habit/date_field.dart';
-import '../widgets/crud_habit/time_field.dart';
+import '../widgets/crud_habit/habit_frequency_field.dart';
+import '../widgets/crud_habit/pick_icon_field.dart';
+import '../widgets/crud_habit/reminder_times_list.dart';
 import '../widgets/smart_tooltip.dart';
 
 class AddHabitPage extends StatefulWidget {
@@ -33,38 +40,42 @@ class AddHabitPage extends StatefulWidget {
 
 class _AddHabitPageState extends State<AddHabitPage> {
   late final GlobalKey<FormState> _formKey;
-  late final TextEditingController freqController;
   late final TextEditingController _customUnitController;
+  late final TextEditingController _freqController;
 
-  List<String> units = GoalUnit.values.map((unit) => unit.name).toList();
+  List<String> units = GoalUnit.values
+      .where((e) => e != GoalUnit.custom)
+      .map((unit) => unit.unitName)
+      .toList();
+
+  TimeOfDay? _selectedTime;
+  HabitIcon? _habitIcon;
+  late Set<String> _reminderTimes;
+
+  HabitFrequency _habitFrequency = HabitFrequency.daily;
 
   @override
   void initState() {
     super.initState();
+    _reminderTimes = {};
     _formKey = GlobalKey();
-    freqController = TextEditingController(text: freqNum.toString());
     _customUnitController = TextEditingController();
+    _freqController =
+        TextEditingController(text: _habitFrequency.getDisplayText());
   }
 
   @override
   void dispose() {
-    freqController.dispose();
     _customUnitController.dispose();
+    _freqController.dispose();
     super.dispose();
   }
-
-  TimeOfDay? _selectedTime;
-
-  HabitFrequency _habitFreq = HabitFrequency.daily;
-  int freqNum = HabitFrequency.daily.inNum!;
 
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now().add(const Duration(days: 21));
 
   String? get currentTimeOfDay =>
-      HabitTimeOfDay.getPartOfDay(_selectedTime)?.toUpperCaseFirstLetter;
-
-  String get currentFrequency => _habitFreq.name.toUpperCaseFirstLetter;
+      HabitTimeOfDay.getPartOfDay(_selectedTime)?.name.toUpperCaseFirstLetter;
 
   static const _spacing = SizedBox(height: AppSpacing.marginM);
   @override
@@ -99,12 +110,27 @@ class _AddHabitPageState extends State<AddHabitPage> {
                       S.current.invalid_form,
                       ContentType.failure,
                     );
+                  } else if (state is HabitAdded) {
+                    AwesomeDialog(
+                      context: context,
+                      dialogType: DialogType.success,
+                      title: S.current.success_title,
+                      desc: S.current.add_success,
+                      btnOkOnPress: () =>
+                          Navigator.popUntil(context, ModalRoute.withName('/')),
+                    ).show();
                   }
                 },
               ),
             ],
             child: BlocBuilder<ValidateHabitBloc, ValidateHabitState>(
               builder: (context, state) {
+                if (state is Validating) {
+                  return const LoadingIndicator(
+                    indicatorType: Indicator.pacman,
+                  );
+                }
+
                 return SingleChildScrollView(
                   child: _buildFields(state),
                 );
@@ -153,17 +179,20 @@ class _AddHabitPageState extends State<AddHabitPage> {
               validator: _generalValidator,
               eventGenerator: (value) => ChangeHabitName(value),
               label: S.current.habit_name,
+              hintText: S.current.habit_name,
             ),
             _spacing,
             _buildAddHabitField(
               validator: _generalValidator,
               eventGenerator: (value) => ChangeHabitDesc(value),
-              label: S.current.add_habit_desc,
+              label: S.current.habit_desc,
+              hintText: S.current.add_habit_desc,
             ),
             _spacing,
             AddHabitField(
               validator: _generalValidator,
-              label: S.current.add_goal_desc,
+              label: S.current.goal_desc,
+              hintText: S.current.add_goal_desc,
               maxLines: 5,
               onChanged: (value) =>
                   context.read<ValidateHabitBloc>().add(ChangeHabitGoal(value)),
@@ -178,12 +207,13 @@ class _AddHabitPageState extends State<AddHabitPage> {
                     validator: _generalValidator,
                     title: S.current.goal_type,
                     items: GoalType.values
+                        .takeWhile((value) => value != GoalType.custom)
                         .map((type) => type.typeName.toUpperCaseFirstLetter)
                         .toList(),
                     onSelected: (value) {
                       if (value?.isNotEmpty ?? false) {
                         context.read<ValidateHabitBloc>().add(ChangeGoalType(
-                            GoalType.fromMultiLangString(value!).name));
+                            GoalType.fromMultiLangString(value!)));
                       }
                     },
                   ),
@@ -210,6 +240,7 @@ class _AddHabitPageState extends State<AddHabitPage> {
                 ),
                 const SizedBox(width: AppSpacing.marginS),
                 Expanded(
+                  flex: 2,
                   child: AddHabitDropdownField(
                     validator: _generalValidator,
                     title: S.current.goal_unit,
@@ -217,6 +248,8 @@ class _AddHabitPageState extends State<AddHabitPage> {
                     onSelected: (value) async {
                       final validateBloc = context.read<ValidateHabitBloc>();
                       if (value?.isNotEmpty ?? false) {
+                        final goalUnit = GoalUnit.fromString(value);
+
                         if (value == GoalUnit.custom.name) {
                           final customUnit = await _showCustomUnitDialog();
                           if (customUnit is String) {
@@ -226,8 +259,7 @@ class _AddHabitPageState extends State<AddHabitPage> {
                           }
                         }
 
-                        validateBloc
-                            .add(ChangeGoalTargetUnit(value!.toCamelCase));
+                        validateBloc.add(ChangeGoalTargetUnit(goalUnit));
                       }
                     },
                   ),
@@ -238,17 +270,30 @@ class _AddHabitPageState extends State<AddHabitPage> {
             AddHabitDropdownField(
               validator: _generalValidator,
               items: HabitCategory.values
+                  .takeWhile((value) => value != HabitCategory.custom)
                   .map((category) => category.categoryName)
                   .toList(),
               title: S.current.habit_category_field_hint,
               onSelected: (value) {
-                final category = HabitCategory.fromMultiLangString(value)?.name;
+                final category = HabitCategory.fromMultiLangString(value);
                 if (category != null) {
                   context
                       .read<ValidateHabitBloc>()
                       .add(ChangeHabitCategory(category));
                 }
               },
+            ),
+            _spacing,
+            PickIconField(
+              onPickIcon: _onPickIcon,
+              habitIcon: _habitIcon,
+            ),
+            _spacing,
+            AddHabitField(
+              controller: _freqController,
+              onTap: _onHabitFrequency,
+              label: S.current.habit_frequency,
+              readOnly: true,
             ),
             _spacing,
             Row(
@@ -290,6 +335,7 @@ class _AddHabitPageState extends State<AddHabitPage> {
                     labelText: S.current.end_date,
                     selectedDate: DateTime.now().add(const Duration(days: 21)),
                     onSelected: (selected) {
+                      endDate = selected;
                       context
                           .read<ValidateHabitBloc>()
                           .add(ChangeEndDate(selected));
@@ -299,69 +345,11 @@ class _AddHabitPageState extends State<AddHabitPage> {
               ],
             ),
             _spacing,
-            TimeField(
-              labelText: S.current.reminder_section,
-              onSelected: (time) {
-                setState(() => _selectedTime = time);
-                context
-                    .read<ValidateHabitBloc>()
-                    .add(ChangeRemindTime('${time.hour}:${time.minute}'));
-              },
-            ),
-            _spacing,
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: AddHabitDropdownField(
-                    validator: _generalValidator,
-                    key: ValueKey('frequency_$currentFrequency'),
-                    items: HabitFrequency.values
-                        .map((time) => time.name.toUpperCaseFirstLetter)
-                        .toList(),
-                    onSelected: (value) => setState(() {
-                      final freqData =
-                          HabitFrequency.fromString(value?.toLowerCase());
-                      _habitFreq = freqData;
-                      freqController.text = freqData == HabitFrequency.custom
-                          ? ''
-                          : freqData.inNum.toString();
-                    }),
-                    selected: currentFrequency,
-                  ),
-                ),
-                const SizedBox(width: AppSpacing.marginS),
-                Expanded(
-                  child: AddHabitField(
-                    validator: _generalValidator,
-                    controller: freqController,
-                    label: S.current.habit_frequency,
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.paddingS,
-                      vertical: AppSpacing.paddingM,
-                    ),
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                      LengthLimitingTextInputFormatter(2),
-                    ],
-                    keyboardType: TextInputType.number,
-                    onChanged: (value) {
-                      if (value.isNotEmpty) {
-                        setState(() {
-                          freqNum = int.parse(value);
-                          freqController.text = value;
-                          _habitFreq = HabitFrequency.fromNum(freqNum);
-                        });
-
-                        context
-                            .read<ValidateHabitBloc>()
-                            .add(ChangeFrequency(freqNum));
-                      }
-                    },
-                  ),
-                ),
-              ],
+            ReminderTimesListSection(
+              reminderTimes: _reminderTimes,
+              onPickReminder: _onPickReminder,
+              onDeleteItem: (item) =>
+                  setState(() => _reminderTimes.remove(item)),
             ),
             _spacing,
             ElevatedButton(
@@ -407,12 +395,14 @@ class _AddHabitPageState extends State<AddHabitPage> {
     required ValidateHabitEvent Function(String) eventGenerator,
     String? Function(String? value)? validator,
     int? maxLines,
+    String? hintText,
     TextEditingController? controller,
   }) {
     return AddHabitField(
+      label: label,
+      hintText: hintText,
       controller: controller,
       validator: validator,
-      label: label,
       maxLines: maxLines,
       onChanged: (value) {
         if (value.length > 2) {
@@ -437,6 +427,7 @@ class _AddHabitPageState extends State<AddHabitPage> {
           contentPadding: const EdgeInsets.all(AppSpacing.paddingM),
           children: [
             TextField(
+              focusNode: FocusNode()..requestFocus(),
               controller: _customUnitController,
               decoration: InputDecoration(
                 border: const OutlineInputBorder(),
@@ -470,6 +461,56 @@ class _AddHabitPageState extends State<AddHabitPage> {
           ],
         ),
       ),
+    );
+  }
+
+  void _onHabitFrequency() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => HabitFrequencyField(
+        initialValue: _habitFrequency,
+        onSave: (habitFrequency) {
+          setState(() {
+            _habitFrequency = habitFrequency;
+            _freqController.text = _habitFrequency.getDisplayText();
+          });
+
+          Navigator.pop(context);
+        },
+      ),
+    );
+  }
+
+  Future<void> _onPickReminder() async {
+    final validateBloc = context.read<ValidateHabitBloc>();
+    final selectedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+
+    if (selectedTime != null) {
+      setState(() {
+        _reminderTimes = _reminderTimes
+          ..add(selectedTime.toShortString)
+          ..toList().sort()
+          ..toSet();
+      });
+
+      validateBloc.add(ChangeRemindTime(_reminderTimes));
+    }
+  }
+
+  void _onPickIcon() {
+    SharedHabitAction.onPickIcon(
+      onSelect: (habitIcon) {
+        setState(() {
+          _habitIcon = habitIcon;
+        });
+
+        if (_habitIcon != null) {
+          context.read<ValidateHabitBloc>().add(ChangeHabitIcon(_habitIcon!));
+        }
+      },
     );
   }
 }

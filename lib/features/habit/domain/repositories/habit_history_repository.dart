@@ -7,4 +7,5 @@ abstract interface class HabitHistoryRepository {
   Future<void> createHabitHistory(HabitHistoryModel habitHistory);
   Future<void> deleteHabitHistory(String id);
   Future<void> updateHabitHistory(HabitHistoryModel habitHistory);
+  Future<void> deleteAllHistories();
 }

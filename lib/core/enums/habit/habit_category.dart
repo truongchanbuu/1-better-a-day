@@ -2,18 +2,30 @@ import 'package:flutter/material.dart';
 
 import '../../../generated/l10n.dart';
 import '../../helpers/enum_helper.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 enum HabitCategory {
+  @JsonValue('health')
   health,
+  @JsonValue('education')
   education,
+  @JsonValue('productivity')
   productivity,
+  @JsonValue('mindfulness')
   mindfulness,
+  @JsonValue('lifestyle')
   lifestyle,
+  @JsonValue('nutrition')
   nutrition,
+  @JsonValue('social')
   social,
+  @JsonValue('finance')
   finance,
+  @JsonValue('creativity')
   creativity,
+  @JsonValue('environmental')
   environmental,
+  @JsonValue('custom')
   custom;
 
   IconData get iconData {

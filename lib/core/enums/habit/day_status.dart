@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 import '../../../generated/l10n.dart';
 import '../../helpers/enum_helper.dart';
 
 enum DayStatus {
+  @JsonValue('completed')
   completed,
+  @JsonValue('failed')
   failed,
+  @JsonValue('skipped')
   skipped,
+  @JsonValue('paused')
   paused,
+  @JsonValue('inProgress')
   inProgress;
 
   IconData get statusIcon {
@@ -21,7 +27,7 @@ enum DayStatus {
       case paused:
         return Icons.pause_circle_filled;
       case inProgress:
-        return Icons.hourglass_full;
+        return Icons.sync;
       default:
         return Icons.help;
     }
@@ -36,9 +42,9 @@ enum DayStatus {
       case skipped:
         return Colors.orange; // #FF9800
       case paused:
-        return Colors.blue; // #2196F3
+        return Colors.amber; // #2196F3
       case inProgress:
-        return Colors.yellow; // #FFEB3B
+        return Colors.blue; // #FFEB3B
       default:
         return Colors.grey;
     }
@@ -46,6 +52,8 @@ enum DayStatus {
 
   String get statusName {
     switch (this) {
+      case completed:
+        return S.current.status_completed;
       case failed:
         return S.current.status_failed;
       case inProgress:
@@ -55,7 +63,7 @@ enum DayStatus {
       case skipped:
         return S.current.status_skipped;
       default:
-        return S.current.status_unkown;
+        return S.current.status_unknown;
     }
   }
 
@@ -64,6 +72,7 @@ enum DayStatus {
 
   static DayStatus fromMultiLangString(String? str) {
     final statusMap = {
+      S.current.status_completed: completed,
       S.current.status_failed: failed,
       S.current.status_in_progress: inProgress,
       S.current.status_paused: paused,

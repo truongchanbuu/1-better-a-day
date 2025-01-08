@@ -7,6 +7,7 @@ class AddHabitField extends StatefulWidget {
   final TextEditingController? controller;
   final String? initValue;
   final String label;
+  final String? hintText;
   final int? maxLines;
   final Widget? suffix;
   final ValueChanged<String>? onChanged;
@@ -17,11 +18,14 @@ class AddHabitField extends StatefulWidget {
   final EdgeInsets? contentPadding;
   final FormFieldValidator<String>? validator;
   final AutovalidateMode? autoValidateMode;
+  final bool readOnly;
 
   const AddHabitField({
     super.key,
     required this.label,
+    this.hintText,
     this.maxLines,
+    this.readOnly = false,
     this.suffix,
     this.onChanged,
     this.onTap,
@@ -59,6 +63,7 @@ class AddHabitFieldState extends State<AddHabitField> {
     return TextFormField(
       autovalidateMode: widget.autoValidateMode,
       validator: widget.validator,
+      readOnly: widget.readOnly,
       controller: widget.controller,
       initialValue: widget.initValue,
       onTap: widget.onTap,
@@ -70,10 +75,14 @@ class AddHabitFieldState extends State<AddHabitField> {
       decoration: InputDecoration(
         contentPadding: widget.contentPadding,
         labelText: widget.label,
+        hintText: widget.hintText,
+        hintStyle: const TextStyle(
+            overflow: TextOverflow.visible, color: AppColors.grayText),
         border: const OutlineInputBorder(),
         focusedBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: AppColors.primary),
         ),
+        errorMaxLines: 5,
         errorStyle: const TextStyle(overflow: TextOverflow.visible),
         suffix: widget.suffix,
       ),

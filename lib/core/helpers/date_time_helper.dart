@@ -1,7 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:moment_dart/moment_dart.dart';
 
-import '../../features/habit/data/repositories/habit_ai_repo_impl.dart';
 import '../../features/habit/domain/entities/habit_history.dart';
 import '../enums/habit/day_status.dart';
 import '../enums/habit/habit_time_of_day.dart';
@@ -18,6 +17,18 @@ class DateTimeHelper {
   static bool isToday(DateTime? date) {
     if (date == null) return false;
     return DateTime.now().toMoment().isAtSameDayAs(date);
+  }
+
+  static Map<int, String> get getWeekDays {
+    var formatter = DateFormat.EEEE();
+    var now = DateTime.now();
+    var days = <int, String>{};
+
+    for (int i = 2; i <= 8; i++) {
+      days[i] = formatter.format(now.add(Duration(days: i)));
+    }
+
+    return days;
   }
 
   static String formatFullDate(DateTime date,

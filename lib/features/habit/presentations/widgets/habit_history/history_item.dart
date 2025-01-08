@@ -7,7 +7,6 @@ import 'package:readmore/readmore.dart';
 import '../../../../../core/constants/app_color.dart';
 import '../../../../../core/constants/app_font_size.dart';
 import '../../../../../core/constants/app_spacing.dart';
-import '../../../../../core/enums/habit/habit_status.dart';
 import '../../../../../core/enums/habit/mood.dart';
 import '../../../../../core/extensions/context_extension.dart';
 import '../../../../../core/extensions/num_extension.dart';
@@ -25,7 +24,7 @@ class HistoryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final habitStatus = HabitStatus.fromString(history.executionStatus);
+    final dayStatus = history.executionStatus;
 
     return Container(
       decoration: BoxDecoration(
@@ -46,9 +45,9 @@ class HistoryItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextWithCircleBorderContainer(
-            title: history.executionStatus.toUpperCase(),
-            backgroundColor: habitStatus.habitStatusColor,
-            titleColor: habitStatus.habitStatusColor,
+            title: dayStatus.statusName.toUpperCase(),
+            backgroundColor: dayStatus.statusColor,
+            titleColor: dayStatus.statusColor,
             fontSize: AppFontSize.labelLarge,
           ),
           _buildDoneDate(),
@@ -56,11 +55,11 @@ class HistoryItem extends StatelessWidget {
           ListTile(
             contentPadding: EdgeInsets.zero,
             leading: Icon(
-              Mood.fromString(history.mood).moodIcon,
+              history.mood?.moodIcon ?? Mood.neutral.moodIcon,
               color: Colors.amber,
             ),
             title: Text(
-              history.mood?.toUpperCase() ?? '',
+              history.mood?.name.toUpperCase() ?? '...',
               style: _titleTextStyle,
             ),
           ),
@@ -136,15 +135,15 @@ class HistoryItem extends StatelessWidget {
   }
 
   Widget _buildTarget() {
-    final GoalUnit goalUnit = GoalUnit.fromString(history.measurement);
+    final GoalUnit goalUnit = history.measurement ?? GoalUnit.custom;
     String unit =
         (goalUnit == GoalUnit.custom) ? goalUnit.unitName : goalUnit.name;
 
     return ListTile(
       contentPadding: EdgeInsets.zero,
-      leading: Icon(goalUnit.unitIcon, color: Colors.purple),
+      leading: Icon(goalUnit.unitIcon, color: goalUnit.unitColor),
       title: Text(
-        '${history.quantity} $unit',
+        '${history.targetValue} $unit',
         style: _titleTextStyle,
       ),
     );

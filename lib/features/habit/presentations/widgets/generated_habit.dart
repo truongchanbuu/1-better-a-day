@@ -10,9 +10,12 @@ import '../../../../core/helpers/date_time_helper.dart';
 import '../../../../generated/l10n.dart';
 import '../../../shared/presentations/widgets/icon_with_text.dart';
 import '../../domain/entities/habit_entity.dart';
+import '../../domain/entities/habit_icon.dart';
+import '../helper/shared_habit_action.dart';
 import 'crud_habit/add_habit_drop_down_field.dart';
 import 'crud_habit/date_field.dart';
-import 'crud_habit/time_field.dart';
+import 'crud_habit/pick_icon_field.dart';
+import 'crud_habit/reminder_times_list.dart';
 
 class GeneratedHabit extends StatefulWidget {
   final HabitEntity habit;
@@ -30,8 +33,10 @@ class GeneratedHabitState extends State<GeneratedHabit> {
   late final TextEditingController _descController;
   late final TextEditingController _goalController;
   late HabitEntity _editedHabit;
-  String? reminderTime;
-  late String habitCategory;
+
+  Set<String> _reminderTimes = {};
+  late HabitCategory habitCategory;
+  late HabitIcon habitIcon;
   late DateTime startDate;
   late DateTime endDate;
 
@@ -40,9 +45,11 @@ class GeneratedHabitState extends State<GeneratedHabit> {
     super.initState();
     _editedHabit = widget.habit;
     _initControllers();
+    _reminderTimes = _editedHabit.reminderTimes;
     startDate = _editedHabit.startDate;
     endDate = _editedHabit.endDate;
     habitCategory = _editedHabit.habitCategory;
+    habitIcon = _editedHabit.habitIcon;
   }
 
   void _initControllers() {
@@ -50,7 +57,6 @@ class GeneratedHabitState extends State<GeneratedHabit> {
     _descController = TextEditingController(text: _editedHabit.habitDesc);
     _goalController =
         TextEditingController(text: _editedHabit.habitGoal.goalDesc);
-    reminderTime = _editedHabit.reminderTime;
   }
 
   @override
@@ -80,12 +86,11 @@ class GeneratedHabitState extends State<GeneratedHabit> {
           habitDesc: _descController.text,
           habitGoal:
               widget.habit.habitGoal.copyWith(goalDesc: _goalController.text),
-          reminderTime: (reminderTime?.isNotEmpty ?? false)
-              ? reminderTime
-              : _editedHabit.reminderTime,
-          habitCategory: habitCategory,
           startDate: startDate,
           endDate: endDate,
+          reminderTimes: _reminderTimes,
+          habitCategory: habitCategory,
+          habitIcon: habitIcon,
         );
       }
     });
@@ -121,6 +126,7 @@ class GeneratedHabitState extends State<GeneratedHabit> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Container(
           decoration: BoxDecoration(
@@ -138,6 +144,7 @@ class GeneratedHabitState extends State<GeneratedHabit> {
           ),
           padding: const EdgeInsets.all(AppSpacing.paddingM),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Text(
                 S.current.habit_generated_title,
@@ -175,24 +182,34 @@ class GeneratedHabitState extends State<GeneratedHabit> {
               const SizedBox(height: AppSpacing.marginM),
               (_isEditMode)
                   ? AddHabitDropdownField(
-                      title:
-                          HabitCategory.fromString(habitCategory).categoryName,
+                      title: S.current.habit_category,
                       onSelected: (value) {
                         final category =
-                            HabitCategory.fromMultiLangString(value)?.name;
+                            HabitCategory.fromMultiLangString(value);
                         if (category != null) {
                           habitCategory = category;
                         }
                       },
                       items: HabitCategory.values
+                          .takeWhile((value) => value != HabitCategory.custom)
                           .map((e) => e.categoryName)
                           .toList(),
+                      selected: habitCategory.categoryName,
                     )
                   : _GeneratedHabitDataRow(
                       title: S.current.habit_category,
-                      info:
-                          HabitCategory.fromString(habitCategory).categoryName,
+                      info: habitCategory.categoryName,
                     ),
+              const SizedBox(height: AppSpacing.marginM),
+              PickIconField(
+                habitIcon: habitIcon,
+                onPickIcon: _isEditMode
+                    ? () => SharedHabitAction.onPickIcon(
+                          selected: habitIcon,
+                          onSelect: _onSelect,
+                        )
+                    : null,
+              ),
               const SizedBox(height: AppSpacing.marginM),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -236,19 +253,14 @@ class GeneratedHabitState extends State<GeneratedHabit> {
                 ],
               ),
               const SizedBox(height: AppSpacing.marginM),
-              if (_isEditMode)
-                TimeField(
-                  labelText: S.current.reminder_section,
-                  initialValue: reminderTime,
-                  onSelected: (time) {
-                    reminderTime =
-                        '${time.hour}:${time.minute.toString().padLeft(2, '0')}';
-                  },
-                )
+              if (!_isEditMode)
+                ReminderTimesListSection(reminderTimes: _reminderTimes)
               else
-                _GeneratedHabitDataRow(
-                  title: S.current.reminder_section,
-                  info: _editedHabit.reminderTime ?? '__ : __',
+                ReminderTimesListSection(
+                  reminderTimes: _reminderTimes,
+                  onDeleteItem: (time) =>
+                      setState(() => _reminderTimes.remove(time)),
+                  onPickReminder: () {},
                 ),
             ],
           ),
@@ -301,6 +313,12 @@ class GeneratedHabitState extends State<GeneratedHabit> {
       btnOkOnPress: () {},
       btnOkColor: AppColors.warning,
     ).show();
+  }
+
+  void _onSelect(HabitIcon habitIcon) {
+    setState(() {
+      this.habitIcon = habitIcon;
+    });
   }
 }
 

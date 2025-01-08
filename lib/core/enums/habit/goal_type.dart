@@ -1,11 +1,18 @@
 import '../../../generated/l10n.dart';
 import '../../helpers/enum_helper.dart';
 
+import 'package:json_annotation/json_annotation.dart';
+
 enum GoalType {
+  @JsonValue('completion')
   completion,
+  @JsonValue('count')
   count,
+  @JsonValue('distance')
   distance,
+  @JsonValue('duration')
   duration,
+  @JsonValue('custom')
   custom;
 
   static GoalType fromString(String str) =>

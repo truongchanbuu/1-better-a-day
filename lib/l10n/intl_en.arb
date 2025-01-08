@@ -161,6 +161,15 @@
   "daily_completed": "You completed this habit today",
   "daily_paused": "You delayed this habit today",
   "rate_and_note_completed_habit": "Rate & Note",
+  "pick_icon": "Pick Icon",
+  "pick_color": "Pick Color",
+
+  "health_and_sport": "Heath and Sport",
+  "education_and_improvement": "Education and Improvement",
+  "mental_health": "Mental Health",
+  "daily_routine": "Daily Routine",
+  "productivity": "Productivity",
+  "society_and_family": "Social and Family",
 
   "status_failed": "Failed",
   "status_in_progress": "In Progress",
@@ -168,7 +177,8 @@
   "status_skipped": "Skipped",
   "status_achieved": "Achieved",
   "status_pending": "Pending",
-  "status_unkown": "Unknown",
+  "status_unknown": "Unknown",
+  "status_completed": "Completed",
 
   "habit_failure_reason_lack_of_time": "Lack of Time",
   "habit_failure_reason_lack_of_motivation": "Lack of Motivation",
@@ -220,6 +230,12 @@
   "detail_section": "Detail",
   "mood_title": "Mood",
   "date_title": "Date",
+
+  "mood_great": "Great",
+  "mood_good": "Good",
+  "mood_neutral": "Neutral",
+  "mood_bad": "Bad",
+  "mood_terrible": "Terrible",
 
   "history_empty": "No history found",
   "cannot_get_any_history": "Cannot get any history",
@@ -433,6 +449,13 @@
   "freq_daily": "Daily",
   "freq_monthly": "Monthly",
   "freq_yearly": "Yearly",
+  "freq_value": "Value",
+  "weekday_title": "Weekdays",
+  "time_interval": "Time Interval",
+  "every_n_month": "{n, plural, one {Every {n} month} other {Every {n} months}}",
+  "every_n_day": "{n, plural, one {Every {n} day} other {Every {n} days}}",
+  "every_n_minute": "{n, plural, one {Every {n} minute} other {Every {n} minutes}}",
+  "every_n_hour": "{n, plural, one {Every {n} hour} other {Every {n} hours}}",
 
   "generate_habit_button": "Generate Habit",
   "summary_title": "Summary",
@@ -907,6 +930,7 @@
   "internet_failure_title": "Internet connection failure",
   "goal_recommend_with_no_internet_alert": "Please note, the accuracy of your goal may be affected if there is no internet connection. Kindly check your connection and try again",
 
+  "goal_desc": "Goal Description",
   "add_goal_desc": "Goal Description (Provides details about the specific goal related to that habit)",
   "goal_type": "Goal Type",
   "goal_unit_value": "Value",
@@ -916,6 +940,7 @@
   "sets_unit": "sets",
   "l_unit": "liters",
   "ml_unit": "milliliters",
+  "day_unit": "day",
   "second_unit": "second",
   "minute_unit": "minute",
   "hour_unit": "hour",
@@ -925,6 +950,7 @@
   "m_unit": "meters",
   "steps_unit": "steps",
   "miles_unit": "miles",
+  "times_unit": "times",
   "custom_unit": "custom",
 
   "@_GOAL_TYPE": {},
@@ -1007,5 +1033,12 @@
   "streak_long_100": "Fantastic! You've kept a 100-day streak!",
   "streak_very_long_150": "Unbelievable! You've kept a 150-day streak!",
   "streak_very_long_200": "Admirable! You've maintained a 200-day streak!",
-  "streak_very_long_365": "You're a hero! Achieved a 365-day streak!"
+  "streak_very_long_365": "You're a hero! Achieved a 365-day streak!",
+
+  "water_reminder_title": "Drinking Time",
+  "run_reminder_title": "Running Time",
+  "exercise_reminder_title": "Exercise Time",
+  "meditation_reminder_title": "Mediation Time",
+  "reading_reminder_title": "Reading Time",
+  "study_reminder_title": "Study Time"
 }

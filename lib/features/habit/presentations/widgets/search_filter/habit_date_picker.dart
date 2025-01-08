@@ -9,7 +9,8 @@ import '../../../../../core/extensions/context_extension.dart';
 import '../../../../../generated/l10n.dart';
 
 class HabitDatePicker extends StatefulWidget {
-  const HabitDatePicker({super.key});
+  final void Function(String selected) onSelected;
+  const HabitDatePicker({super.key, required this.onSelected});
 
   @override
   State<HabitDatePicker> createState() => HabitDatePickerState();
@@ -30,12 +31,13 @@ class HabitDatePickerState extends State<HabitDatePicker> {
     if (!isRangePicker) {
       BottomPicker.date(
         dismissable: true,
+        initialDateTime: selectedDate ?? DateTime.now(),
+        maxDateTime: DateTime.now(),
         buttonContent: _buildButtonContent(),
         buttonSingleColor: AppColors.primary,
         pickerTitle: Text(S.current.select_date_title),
         pickerTextStyle: _pickerStyle,
         titlePadding: _titlePadding,
-        initialDateTime: selectedDate ?? DateTime.now(),
         onSubmit: (date) {
           setState(() {
             selectedDate = date;
@@ -45,11 +47,12 @@ class HabitDatePickerState extends State<HabitDatePicker> {
     } else {
       BottomPicker.range(
         dismissable: true,
+        initialFirstDate: startDate ?? DateTime.now(),
+        initialSecondDate: endDate ?? DateTime.now(),
+        maxFirstDate: DateTime.now(),
+        maxSecondDate: DateTime.now(),
         buttonContent: _buildButtonContent(),
         buttonSingleColor: AppColors.primary,
-        initialFirstDate: startDate ?? DateTime.now(),
-        initialSecondDate:
-            endDate ?? DateTime.now().add(const Duration(days: 7)),
         pickerTitle: Text(S.current.select_range_date_title),
         pickerTextStyle: _pickerStyle,
         titlePadding: _titlePadding,
@@ -140,7 +143,14 @@ class HabitDatePickerState extends State<HabitDatePicker> {
           ),
           const SizedBox(height: AppSpacing.marginM),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              if (!isRangePicker) {
+                widget.onSelected(selectedDate?.toIso8601String() ?? '');
+              } else {
+                widget.onSelected(
+                    '${startDate?.toIso8601String()} - ${endDate?.toIso8601String()}');
+              }
+            },
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -168,5 +178,5 @@ class HabitDatePickerState extends State<HabitDatePicker> {
     );
   }
 
-  String formatDate(DateTime date) => date.toMoment().formatDateShort();
+  String formatDate(DateTime? date) => date?.toMoment().formatDateShort() ?? '';
 }

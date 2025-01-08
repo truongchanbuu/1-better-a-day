@@ -160,6 +160,15 @@
   "daily_completed": "Bạn đã hoàn thành thói quen cho ngày hôm nay",
   "daily_paused": "Bạn đã tạm dừng thói quen này hôm nay",
   "rate_and_note_completed_habit": "Đánh giá và ghi chú",
+  "pick_icon": "Chọn icon",
+  "pick_color": "Chọn màu",
+
+  "health_and_sport": "Sức khỏe và thể thao",
+  "education_and_improvement": "Giáo dục và phát triển",
+  "mental_health": "Sức khỏe tinh thần",
+  "daily_routine": "Lối sống hằng ngày",
+  "productivity": "Năng suất",
+  "society_and_family": "Xã hội và gia đình",
 
   "status_failed": "Thất bại",
   "status_in_progress": "Đang thực hiện",
@@ -167,8 +176,8 @@
   "status_skipped": "Bỏ qua",
   "status_achieved": "Đạt được",
   "status_pending": "Chờ xử lý",
-  "status_unkown": "Không xác định",
-
+  "status_unknown": "Không xác định",
+  "status_completed": "Hoàn thành",
 
   "habit_failure_reason_lack_of_time": "Thiếu thời gian",
   "habit_failure_reason_lack_of_motivation": "Thiếu động lực",
@@ -219,6 +228,12 @@
   "detail_section": "Chi tiết",
   "mood_title": "Tâm trạng",
   "date_title": "Ngày",
+
+  "mood_great": "Tuyệt vời",
+  "mood_good": "Tốt",
+  "mood_neutral": "Bình thường",
+  "mood_bad": "Tệ",
+  "mood_terrible": "Rất tệ",
 
   "history_empty": "Không có lịch sử nào được tìm thấy",
   "cannot_get_any_history": "Không thể lấy bất cứ lịch sử nào",
@@ -431,6 +446,13 @@
   "freq_daily": "Hằng ngày",
   "freq_monthly": "Hằng tháng",
   "freq_yearly": "Hằng năm",
+  "freq_value": "Giá trị",
+  "time_interval": "Các khoảng thời gian",
+  "weekday_title": "Các ngày trong tuần",
+  "every_n_month": "{n, plural, one {Mỗi {n} tháng} other {Mỗi {n} tháng}}",
+  "every_n_day": "{n, plural, one {Mỗi {n} ngày} other {Mỗi {n} ngày}}",
+  "every_n_minute": "{n, plural, one {Mỗi {n} phút} other {Mỗi {n} phút}}",
+  "every_n_hour": "{n, plural, one {Mỗi {n} giờ} other {Mỗi {n} giờ}}",
 
   "generate_habit_button": "Tạo thói quen",
   "summary_title": "Tổng hợp",
@@ -842,6 +864,7 @@
 
   "goal_recommend_with_no_internet_alert": "Xin lưu ý, độ chính xác của mục tiêu có thể bị ảnh hưởng nếu không có kết nối internet. Vui lòng kiểm tra kết nối và thử lại.",
 
+  "goal_desc": "Mô tả mục tiêu",
   "add_goal_desc": "Mô tả mục tiêu (Thông tin chi tiết về mục tiêu của thói quen)",
   "goal_type": "Loại mục tiêu",
   "goal_unit_value": "Giá trị",
@@ -852,6 +875,7 @@
   "l_unit": "l",
   "ml_unit": "ml",
   "second_unit": "giây",
+  "day_unit": "ngày",
   "minute_unit": "phút",
   "hour_unit": "giờ",
   "page_unit": "trang",
@@ -860,6 +884,7 @@
   "m_unit": "m",
   "steps_unit": "bước",
   "miles_unit": "dặm",
+  "times_unit": "lần",
   "custom_unit": "tùy chỉnh",
 
   "@_GOAL_TYPE": {},
@@ -940,5 +965,12 @@
   "streak_long_100": "Tuyệt vời! Bạn đã giữ vững streak 100 ngày không gián đoạn!",
   "streak_very_long_150": "Không thể tin được! Bạn đã duy trì thói quen suốt 150 ngày!",
   "streak_very_long_200": "Đáng khâm phục! Bạn đã giữ streak 200 ngày liên tiếp!",
-  "streak_very_long_365": "Bạn là người hùng! Đã đạt được 365 ngày không bỏ lỡ!"
+  "streak_very_long_365": "Bạn là người hùng! Đã đạt được 365 ngày không bỏ lỡ!",
+
+  "water_reminder_title": "Đến lúc uống nước",
+  "run_reminder_title": "Đến giờ tập chạy",
+  "exercise_reminder_title": "Đến giờ tập thể dục",
+  "meditation_reminder_title": "Đến giờ thiền",
+  "reading_reminder_title": "Đến giờ đọc sách rồi",
+  "study_reminder_title": "Đến giờ học"
 }

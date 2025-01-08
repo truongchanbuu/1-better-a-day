@@ -4,7 +4,7 @@ sealed class HabitHistoryCrudEvent extends Equatable {
   const HabitHistoryCrudEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 final class HabitHistoryCrudCreate extends HabitHistoryCrudEvent {
@@ -71,17 +71,40 @@ final class AddWaterHabitHistory extends HabitHistoryCrudEvent {
 
 final class GetTodayHabitHistory extends HabitHistoryCrudEvent {
   final String habitId;
-  const GetTodayHabitHistory(this.habitId);
+  final GoalUnit unit;
+  final double targetValue;
+  const GetTodayHabitHistory({
+    required this.habitId,
+    required this.unit,
+    required this.targetValue,
+  });
 
   @override
-  List<Object> get props => [habitId];
+  List<Object> get props => [habitId, unit, targetValue];
 }
 
 final class SetHabitHistoryStatus extends HabitHistoryCrudEvent {
   final String historyId;
-  final String status;
+  final DayStatus status;
   const SetHabitHistoryStatus({required this.historyId, required this.status});
 
   @override
   List<Object> get props => [historyId, status];
+}
+
+final class SearchHabitsByFilter extends HabitHistoryCrudEvent {
+  final String habitId;
+  final DayStatus? status;
+  final Mood? mood;
+  final String? date;
+
+  const SearchHabitsByFilter({
+    required this.habitId,
+    this.status,
+    this.mood,
+    this.date,
+  });
+
+  @override
+  List<Object?> get props => [habitId, status, mood, date];
 }

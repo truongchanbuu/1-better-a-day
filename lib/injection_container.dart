@@ -29,6 +29,10 @@ import 'features/habit/presentations/blocs/crud/habit_crud_bloc.dart';
 import 'features/habit/presentations/blocs/distance_track/distance_track_cubit.dart';
 import 'features/habit/presentations/blocs/habit_history_crud/habit_history_crud_bloc.dart';
 import 'features/habit/presentations/blocs/validate_habit/validate_habit_bloc.dart';
+import 'features/notification/data/models/reminder_model.dart';
+import 'features/notification/data/repositories/reminder_repo_impl.dart';
+import 'features/notification/domain/entities/reminder_entity.dart';
+import 'features/notification/domain/repositories/reminder_repository.dart';
 import 'features/settings/presentations/bloc/settings_cubit.dart';
 import 'features/shared/presentations/blocs/internet/internet_bloc.dart';
 import 'features/user/data/repositories/user_repository_impl.dart';
@@ -63,6 +67,15 @@ Future<void> initializeDependencies() async {
     () => HiveCRUDImplementation<HabitHistoryModel>(
       getIt.get<Box<Map<dynamic, dynamic>>>(instanceName: 'habitHistoryBox'),
       () => HabitHistoryModel.fromEntity(HabitHistory.init()),
+    ),
+  );
+
+  final reminderBox = await Hive.openBox<Map>('reminders');
+  getIt.registerSingleton<Box<Map>>(reminderBox, instanceName: 'reminderBox');
+  getIt.registerFactory<HiveCRUDInterface<ReminderModel>>(
+    () => HiveCRUDImplementation<ReminderModel>(
+      getIt.get<Box<Map>>(instanceName: 'reminderBox'),
+      () => ReminderModel.fromEntity(ReminderEntity.init()),
     ),
   );
 
@@ -109,6 +122,7 @@ Future<void> initializeDependencies() async {
   getIt.registerSingleton<HabitRepository>(HabitRepoImpl(getIt()));
   getIt
       .registerSingleton<HabitHistoryRepository>(HabitHistoryRepoImpl(getIt()));
+  getIt.registerSingleton<ReminderRepository>(ReminderRepoImpl(getIt()));
 
   // Bloc
   getIt.registerSingleton<AuthBloc>(AuthBloc(getIt()));
@@ -118,7 +132,7 @@ Future<void> initializeDependencies() async {
       habitAIRepository: getIt(), habitRepository: getIt()));
   getIt.registerFactory<HabitCrudBloc>(() => HabitCrudBloc(getIt()));
   getIt.registerFactory<HabitHistoryCrudBloc>(
-      () => HabitHistoryCrudBloc(getIt()));
+      () => HabitHistoryCrudBloc(getIt(), getIt()));
 
   // Cubit
   getIt.registerSingleton<SettingsCubit>(SettingsCubit(getIt()));

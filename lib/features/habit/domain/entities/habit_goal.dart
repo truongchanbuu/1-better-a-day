@@ -1,41 +1,38 @@
 import 'package:equatable/equatable.dart';
-import 'package:json_annotation/json_annotation.dart';
 
+import '../../../../core/enums/habit/goal_type.dart';
+import '../../../../core/enums/habit/goal_unit.dart';
 import '../../../../core/extensions/string_extension.dart';
+import 'habit_frequency.dart';
 
-part 'habit_goal.g.dart';
- 
-@JsonSerializable()
 class HabitGoal extends Equatable {
   final String goalId;
   final String habitId;
   final String goalDesc;
-  final String goalType;
-  final double currentValue;
+  final GoalType goalType;
   final double targetValue;
-  final int goalFrequency;
-  final String goalUnit;
+  final HabitFrequency goalFrequency;
+  final GoalUnit goalUnit;
 
   const HabitGoal({
     required this.goalId,
     required this.habitId,
     required this.goalDesc,
     required this.goalType,
-    this.currentValue = 0,
     required this.targetValue,
     required this.goalUnit,
     required this.goalFrequency,
   });
 
   factory HabitGoal.init() {
-    return const HabitGoal(
+    return HabitGoal(
       goalId: '',
       habitId: '',
       goalDesc: '',
-      goalType: '',
+      goalType: GoalType.custom,
       targetValue: 0,
-      goalUnit: '',
-      goalFrequency: 1,
+      goalUnit: GoalUnit.custom,
+      goalFrequency: HabitFrequency.daily,
     );
   }
 
@@ -43,18 +40,17 @@ class HabitGoal extends Equatable {
     String? goalId,
     String? habitId,
     String? goalDesc,
-    String? goalType,
+    GoalType? goalType,
     double? currentValue,
     double? targetValue,
-    String? goalUnit,
-    int? goalFrequency,
+    GoalUnit? goalUnit,
+    HabitFrequency? goalFrequency,
   }) {
     return HabitGoal(
       goalId: goalId ?? this.goalId,
       habitId: habitId ?? this.habitId,
       goalDesc: goalDesc ?? this.goalDesc,
       goalType: goalType ?? this.goalType,
-      currentValue: currentValue ?? this.currentValue,
       targetValue: targetValue ?? this.targetValue,
       goalUnit: goalUnit ?? this.goalUnit,
       goalFrequency: goalFrequency ?? this.goalFrequency,
@@ -68,12 +64,11 @@ class HabitGoal extends Equatable {
       habitId,
       goalDesc,
       goalType,
-      currentValue,
       targetValue,
       goalUnit,
       goalFrequency,
     ];
   }
 
-  String get target => '$targetValue ${goalUnit.toUpperCaseFirstLetter}';
+  String get target => '$targetValue ${goalUnit.name.toUpperCaseFirstLetter}';
 }

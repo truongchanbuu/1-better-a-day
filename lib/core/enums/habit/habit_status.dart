@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 import '../../../generated/l10n.dart';
 import '../../helpers/enum_helper.dart';
 
 enum HabitStatus {
+  @JsonValue('failed')
   failed,
+  @JsonValue('inProgress')
   inProgress,
+  @JsonValue('paused')
   paused,
+  @JsonValue('skipped')
   skipped,
+  @JsonValue('achieved')
   achieved,
+  @JsonValue('pending')
   pending;
 
   static HabitStatus fromString(String str) =>
@@ -30,7 +37,7 @@ enum HabitStatus {
       case HabitStatus.pending:
         return S.current.status_pending;
       default:
-        return S.current.status_unkown;
+        return S.current.status_unknown;
     }
   }
 

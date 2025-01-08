@@ -15,8 +15,11 @@ import '../../blocs/crud/habit_crud_bloc.dart';
 import 'filter_item.dart';
 
 class HabitSearchFilterBar extends StatefulWidget {
-  final void Function(String category, String status, String progress)
-      onFilterChanged;
+  final void Function(
+    HabitCategory? category,
+    HabitStatus? status,
+    String progress,
+  ) onFilterChanged;
 
   const HabitSearchFilterBar({super.key, required this.onFilterChanged});
 
@@ -28,8 +31,8 @@ class _HabitSearchFilterBarState extends State<HabitSearchFilterBar> {
   late final TextEditingController _searchController;
 
   List<String> rangeValues = [''];
-  String _selectedCategory = '';
-  String _selectedStatus = '';
+  HabitCategory? _selectedCategory;
+  HabitStatus? _selectedStatus;
   String _selectedProgress = '';
 
   bool _isFilterSectionShown = false;
@@ -85,8 +88,8 @@ class _HabitSearchFilterBarState extends State<HabitSearchFilterBar> {
               onPressed: () => setState(() {
                 _isFilterSectionShown = !_isFilterSectionShown;
                 if (!_isFilterSectionShown) {
-                  _selectedCategory = '';
-                  _selectedStatus = '';
+                  _selectedCategory = null;
+                  _selectedStatus = null;
                   _selectedProgress = '';
 
                   widget.onFilterChanged(
@@ -125,12 +128,11 @@ class _HabitSearchFilterBarState extends State<HabitSearchFilterBar> {
                           onChanged: (value) {
                             if (value != null) {
                               if (value == allSelection) {
-                                _selectedCategory = '';
+                                _selectedCategory = null;
                               } else {
                                 final selectedCategory =
                                     HabitCategory.fromMultiLangString(value);
-                                _selectedCategory =
-                                    selectedCategory?.name ?? '';
+                                _selectedCategory = selectedCategory;
                               }
                               widget.onFilterChanged(_selectedCategory,
                                   _selectedStatus, _selectedProgress);
@@ -148,11 +150,11 @@ class _HabitSearchFilterBarState extends State<HabitSearchFilterBar> {
                           onChanged: (value) {
                             if (value != null) {
                               if (value == allSelection) {
-                                _selectedStatus = '';
+                                _selectedStatus = null;
                               } else {
                                 final selected =
                                     HabitStatus.fromMultiLangString(value);
-                                _selectedStatus = selected.name;
+                                _selectedStatus = selected;
                               }
 
                               widget.onFilterChanged(_selectedCategory,

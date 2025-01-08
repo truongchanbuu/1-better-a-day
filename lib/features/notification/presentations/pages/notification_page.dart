@@ -35,10 +35,7 @@ class NotificationPage extends StatelessWidget {
                     habitId: 'habit$index',
                     reminderTime: DateTime.now()
                         .copyWith(hour: index, minute: index * 10 + index),
-                    reminderStatus:
-                        ReminderStatus.values[Random().nextInt(3)].name,
-                    habitStreak: 3,
-                    createdAt: DateTime.now(),
+                    reminderStatus: ReminderStatus.values[Random().nextInt(3)],
                   ),
                 ),
               ),

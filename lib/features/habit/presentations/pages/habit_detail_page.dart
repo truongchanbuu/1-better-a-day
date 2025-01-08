@@ -7,6 +7,7 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:moment_dart/moment_dart.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import '../../../../core/constants/app_color.dart';
@@ -15,16 +16,15 @@ import '../../../../core/constants/app_font_size.dart';
 import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/enums/habit/day_status.dart';
 import '../../../../core/enums/habit/goal_type.dart';
-import '../../../../core/enums/habit/habit_frequency.dart';
-import '../../../../core/enums/habit/habit_icon.dart';
-import '../../../../core/enums/habit/habit_status.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/num_extension.dart';
 import '../../../../core/extensions/string_extension.dart';
 import '../../../../core/helpers/date_time_helper.dart';
 import '../../../../generated/l10n.dart';
+import '../../../../injection_container.dart';
 import '../../../shared/presentations/widgets/confirm_delete_dialog.dart';
 import '../../../shared/presentations/widgets/icon_with_text.dart';
+import '../../../shared/presentations/widgets/not_found_and_refresh.dart';
 import '../../../shared/presentations/widgets/text_with_circle_border_container.dart';
 import '../../domain/entities/habit_entity.dart';
 import '../../domain/entities/habit_history.dart';
@@ -36,6 +36,7 @@ import '../widgets/habit_section_container.dart';
 import '../widgets/habit_streak_calendar.dart';
 import '../widgets/reminder_section_item.dart';
 import '../widgets/trackers/habit_tracker.dart';
+import 'habit_history_page.dart';
 
 class HabitDetailPage extends StatefulWidget {
   final HabitEntity habit;
@@ -74,13 +75,35 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
                 }
               }
             },
-          )
+          ),
+          BlocListener<HabitHistoryCrudBloc, HabitHistoryCrudState>(
+            listener: (context, state) {
+              if (state is HabitHistoryCrudSuccess) {
+                if (state.type == HabitHistoryCrudEventType.list &&
+                    state.histories.isNotEmpty) {
+                  setState(() {
+                    histories = state.histories;
+                  });
+                } else if (state.type == HabitHistoryCrudEventType.update) {
+                  final newHistory = state.histories.first;
+                  final existingIndex =
+                      histories.indexWhere((e) => e.id == newHistory.id);
+
+                  if (existingIndex != -1) {
+                    setState(() {
+                      histories[existingIndex] = newHistory;
+                    });
+                  }
+                }
+              }
+            },
+          ),
         ],
         child: Scaffold(
           backgroundColor: context.isDarkMode
               ? AppColors.primaryDark
               : AppColors.grayBackgroundColor,
-          appBar: _buildAppBar(context),
+          appBar: _buildAppBar(),
           body: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -154,7 +177,7 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
                 ),
 
                 // Tracker
-                if (currentHabit.habitGoal.goalType != GoalType.custom.name)
+                if (currentHabit.habitGoal.goalType != GoalType.custom)
                   _SectionContainer(
                     width: MediaQuery.of(context).size.width,
                     title: S.current.tracker_section,
@@ -172,20 +195,27 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
                 // History
                 _SectionContainer(
                   title: S.current.history_section,
+                  suffix: IconButton(
+                    onPressed: () => context.read<HabitHistoryCrudBloc>().add(
+                        HabitHistoryCrudListByHabitId(currentHabit.habitId)),
+                    icon: const Icon(Icons.refresh),
+                  ),
                   children: [
                     if (histories.isEmpty)
-                      Center(
-                        child: Text(
-                          S.current.history_empty,
-                          style: const TextStyle(
-                            color: AppColors.grayText,
-                            fontSize: AppFontSize.h4,
-                          ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        child: NotFoundAndRefresh(
+                          title: S.current.history_empty,
+                          onRefresh: () => context
+                              .read<HabitHistoryCrudBloc>()
+                              .add(HabitHistoryCrudListByHabitId(
+                                  currentHabit.habitId)),
                         ),
                       )
                     else ...<Widget>[
-                      ...histories.take(5).map(
-                          (history) => _HistoryBriefITem(history: history)),
+                      ...histories
+                          .take(5)
+                          .map((history) => _HabitBriefItem(history: history)),
                       _spacing,
                       _buildAllDetailHistoryButton(context),
                     ],
@@ -195,6 +225,8 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
                 // Reminder
                 _SectionContainer(
                   title: S.current.reminder_section,
+                  suffix:
+                      IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
                   children: const [
                     _spacing,
                     ReminderSectionItem(),
@@ -208,10 +240,18 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
     );
   }
 
-  AppBar _buildAppBar(BuildContext context) {
-    final iconData = HabitIcon.fromString(currentHabit.iconName).habitIcon;
+  AppBar _buildAppBar() {
+    final iconData = currentHabit.habitIcon;
     return AppBar(
-      leadingWidth: 30,
+      leading: GestureDetector(
+        onTap: () => Navigator.pop(context),
+        child: Container(
+          color: Colors.transparent,
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.paddingM),
+          child: const Icon(Icons.close),
+        ),
+      ),
+      leadingWidth: 40,
       title: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
@@ -243,14 +283,14 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
       spacing: 10,
       children: [
         TextWithCircleBorderContainer(
-            title: currentHabit.habitCategory.toUpperCaseFirstLetter),
+            title: currentHabit.habitCategory.name.toUpperCaseFirstLetter),
         TextWithCircleBorderContainer(
-            title: currentHabit.timeOfDay.toUpperCaseFirstLetter),
-        TextWithCircleBorderContainer(
-          title: HabitFrequency.fromNum(currentHabit.habitGoal.goalFrequency)
-              .name
-              .toUpperCaseFirstLetter,
-        ),
+            title: currentHabit.timeOfDay.name.toUpperCaseFirstLetter),
+        // TextWithCircleBorderContainer(
+        //   title: HabitFrequency.fromNum(currentHabit.habitGoal.goalFrequency)
+        //       .name
+        //       .toUpperCaseFirstLetter,
+        // ),
       ],
     );
   }
@@ -385,7 +425,7 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
   Widget _buildAllDetailHistoryButton(BuildContext context) {
     return Bounce(
       duration: AppCommons.buttonBounceDuration,
-      onPressed: () {},
+      onPressed: _onNavigateToAllHabitPage,
       child: Container(
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
@@ -434,7 +474,10 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
 
   void _onEditHabit() {
     Navigator.pop(context);
-    SmartDialog.show(
+    showModalBottomSheet(
+      isScrollControlled: true,
+      useSafeArea: true,
+      context: context,
       builder: (ctx) => BlocProvider.value(
         value: context.read<HabitCrudBloc>(),
         child: BlocListener<HabitCrudBloc, HabitCrudState>(
@@ -447,24 +490,40 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
                 desc: S.current.add_success,
               );
 
-              await Future.delayed(const Duration(milliseconds: 500));
-              SmartDialog.dismiss();
               await Future.delayed(const Duration(milliseconds: 200));
               alertDialog.show();
               await Future.delayed(const Duration(seconds: 5));
               alertDialog.dismiss();
             }
           },
-          child: EditTemplateDialog(
-            child: GeneratedHabit(
-                habit: currentHabit,
-                onEdit: (habit) {
-                  context
-                      .read<HabitCrudBloc>()
-                      .add(EditHabit(id: habit.habitId, updatedHabit: habit));
-                }),
+          child: SingleChildScrollView(
+            child: EditTemplateDialog(
+              child: GeneratedHabit(
+                  habit: currentHabit,
+                  onEdit: (habit) {
+                    context
+                        .read<HabitCrudBloc>()
+                        .add(EditHabit(id: habit.habitId, updatedHabit: habit));
+                  }),
+            ),
           ),
         ),
+      ),
+    );
+  }
+
+  void _onNavigateToAllHabitPage() {
+    Navigator.push(
+      context,
+      PageTransition(
+        child: BlocProvider(
+          create: (context) => getIt.get<HabitHistoryCrudBloc>(),
+          child: HabitHistoryPage(
+            habitHistories: histories,
+            habitId: currentHabit.habitId,
+          ),
+        ),
+        type: PageTransitionType.leftToRight,
       ),
     );
   }
@@ -532,12 +591,14 @@ class _DateTimeSectionItem extends StatelessWidget {
 class _SectionContainer extends StatelessWidget {
   final String title;
   final double? width;
+  final Widget? suffix;
   final List<Widget> children;
 
   const _SectionContainer({
     required this.title,
     required this.children,
     this.width,
+    this.suffix,
   });
 
   static const _habitMargin = EdgeInsets.symmetric(
@@ -552,7 +613,13 @@ class _SectionContainer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _SectionTitle(title: title),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _SectionTitle(title: title),
+              if (suffix != null) suffix!,
+            ],
+          ),
           ...children,
         ],
       ),
@@ -560,14 +627,14 @@ class _SectionContainer extends StatelessWidget {
   }
 }
 
-class _HistoryBriefITem extends StatelessWidget {
+class _HabitBriefItem extends StatelessWidget {
   final HabitHistory history;
-  const _HistoryBriefITem({required this.history});
+  const _HabitBriefItem({required this.history});
 
   static const String _unAchievedTaskTime = '__:__';
   @override
   Widget build(BuildContext context) {
-    final status = DayStatus.fromString(history.executionStatus);
+    final status = history.executionStatus;
     final iconData = status.statusIcon;
     final iconColor = status.statusColor;
     final String? completedTime =

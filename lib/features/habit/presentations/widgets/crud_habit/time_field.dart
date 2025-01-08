@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../../../core/constants/app_color.dart';
 import '../../../../../core/constants/app_spacing.dart';
 import '../../../../../core/enums/habit/habit_time_of_day.dart';
+import '../../../../../core/extensions/time_of_day_extension.dart';
 import '../../../../../core/helpers/date_time_helper.dart';
 
 class TimeField extends StatefulWidget {
@@ -99,8 +100,7 @@ class _TimeFieldState extends State<TimeField> {
 
     if (selectedTime != null) {
       setState(() {
-        _editingController.text =
-            '${selectedTime.hour}:${selectedTime.minute.toString().padLeft(2, '0')}';
+        _editingController.text = selectedTime.toShortString;
       });
 
       widget.onSelected?.call(selectedTime);

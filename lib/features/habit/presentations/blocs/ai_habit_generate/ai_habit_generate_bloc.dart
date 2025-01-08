@@ -53,7 +53,7 @@ class AIHabitGenerateBloc
     emit(AIGenerating());
     try {
       await habitRepository.createHabit(HabitModel.fromEntity(
-          event.habit.copyWith(habitStatus: HabitStatus.inProgress.name)));
+          event.habit.copyWith(habitStatus: HabitStatus.inProgress)));
 
       final createdHabit =
           await habitRepository.getHabitById(event.habit.habitId);

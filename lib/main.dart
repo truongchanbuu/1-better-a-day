@@ -8,7 +8,11 @@ import 'package:hive_ce/hive.dart';
 import 'config/theme/app_theme.dart';
 import 'core/constants/app_common.dart';
 import 'features/auth/presentations/bloc/auth_bloc/auth_bloc.dart';
+import 'features/habit/data/models/habit_history_model.dart';
 import 'features/habit/data/models/habit_model.dart';
+import 'features/habit/data/repositories/habit_history_repo_impl.dart';
+import 'features/habit/domain/repositories/habit_history_repository.dart';
+import 'features/habit/domain/repositories/habit_repository.dart';
 import 'features/settings/presentations/bloc/settings_cubit.dart';
 import 'features/shared/presentations/blocs/internet/internet_bloc.dart';
 import 'features/shared/presentations/pages/app_view.dart';
@@ -24,6 +28,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await initializeDependencies();
+
+  getIt.get<HabitHistoryRepository>().deleteAllHistories();
+  getIt.get<HabitRepository>().deleteAll();
 
   runApp(const MyApp());
 }
