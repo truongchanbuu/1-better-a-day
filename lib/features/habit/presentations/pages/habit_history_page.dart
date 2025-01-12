@@ -69,7 +69,7 @@ class _HabitHistoryPageState extends State<HabitHistoryPage> {
                     failedDates: DateTimeHelper.getDatesByStatus(
                         histories, DayStatus.failed),
                     skippedDates: DateTimeHelper.getDatesByStatus(
-                        histories, DayStatus.skipped),
+                        histories, DayStatus.paused),
                     onDaySelected: (date, status) {},
                   ),
                   const SizedBox(height: AppSpacing.marginM),
@@ -120,7 +120,7 @@ class _FilterBarState extends State<_FilterBar> {
   String currentSelectedDate = '';
   bool _isDateSelectedShown = false;
 
-  static const String allKey = 'All';
+  String allKey = S.current.all_selection;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -137,7 +137,7 @@ class _FilterBarState extends State<_FilterBar> {
                     .toList()
                   ..insert(0, allKey),
                 onChanged: (value) {
-                  if (value?.isEmpty ?? true) {
+                  if ((value?.isEmpty ?? true) || value == allKey) {
                     currentStatus = null;
                   } else {
                     final dayStatus = DayStatus.fromMultiLangString(value);
@@ -154,7 +154,7 @@ class _FilterBarState extends State<_FilterBar> {
                 items: Mood.values.map((e) => e.moodName).toList()
                   ..insert(0, allKey),
                 onChanged: (value) {
-                  if (value?.isEmpty ?? true) {
+                  if ((value?.isEmpty ?? true) || value == allKey) {
                     currentMood = null;
                   } else {
                     final mood = Mood.fromMultiString(value);

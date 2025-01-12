@@ -1823,6 +1823,56 @@ class S {
     );
   }
 
+  /// `Time Tracker`
+  String get time_tracker {
+    return Intl.message(
+      'Time Tracker',
+      name: 'time_tracker',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pause`
+  String get pause_button {
+    return Intl.message(
+      'Pause',
+      name: 'pause_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Resume`
+  String get resume_button {
+    return Intl.message(
+      'Resume',
+      name: 'resume_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Stop`
+  String get stop_button {
+    return Intl.message(
+      'Stop',
+      name: 'stop_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Paused at {text}`
+  String paused_at(Object text) {
+    return Intl.message(
+      'Paused at $text',
+      name: 'paused_at',
+      desc: '',
+      args: [text],
+    );
+  }
+
   /// `We don't have permission to track your distance`
   String get not_allow_track {
     return Intl.message(

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bounce/flutter_bounce.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../../../core/constants/app_color.dart';
-import '../../../../core/constants/app_common.dart';
 import '../../../../core/constants/app_font_size.dart';
 import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/enums/habit/habit_category.dart';
@@ -159,34 +157,26 @@ class _AllHabitsPageState extends State<AllHabitsPage> {
   }
 
   Widget _buildAddButton() {
-    return Bounce(
-      duration: AppCommons.buttonBounceDuration,
+    return ElevatedButton(
       onPressed: () => SharedHabitAction.showAddHabitOptions(context),
-      child: Container(
-        decoration: const BoxDecoration(
-          color: AppColors.primary,
-          borderRadius: BorderRadius.all(Radius.circular(AppSpacing.radiusS)),
-        ),
-        padding: const EdgeInsets.symmetric(vertical: AppSpacing.paddingM),
-        margin: const EdgeInsets.all(AppSpacing.paddingS),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(
-              FontAwesomeIcons.circlePlus,
+      style: ElevatedButton.styleFrom(shape: const LinearBorder()),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(
+            FontAwesomeIcons.circlePlus,
+            color: AppColors.lightText,
+          ),
+          const SizedBox(width: AppSpacing.marginM),
+          Text(
+            S.current.add_habit.toUpperCase(),
+            style: const TextStyle(
+              fontSize: AppFontSize.h2,
+              fontWeight: FontWeight.bold,
               color: AppColors.lightText,
             ),
-            const SizedBox(width: AppSpacing.marginM),
-            Text(
-              S.current.add_habit.toUpperCase(),
-              style: const TextStyle(
-                fontSize: AppFontSize.h2,
-                fontWeight: FontWeight.bold,
-                color: AppColors.lightText,
-              ),
-            )
-          ],
-        ),
+          )
+        ],
       ),
     );
   }

@@ -209,6 +209,7 @@ class HabitCrudBloc extends Bloc<HabitCrudEvent, HabitCrudState> {
             .toList();
       }
 
+      print(event.status);
       if (event.status != null) {
         habits =
             habits.where((habit) => habit.habitStatus == event.status).toList();

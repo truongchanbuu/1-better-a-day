@@ -16,6 +16,28 @@ import 'habit_model.dart';
 
 class PresetHabits {
   static final List<HabitEntity> defaultHabits = [
+    // TEST ONLY
+    HabitModel.init().copyWith(
+      habitId: 'PRESET-HEALTH-03',
+      habitTitle: S.current.exercise_habit_title,
+      habitDesc: S.current.exercise_habit_desc,
+      habitGoal: HabitGoalModel(
+        goalId: 'PRESET-HEALTH-03-01',
+        habitId: 'PRESET-HEALTH-03',
+        goalDesc: S.current.exercise_habit_goal_desc,
+        goalType: GoalType.completion,
+        targetValue: 30,
+        goalFreq: HabitFrequency.daily,
+        goalUnit: GoalUnit.second,
+      ),
+      habitCategory: HabitCategory.health,
+      habitIcon: HabitIcon.fromKey(PredefinedHabitIconKey.exercise),
+      habitStatus: HabitStatus.pending,
+      timeOfDay: HabitTimeOfDay.morning,
+      reminderTimes: {'6:30'},
+    ).toEntity(),
+    //
+
     HabitModel.init().copyWith(
       habitId: 'PRESET-HEALTH-01',
       habitTitle: S.current.water_habit_title,
@@ -62,7 +84,7 @@ class PresetHabits {
         goalId: 'PRESET-HEALTH-03-01',
         habitId: 'PRESET-HEALTH-03',
         goalDesc: S.current.exercise_habit_goal_desc,
-        goalType: GoalType.distance,
+        goalType: GoalType.completion,
         targetValue: 30,
         goalFreq: HabitFrequency.daily,
         goalUnit: GoalUnit.minutes,

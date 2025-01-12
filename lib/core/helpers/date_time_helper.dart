@@ -45,6 +45,12 @@ class DateTimeHelper {
         : null;
   }
 
+  static String getTimeTrackerFromSecond(int seconds) {
+    final minutes = seconds ~/ 60;
+    final remainingSeconds = seconds % 60;
+    return '${minutes.toString().padLeft(2, '0')}:${remainingSeconds.toString().padLeft(2, '0')}';
+  }
+
   static String? formatTime(DateTime? date) {
     return date != null
         ? DateFormat(DateFormat.HOUR_MINUTE).format(date)
@@ -113,7 +119,7 @@ class DateTimeHelper {
     DayStatus status,
   ) {
     return histories
-        .where((e) => e.executionStatus == status.name)
+        .where((e) => e.executionStatus == status)
         .map((e) => e.date)
         .toList();
   }

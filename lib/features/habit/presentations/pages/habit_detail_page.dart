@@ -57,6 +57,9 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
   initState() {
     super.initState();
     currentHabit = widget.habit;
+    context
+        .read<HabitHistoryCrudBloc>()
+        .add(HabitHistoryCrudListByHabitId(currentHabit.habitId));
   }
 
   static const SizedBox _spacing = SizedBox(height: AppSpacing.marginM);
@@ -126,6 +129,7 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
                       ),
                       child: AnimatedTextKit(
                         repeatForever: false,
+                        totalRepeatCount: 1,
                         animatedTexts: [
                           TypewriterAnimatedText(
                             currentHabit.habitDesc,
@@ -170,7 +174,7 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
                       failedDates: DateTimeHelper.getDatesByStatus(
                           histories, DayStatus.failed),
                       skippedDates: DateTimeHelper.getDatesByStatus(
-                          histories, DayStatus.skipped),
+                          histories, DayStatus.paused),
                       onDaySelected: (firstDate, secondDate) {},
                     ),
                   ],

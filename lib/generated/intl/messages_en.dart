@@ -86,23 +86,25 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m21(count) =>
       "${Intl.plural(count, zero: 'Paused: 0', one: 'Paused: 1', other: 'Paused: ${count}')}";
 
-  static String m22(count) => "Remove ${count}ssucML";
+  static String m22(text) => "Paused at ${text}";
 
-  static String m23(score) =>
-      "Good SMART goal with minor areas for improvement. Score: ${score}%";
+  static String m23(count) => "Remove ${count}ssucML";
 
   static String m24(score) =>
-      "Goal needs work in several areas to be truly SMART. Score: ${score}%";
+      "Good SMART goal with minor areas for improvement. Score: ${score}%";
 
   static String m25(score) =>
+      "Goal needs work in several areas to be truly SMART. Score: ${score}%";
+
+  static String m26(score) =>
       "Goal needs significant improvement to meet SMART criteria. Score: ${score}%";
 
-  static String m26(count) => "Total: ${count}";
-
-  static String m27(count) =>
-      "${Intl.plural(count, zero: 'No Achievements', one: '1 Achievement', other: '${count} Achievements')}";
+  static String m27(count) => "Total: ${count}";
 
   static String m28(count) =>
+      "${Intl.plural(count, zero: 'No Achievements', one: '1 Achievement', other: '${count} Achievements')}";
+
+  static String m29(count) =>
       "${Intl.plural(count, zero: 'No Streak', one: '1 Streak', other: '${count} Streaks')}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
@@ -708,10 +710,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "password_field": MessageLookupByLibrary.simpleMessage("Password"),
         "passwords_do_not_match":
             MessageLookupByLibrary.simpleMessage("Password does not match"),
+        "pause_button": MessageLookupByLibrary.simpleMessage("Pause"),
         "pause_statistic_page": MessageLookupByLibrary.simpleMessage("Pause"),
         "pause_tracking":
             MessageLookupByLibrary.simpleMessage("Pause Tracking"),
         "paused": m21,
+        "paused_at": m22,
         "paused_habit": MessageLookupByLibrary.simpleMessage("Paused Habit"),
         "personal_achievements":
             MessageLookupByLibrary.simpleMessage("Personal Achievements"),
@@ -783,10 +787,11 @@ class MessageLookup extends MessageLookupByLibrary {
             "Consider explaining why this goal is important to you"),
         "relevant_title": MessageLookupByLibrary.simpleMessage("Relevant"),
         "reminder_section": MessageLookupByLibrary.simpleMessage("Reminder"),
-        "remove_water_button": m22,
+        "remove_water_button": m23,
         "reps_unit": MessageLookupByLibrary.simpleMessage("reps"),
         "reset_password":
             MessageLookupByLibrary.simpleMessage("Reset Password"),
+        "resume_button": MessageLookupByLibrary.simpleMessage("Resume"),
         "run_habit_desc": MessageLookupByLibrary.simpleMessage(
             "Improve your health and energy by walking or running 2km every morning."),
         "run_habit_goal_desc": MessageLookupByLibrary.simpleMessage(
@@ -879,6 +884,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "status_title": MessageLookupByLibrary.simpleMessage("Status"),
         "status_unknown": MessageLookupByLibrary.simpleMessage("Unknown"),
         "steps_unit": MessageLookupByLibrary.simpleMessage("steps"),
+        "stop_button": MessageLookupByLibrary.simpleMessage("Stop"),
         "streak_long_100": MessageLookupByLibrary.simpleMessage(
             "Fantastic! You\'ve kept a 100-day streak!"),
         "streak_long_40": MessageLookupByLibrary.simpleMessage(
@@ -916,9 +922,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "success_title": MessageLookupByLibrary.simpleMessage("Success"),
         "summary_excellent": MessageLookupByLibrary.simpleMessage(
             "Excellent SMART goal! All criteria are well_defined and balanced."),
-        "summary_good": m23,
-        "summary_needs_work": m24,
-        "summary_poor": m25,
+        "summary_good": m24,
+        "summary_needs_work": m25,
+        "summary_poor": m26,
         "summary_title": MessageLookupByLibrary.simpleMessage("Summary"),
         "target_title": MessageLookupByLibrary.simpleMessage("Target"),
         "term_and_condition_statement": MessageLookupByLibrary.simpleMessage(
@@ -989,17 +995,18 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Time of day"),
         "time_slot_heatmap":
             MessageLookupByLibrary.simpleMessage("Daily Time Slots Map"),
+        "time_tracker": MessageLookupByLibrary.simpleMessage("Time Tracker"),
         "times_unit": MessageLookupByLibrary.simpleMessage("times"),
         "today": MessageLookupByLibrary.simpleMessage("Today"),
         "today_tasks": MessageLookupByLibrary.simpleMessage("Today Tasks"),
-        "total": m26,
-        "total_achievement": m27,
+        "total": m27,
+        "total_achievement": m28,
         "total_distance":
             MessageLookupByLibrary.simpleMessage("Total Distance"),
         "total_habit": MessageLookupByLibrary.simpleMessage("Total Habit"),
         "total_paused_time":
             MessageLookupByLibrary.simpleMessage("Total Pause Time"),
-        "total_streak": m28,
+        "total_streak": m29,
         "tracker_section": MessageLookupByLibrary.simpleMessage("Tracker"),
         "trend_section": MessageLookupByLibrary.simpleMessage("Trend"),
         "try_again":

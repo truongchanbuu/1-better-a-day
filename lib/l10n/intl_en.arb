@@ -221,6 +221,11 @@
   "pause_tracking": "Pause Tracking",
   "current_distance": "Current Distance",
   "total_distance": "Total Distance",
+  "time_tracker": "Time Tracker",
+  "pause_button": "Pause",
+  "resume_button": "Resume",
+  "stop_button": "Stop",
+  "paused_at": "Paused at {text}",
 
   "@__TRACK_ERROR__": {},
   "not_allow_track": "We don't have permission to track your distance",

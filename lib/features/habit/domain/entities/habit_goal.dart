@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 
 import '../../../../core/enums/habit/goal_type.dart';
 import '../../../../core/enums/habit/goal_unit.dart';
+import '../../../../core/extensions/num_extension.dart';
 import '../../../../core/extensions/string_extension.dart';
 import 'habit_frequency.dart';
 
@@ -70,5 +71,6 @@ class HabitGoal extends Equatable {
     ];
   }
 
-  String get target => '$targetValue ${goalUnit.name.toUpperCaseFirstLetter}';
+  String get target =>
+      '${targetValue.toStringAsFixedWithoutZero()} ${goalUnit.name.toUpperCaseFirstLetter}';
 }

@@ -28,6 +28,7 @@ import 'features/habit/presentations/blocs/ai_habit_generate/ai_habit_generate_b
 import 'features/habit/presentations/blocs/crud/habit_crud_bloc.dart';
 import 'features/habit/presentations/blocs/distance_track/distance_track_cubit.dart';
 import 'features/habit/presentations/blocs/habit_history_crud/habit_history_crud_bloc.dart';
+import 'features/habit/presentations/blocs/habit_time_tracker/habit_time_tracker_bloc.dart';
 import 'features/habit/presentations/blocs/validate_habit/validate_habit_bloc.dart';
 import 'features/notification/data/models/reminder_model.dart';
 import 'features/notification/data/repositories/reminder_repo_impl.dart';
@@ -133,6 +134,8 @@ Future<void> initializeDependencies() async {
   getIt.registerFactory<HabitCrudBloc>(() => HabitCrudBloc(getIt()));
   getIt.registerFactory<HabitHistoryCrudBloc>(
       () => HabitHistoryCrudBloc(getIt(), getIt()));
+  getIt.registerCachedFactoryParam<HabitTimeTrackerBloc, int, void>(
+      (target, _) => HabitTimeTrackerBloc(target));
 
   // Cubit
   getIt.registerSingleton<SettingsCubit>(SettingsCubit(getIt()));

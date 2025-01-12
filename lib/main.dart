@@ -1,16 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
-import 'package:hive_ce/hive.dart';
 
 import 'config/theme/app_theme.dart';
 import 'core/constants/app_common.dart';
 import 'features/auth/presentations/bloc/auth_bloc/auth_bloc.dart';
-import 'features/habit/data/models/habit_history_model.dart';
-import 'features/habit/data/models/habit_model.dart';
-import 'features/habit/data/repositories/habit_history_repo_impl.dart';
 import 'features/habit/domain/repositories/habit_history_repository.dart';
 import 'features/habit/domain/repositories/habit_repository.dart';
 import 'features/settings/presentations/bloc/settings_cubit.dart';
@@ -19,7 +16,6 @@ import 'features/shared/presentations/pages/app_view.dart';
 import 'firebase_options.dart';
 import 'generated/l10n.dart';
 import 'injection_container.dart';
-import 'services/hive_crud_service.dart';
 
 // TODO: PACKAGES:
 // - TIME_PLANNER FOR TIME SCHEDULE
@@ -27,11 +23,11 @@ import 'services/hive_crud_service.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  FlutterForegroundTask.initCommunicationPort();
   await initializeDependencies();
 
   getIt.get<HabitHistoryRepository>().deleteAllHistories();
   getIt.get<HabitRepository>().deleteAll();
-
   runApp(const MyApp());
 }
 

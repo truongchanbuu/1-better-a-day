@@ -219,6 +219,11 @@
   "pause_tracking": "Dừng theo dõi",
   "current_distance": "Quãng đường hiện tại",
   "total_distance": "Tổng quãng đường",
+  "time_tracker": "Bộ đếm theo dõi",
+  "pause_button": "Tạm dừng",
+  "resume_button": "Tiếp tục",
+  "stop_button": "Dừng",
+  "paused_at": "Dừng tại {text}",
 
   "@__TRACK_ERROR__": {},
   "not_allow_track": "Chúng tôi không được cấp quyền để theo dõi quãng đường di chuyển của bạn",

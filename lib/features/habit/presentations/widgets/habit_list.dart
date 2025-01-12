@@ -63,7 +63,6 @@ class _HabitListState extends State<HabitList> {
   Widget build(BuildContext context) {
     return BlocBuilder<HabitCrudBloc, HabitCrudState>(
       builder: (context, state) {
-        print(state);
         if (state is HabitCrudSucceed) {
           if (state.action == HabitCrudAction.getAll ||
               state.action == HabitCrudAction.getBySearchValues ||

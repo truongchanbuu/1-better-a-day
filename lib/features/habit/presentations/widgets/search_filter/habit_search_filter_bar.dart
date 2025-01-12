@@ -117,7 +117,6 @@ class _HabitSearchFilterBarState extends State<HabitSearchFilterBar> {
                       children: [
                         FilterItem(
                           width: 200,
-                          selected: allSelection,
                           title: S.current.habit_category,
                           items: HabitCategory.values
                               .takeWhile(
@@ -141,7 +140,6 @@ class _HabitSearchFilterBarState extends State<HabitSearchFilterBar> {
                         ),
                         FilterItem(
                           width: 200,
-                          selected: allSelection,
                           title: S.current.status_title,
                           items: HabitStatus.values
                               .map((e) => e.statusName)
