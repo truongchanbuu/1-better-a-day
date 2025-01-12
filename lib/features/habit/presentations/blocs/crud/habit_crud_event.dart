@@ -23,6 +23,14 @@ final class AddListOfHabits extends HabitCrudEvent {
   List<Object> get props => [habits];
 }
 
+final class GetHabitById extends HabitCrudEvent {
+  final String habitId;
+  const GetHabitById(this.habitId);
+
+  @override
+  List<Object> get props => [habitId];
+}
+
 final class GetAllHabits extends HabitCrudEvent {}
 
 final class GetListOfHabitsByIds extends HabitCrudEvent {

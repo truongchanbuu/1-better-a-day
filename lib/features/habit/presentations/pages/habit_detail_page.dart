@@ -75,12 +75,21 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
                   setState(() {
                     currentHabit = state.habits.first;
                   });
+                } else if (state.action == HabitCrudAction.getById &&
+                    state.habits.isNotEmpty) {
+                  print("STATE: $state");
+                  if (currentHabit != state.habits.first) {
+                    setState(() {
+                      currentHabit = state.habits.first;
+                    });
+                  }
                 }
               }
             },
           ),
           BlocListener<HabitHistoryCrudBloc, HabitHistoryCrudState>(
             listener: (context, state) {
+              print('STATE HIST: $state');
               if (state is HabitHistoryCrudSuccess) {
                 if (state.type == HabitHistoryCrudEventType.list &&
                     state.histories.isNotEmpty) {
@@ -92,11 +101,17 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
                   final existingIndex =
                       histories.indexWhere((e) => e.id == newHistory.id);
 
-                  if (existingIndex != -1) {
-                    setState(() {
+                  setState(() {
+                    if (existingIndex != -1) {
                       histories[existingIndex] = newHistory;
-                    });
-                  }
+                    } else {
+                      histories.add(newHistory);
+                    }
+                  });
+
+                  context
+                      .read<HabitCrudBloc>()
+                      .add(GetHabitById(currentHabit.habitId));
                 }
               }
             },
@@ -174,7 +189,7 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
                       failedDates: DateTimeHelper.getDatesByStatus(
                           histories, DayStatus.failed),
                       skippedDates: DateTimeHelper.getDatesByStatus(
-                          histories, DayStatus.paused),
+                          histories, DayStatus.skipped),
                       onDaySelected: (firstDate, secondDate) {},
                     ),
                   ],

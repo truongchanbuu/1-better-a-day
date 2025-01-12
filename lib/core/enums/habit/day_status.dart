@@ -11,8 +11,6 @@ enum DayStatus {
   failed,
   @JsonValue('skipped')
   skipped,
-  @JsonValue('paused')
-  paused,
   @JsonValue('inProgress')
   inProgress;
 
@@ -24,8 +22,6 @@ enum DayStatus {
         return Icons.cancel;
       case skipped:
         return Icons.fast_forward;
-      case paused:
-        return Icons.pause_circle_filled;
       case inProgress:
         return Icons.sync;
       default:
@@ -41,8 +37,6 @@ enum DayStatus {
         return Colors.red; // #F44336
       case skipped:
         return Colors.orange; // #FF9800
-      case paused:
-        return Colors.amber; // #2196F3
       case inProgress:
         return Colors.blue; // #FFEB3B
       default:
@@ -58,8 +52,6 @@ enum DayStatus {
         return S.current.status_failed;
       case inProgress:
         return S.current.status_in_progress;
-      case paused:
-        return S.current.status_paused;
       case skipped:
         return S.current.status_skipped;
       default:
@@ -75,7 +67,6 @@ enum DayStatus {
       S.current.status_completed: completed,
       S.current.status_failed: failed,
       S.current.status_in_progress: inProgress,
-      S.current.status_paused: paused,
       S.current.status_skipped: skipped,
     };
 

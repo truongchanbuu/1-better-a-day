@@ -22,6 +22,7 @@ class HabitCrudBloc extends Bloc<HabitCrudEvent, HabitCrudState> {
   HabitCrudBloc(this.habitRepository) : super(CrudInitial()) {
     on<AddHabit>(_onAddHabit);
     on<AddListOfHabits>(_onAddListOfHabits);
+    on<GetHabitById>(_onGetHabitById);
     on<GetAllHabits>(_onGetAllHabits);
     on<GetListOfHabitsByIds>(_onGetListOfHabits);
     on<GetListOfHabitsByCategory>(_onGetHabitsByCategory);
@@ -134,6 +135,23 @@ class HabitCrudBloc extends Bloc<HabitCrudEvent, HabitCrudState> {
     }
   }
 
+  FutureOr<void> _onGetHabitById(
+      GetHabitById event, Emitter<HabitCrudState> emit) async {
+    emit(Executing());
+    try {
+      final habit = await habitRepository.getHabitById(event.habitId);
+      if (habit == null) {
+        emit(HabitCrudFailed(S.current.cannot_get_any_habit));
+      } else {
+        emit(HabitCrudSucceed(
+            action: HabitCrudAction.getById, habits: [habit.toEntity()]));
+      }
+    } catch (e) {
+      _appLogger.e(e);
+      emit(HabitCrudFailed(S.current.cannot_get_any_habit));
+    }
+  }
+
   FutureOr<void> _onGetAllHabits(
       GetAllHabits event, Emitter<HabitCrudState> emit) async {
     emit(Executing());
@@ -209,7 +227,6 @@ class HabitCrudBloc extends Bloc<HabitCrudEvent, HabitCrudState> {
             .toList();
       }
 
-      print(event.status);
       if (event.status != null) {
         habits =
             habits.where((habit) => habit.habitStatus == event.status).toList();

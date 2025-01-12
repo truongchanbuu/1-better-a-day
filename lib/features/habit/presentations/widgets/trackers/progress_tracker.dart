@@ -77,9 +77,9 @@ class _ProgressTrackerState extends State<ProgressTracker> {
               setState(() {
                 _isCompleted = state.histories.isNotEmpty &&
                     (state.histories.first.executionStatus ==
-                            DayStatus.completed.name ||
+                            DayStatus.completed ||
                         state.histories.first.executionStatus ==
-                            DayStatus.paused.name);
+                            DayStatus.skipped);
               });
 
               if (state.type == HabitHistoryCrudEventType.update ||

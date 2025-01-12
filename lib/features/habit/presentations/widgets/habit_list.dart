@@ -42,6 +42,11 @@ class _HabitListState extends State<HabitList> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
+  @override
   void didUpdateWidget(covariant HabitList oldWidget) {
     super.didUpdateWidget(oldWidget);
     if ((widget.category != null && widget.category != oldWidget.category) ||

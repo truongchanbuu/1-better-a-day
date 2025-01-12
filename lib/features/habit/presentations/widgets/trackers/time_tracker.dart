@@ -55,7 +55,6 @@ class _TimeTrackerState extends State<TimeTracker> {
   Widget build(BuildContext context) {
     return BlocListener<HabitTimeTrackerBloc, HabitTimeTrackerState>(
       listener: (context, state) {
-        print('l STATE: $state');
         if (state is TimeTrackSucceed) {
           _handleCompletion(context);
         }
@@ -86,7 +85,6 @@ class _TimeTrackerState extends State<TimeTracker> {
             children: [
               BlocBuilder<HabitTimeTrackerBloc, HabitTimeTrackerState>(
                 builder: (context, state) {
-                  print('State: $state');
                   return IconButton(
                     icon: Icon(
                       state is TimePaused || state is TimeInitial

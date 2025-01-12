@@ -52,7 +52,6 @@ const _$DayStatusEnumMap = {
   DayStatus.completed: 'completed',
   DayStatus.failed: 'failed',
   DayStatus.skipped: 'skipped',
-  DayStatus.paused: 'paused',
   DayStatus.inProgress: 'inProgress',
 };
 

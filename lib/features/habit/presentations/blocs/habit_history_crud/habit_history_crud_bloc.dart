@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moment_dart/moment_dart.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../../../config/log/app_logger.dart';
 import '../../../../../core/enums/habit/day_status.dart';
@@ -78,41 +79,18 @@ class HabitHistoryCrudBloc
       AddWaterHabitHistory event, Emitter<HabitHistoryCrudState> emit) async {
     emit(HabitHistoryCrudInProgress());
     try {
-      final histories = await habitHistoryRepository
-          .getHabitHistoriesByHabitId(event.habitId);
+      final todayHistory = await _getOrCreateTodayHistory(event.habitId);
+      final updatedHistory = _updateWaterHabitHistory(todayHistory, event);
 
-      HabitHistoryModel todayHistory = histories.firstWhere(
-        (element) =>
-            element.date.toMoment().isAtSameDayAs(DateTime.now().toMoment()),
-        orElse: () => HabitHistoryModel.fromEntity(HabitHistory.init()),
+      await _persistHabitHistory(updatedHistory);
+
+      final currentHabit = await _updateParentHabit(
+        updatedHistory.habitId,
+        updatedHistory.executionStatus == DayStatus.completed,
       );
-
-      final currentValue = todayHistory.currentValue + event.quantity;
-
-      if (currentValue >= event.targetValue &&
-          todayHistory.executionStatus != DayStatus.completed) {
-        todayHistory = todayHistory.copyWith(endTime: () => DateTime.now());
-        emit(DailyHabitCompleted());
-      }
-
-      var updatedHistory = todayHistory.copyWith(
-        habitId: event.habitId,
-        targetValue: () => event.targetValue.toDouble(),
-        currentValue: currentValue,
-        executionStatus: todayHistory.executionStatus != DayStatus.completed &&
-                currentValue >= event.targetValue
-            ? DayStatus.completed
-            : DayStatus.inProgress,
-      );
-
-      if (todayHistory == HabitHistoryModel.fromEntity(HabitHistory.init())) {
-        updatedHistory =
-            updatedHistory.copyWith(measurement: () => GoalUnit.ml);
-        await habitHistoryRepository
-            .createHabitHistory(HabitHistoryModel.fromEntity(updatedHistory));
-      } else {
-        await habitHistoryRepository
-            .updateHabitHistory(HabitHistoryModel.fromEntity(updatedHistory));
+      if (currentHabit == null) {
+        emit(HabitHistoryCrudFailure(S.current.cannot_get_any_habit));
+        return;
       }
 
       emit(HabitHistoryCrudSuccess(
@@ -120,6 +98,38 @@ class HabitHistoryCrudBloc
     } catch (e) {
       _appLogger.e(e.toString());
       emit(HabitHistoryCrudFailure(e.toString()));
+    }
+  }
+
+  Future<HabitHistoryModel> _getOrCreateTodayHistory(String habitId) async {
+    final histories =
+        await habitHistoryRepository.getHabitHistoriesByHabitId(habitId);
+    return histories.firstWhere(
+      (element) =>
+          element.date.toMoment().isAtSameDayAs(DateTime.now().toMoment()),
+      orElse: () => HabitHistoryModel.fromEntity(HabitHistory.init()),
+    );
+  }
+
+  HabitHistoryModel _updateWaterHabitHistory(
+      HabitHistoryModel history, AddWaterHabitHistory event) {
+    final currentValue = history.currentValue + event.quantity;
+    final isCompleted = currentValue >= event.targetValue;
+    return history.copyWith(
+      habitId: event.habitId,
+      targetValue: () => event.targetValue.toDouble(),
+      currentValue: currentValue,
+      executionStatus: isCompleted ? DayStatus.completed : DayStatus.inProgress,
+      endTime: isCompleted ? () => DateTime.now() : null,
+    );
+  }
+
+  Future<void> _persistHabitHistory(HabitHistoryModel history) async {
+    if (history.id.isEmpty || history == HabitHistory.init()) {
+      await habitHistoryRepository
+          .createHabitHistory(history.copyWith(id: const Uuid().v4()));
+    } else {
+      await habitHistoryRepository.updateHabitHistory(history);
     }
   }
 
@@ -135,6 +145,7 @@ class HabitHistoryCrudBloc
       if (habits.isEmpty) {
         todayHistory = HabitHistoryModel.fromEntity(
           HabitHistory.init().copyWith(
+            id: const Uuid().v4(),
             habitId: event.habitId,
             measurement: () => event.unit,
             targetValue: () => event.targetValue,
@@ -199,19 +210,38 @@ class HabitHistoryCrudBloc
   }
 
   Future<HabitModel?> _updateParentHabit(
-      String habitId, bool isCompleted) async {
+    String habitId,
+    bool isCompleted,
+  ) async {
     final habit = await habitRepository.getHabitById(habitId);
     if (habit == null) return null;
 
     final updatedHabit = habit.copyWith(
       currentStreak: isCompleted ? habit.currentStreak + 1 : 0,
       longestStreak: max(
-          isCompleted ? habit.currentStreak + 1 : habit.currentStreak,
-          habit.longestStreak),
+        isCompleted ? habit.currentStreak + 1 : habit.currentStreak,
+        habit.longestStreak,
+      ),
+      habitProgress: await _updateProgress(habit),
     );
 
     await habitRepository.updateHabit(habitId, updatedHabit);
     return updatedHabit;
+  }
+
+  Future<double> _updateProgress(HabitModel habit) async {
+    final int totalDays = habit.endDate.difference(habit.startDate).inDays + 1;
+    List<HabitHistoryModel> histories =
+        await habitHistoryRepository.getHabitHistoriesByHabitId(habit.habitId);
+
+    final int completedDays = histories
+        .where((h) =>
+            h.executionStatus == DayStatus.completed &&
+            h.date.isAfter(habit.startDate.subtract(const Duration(days: 1))) &&
+            h.date.isBefore(habit.endDate.add(const Duration(days: 1))))
+        .length;
+
+    return completedDays / totalDays;
   }
 
   FutureOr<void> _onSearchHabitByFilter(

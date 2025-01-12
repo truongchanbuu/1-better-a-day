@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../../../core/enums/habit/day_status.dart';
 import '../../../../core/enums/habit/goal_unit.dart';
@@ -42,7 +41,7 @@ class HabitHistory extends Equatable {
 
   factory HabitHistory.init() {
     return HabitHistory(
-      id: const Uuid().v4(),
+      id: '',
       habitId: '',
       date: DateTime.now(),
       currentValue: 0,

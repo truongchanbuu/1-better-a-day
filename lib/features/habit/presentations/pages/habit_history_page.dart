@@ -69,7 +69,7 @@ class _HabitHistoryPageState extends State<HabitHistoryPage> {
                     failedDates: DateTimeHelper.getDatesByStatus(
                         histories, DayStatus.failed),
                     skippedDates: DateTimeHelper.getDatesByStatus(
-                        histories, DayStatus.paused),
+                        histories, DayStatus.skipped),
                     onDaySelected: (date, status) {},
                   ),
                   const SizedBox(height: AppSpacing.marginM),

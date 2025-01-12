@@ -3,6 +3,7 @@ part of 'habit_crud_bloc.dart';
 enum HabitCrudAction {
   add,
   addList,
+  getById,
   getAll,
   getBySearchValues,
   getByKeyword,

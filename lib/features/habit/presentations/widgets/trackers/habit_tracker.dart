@@ -82,7 +82,7 @@ class _HabitTrackerState extends State<HabitTracker> {
             status: trackStatus.name,
           );
         } else if (state is DailyHabitPaused) {
-          trackStatus = DayStatus.paused;
+          trackStatus = DayStatus.skipped;
 
           SharedHabitAction.showDailyCompletionDialog(
             context: context,
@@ -98,7 +98,7 @@ class _HabitTrackerState extends State<HabitTracker> {
           }
 
           history = state.histories.first;
-          if ([DayStatus.completed, DayStatus.paused]
+          if ([DayStatus.completed, DayStatus.skipped]
               .contains(history.executionStatus)) {
             bool isCompleted = history.executionStatus == DayStatus.completed;
             return Center(
@@ -175,7 +175,7 @@ class _HabitTrackerState extends State<HabitTracker> {
       targetValue: _habitGoal.targetValue,
       goalUnit: _goalUnit,
       isActionButtonShown: (trackStatus != DayStatus.completed &&
-              trackStatus != DayStatus.paused) ||
+              trackStatus != DayStatus.skipped) ||
           trackStatus == DayStatus.inProgress,
     );
   }
@@ -215,8 +215,8 @@ class _HabitTrackerState extends State<HabitTracker> {
 
   Widget _buildPauseButton() {
     return _buildActionButton(
-      statusCondition: DayStatus.paused,
-      targetStatus: DayStatus.paused,
+      statusCondition: DayStatus.skipped,
+      targetStatus: DayStatus.skipped,
       icon: FontAwesomeIcons.circlePause,
       title: S.current.mark_as_pause,
       backgroundColor: AppColors.warning,
@@ -224,7 +224,7 @@ class _HabitTrackerState extends State<HabitTracker> {
       onPressed: () {
         context.read<HabitHistoryCrudBloc>().add(SetHabitHistoryStatus(
               historyId: history.id,
-              status: DayStatus.paused,
+              status: DayStatus.skipped,
             ));
       },
     );
