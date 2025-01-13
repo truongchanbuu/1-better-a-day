@@ -50,6 +50,9 @@ class MyApp extends StatelessWidget {
   }
 }
 
+final RouteObserver<ModalRoute<void>> routeObserver =
+    RouteObserver<ModalRoute<void>>();
+
 class AppContainer extends StatelessWidget {
   const AppContainer({super.key});
 
@@ -57,7 +60,7 @@ class AppContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      navigatorObservers: [FlutterSmartDialog.observer],
+      navigatorObservers: [FlutterSmartDialog.observer, routeObserver],
       builder: FlutterSmartDialog.init(),
       title: AppCommons.appName,
       themeMode: context.select((SettingsCubit settings) =>

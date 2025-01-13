@@ -143,7 +143,6 @@ dependencies:
   geolocator: 13.0.2
 
   # Service
-  flutter_background_service: ^5.0.10
   flutter_foreground_task: ^8.17.0
 
 dev_dependencies:

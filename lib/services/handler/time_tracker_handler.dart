@@ -6,7 +6,7 @@ import '../../config/foreground_service/time_tracker_notification_config.dart';
 import '../../core/helpers/date_time_helper.dart';
 
 @pragma('vm:entry-point')
-void startCallback() {
+void startTimeTrackerCallback() {
   FlutterForegroundTask.setTaskHandler(TimerTaskHandler());
 }
 

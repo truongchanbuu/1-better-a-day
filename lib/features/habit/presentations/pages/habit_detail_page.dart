@@ -89,7 +89,6 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
           ),
           BlocListener<HabitHistoryCrudBloc, HabitHistoryCrudState>(
             listener: (context, state) {
-              print('STATE HIST: $state');
               if (state is HabitHistoryCrudSuccess) {
                 if (state.type == HabitHistoryCrudEventType.list &&
                     state.histories.isNotEmpty) {

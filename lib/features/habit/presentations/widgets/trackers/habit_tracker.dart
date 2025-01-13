@@ -140,10 +140,22 @@ class _HabitTrackerState extends State<HabitTracker> {
   }
 
   Widget _buildDistanceTracker() {
+    double targetDistance = _habitGoal.targetValue;
+    if (_goalUnit == GoalUnit.km) {
+      targetDistance *= 1000;
+    } else if (_goalUnit == GoalUnit.miles) {
+      targetDistance *= 1600;
+    } else if (_goalUnit == GoalUnit.cm) {
+      targetDistance /= 100;
+    }
+
     return BlocProvider(
       create: (context) =>
-          getIt.get<DistanceTrackCubit>(param1: widget.habitGoal.targetValue),
-      child: const DistanceTracker(),
+          getIt.get<DistanceTrackCubit>(param1: targetDistance),
+      child: DistanceTracker(
+        historyId: history.id,
+        targetDistance: targetDistance,
+      ),
     );
   }
 

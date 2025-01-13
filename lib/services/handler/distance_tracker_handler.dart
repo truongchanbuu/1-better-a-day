@@ -1,81 +1,127 @@
 import 'dart:async';
+import 'dart:developer';
 
-import 'package:flutter_background_service/flutter_background_service.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../core/helpers/permission_helper.dart';
+import '../../config/foreground_service/distance_tracker_notification_config.dart';
+import '../../core/extensions/num_extension.dart';
 
 @pragma('vm:entry-point')
-Future<bool> onIosBackground(ServiceInstance service) async {
-  return true;
+void startLocationCallback() {
+  FlutterForegroundTask.setTaskHandler(LocationTaskHandler());
 }
 
-@pragma('vm:entry-point')
-void onStart(ServiceInstance service) async {
-  Position? lastPosition;
-  double totalDistance = 0;
+class LocationTaskHandler extends TaskHandler {
+  DistanceTrackingServiceData distanceData = DistanceTrackingServiceData.init();
 
-  // Load saved distance if exists
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  totalDistance = prefs.getDouble('total_distance') ?? 0;
-
-  // Request location permission
-  bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-  if (!serviceEnabled) {
-    return;
+  Timer? _timer;
+  @override
+  Future<void> onDestroy(DateTime timestamp) async {
+    _timer?.cancel();
+    distanceData = DistanceTrackingServiceData.init();
   }
 
-  final isAllowed = await PermissionHelper.checkAndRequestGeoLocation();
+  @override
+  void onRepeatEvent(DateTime timestamp) {}
 
-  if (!isAllowed) {
-    return;
-  }
+  @override
+  Future<void> onStart(DateTime timestamp, TaskStarter starter) async {
+    _timer = Timer.periodic(
+      const Duration(seconds: 5),
+      (timer) async {
+        await _updateLocation();
 
-  // Start location tracking
-  service.on('stopService').listen((event) {
-    service.stopSelf();
-  });
-
-  Timer.periodic(const Duration(seconds: 5), (timer) async {
-    if (service is AndroidServiceInstance) {
-      if (await service.isForegroundService()) {
-        Position currentPosition = await Geolocator.getCurrentPosition(
-          locationSettings: AndroidSettings(accuracy: LocationAccuracy.high),
+        distanceData = distanceData.copyWith(timestamp: timestamp);
+        FlutterForegroundTask.updateService(
+          notificationTitle:
+              DistanceTrackerNotificationConfig.notificationInitialTitle,
+          notificationText:
+              'Total distance: ${distanceData.currentDistance.toStringAsFixedWithoutZero()} m',
+          notificationButtons: DistanceTrackerNotificationConfig.buttons,
         );
 
-        if (lastPosition != null) {
-          double distance = Geolocator.distanceBetween(
-            lastPosition!.latitude,
-            lastPosition!.longitude,
-            currentPosition.latitude,
-            currentPosition.longitude,
-          );
-
-          // Only add distance if movement is detected (more than 2 meters)
-          if (distance > 2) {
-            totalDistance += distance;
-            await prefs.setDouble('total_distance', totalDistance);
-          }
-        }
-
-        lastPosition = currentPosition;
-
-        // Update notification
-        service.setForegroundNotificationInfo(
-          title: "Distance Tracking Active",
-          content: "Distance: ${(totalDistance / 1000).toStringAsFixed(2)} km",
-        );
-      }
-    }
-
-    // Send data to UI
-    service.invoke(
-      'update',
-      {
-        'distance': totalDistance,
-        'isRunning': true,
+        FlutterForegroundTask.sendDataToMain(distanceData);
       },
     );
+  }
+
+  @override
+  void onReceiveData(Object data) {
+    super.onReceiveData(data);
+    if (data is String) {
+      onNotificationButtonPressed(data);
+    }
+  }
+
+  @override
+  void onNotificationButtonPressed(String id) {
+    switch (id) {
+      case 'stopButton':
+        onDestroy(DateTime.now());
+        break;
+    }
+    super.onNotificationButtonPressed(id);
+  }
+
+  Future<void> _updateLocation() async {
+    try {
+      Position newPosition = await Geolocator.getCurrentPosition(
+          locationSettings:
+              const LocationSettings(accuracy: LocationAccuracy.high));
+
+      final lastPosition = distanceData.lastPosition;
+      if (lastPosition != null) {
+        double distance = Geolocator.distanceBetween(
+          lastPosition.latitude,
+          lastPosition.longitude,
+          newPosition.latitude,
+          newPosition.longitude,
+        );
+
+        // Only update if the distance is reasonable (to filter out GPS jumps)
+        if (distance < 100) {
+          // Maximum 100 meters per update
+          distanceData = distanceData.copyWith(
+              currentDistance: distanceData.currentDistance + distance);
+        }
+      }
+
+      distanceData = distanceData.copyWith(lastPosition: newPosition);
+    } catch (e) {
+      log('Error getting location: $e');
+    }
+  }
+}
+
+class DistanceTrackingServiceData extends Equatable {
+  final double currentDistance;
+  final Position? lastPosition;
+  final DateTime? timestamp;
+
+  const DistanceTrackingServiceData({
+    this.currentDistance = 0,
+    this.lastPosition,
+    this.timestamp,
   });
+
+  @override
+  List<Object?> get props => [currentDistance, lastPosition, timestamp];
+
+  factory DistanceTrackingServiceData.init() {
+    return const DistanceTrackingServiceData(currentDistance: 0);
+  }
+
+  DistanceTrackingServiceData copyWith({
+    double? currentDistance,
+    Position? lastPosition,
+    DateTime? timestamp,
+  }) {
+    return DistanceTrackingServiceData(
+      currentDistance: currentDistance ?? this.currentDistance,
+      lastPosition: lastPosition ?? this.lastPosition,
+      timestamp: timestamp ?? this.timestamp,
+    );
+  }
 }

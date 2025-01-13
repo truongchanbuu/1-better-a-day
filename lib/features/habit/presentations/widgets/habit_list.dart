@@ -8,6 +8,7 @@ import '../../../../core/enums/habit/habit_category.dart';
 import '../../../../core/enums/habit/habit_status.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../injection_container.dart';
+import '../../../../main.dart';
 import '../../../shared/presentations/widgets/not_found_and_refresh.dart';
 import '../../domain/entities/habit_entity.dart';
 import '../blocs/crud/habit_crud_bloc.dart';
@@ -32,7 +33,7 @@ class HabitList extends StatefulWidget {
   State<HabitList> createState() => _HabitListState();
 }
 
-class _HabitListState extends State<HabitList> {
+class _HabitListState extends State<HabitList> with RouteAware {
   List<HabitEntity> habits = [];
 
   @override
@@ -44,6 +45,19 @@ class _HabitListState extends State<HabitList> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context)!);
+  }
+
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this);
+    super.dispose();
+  }
+
+  @override
+  void didPopNext() {
+    super.didPopNext();
+    context.read<HabitCrudBloc>().add(GetAllHabits());
   }
 
   @override

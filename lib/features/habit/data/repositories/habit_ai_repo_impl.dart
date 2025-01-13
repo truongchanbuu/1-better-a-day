@@ -235,6 +235,8 @@ Instructions:
    evening: 17:00-20:59
    night: 21:00-4:59
    anytime: Based on flexibility
+   
+6. Every fields that have pre-defined enum must only be within those.
 
 Return a JSON string with this exact structure (no markdown, no explanation):
 {

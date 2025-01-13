@@ -56,8 +56,6 @@ class HabitTimeTrackerBloc
   }
 
   void _onReceived(Object data) {
-    print('received: $data');
-
     if (data is int) {
       add(UpdateProgress(data));
     } else if (data is String) {
@@ -109,7 +107,7 @@ class HabitTimeTrackerBloc
         notificationTitle: TimeTrackerNotificationConfig.title,
         notificationText: TimeTrackerNotificationConfig.initialText(targetTime),
         notificationButtons: TimeTrackerNotificationConfig.buttons(),
-        callback: startCallback,
+        callback: startTimeTrackerCallback,
       );
 
       emit(TimeStart(state));

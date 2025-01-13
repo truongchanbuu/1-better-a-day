@@ -90,7 +90,7 @@ class _PresetHabitPageState extends State<PresetHabitPage> {
                     dialogType: DialogType.success,
                     title: S.current.success_title,
                     desc: S.current.add_success,
-                    barrierColor: Colors.transparent.withOpacity(0.2),
+                    barrierColor: Colors.transparent.withValues(alpha: .2),
                     onDismissCallback: (type) {
                       _updateHabits(state.habits);
                     },
@@ -185,27 +185,32 @@ class _PresetHabitPageState extends State<PresetHabitPage> {
   }
 
   AppBar _buildAppBar() {
-    return AppBar(actions: [
-      if (selectedHabitIds.isNotEmpty)
-        Checkbox(
-          side: const BorderSide(color: Colors.white, width: 2),
-          checkColor: _isAllSelected ? AppColors.primary : Colors.white,
-          activeColor: Colors.white,
-          value: _isAllSelected,
-          onChanged: (value) {
-            setState(() {
-              _isAllSelected = value ?? false;
+    return AppBar(
+      leading: BackButton(
+        onPressed: () => Navigator.pop(context),
+      ),
+      actions: [
+        if (selectedHabitIds.isNotEmpty)
+          Checkbox(
+            side: const BorderSide(color: Colors.white, width: 2),
+            checkColor: _isAllSelected ? AppColors.primary : Colors.white,
+            activeColor: Colors.white,
+            value: _isAllSelected,
+            onChanged: (value) {
+              setState(() {
+                _isAllSelected = value ?? false;
 
-              if (_isAllSelected) {
-                selectedHabitIds =
-                    allAvailableHabits.map((e) => e.habitId).toList();
-              } else {
-                selectedHabitIds.clear();
-              }
-            });
-          },
-        ),
-    ]);
+                if (_isAllSelected) {
+                  selectedHabitIds =
+                      allAvailableHabits.map((e) => e.habitId).toList();
+                } else {
+                  selectedHabitIds.clear();
+                }
+              });
+            },
+          ),
+      ],
+    );
   }
 
   void _onSearch(String value) {
@@ -352,7 +357,7 @@ class _CategoryFilterState extends State<_CategoryFilter> {
               .toList(),
           menuItemStyleData: MenuItemStyleData(
             selectedMenuItemBuilder: (context, child) => Container(
-              color: AppColors.primary.withOpacity(0.2),
+              color: AppColors.primary.withValues(alpha: .2),
               child: child,
             ),
           ),
@@ -410,7 +415,7 @@ class _HabitItemState extends State<_HabitItem> {
             decoration: BoxDecoration(
               color: context.isDarkMode
                   ? AppColors.darkText
-                  : habitIcon.color.withOpacity(0.2),
+                  : habitIcon.color.withValues(alpha: .2),
               borderRadius:
                   const BorderRadius.all(Radius.circular(AppSpacing.radiusS)),
             ),
@@ -452,12 +457,13 @@ class _HabitItemState extends State<_HabitItem> {
                         fontSize: AppFontSize.labelLarge,
                       ),
                       _HabitItem._spacing,
-                      // IconWithText(
-                      //   icon: Icons.access_time,
-                      //   text: widget.habit.reminderTime ?? '__ : __',
-                      //   iconSize: 20,
-                      //   fontSize: AppFontSize.labelLarge,
-                      // ),
+                      if (widget.habit.reminderTimes.isNotEmpty)
+                        IconWithText(
+                          icon: Icons.access_time,
+                          text: widget.habit.reminderTimes.first,
+                          iconSize: 20,
+                          fontSize: AppFontSize.labelLarge,
+                        ),
                     ],
                   ),
                 ),
@@ -471,7 +477,7 @@ class _HabitItemState extends State<_HabitItem> {
                     horizontal: AppSpacing.marginM,
                     vertical: AppSpacing.marginS),
                 decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.2),
+                  color: Colors.black.withValues(alpha: .2),
                   borderRadius: const BorderRadius.all(
                     Radius.circular(AppSpacing.radiusS),
                   ),
