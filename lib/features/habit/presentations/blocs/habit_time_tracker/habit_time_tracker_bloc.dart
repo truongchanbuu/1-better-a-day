@@ -234,6 +234,7 @@ class HabitTimeTrackerBloc
   @override
   Future<void> close() {
     FlutterForegroundTask.removeTaskDataCallback(_onReceived);
+    FlutterForegroundTask.stopService();
     _timer?.cancel();
     return super.close();
   }

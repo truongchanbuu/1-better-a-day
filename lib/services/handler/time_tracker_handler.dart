@@ -36,6 +36,12 @@ class TimerTaskHandler extends TaskHandler {
   }
 
   @override
+  void onNotificationDismissed() {
+    super.onNotificationDismissed();
+    FlutterForegroundTask.stopService();
+  }
+
+  @override
   Future<void> onStart(timestamp, starter) async {
     _startTime();
   }

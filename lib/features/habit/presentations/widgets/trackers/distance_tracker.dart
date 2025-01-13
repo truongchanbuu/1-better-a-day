@@ -42,11 +42,6 @@ class DistanceTracker extends StatelessWidget {
           ).show();
         } else if (state is DistanceTrackSucceed) {
           _handleSucceed(context);
-          AwesomeDialog(
-            context: context,
-            dialogType: DialogType.success,
-            title: S.current.status_completed,
-          ).show();
         }
       },
       builder: (context, state) {
@@ -80,13 +75,12 @@ class DistanceTracker extends StatelessWidget {
                       ? context.read<DistanceTrackCubit>().initializeService
                       : context.read<DistanceTrackCubit>().startTracking,
               style: ElevatedButton.styleFrom(
-                backgroundColor: isPlaying ? Colors.red : AppColors.primary,
-              ),
+                  backgroundColor: isPlaying ? Colors.red : AppColors.primary),
               child: IconWithText(
                 icon:
                     isPlaying ? FontAwesomeIcons.pause : FontAwesomeIcons.play,
                 text: isPlaying
-                    ? S.current.pause_tracking
+                    ? S.current.stop_tracking
                     : S.current.start_tracking,
                 fontColor: AppColors.lightText,
                 iconColor: AppColors.lightText,

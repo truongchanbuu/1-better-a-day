@@ -524,6 +524,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "The credential verification code received is invalid."),
         "invalid_verification_id": MessageLookupByLibrary.simpleMessage(
             "The credential verification ID received is invalid."),
+        "keep_button": MessageLookupByLibrary.simpleMessage("Keep"),
         "km_unit": MessageLookupByLibrary.simpleMessage("kilometers"),
         "know_more_about_habit":
             MessageLookupByLibrary.simpleMessage("More Knowledge about habit"),
@@ -885,6 +886,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "status_unknown": MessageLookupByLibrary.simpleMessage("Unknown"),
         "steps_unit": MessageLookupByLibrary.simpleMessage("steps"),
         "stop_button": MessageLookupByLibrary.simpleMessage("Stop"),
+        "stop_tracking": MessageLookupByLibrary.simpleMessage("Stop Tracking"),
+        "stop_tracking_confirm": MessageLookupByLibrary.simpleMessage(
+            "Do you want to stop or keep this tracking?"),
         "streak_long_100": MessageLookupByLibrary.simpleMessage(
             "Fantastic! You\'ve kept a 100-day streak!"),
         "streak_long_40": MessageLookupByLibrary.simpleMessage(

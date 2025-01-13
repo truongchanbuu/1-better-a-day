@@ -536,6 +536,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Mã xác minh nhận được không hợp lệ."),
         "invalid_verification_id": MessageLookupByLibrary.simpleMessage(
             "ID xác minh nhận được không hợp lệ."),
+        "keep_button": MessageLookupByLibrary.simpleMessage("Giữ"),
         "km_unit": MessageLookupByLibrary.simpleMessage("km"),
         "know_more_about_habit":
             MessageLookupByLibrary.simpleMessage("Hiểu về thói quen"),
@@ -728,7 +729,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "pause_button": MessageLookupByLibrary.simpleMessage("Tạm dừng"),
         "pause_statistic_page":
             MessageLookupByLibrary.simpleMessage("Tạm ngưng"),
-        "pause_tracking": MessageLookupByLibrary.simpleMessage("Dừng theo dõi"),
+        "pause_tracking":
+            MessageLookupByLibrary.simpleMessage("Tạm dừng theo dõi"),
         "paused": m21,
         "paused_at": m22,
         "paused_habit":
@@ -901,6 +903,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Không xác định"),
         "steps_unit": MessageLookupByLibrary.simpleMessage("bước"),
         "stop_button": MessageLookupByLibrary.simpleMessage("Dừng"),
+        "stop_tracking": MessageLookupByLibrary.simpleMessage("Dừng theo dõi"),
+        "stop_tracking_confirm": MessageLookupByLibrary.simpleMessage(
+            "Bạn muốn dừng hay tiếp tục theo dõi?"),
         "streak_long_100": MessageLookupByLibrary.simpleMessage(
             "Tuyệt vời! Bạn đã giữ vững streak 100 ngày không gián đoạn!"),
         "streak_long_40": MessageLookupByLibrary.simpleMessage(

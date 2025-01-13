@@ -1803,6 +1803,26 @@ class S {
     );
   }
 
+  /// `Stop Tracking`
+  String get stop_tracking {
+    return Intl.message(
+      'Stop Tracking',
+      name: 'stop_tracking',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Do you want to stop or keep this tracking?`
+  String get stop_tracking_confirm {
+    return Intl.message(
+      'Do you want to stop or keep this tracking?',
+      name: 'stop_tracking_confirm',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Current Distance`
   String get current_distance {
     return Intl.message(
@@ -1848,6 +1868,16 @@ class S {
     return Intl.message(
       'Resume',
       name: 'resume_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Keep`
+  String get keep_button {
+    return Intl.message(
+      'Keep',
+      name: 'keep_button',
       desc: '',
       args: [],
     );
