@@ -77,7 +77,6 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
                   });
                 } else if (state.action == HabitCrudAction.getById &&
                     state.habits.isNotEmpty) {
-                  print("STATE: $state");
                   if (currentHabit != state.habits.first) {
                     setState(() {
                       currentHabit = state.habits.first;
@@ -213,11 +212,15 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
                 // History
                 _SectionContainer(
                   title: S.current.history_section,
-                  suffix: IconButton(
-                    onPressed: () => context.read<HabitHistoryCrudBloc>().add(
-                        HabitHistoryCrudListByHabitId(currentHabit.habitId)),
-                    icon: const Icon(Icons.refresh),
-                  ),
+                  suffix: histories.isNotEmpty
+                      ? IconButton(
+                          onPressed: () => context
+                              .read<HabitHistoryCrudBloc>()
+                              .add(HabitHistoryCrudListByHabitId(
+                                  currentHabit.habitId)),
+                          icon: const Icon(Icons.refresh),
+                        )
+                      : null,
                   children: [
                     if (histories.isEmpty)
                       SizedBox(
@@ -580,7 +583,7 @@ class _DateTimeSectionItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return HabitSectionContainer(
       width: MediaQuery.of(context).size.width,
-      backgroundColor: backgroundColor?.withOpacity(0.1),
+      backgroundColor: backgroundColor?.withValues(alpha: .1),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

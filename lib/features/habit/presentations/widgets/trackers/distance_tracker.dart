@@ -32,7 +32,6 @@ class DistanceTracker extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<DistanceTrackCubit, DistanceTrackState>(
       listener: (context, state) {
-        print(state);
         if (state is DistanceTrackError) {
           AwesomeDialog(
             context: context,

@@ -285,6 +285,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("James Clear"),
         "avg_time":
             MessageLookupByLibrary.simpleMessage("Thời gian trung bình"),
+        "bad_suggestion_1":
+            MessageLookupByLibrary.simpleMessage("Có chút khó khăn"),
+        "bad_suggestion_2":
+            MessageLookupByLibrary.simpleMessage("Cần cải thiện"),
         "best_time":
             MessageLookupByLibrary.simpleMessage("Khoảng thời gian tốt nhất"),
         "birth_date": MessageLookupByLibrary.simpleMessage("Sinh nhật"),
@@ -412,6 +416,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "goal_type": MessageLookupByLibrary.simpleMessage("Loại mục tiêu"),
         "goal_unit": MessageLookupByLibrary.simpleMessage("Đ.vị"),
         "goal_unit_value": MessageLookupByLibrary.simpleMessage("Giá trị"),
+        "good_suggestion_1":
+            MessageLookupByLibrary.simpleMessage("Tiến triển tốt"),
+        "good_suggestion_2":
+            MessageLookupByLibrary.simpleMessage("Cảm giác hoàn thành tốt"),
+        "great_suggestion_1": MessageLookupByLibrary.simpleMessage("Bứt phá!"),
+        "great_suggestion_2":
+            MessageLookupByLibrary.simpleMessage("Tốt nhất từ trước đến nay!"),
         "habit_category":
             MessageLookupByLibrary.simpleMessage("Loại thói quen"),
         "habit_category_creativity":
@@ -693,6 +704,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "my_custom_challenge_tab":
             MessageLookupByLibrary.simpleMessage("Được tạo bởi tôi"),
         "my_reward_tab": MessageLookupByLibrary.simpleMessage("Phần thưởng"),
+        "neutral_suggestion_1":
+            MessageLookupByLibrary.simpleMessage("Hoàn thành theo kế hoạch"),
+        "neutral_suggestion_2":
+            MessageLookupByLibrary.simpleMessage("Bình thường"),
         "next_habits_button":
             MessageLookupByLibrary.simpleMessage("Trang kế tiếp"),
         "night_greeting": MessageLookupByLibrary.simpleMessage("Chào buổi tối"),
@@ -706,6 +721,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "not_allow_track": MessageLookupByLibrary.simpleMessage(
             "Chúng tôi không được cấp quyền để theo dõi quãng đường di chuyển của bạn"),
         "not_found": MessageLookupByLibrary.simpleMessage("Không tìm thấy"),
+        "note_hint": MessageLookupByLibrary.simpleMessage(
+            "Viết ghi chú của bạn tại đây...."),
+        "note_title": MessageLookupByLibrary.simpleMessage("Ghi chú"),
         "notification_screen_title":
             MessageLookupByLibrary.simpleMessage("Giữ vững thói quen của bạn!"),
         "notifications": MessageLookupByLibrary.simpleMessage("Thông báo"),
@@ -842,6 +860,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "second_unit": MessageLookupByLibrary.simpleMessage("giây"),
         "select_button": MessageLookupByLibrary.simpleMessage("Chọn"),
         "select_date_title": MessageLookupByLibrary.simpleMessage("Chọn ngày"),
+        "select_mood_title":
+            MessageLookupByLibrary.simpleMessage("Bạn đang cảm thấy như nào?"),
         "select_range_date_title":
             MessageLookupByLibrary.simpleMessage("Chọn ngày từ ... đến ..."),
         "send_button": MessageLookupByLibrary.simpleMessage("Gửi"),
@@ -952,6 +972,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "Bằng cách đăng nhập/đăng ký, bạn chấp nhận Điều khoản và Điều kiện của chúng tôi và đồng ý với Chính sách Quyền riêng tư"),
         "terms_and_conditions":
             MessageLookupByLibrary.simpleMessage("Điều khoản & Điều kiện"),
+        "terrible_suggestion_1":
+            MessageLookupByLibrary.simpleMessage("Nên nỗ lực nhiều hơn"),
+        "terrible_suggestion_2": MessageLookupByLibrary.simpleMessage(
+            "Cần cải thiện nhiều hơn nữa!"),
         "theme_tile": MessageLookupByLibrary.simpleMessage("Giao diện"),
         "time_based_progress":
             MessageLookupByLibrary.simpleMessage("Quá trình theo thời gian"),

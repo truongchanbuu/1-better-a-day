@@ -43,52 +43,63 @@ enum Mood {
 
   Color get color {
     switch (this) {
-      case Mood.great:
+      case great:
         return Colors.green;
-      case Mood.good:
+      case good:
         return Colors.amber;
-      case Mood.neutral:
+      case neutral:
         return Colors.grey;
-      case Mood.bad:
+      case bad:
         return Colors.orange;
-      case Mood.terrible:
+      case terrible:
         return Colors.red;
-      default:
-        return Colors.black;
     }
   }
 
   IconData get moodIcon {
     switch (this) {
-      case Mood.great:
+      case great:
         return FontAwesomeIcons.faceSmileBeam;
-      case Mood.good:
+      case good:
         return FontAwesomeIcons.faceSmile;
-      case Mood.neutral:
+      case neutral:
         return FontAwesomeIcons.faceMeh;
-      case Mood.bad:
+      case bad:
         return FontAwesomeIcons.faceFrown;
-      case Mood.terrible:
+      case terrible:
         return FontAwesomeIcons.faceSadTear;
-      default:
-        return FontAwesomeIcons.circleQuestion;
     }
   }
 
   AnimatedEmojiData get lottieAsset {
     switch (this) {
-      case Mood.great:
+      case great:
         return AnimatedEmojis.partyingFace;
-      case Mood.good:
+      case good:
         return AnimatedEmojis.smileWithBigEyes;
-      case Mood.neutral:
+      case neutral:
         return AnimatedEmojis.neutralFace;
-      case Mood.bad:
+      case bad:
         return AnimatedEmojis.sad;
-      case Mood.terrible:
+      case terrible:
         return AnimatedEmojis.angry;
-      default:
-        return AnimatedEmojis.slightlyHappy;
     }
   }
+
+  List<String> get listNote => switch (this) {
+        Mood.great => [
+            S.current.great_suggestion_1,
+            S.current.great_suggestion_2
+          ],
+        Mood.good => [S.current.good_suggestion_1, S.current.good_suggestion_2],
+        Mood.neutral => [
+            S.current.neutral_suggestion_1,
+            S.current.neutral_suggestion_2
+          ],
+        Mood.bad => [S.current.bad_suggestion_1, S.current.bad_suggestion_2],
+        Mood.terrible => [
+            S.current.terrible_suggestion_1,
+            S.current.terrible_suggestion_2
+          ],
+      };
 }

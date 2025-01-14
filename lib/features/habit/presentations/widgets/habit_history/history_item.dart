@@ -1,3 +1,4 @@
+import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:logger/logger.dart';
@@ -11,71 +12,129 @@ import '../../../../../core/enums/habit/mood.dart';
 import '../../../../../core/extensions/context_extension.dart';
 import '../../../../../core/extensions/num_extension.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../../shared/presentations/widgets/icon_with_text.dart';
 import '../../../../shared/presentations/widgets/text_with_circle_border_container.dart';
 import '../../../../../core/enums/habit/goal_unit.dart';
 import '../../../domain/entities/habit_history.dart';
+import '../../helper/shared_habit_action.dart';
 
-class HistoryItem extends StatelessWidget {
+class HistoryItem extends StatefulWidget {
   final HabitHistory history;
   const HistoryItem({super.key, required this.history});
+
+  @override
+  State<HistoryItem> createState() => _HistoryItemState();
+}
+
+class _HistoryItemState extends State<HistoryItem> {
+  late final CustomPopupMenuController _customPopupMenuController;
+
+  @override
+  void initState() {
+    super.initState();
+    _customPopupMenuController = CustomPopupMenuController();
+  }
+
+  @override
+  void dispose() {
+    _customPopupMenuController.dispose();
+    super.dispose();
+  }
 
   static const TextStyle _titleTextStyle =
       TextStyle(fontSize: AppFontSize.labelLarge);
 
   @override
   Widget build(BuildContext context) {
-    final dayStatus = history.executionStatus;
+    final dayStatus = widget.history.executionStatus;
 
-    return Container(
-      decoration: BoxDecoration(
-        color: context.isDarkMode ? AppColors.darkText : AppColors.lightText,
-        borderRadius:
-            const BorderRadius.all(Radius.circular(AppSpacing.radiusS)),
-        boxShadow: const [
-          BoxShadow(
-            blurRadius: 1,
-            spreadRadius: 1,
-            color: AppColors.grayText,
-          )
-        ],
-      ),
-      padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.paddingM, vertical: AppSpacing.paddingS),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TextWithCircleBorderContainer(
-            title: dayStatus.statusName.toUpperCase(),
-            backgroundColor: dayStatus.statusColor,
-            titleColor: dayStatus.statusColor,
-            fontSize: AppFontSize.labelLarge,
-          ),
-          _buildDoneDate(),
-          _buildTarget(),
-          ListTile(
-            contentPadding: EdgeInsets.zero,
-            leading: Icon(
-              history.mood?.moodIcon ?? Mood.neutral.moodIcon,
-              color: Colors.amber,
+    final basedColor =
+        context.isDarkMode ? AppColors.darkText : AppColors.lightText;
+    final menuTextColor =
+        !context.isDarkMode ? AppColors.darkText : AppColors.lightText;
+
+    return CustomPopupMenu(
+      controller: _customPopupMenuController,
+      arrowColor: basedColor,
+      position: PreferredPosition.top,
+      verticalMargin: 0,
+      menuBuilder: () {
+        return GestureDetector(
+          onTap: () {
+            _customPopupMenuController.hideMenu();
+            SharedHabitAction.onRateAndNote(context, widget.history);
+          },
+          child: Container(
+            width: 100,
+            decoration: BoxDecoration(
+              borderRadius:
+                  const BorderRadius.all(Radius.circular(AppSpacing.radiusS)),
+              color: basedColor,
             ),
-            title: Text(
-              history.mood?.name.toUpperCase() ?? '...',
-              style: _titleTextStyle,
+            alignment: Alignment.center,
+            padding: const EdgeInsets.all(AppSpacing.paddingS),
+            child: IconWithText(
+              icon: FontAwesomeIcons.noteSticky,
+              text: S.current.note_title,
+              iconColor: menuTextColor,
+              fontColor: menuTextColor,
+              fontSize: AppFontSize.bodyLarge,
             ),
           ),
-          ListTile(
-            contentPadding: EdgeInsets.zero,
-            leading: const Icon(
-              FontAwesomeIcons.star,
-              color: Colors.amberAccent,
+        );
+      },
+      pressType: PressType.longPress,
+      child: Container(
+        decoration: BoxDecoration(
+          color: context.isDarkMode ? AppColors.darkText : AppColors.lightText,
+          borderRadius:
+              const BorderRadius.all(Radius.circular(AppSpacing.radiusS)),
+          boxShadow: const [
+            BoxShadow(
+              blurRadius: 1,
+              spreadRadius: 1,
+              color: AppColors.grayText,
+            )
+          ],
+        ),
+        padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.paddingM, vertical: AppSpacing.paddingS),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TextWithCircleBorderContainer(
+              title: dayStatus.statusName.toUpperCase(),
+              backgroundColor: dayStatus.statusColor,
+              titleColor: dayStatus.statusColor,
+              fontSize: AppFontSize.labelLarge,
             ),
-            title: Text(
-              (history.rating ?? 0).toStringAsFixedWithoutZero(1),
-              style: _titleTextStyle,
+            _buildDoneDate(),
+            _buildTarget(),
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: Icon(
+                widget.history.mood?.moodIcon ?? Mood.neutral.moodIcon,
+                color: Colors.amber,
+              ),
+              title: Text(
+                widget.history.mood?.name.toUpperCase() ?? '...',
+                style: _titleTextStyle,
+              ),
             ),
-          ),
-          if (history.note != null) _buildNote(context),
-        ],
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: const Icon(
+                FontAwesomeIcons.star,
+                color: Colors.amberAccent,
+              ),
+              title: Text(
+                (widget.history.rating ?? 0).toStringAsFixedWithoutZero(),
+                style: _titleTextStyle,
+              ),
+            ),
+            if (widget.history.note != null) _buildNote(context),
+          ],
+        ),
       ),
     );
   }
@@ -91,7 +150,7 @@ class HistoryItem extends StatelessWidget {
         contentPadding: EdgeInsets.zero,
         leading: const Icon(FontAwesomeIcons.message, color: Colors.blueAccent),
         title: ReadMoreText(
-          history.note!,
+          widget.history.note!,
           style: _titleTextStyle,
           trimCollapsedText: ' ${S.current.show_more}',
           trimExpandedText: ' ${S.current.show_less}',
@@ -135,7 +194,7 @@ class HistoryItem extends StatelessWidget {
   }
 
   Widget _buildTarget() {
-    final GoalUnit goalUnit = history.measurement ?? GoalUnit.custom;
+    final GoalUnit goalUnit = widget.history.measurement ?? GoalUnit.custom;
     String unit =
         (goalUnit == GoalUnit.custom) ? goalUnit.unitName : goalUnit.name;
 
@@ -143,12 +202,14 @@ class HistoryItem extends StatelessWidget {
       contentPadding: EdgeInsets.zero,
       leading: Icon(goalUnit.unitIcon, color: goalUnit.unitColor),
       title: Text(
-        '${history.targetValue} $unit',
+        '${widget.history.targetValue} $unit',
         style: _titleTextStyle,
       ),
     );
   }
 
-  String get formattedDate => DateTimeFormat.onlyDate(history.date);
-  String get formattedTime => history.date.toMoment().formatTimeWithSeconds();
+  String get formattedDate => DateTimeFormat.onlyDate(widget.history.date);
+
+  String get formattedTime =>
+      widget.history.date.toMoment().formatTimeWithSeconds();
 }

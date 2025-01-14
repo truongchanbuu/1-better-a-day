@@ -14,7 +14,7 @@ class HabitHistory extends Equatable {
   final DateTime? endTime;
   final Duration? duration;
   final String? note;
-  final int? rating;
+  final double? rating;
   final Mood? mood;
   final double? targetValue;
   final double currentValue;
@@ -44,13 +44,12 @@ class HabitHistory extends Equatable {
       id: '',
       habitId: '',
       date: DateTime.now(),
-      currentValue: 0,
       executionStatus: DayStatus.inProgress,
       startTime: null,
       endTime: null,
       duration: null,
       note: null,
-      rating: 5,
+      rating: null,
       mood: null,
       targetValue: null,
       measurement: null,
@@ -68,7 +67,7 @@ class HabitHistory extends Equatable {
     ValueGetter<DateTime?>? endTime,
     ValueGetter<Duration?>? duration,
     ValueGetter<String?>? note,
-    ValueGetter<int?>? rating,
+    ValueGetter<double?>? rating,
     ValueGetter<Mood?>? mood,
     ValueGetter<double?>? targetValue,
     ValueGetter<GoalUnit?>? measurement,

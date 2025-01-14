@@ -1048,5 +1048,20 @@
   "exercise_reminder_title": "Exercise Time",
   "meditation_reminder_title": "Mediation Time",
   "reading_reminder_title": "Reading Time",
-  "study_reminder_title": "Study Time"
+  "study_reminder_title": "Study Time",
+
+  "@__NOTE__": {},
+  "note_title": "Note",
+  "note_hint": "Write your note here....",
+  "select_mood_title": "How do you feel now?",
+  "great_suggestion_1": "Achieved a breakthrough!",
+  "great_suggestion_2": "Best session ever!",
+  "good_suggestion_1": "Made good progress",
+  "good_suggestion_2": "Feeling accomplished",
+  "neutral_suggestion_1": "Completed as planned",
+  "neutral_suggestion_2": "Regular session",
+  "bad_suggestion_1": "Struggled a bit",
+  "bad_suggestion_2": "Could be better",
+  "terrible_suggestion_1": "Should have make more effort",
+  "terrible_suggestion_2": "Need to be improved!"
 }

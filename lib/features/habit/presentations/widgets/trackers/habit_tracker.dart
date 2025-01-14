@@ -78,16 +78,12 @@ class _HabitTrackerState extends State<HabitTracker> {
           trackStatus = DayStatus.completed;
 
           SharedHabitAction.showDailyCompletionDialog(
-            context: context,
-            status: trackStatus.name,
-          );
+              context: context, history: history);
         } else if (state is DailyHabitPaused) {
           trackStatus = DayStatus.skipped;
 
           SharedHabitAction.showDailyCompletionDialog(
-            context: context,
-            status: trackStatus.name,
-          );
+              context: context, history: history);
         }
       },
       child: BlocBuilder<HabitHistoryCrudBloc, HabitHistoryCrudState>(

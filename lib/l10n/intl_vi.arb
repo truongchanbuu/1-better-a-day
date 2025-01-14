@@ -980,5 +980,20 @@
   "exercise_reminder_title": "Đến giờ tập thể dục",
   "meditation_reminder_title": "Đến giờ thiền",
   "reading_reminder_title": "Đến giờ đọc sách rồi",
-  "study_reminder_title": "Đến giờ học"
+  "study_reminder_title": "Đến giờ học",
+
+  "@__NOTE__": {},
+  "note_title": "Ghi chú",
+  "note_hint": "Viết ghi chú của bạn tại đây....",
+  "select_mood_title": "Bạn đang cảm thấy như nào?",
+  "great_suggestion_1": "Bứt phá!",
+  "great_suggestion_2": "Tốt nhất từ trước đến nay!",
+  "good_suggestion_1": "Tiến triển tốt",
+  "good_suggestion_2": "Cảm giác hoàn thành tốt",
+  "neutral_suggestion_1": "Hoàn thành theo kế hoạch",
+  "neutral_suggestion_2": "Bình thường",
+  "bad_suggestion_1": "Có chút khó khăn",
+  "bad_suggestion_2": "Cần cải thiện",
+  "terrible_suggestion_1": "Nên nỗ lực nhiều hơn",
+  "terrible_suggestion_2": "Cần cải thiện nhiều hơn nữa!"
 }

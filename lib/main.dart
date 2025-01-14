@@ -26,8 +26,8 @@ void main() async {
   FlutterForegroundTask.initCommunicationPort();
   await initializeDependencies();
 
-  getIt.get<HabitHistoryRepository>().deleteAllHistories();
-  getIt.get<HabitRepository>().deleteAll();
+  // getIt.get<HabitHistoryRepository>().deleteAllHistories();
+  // getIt.get<HabitRepository>().deleteAll();
   runApp(const MyApp());
 }
 

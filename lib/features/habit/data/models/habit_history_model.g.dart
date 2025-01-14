@@ -26,7 +26,7 @@ HabitHistoryModel _$HabitHistoryModelFromJson(Map<String, dynamic> json) =>
       customData: json['customData'] as Map<String, dynamic>?,
       note: json['note'] as String?,
       targetValue: (json['targetValue'] as num?)?.toDouble(),
-      rating: (json['rating'] as num?)?.toInt(),
+      rating: (json['rating'] as num?)?.toDouble(),
       currentValue: (json['currentValue'] as num?)?.toDouble() ?? 0,
     );
 

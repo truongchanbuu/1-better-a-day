@@ -87,7 +87,7 @@ class HabitHistoryModel extends HabitHistory implements HiveBaseModel {
     ValueGetter<DateTime?>? endTime,
     ValueGetter<Duration?>? duration,
     ValueGetter<String?>? note,
-    ValueGetter<int?>? rating,
+    ValueGetter<double?>? rating,
     ValueGetter<Mood?>? mood,
     ValueGetter<double?>? targetValue,
     ValueGetter<GoalUnit?>? measurement,

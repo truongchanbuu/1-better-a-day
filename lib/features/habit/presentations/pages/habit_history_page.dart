@@ -50,58 +50,91 @@ class _HabitHistoryPageState extends State<HabitHistoryPage> {
             if (state is HabitHistoryCrudSuccess) {
               if (state.type == HabitHistoryCrudEventType.list) {
                 setState(() => histories = state.histories);
+              } else if (state.type == HabitHistoryCrudEventType.update) {
+                _updateHistories(state.histories);
               }
             }
           });
         },
         child: Scaffold(
           appBar: AppBar(title: Text(S.current.history_section)),
-          body: SingleChildScrollView(
-            child: Container(
-              margin: const EdgeInsets.symmetric(
-                  vertical: AppSpacing.marginS, horizontal: AppSpacing.marginM),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  HabitStreakCalendar(
-                    completedDates: DateTimeHelper.getDatesByStatus(
-                        histories, DayStatus.completed),
-                    failedDates: DateTimeHelper.getDatesByStatus(
-                        histories, DayStatus.failed),
-                    skippedDates: DateTimeHelper.getDatesByStatus(
-                        histories, DayStatus.skipped),
-                    onDaySelected: (date, status) {},
-                  ),
-                  const SizedBox(height: AppSpacing.marginM),
-                  Text(
-                    S.current.detail_section,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: AppFontSize.h1,
+          body: RefreshIndicator(
+            onRefresh: () async => context
+                .read<HabitHistoryCrudBloc>()
+                .add(HabitHistoryCrudListByHabitId(widget.habitId)),
+            child: SingleChildScrollView(
+              child: Container(
+                margin: const EdgeInsets.symmetric(
+                    vertical: AppSpacing.marginS,
+                    horizontal: AppSpacing.marginM),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    HabitStreakCalendar(
+                      completedDates: DateTimeHelper.getDatesByStatus(
+                          histories, DayStatus.completed),
+                      failedDates: DateTimeHelper.getDatesByStatus(
+                          histories, DayStatus.failed),
+                      skippedDates: DateTimeHelper.getDatesByStatus(
+                          histories, DayStatus.skipped),
+                      onDaySelected: (date, status) {},
                     ),
-                  ),
-                  const SizedBox(height: AppSpacing.marginS),
-                  _FilterBar(
-                    onFilter: (status, mood, date) {
-                      context
-                          .read<HabitHistoryCrudBloc>()
-                          .add(SearchHabitsByFilter(
-                            habitId: widget.habitId,
-                            status: status,
-                            mood: mood,
-                            date: date,
-                          ));
-                    },
-                  ),
-                  const SizedBox(height: AppSpacing.marginM),
-                  ...histories.map((history) => HistoryItem(history: history)),
-                ],
+                    const SizedBox(height: AppSpacing.marginM),
+                    Text(
+                      S.current.detail_section,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: AppFontSize.h1,
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.marginS),
+                    _FilterBar(
+                      onFilter: (status, mood, date) {
+                        context
+                            .read<HabitHistoryCrudBloc>()
+                            .add(SearchHabitsByFilter(
+                              habitId: widget.habitId,
+                              status: status,
+                              mood: mood,
+                              date: date,
+                            ));
+                      },
+                    ),
+                    const SizedBox(height: AppSpacing.marginM),
+                    ...histories.map((history) => Padding(
+                          padding: const EdgeInsets.all(AppSpacing.paddingS),
+                          child: HistoryItem(history: history),
+                        )),
+                  ],
+                ),
               ),
             ),
           ),
         ),
       ),
     );
+  }
+
+  void _updateHistories(List<HabitHistory> updatedList) {
+    final Map<String, HabitHistory> currMap = {
+      for (var item in histories) item.id: item
+    };
+
+    setState(() {
+      for (final updatedItem in updatedList) {
+        if (currMap.containsKey(updatedItem.id)) {
+          if (updatedItem != currMap[updatedItem.id]) {
+            final index =
+                histories.indexWhere((item) => item.id == updatedItem.id);
+            if (index != -1) {
+              histories[index] = updatedItem;
+            }
+          }
+        } else {
+          histories.add(updatedItem);
+        }
+      }
+    });
   }
 }
 

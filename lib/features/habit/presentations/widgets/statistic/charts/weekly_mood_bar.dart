@@ -159,8 +159,8 @@ class _WeeklyMoodBarState extends State<WeeklyMoodBar>
           padding: const EdgeInsets.all(AppSpacing.paddingS),
           decoration: BoxDecoration(
             color: mood?.color != null
-                ? mood!.color.withOpacity(0.2)
-                : AppColors.grayBackgroundColor.withOpacity(0.2),
+                ? mood!.color.withValues(alpha: 0.2)
+                : AppColors.grayBackgroundColor.withValues(alpha: 0.2),
             borderRadius: BorderRadius.circular(AppSpacing.radiusM),
           ),
           child: Center(

@@ -34,6 +34,7 @@ class HabitHistoryCrudBloc
     on<AddWaterHabitHistory>(_onAddWaterHabit);
     on<SetHabitHistoryStatus>(_onSetHabitHistoryStatus);
     on<SearchHabitsByFilter>(_onSearchHabitByFilter);
+    on<HabitHistoryCrudUpdate>(_onUpdateHistory);
   }
 
   final _appLogger = getIt.get<AppLogger>();
@@ -291,6 +292,34 @@ class HabitHistoryCrudBloc
     } catch (e) {
       _appLogger.e(e.toString());
       emit(HabitHistoryCrudFailure(S.current.cannot_get_any_history));
+    }
+  }
+
+  FutureOr<void> _onUpdateHistory(
+      HabitHistoryCrudUpdate event, Emitter<HabitHistoryCrudState> emit) async {
+    emit(HabitHistoryCrudInProgress());
+    try {
+      final currentHistory = await habitHistoryRepository
+          .getHabitHistoryById(event.habitHistory.id);
+      if (currentHistory == null) {
+        emit(HabitHistoryCrudFailure(S.current.cannot_get_any_history));
+      } else {
+        await habitHistoryRepository.updateHabitHistory(
+            HabitHistoryModel.fromEntity(event.habitHistory));
+        final updated = await habitHistoryRepository
+            .getHabitHistoryById(event.habitHistory.id);
+
+        if (updated == null) {
+          emit(const HabitHistoryCrudFailure('Cannot update history'));
+          return;
+        }
+
+        emit(HabitHistoryCrudSuccess(
+            HabitHistoryCrudEventType.update, [updated.toEntity()]));
+      }
+    } catch (e) {
+      _appLogger.e(e.toString());
+      emit(const HabitHistoryCrudFailure('Cannot update history'));
     }
   }
 }

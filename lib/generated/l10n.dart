@@ -6158,6 +6158,136 @@ class S {
       args: [],
     );
   }
+
+  /// `Note`
+  String get note_title {
+    return Intl.message(
+      'Note',
+      name: 'note_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Write your note here....`
+  String get note_hint {
+    return Intl.message(
+      'Write your note here....',
+      name: 'note_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `How do you feel now?`
+  String get select_mood_title {
+    return Intl.message(
+      'How do you feel now?',
+      name: 'select_mood_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Achieved a breakthrough!`
+  String get great_suggestion_1 {
+    return Intl.message(
+      'Achieved a breakthrough!',
+      name: 'great_suggestion_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Best session ever!`
+  String get great_suggestion_2 {
+    return Intl.message(
+      'Best session ever!',
+      name: 'great_suggestion_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Made good progress`
+  String get good_suggestion_1 {
+    return Intl.message(
+      'Made good progress',
+      name: 'good_suggestion_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Feeling accomplished`
+  String get good_suggestion_2 {
+    return Intl.message(
+      'Feeling accomplished',
+      name: 'good_suggestion_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Completed as planned`
+  String get neutral_suggestion_1 {
+    return Intl.message(
+      'Completed as planned',
+      name: 'neutral_suggestion_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Regular session`
+  String get neutral_suggestion_2 {
+    return Intl.message(
+      'Regular session',
+      name: 'neutral_suggestion_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Struggled a bit`
+  String get bad_suggestion_1 {
+    return Intl.message(
+      'Struggled a bit',
+      name: 'bad_suggestion_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Could be better`
+  String get bad_suggestion_2 {
+    return Intl.message(
+      'Could be better',
+      name: 'bad_suggestion_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Should have make more effort`
+  String get terrible_suggestion_1 {
+    return Intl.message(
+      'Should have make more effort',
+      name: 'terrible_suggestion_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Need to be improved!`
+  String get terrible_suggestion_2 {
+    return Intl.message(
+      'Need to be improved!',
+      name: 'terrible_suggestion_2',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

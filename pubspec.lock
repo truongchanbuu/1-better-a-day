@@ -584,6 +584,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.0.0"
+  flutter_rating_bar:
+    dependency: "direct main"
+    description:
+      name: flutter_rating_bar
+      sha256: d2af03469eac832c591a1eba47c91ecc871fe5708e69967073c043b2d775ed93
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.1"
   flutter_settings_ui:
     dependency: "direct main"
     description:
@@ -1130,14 +1138,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
-  neon_circular_timer:
-    dependency: "direct main"
-    description:
-      name: neon_circular_timer
-      sha256: f4d0cd09212fb10a439681dda697eb90d7f61e0c41eb8c83a37a9a3d8eaa1b01
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.8"
   nested:
     dependency: transitive
     description:

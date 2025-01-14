@@ -280,6 +280,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "author_james_clear":
             MessageLookupByLibrary.simpleMessage("James Clear"),
         "avg_time": MessageLookupByLibrary.simpleMessage("Average Time"),
+        "bad_suggestion_1":
+            MessageLookupByLibrary.simpleMessage("Struggled a bit"),
+        "bad_suggestion_2":
+            MessageLookupByLibrary.simpleMessage("Could be better"),
         "best_time": MessageLookupByLibrary.simpleMessage("Best Time"),
         "birth_date": MessageLookupByLibrary.simpleMessage("Birthdate"),
         "cancel_button": MessageLookupByLibrary.simpleMessage("Cancel"),
@@ -402,6 +406,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "goal_type": MessageLookupByLibrary.simpleMessage("Goal Type"),
         "goal_unit": MessageLookupByLibrary.simpleMessage("Goal Unit"),
         "goal_unit_value": MessageLookupByLibrary.simpleMessage("Value"),
+        "good_suggestion_1":
+            MessageLookupByLibrary.simpleMessage("Made good progress"),
+        "good_suggestion_2":
+            MessageLookupByLibrary.simpleMessage("Feeling accomplished"),
+        "great_suggestion_1":
+            MessageLookupByLibrary.simpleMessage("Achieved a breakthrough!"),
+        "great_suggestion_2":
+            MessageLookupByLibrary.simpleMessage("Best session ever!"),
         "habit_category":
             MessageLookupByLibrary.simpleMessage("Habit Category"),
         "habit_category_creativity":
@@ -678,6 +690,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "my_custom_challenge_tab":
             MessageLookupByLibrary.simpleMessage("My Custom Challenges"),
         "my_reward_tab": MessageLookupByLibrary.simpleMessage("My Rewards"),
+        "neutral_suggestion_1":
+            MessageLookupByLibrary.simpleMessage("Completed as planned"),
+        "neutral_suggestion_2":
+            MessageLookupByLibrary.simpleMessage("Regular session"),
         "next_habits_button": MessageLookupByLibrary.simpleMessage("Next Page"),
         "night_greeting": MessageLookupByLibrary.simpleMessage("Good night"),
         "no_data_title": MessageLookupByLibrary.simpleMessage("No Data"),
@@ -690,6 +706,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "not_allow_track": MessageLookupByLibrary.simpleMessage(
             "We don\'t have permission to track your distance"),
         "not_found": MessageLookupByLibrary.simpleMessage("Not Found"),
+        "note_hint":
+            MessageLookupByLibrary.simpleMessage("Write your note here...."),
+        "note_title": MessageLookupByLibrary.simpleMessage("Note"),
         "notification_screen_title":
             MessageLookupByLibrary.simpleMessage("Keep your habits on track!"),
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
@@ -826,6 +845,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "select_button": MessageLookupByLibrary.simpleMessage("Select"),
         "select_date_title":
             MessageLookupByLibrary.simpleMessage("Select Date"),
+        "select_mood_title":
+            MessageLookupByLibrary.simpleMessage("How do you feel now?"),
         "select_range_date_title":
             MessageLookupByLibrary.simpleMessage("Select Date Range"),
         "send_button": MessageLookupByLibrary.simpleMessage("Send"),
@@ -935,6 +956,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "By signing in/signing up, you accept our Terms and Conditions and consent to our Privacy Policy"),
         "terms_and_conditions":
             MessageLookupByLibrary.simpleMessage("Terms & Conditions"),
+        "terrible_suggestion_1": MessageLookupByLibrary.simpleMessage(
+            "Should have make more effort"),
+        "terrible_suggestion_2":
+            MessageLookupByLibrary.simpleMessage("Need to be improved!"),
         "theme_tile": MessageLookupByLibrary.simpleMessage("Theme"),
         "time_based_progress":
             MessageLookupByLibrary.simpleMessage("Time-Based Progress"),

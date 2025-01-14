@@ -9,13 +9,17 @@ import '../../../../core/enums/habit/day_status.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../injection_container.dart';
+import '../../domain/entities/habit_history.dart';
 import '../../domain/entities/habit_icon.dart';
 import '../blocs/ai_habit_generate/ai_habit_generate_bloc.dart';
 import '../blocs/crud/habit_crud_bloc.dart';
+import '../blocs/habit_history_crud/habit_history_crud_bloc.dart';
+import '../blocs/review_habit_action/review_habit_action_bloc.dart';
 import '../blocs/validate_habit/validate_habit_bloc.dart';
 import '../pages/add_habit_page.dart';
 import '../pages/add_habit_with_ai_page.dart';
 import '../pages/preset_habit_page.dart';
+import '../pages/review_action_page.dart';
 import '../widgets/crud_habit/habit_icon_color_picker.dart';
 
 class SharedHabitAction {
@@ -82,27 +86,43 @@ class SharedHabitAction {
 
   static void showDailyCompletionDialog({
     required BuildContext context,
-    required String status,
+    required HabitHistory history,
   }) {
     AwesomeDialog(
       context: context,
-      dialogType: status == DayStatus.completed.name
+      dialogType: history.executionStatus == DayStatus.completed
           ? DialogType.success
           : DialogType.warning,
-      title: status == DayStatus.completed.name
+      title: history.executionStatus == DayStatus.completed
           ? S.current.success_title
           : S.current.warning_title,
-      desc: status == DayStatus.completed.name
+      desc: history.executionStatus == DayStatus.completed
           ? S.current.daily_completed
           : S.current.daily_paused,
       btnOkText: S.current.rate_and_note_completed_habit,
-      btnOkOnPress: _onRateAndNote,
+      btnOkOnPress: () => onRateAndNote(context, history),
       btnCancelText: S.current.cancel_button,
       btnCancelOnPress: () {},
     ).show();
   }
 
-  static void _onRateAndNote() {}
+  static void onRateAndNote(BuildContext context, HabitHistory history) {
+    Navigator.push(
+      context,
+      PageTransition(
+        type: PageTransitionType.leftToRight,
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider(
+                create: (context) =>
+                    getIt.get<ReviewHabitActionBloc>(param1: history)),
+            BlocProvider.value(value: context.read<HabitHistoryCrudBloc>()),
+          ],
+          child: ReviewActionPage(history: history),
+        ),
+      ),
+    );
+  }
 
   static void onPickIcon({
     HabitIcon? selected,
