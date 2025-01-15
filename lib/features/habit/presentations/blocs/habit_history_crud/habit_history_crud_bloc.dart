@@ -224,6 +224,10 @@ class HabitHistoryCrudBloc
         habit.longestStreak,
       ),
       habitProgress: await _updateProgress(habit),
+      habitGoal: habit.habitGoal.copyWith(
+          goalFrequency: habit.habitGoal.goalFrequency.copyWith(
+        lastCompletionTime: DateTime.now(),
+      )),
     );
 
     await habitRepository.updateHabit(habitId, updatedHabit);

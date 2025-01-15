@@ -158,6 +158,7 @@
   "target_title": "Target",
   "mark_as_done": "Mark as done",
   "mark_as_pause": "Mark as pause",
+  "last_completed_at": "Last completed at: {dateTime}",
   "daily_completed": "You completed this habit today",
   "daily_paused": "You delayed this habit today",
   "rate_and_note_completed_habit": "Rate & Note",

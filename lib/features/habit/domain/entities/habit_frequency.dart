@@ -10,6 +10,7 @@ class HabitFrequency {
   final FrequencyType type;
   @JsonKey(fromJson: timeIntervalFromJson)
   final TimeInterval? interval;
+  // 1-31
   final Set<int>? monthlyDates;
   // T2-CN => 2-8
   final Set<int>? weekDays;

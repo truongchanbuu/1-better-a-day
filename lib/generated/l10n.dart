@@ -1253,6 +1253,16 @@ class S {
     );
   }
 
+  /// `Last completed at: {dateTime}`
+  String last_completed_at(Object dateTime) {
+    return Intl.message(
+      'Last completed at: $dateTime',
+      name: 'last_completed_at',
+      desc: '',
+      args: [dateTime],
+    );
+  }
+
   /// `You completed this habit today`
   String get daily_completed {
     return Intl.message(

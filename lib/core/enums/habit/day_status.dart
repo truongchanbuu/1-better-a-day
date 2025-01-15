@@ -24,8 +24,6 @@ enum DayStatus {
         return Icons.fast_forward;
       case inProgress:
         return Icons.sync;
-      default:
-        return Icons.help;
     }
   }
 
@@ -39,8 +37,6 @@ enum DayStatus {
         return Colors.orange; // #FF9800
       case inProgress:
         return Colors.blue; // #FFEB3B
-      default:
-        return Colors.grey;
     }
   }
 
@@ -54,8 +50,6 @@ enum DayStatus {
         return S.current.status_in_progress;
       case skipped:
         return S.current.status_skipped;
-      default:
-        return S.current.status_unknown;
     }
   }
 

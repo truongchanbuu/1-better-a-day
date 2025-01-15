@@ -19,6 +19,7 @@ import '../../../../core/enums/habit/goal_type.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/num_extension.dart';
 import '../../../../core/extensions/string_extension.dart';
+import '../../../../core/extensions/time_of_day_extension.dart';
 import '../../../../core/helpers/date_time_helper.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../injection_container.dart';
@@ -32,9 +33,9 @@ import '../blocs/crud/habit_crud_bloc.dart';
 import '../blocs/habit_history_crud/habit_history_crud_bloc.dart';
 import '../widgets/crud_habit/edit_template_dialog.dart';
 import '../widgets/generated_habit.dart';
+import '../widgets/habit_reminder_item.dart';
 import '../widgets/habit_section_container.dart';
 import '../widgets/habit_streak_calendar.dart';
-import '../widgets/reminder_section_item.dart';
 import '../widgets/trackers/habit_tracker.dart';
 import 'habit_history_page.dart';
 
@@ -246,11 +247,15 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
                 // Reminder
                 _SectionContainer(
                   title: S.current.reminder_section,
-                  suffix:
-                      IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
-                  children: const [
-                    _spacing,
-                    ReminderSectionItem(),
+                  suffix: IconButton(
+                    onPressed: _onAddReminder,
+                    icon: const Icon(Icons.add),
+                  ),
+                  children: [
+                    HabitReminderItem(
+                      reminderTimes: currentHabit.reminderTimes,
+                      frequency: currentHabit.habitGoal.goalFrequency,
+                    ),
                   ],
                 ),
               ],
@@ -547,6 +552,18 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
         type: PageTransitionType.leftToRight,
       ),
     );
+  }
+
+  Future<void> _onAddReminder() async {
+    final selectedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+
+    if (selectedTime != null) {
+      currentHabit.reminderTimes.add(selectedTime.toShortString);
+      print(currentHabit);
+    }
   }
 }
 
