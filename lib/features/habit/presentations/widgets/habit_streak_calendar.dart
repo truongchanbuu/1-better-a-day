@@ -4,6 +4,7 @@ import 'package:table_calendar/table_calendar.dart';
 
 import '../../../../core/constants/app_color.dart';
 import '../../../../core/constants/app_spacing.dart';
+import '../../../../core/extensions/context_extension.dart';
 
 class HabitStreakCalendar extends StatefulWidget {
   final bool disable;
@@ -97,7 +98,8 @@ class _HabitStreakCalendarState extends State<HabitStreakCalendar> {
     bool isToday = false,
   }) {
     Color backgroundColor;
-    Color textColor = Colors.black;
+    Color textColor =
+        context.isDarkMode ? AppColors.lightText : AppColors.darkText;
     Border? border;
     IconData? icon;
 
@@ -124,7 +126,7 @@ class _HabitStreakCalendarState extends State<HabitStreakCalendar> {
     }
 
     if (isSelected) {
-      border = Border.all(color: Theme.of(context).primaryColor, width: 2);
+      border = Border.all(color: AppColors.primary, width: 2);
     }
 
     return Container(

@@ -440,7 +440,7 @@ class _GridViewItemState extends State<_GridViewItem> {
         ),
         child: CircularPercentIndicator(
           percent: _progressNotifier.value,
-          radius: 50,
+          radius: 45,
           lineWidth: 10,
           backgroundColor: AppColors.grayBackgroundColor,
           progressColor: AppColors.primary,

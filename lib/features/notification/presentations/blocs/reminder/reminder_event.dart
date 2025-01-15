@@ -22,3 +22,5 @@ class CancelReminder extends ReminderEvent {
   @override
   List<Object> get props => [habitId];
 }
+
+final class InitializeReminder extends ReminderEvent {}

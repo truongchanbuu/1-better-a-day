@@ -34,7 +34,7 @@ class _AppViewState extends State<AppView> {
           appBar: SliderAppBar(
             isTitleCenter: false,
             appBarPadding: EdgeInsets.zero,
-            appBarColor: AppColors.primary,
+            appBarColor: Theme.of(context).appBarTheme.backgroundColor!,
             drawerIconColor: AppColors.lightText,
             trailing: _currentTab.trailing,
             title: Text(

@@ -31,11 +31,13 @@ class HabitSectionContainer extends StatelessWidget {
             (context.isDarkMode ? AppColors.darkText : AppColors.lightText),
         borderRadius:
             const BorderRadius.all(Radius.circular(AppSpacing.radiusS)),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
             blurRadius: 5,
             spreadRadius: 5,
-            color: AppColors.grayBackgroundColor,
+            color: context.isDarkMode
+                ? AppColors.primaryDark
+                : AppColors.grayBackgroundColor,
           ),
         ],
       ),

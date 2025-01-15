@@ -3,11 +3,12 @@ import 'package:json_annotation/json_annotation.dart';
 
 import '../../../../core/enums/reminder/reminder_status.dart';
 import '../../../../core/resources/hive_base_model.dart';
+import '../../../habit/domain/entities/habit_frequency.dart';
 import '../../domain/entities/reminder_entity.dart';
 
 part 'reminder_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class ReminderModel extends ReminderEntity implements HiveBaseModel {
   const ReminderModel({
     required super.reminderId,
@@ -46,7 +47,7 @@ class ReminderModel extends ReminderEntity implements HiveBaseModel {
     String? reminderTitle,
     String? habitId,
     DateTime? reminderTime,
-    ValueGetter<String?>? frequency,
+    ValueGetter<HabitFrequency?>? frequency,
     ReminderStatus? reminderStatus,
   }) {
     return ReminderModel(

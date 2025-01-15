@@ -159,7 +159,13 @@ class _AllHabitsPageState extends State<AllHabitsPage> {
   Widget _buildAddButton() {
     return ElevatedButton(
       onPressed: () => SharedHabitAction.showAddHabitOptions(context),
-      style: ElevatedButton.styleFrom(shape: const LinearBorder()),
+      style: ElevatedButton.styleFrom(
+        shape: const BeveledRectangleBorder(
+          side: BorderSide(width: 0.5, color: Colors.white),
+        ),
+        backgroundColor:
+            context.isDarkMode ? AppColors.primaryDark : AppColors.primary,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

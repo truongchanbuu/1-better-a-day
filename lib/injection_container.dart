@@ -35,6 +35,7 @@ import 'features/notification/data/models/reminder_model.dart';
 import 'features/notification/data/repositories/reminder_repo_impl.dart';
 import 'features/notification/domain/entities/reminder_entity.dart';
 import 'features/notification/domain/repositories/reminder_repository.dart';
+import 'features/notification/presentations/blocs/reminder/reminder_bloc.dart';
 import 'features/settings/presentations/bloc/settings_cubit.dart';
 import 'features/shared/presentations/blocs/internet/internet_bloc.dart';
 import 'features/user/data/repositories/user_repository_impl.dart';
@@ -44,6 +45,7 @@ import 'services/api_service.dart';
 import 'services/hive_crud_service.dart';
 import 'services/impl/api_service_impl.dart';
 import 'services/impl/hive_crud_implement.dart';
+import 'services/reminder_service.dart';
 
 final getIt = GetIt.I;
 
@@ -125,11 +127,15 @@ Future<void> initializeDependencies() async {
   getIt
       .registerSingleton<HabitHistoryRepository>(HabitHistoryRepoImpl(getIt()));
   getIt.registerSingleton<ReminderRepository>(ReminderRepoImpl(getIt()));
+  getIt.registerSingleton<ReminderService>(ReminderService());
 
   // Bloc
   getIt.registerSingleton<AuthBloc>(AuthBloc(getIt()));
   getIt.registerSingleton<InternetBloc>(InternetBloc());
-  getIt.registerFactory<ValidateHabitBloc>(() => ValidateHabitBloc(getIt()));
+  getIt.registerFactory<ValidateHabitBloc>(() => ValidateHabitBloc(
+        getIt(),
+        getIt(),
+      ));
   getIt.registerFactory<AIHabitGenerateBloc>(() => AIHabitGenerateBloc(
       habitAIRepository: getIt(), habitRepository: getIt()));
   getIt.registerFactory<HabitCrudBloc>(() => HabitCrudBloc(getIt()));
@@ -139,6 +145,7 @@ Future<void> initializeDependencies() async {
       (target, _) => HabitTimeTrackerBloc(target));
   getIt.registerFactoryParam<ReviewHabitActionBloc, HabitHistory, void>(
       (history, _) => ReviewHabitActionBloc(history));
+  getIt.registerFactory<ReminderBloc>(() => ReminderBloc(getIt()));
 
   // Cubit
   getIt.registerSingleton<SettingsCubit>(SettingsCubit(getIt()));

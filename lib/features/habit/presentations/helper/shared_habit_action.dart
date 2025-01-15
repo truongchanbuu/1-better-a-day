@@ -9,6 +9,7 @@ import '../../../../core/enums/habit/day_status.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../injection_container.dart';
+import '../../../notification/presentations/blocs/reminder/reminder_bloc.dart';
 import '../../domain/entities/habit_history.dart';
 import '../../domain/entities/habit_icon.dart';
 import '../blocs/ai_habit_generate/ai_habit_generate_bloc.dart';
@@ -78,7 +79,10 @@ class SharedHabitAction {
     Navigator.push(
       context,
       PageTransition(
-        child: page,
+        child: BlocProvider(
+          create: (context) => getIt.get<ReminderBloc>(),
+          child: page,
+        ),
         type: PageTransitionType.leftToRight,
       ),
     );

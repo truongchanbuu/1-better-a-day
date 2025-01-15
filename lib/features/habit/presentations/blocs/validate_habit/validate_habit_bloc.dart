@@ -12,6 +12,7 @@ import '../../../../../core/extensions/time_of_day_extension.dart';
 import '../../../../../core/enums/habit/habit_status.dart';
 import '../../../../../core/enums/habit/habit_time_of_day.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../../notification/presentations/blocs/reminder/reminder_bloc.dart';
 import '../../../data/models/habit_model.dart';
 import '../../../domain/entities/habit_entity.dart';
 import '../../../domain/entities/habit_frequency.dart';
@@ -24,10 +25,12 @@ part 'validate_habit_state.dart';
 
 class ValidateHabitBloc extends Bloc<ValidateHabitEvent, ValidateHabitState> {
   final HabitRepository habitRepository;
+  final ReminderBloc reminderBloc;
 
   static const Duration _debounceTime = Duration(milliseconds: 500);
 
-  ValidateHabitBloc(this.habitRepository) : super(ValidateHabitInitial()) {
+  ValidateHabitBloc(this.habitRepository, this.reminderBloc)
+      : super(ValidateHabitInitial()) {
     on<ChangeHabitName>(
       _onHabitNameChanged,
       transformer: debounce(_debounceTime),

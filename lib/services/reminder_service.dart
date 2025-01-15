@@ -1,11 +1,17 @@
-import 'dart:ui';
-
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../config/route/app_route.dart';
+import '../core/constants/app_font_size.dart';
 import '../features/habit/domain/entities/habit_entity.dart';
 import '../features/habit/domain/entities/habit_frequency.dart';
 
 class ReminderService {
+  static const String markCompletedKey = 'MARK_COMPLETED';
+  static const String postponeKey = 'POSTPONE';
+  static const String habitReminderChannelKey = 'habit_reminders';
+  static const String _permissionKey = 'notification_permission_requested';
   static final ReminderService _instance = ReminderService._internal();
   factory ReminderService() => _instance;
   ReminderService._internal();
@@ -15,7 +21,7 @@ class ReminderService {
       null, // null = use default app icon
       [
         NotificationChannel(
-          channelKey: 'habit_reminders',
+          channelKey: habitReminderChannelKey,
           channelName: 'Habit Reminders',
           channelDescription: 'Notifications for habit reminders',
           defaultColor: const Color(0xFF9D50DD),
@@ -26,11 +32,85 @@ class ReminderService {
     );
 
     // Request permission
-    await AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
-      if (!isAllowed) {
-        AwesomeNotifications().requestPermissionToSendNotifications();
+    await _handleNotificationPermission();
+  }
+
+  Future<void> _handleNotificationPermission() async {
+    try {
+      // Check if we've requested permission before
+      if (!await _shouldRequestPermission()) {
+        return;
       }
-    });
+
+      final isAllowed = await AwesomeNotifications().isNotificationAllowed();
+      if (isAllowed) {
+        await _markPermissionRequested();
+        return;
+      }
+
+      // Request permission
+      final granted = await _requestPermissionWithDialog();
+      if (granted) {
+        await _markPermissionRequested();
+      }
+    } catch (e) {
+      debugPrint('Failed to handle notification permission: $e');
+    }
+  }
+
+  Future<bool> _requestPermissionWithDialog() async {
+    final context = AppRoute.navigatorKey.currentContext;
+    if (context == null) {
+      // Fallback to direct request if no context
+      return await AwesomeNotifications()
+          .requestPermissionToSendNotifications();
+    }
+
+    final result = await showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        title: const Text(
+          'Enable Notifications',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: AppFontSize.h3,
+          ),
+        ),
+        content: const Text(
+          'To help you build better habits, we\'d like to send you reminders. '
+          'Would you like to enable notifications?',
+          overflow: TextOverflow.visible,
+          maxLines: 3,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Not Now'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Enable'),
+          ),
+        ],
+      ),
+    );
+
+    if (result ?? false) {
+      return await AwesomeNotifications()
+          .requestPermissionToSendNotifications();
+    }
+    return false;
+  }
+
+  Future<bool> _shouldRequestPermission() async {
+    final prefs = await SharedPreferences.getInstance();
+    return !prefs.containsKey(_permissionKey);
+  }
+
+  Future<void> _markPermissionRequested() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_permissionKey, true);
   }
 
   Future<void> scheduleReminder(HabitEntity habit, String timeString) async {
@@ -42,7 +122,7 @@ class ReminderService {
 
     final content = NotificationContent(
       id: '${habit.habitId}$timeString'.hashCode,
-      channelKey: 'habit_reminders',
+      channelKey: habitReminderChannelKey,
       title: habit.habitTitle,
       body: habit.habitDesc,
       category: NotificationCategory.Reminder,
@@ -52,11 +132,11 @@ class ReminderService {
 
     final actionButtons = [
       NotificationActionButton(
-        key: 'MARK_COMPLETED',
+        key: markCompletedKey,
         label: 'Mark Completed',
       ),
       NotificationActionButton(
-        key: 'POSTPONE',
+        key: postponeKey,
         label: 'Postpone',
       ),
     ];
@@ -185,11 +265,20 @@ class ReminderService {
 
     final interval = frequency.interval!;
     // Convert interval to minutes for consistency
+    const int secondsPerMinute = 60;
+    const int minutesPerHour = 60;
+    const int hoursPerDay = 24;
+    const int daysPerMonth = 30;
     int intervalInSeconds = switch (interval.type) {
-      IntervalType.minutes => interval.value * 60,
-      IntervalType.hours => interval.value * 60 * 60,
-      IntervalType.days => interval.value * 24 * 60 * 60,
-      IntervalType.months => interval.value * 30 * 24 * 60 * 60,
+      IntervalType.minutes => interval.value * secondsPerMinute,
+      IntervalType.hours => interval.value * secondsPerMinute * minutesPerHour,
+      IntervalType.days =>
+        interval.value * secondsPerMinute * minutesPerHour * hoursPerDay,
+      IntervalType.months => interval.value *
+          secondsPerMinute *
+          minutesPerHour *
+          hoursPerDay *
+          daysPerMonth,
     };
 
     await AwesomeNotifications().createNotification(

@@ -5,6 +5,7 @@ import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 
+import 'config/route/app_route.dart';
 import 'config/theme/app_theme.dart';
 import 'core/constants/app_common.dart';
 import 'features/auth/presentations/bloc/auth_bloc/auth_bloc.dart';
@@ -61,6 +62,7 @@ class AppContainer extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       navigatorObservers: [FlutterSmartDialog.observer, routeObserver],
+      navigatorKey: AppRoute.navigatorKey,
       builder: FlutterSmartDialog.init(),
       title: AppCommons.appName,
       themeMode: context.select((SettingsCubit settings) =>
