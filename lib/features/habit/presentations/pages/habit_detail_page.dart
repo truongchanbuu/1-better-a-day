@@ -23,6 +23,7 @@ import '../../../../core/extensions/time_of_day_extension.dart';
 import '../../../../core/helpers/date_time_helper.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../injection_container.dart';
+import '../../../notification/presentations/blocs/reminder/reminder_bloc.dart';
 import '../../../shared/presentations/widgets/confirm_delete_dialog.dart';
 import '../../../shared/presentations/widgets/icon_with_text.dart';
 import '../../../shared/presentations/widgets/not_found_and_refresh.dart';
@@ -41,10 +42,8 @@ import 'habit_history_page.dart';
 
 class HabitDetailPage extends StatefulWidget {
   final HabitEntity habit;
-  const HabitDetailPage({
-    super.key,
-    required this.habit,
-  });
+
+  const HabitDetailPage({super.key, required this.habit});
 
   @override
   State<HabitDetailPage> createState() => _HabitDetailPageState();
@@ -112,6 +111,20 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
                       .read<HabitCrudBloc>()
                       .add(GetHabitById(currentHabit.habitId));
                 }
+              }
+            },
+          ),
+          BlocListener<ReminderBloc, ReminderState>(
+            listener: (context, state) {
+              if (state is ReminderPermisssionDenied) {
+                AwesomeDialog(
+                  context: context,
+                  dialogType: DialogType.error,
+                  title: S.current.reminder_permission_denied,
+                  desc: S.current.reminder_permission_request,
+                ).show();
+              } else if (state is ReminderPermisssionAllowed) {
+                _onAddReminder();
               }
             },
           ),
@@ -312,11 +325,9 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
             title: currentHabit.habitCategory.name.toUpperCaseFirstLetter),
         TextWithCircleBorderContainer(
             title: currentHabit.timeOfDay.name.toUpperCaseFirstLetter),
-        // TextWithCircleBorderContainer(
-        //   title: HabitFrequency.fromNum(currentHabit.habitGoal.goalFrequency)
-        //       .name
-        //       .toUpperCaseFirstLetter,
-        // ),
+        TextWithCircleBorderContainer(
+            title: currentHabit
+                .habitGoal.goalFrequency.type.name.toUpperCaseFirstLetter),
       ],
     );
   }

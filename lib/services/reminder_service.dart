@@ -2,10 +2,13 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../config/log/app_logger.dart';
 import '../config/route/app_route.dart';
-import '../core/constants/app_font_size.dart';
 import '../features/habit/domain/entities/habit_entity.dart';
 import '../features/habit/domain/entities/habit_frequency.dart';
+import '../features/shared/presentations/widgets/dialog/notification_permission_dialog.dart';
+import '../generated/l10n.dart';
+import '../injection_container.dart';
 
 class ReminderService {
   static const String markCompletedKey = 'MARK_COMPLETED';
@@ -15,6 +18,8 @@ class ReminderService {
   static final ReminderService _instance = ReminderService._internal();
   factory ReminderService() => _instance;
   ReminderService._internal();
+
+  final _appLogger = getIt.get<AppLogger>();
 
   Future<void> init() async {
     await AwesomeNotifications().initialize(
@@ -30,32 +35,37 @@ class ReminderService {
         ),
       ],
     );
-
-    // Request permission
-    await _handleNotificationPermission();
   }
 
-  Future<void> _handleNotificationPermission() async {
+  Future<bool> requestPermission() async {
+    // Request permission
+    return await _handleNotificationPermission();
+  }
+
+  Future<bool> _handleNotificationPermission() async {
     try {
       // Check if we've requested permission before
       if (!await _shouldRequestPermission()) {
-        return;
+        return true;
       }
 
       final isAllowed = await AwesomeNotifications().isNotificationAllowed();
       if (isAllowed) {
         await _markPermissionRequested();
-        return;
+        return true;
       }
 
       // Request permission
       final granted = await _requestPermissionWithDialog();
       if (granted) {
         await _markPermissionRequested();
+        return true;
       }
     } catch (e) {
-      debugPrint('Failed to handle notification permission: $e');
+      _appLogger.e('Failed to handle notification permission: $e');
     }
+
+    return false;
   }
 
   Future<bool> _requestPermissionWithDialog() async {
@@ -69,31 +79,7 @@ class ReminderService {
     final result = await showDialog<bool>(
       context: context,
       barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        title: const Text(
-          'Enable Notifications',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: AppFontSize.h3,
-          ),
-        ),
-        content: const Text(
-          'To help you build better habits, we\'d like to send you reminders. '
-          'Would you like to enable notifications?',
-          overflow: TextOverflow.visible,
-          maxLines: 3,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Not Now'),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text('Enable'),
-          ),
-        ],
-      ),
+      builder: (context) => const NotificationPermissionDialog(),
     );
 
     if (result ?? false) {
@@ -133,11 +119,11 @@ class ReminderService {
     final actionButtons = [
       NotificationActionButton(
         key: markCompletedKey,
-        label: 'Mark Completed',
+        label: S.current.mark_as_done,
       ),
       NotificationActionButton(
         key: postponeKey,
-        label: 'Postpone',
+        label: S.current.mark_as_pause,
       ),
     ];
 
@@ -182,45 +168,57 @@ class ReminderService {
     }
   }
 
-  Future<void> _scheduleDailyReminder({
+  Future<bool> _scheduleDailyReminder({
     required NotificationContent content,
     required List<NotificationActionButton> actionButtons,
     required int hour,
     required int minute,
   }) async {
-    await AwesomeNotifications().createNotification(
-      content: content,
-      schedule: NotificationCalendar(
-        hour: hour,
-        minute: minute,
-        repeats: true,
-      ),
-      actionButtons: actionButtons,
-    );
+    try {
+      return await AwesomeNotifications().createNotification(
+        content: content,
+        schedule: NotificationCalendar(
+          hour: hour,
+          minute: minute,
+          repeats: true,
+        ),
+        actionButtons: actionButtons,
+      );
+    } catch (e) {
+      _appLogger.e(e);
+      return false;
+    }
   }
 
-  Future<void> _scheduleWeekDayReminders({
+  Future<bool> _scheduleWeekDayReminders({
     required NotificationContent content,
     required List<NotificationActionButton> actionButtons,
     required Set<int> weekDays,
     required int hour,
     required int minute,
   }) async {
-    // Schedule separate notification for each weekday
-    for (final weekDay in weekDays) {
-      await AwesomeNotifications().createNotification(
-        content: content.copyWith(
-          id: content.id! + weekDay, // Unique ID for each weekday
-          map: content.toMap(),
-        ),
-        schedule: NotificationCalendar(
-          hour: hour,
-          minute: minute,
-          weekday: weekDay,
-          repeats: true,
-        ),
-        actionButtons: actionButtons,
-      );
+    try {
+      // Schedule separate notification for each weekday
+      for (final weekDay in weekDays) {
+        await AwesomeNotifications().createNotification(
+          content: content.copyWith(
+            id: content.id! + weekDay, // Unique ID for each weekday
+            map: content.toMap(),
+          ),
+          schedule: NotificationCalendar(
+            hour: hour,
+            minute: minute,
+            weekday: weekDay,
+            repeats: true,
+          ),
+          actionButtons: actionButtons,
+        );
+      }
+
+      return true;
+    } catch (e) {
+      _appLogger.e(e);
+      return false;
     }
   }
 

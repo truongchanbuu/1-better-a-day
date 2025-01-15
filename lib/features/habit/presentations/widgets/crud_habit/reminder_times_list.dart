@@ -54,8 +54,11 @@ class ReminderTimesListSection extends StatelessWidget {
 class ReminderItemList extends StatelessWidget {
   final Set<String> reminderTimes;
   final Function(String time)? onDeleteItem;
-  const ReminderItemList(
-      {super.key, required this.reminderTimes, this.onDeleteItem});
+  const ReminderItemList({
+    super.key,
+    required this.reminderTimes,
+    this.onDeleteItem,
+  });
 
   @override
   Widget build(BuildContext context) {

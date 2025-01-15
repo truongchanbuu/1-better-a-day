@@ -7,10 +7,11 @@ import '../../../../core/extensions/context_extension.dart';
 
 import '../../../../core/constants/app_color.dart';
 import '../../../../generated/l10n.dart';
+import '../../domain/entities/habit_entity.dart';
 
 class TodayHabitItem extends StatefulWidget {
-  // final HabitEntity habit;
-  const TodayHabitItem({super.key});
+  final HabitEntity habit;
+  const TodayHabitItem({super.key, required this.habit});
 
   @override
   State<TodayHabitItem> createState() => _TodayHabitItemState();
@@ -18,6 +19,11 @@ class TodayHabitItem extends StatefulWidget {
 
 class _TodayHabitItemState extends State<TodayHabitItem> {
   bool isCompleted = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

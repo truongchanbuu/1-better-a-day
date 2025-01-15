@@ -10,12 +10,27 @@ import '../../../../core/enums/habit/habit_time_of_day.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../generated/l10n.dart';
 import '../../../auth/presentations/bloc/auth_bloc/auth_bloc.dart';
+import '../../../shared/presentations/widgets/not_found_and_refresh.dart';
+import '../../domain/entities/habit_entity.dart';
 import '../helper/shared_habit_action.dart';
 import '../widgets/today_habit_item.dart';
 import '../widgets/today_quote.dart';
 
-class TodayPage extends StatelessWidget {
+class TodayPage extends StatefulWidget {
   const TodayPage({super.key});
+
+  @override
+  State<TodayPage> createState() => _TodayPageState();
+}
+
+class _TodayPageState extends State<TodayPage> {
+  List<HabitEntity> todayHabits = [];
+
+  @override
+  void initState() {
+    super.initState();
+    // TODO: CALL API FOR GETTING TASKS
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,11 +70,21 @@ class TodayPage extends StatelessWidget {
                     fontSize: AppFontSize.h2,
                   ),
                 ),
-                ...List.generate(5, (index) => const TodayHabitItem()),
+                todayHabits.isEmpty ? _buildEmptyTodayTask() : Container(),
+                // ...List.generate(5, (index) => const TodayHabitItem()),
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildEmptyTodayTask() {
+    return Center(
+      child: NotFoundAndRefresh(
+        title: S.current.no_task_today,
+        onRefresh: () {},
       ),
     );
   }

@@ -18,3 +18,7 @@ class ReminderError extends ReminderState {
   @override
   List<Object> get props => [message];
 }
+
+final class ReminderPermisssionDenied extends ReminderState {}
+
+final class ReminderPermisssionAllowed extends ReminderState {}

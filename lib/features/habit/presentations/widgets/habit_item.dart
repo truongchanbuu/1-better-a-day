@@ -21,6 +21,8 @@ import '../../../../core/enums/habit/habit_category.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/num_extension.dart';
 import '../../../../generated/l10n.dart';
+import '../../../../injection_container.dart';
+import '../../../notification/presentations/blocs/reminder/reminder_bloc.dart';
 import '../../../shared/presentations/widgets/confirm_delete_dialog.dart';
 import '../../domain/entities/habit_entity.dart';
 import '../../domain/entities/habit_icon.dart';
@@ -282,6 +284,7 @@ class _HabitItemState extends State<HabitItem> {
             BlocProvider.value(
                 value: context.read<HabitHistoryCrudBloc>()
                   ..add(HabitHistoryCrudListByHabitId(currentHabit.habitId))),
+            BlocProvider(create: (context) => getIt.get<ReminderBloc>()),
           ],
           child: HabitDetailPage(habit: currentHabit),
         ),

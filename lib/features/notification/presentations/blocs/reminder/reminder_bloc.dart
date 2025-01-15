@@ -28,6 +28,14 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
 
   FutureOr<void> _onInitializeReminder(
       InitializeReminder event, Emitter<ReminderState> emit) async {
+    final isGranted = await reminderService.requestPermission();
+
+    if (!isGranted) {
+      emit(ReminderPermisssionDenied());
+    } else {
+      emit(ReminderPermisssionAllowed());
+    }
+
     await reminderService.init();
   }
 

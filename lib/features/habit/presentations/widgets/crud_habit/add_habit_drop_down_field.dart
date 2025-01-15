@@ -59,7 +59,7 @@ class _AddHabitDropdownFieldState extends State<AddHabitDropdownField> {
         },
         menuItemStyleData: MenuItemStyleData(
           selectedMenuItemBuilder: (context, child) => Container(
-            color: AppColors.primary.withOpacity(0.2),
+            color: AppColors.primary.withValues(alpha: .2),
             child: child,
           ),
         ),

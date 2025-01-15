@@ -359,6 +359,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "An account already exists for that email."),
         "empty_field": MessageLookupByLibrary.simpleMessage(
             "Please do not empty the field"),
+        "enable_button": MessageLookupByLibrary.simpleMessage("Enable"),
         "end_date": MessageLookupByLibrary.simpleMessage("End Date"),
         "end_value_must_be_greater_than_start":
             MessageLookupByLibrary.simpleMessage(
@@ -706,9 +707,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("No habit found"),
         "no_habit_item_selected": MessageLookupByLibrary.simpleMessage(
             "Please select at least one to add"),
+        "no_task_today": MessageLookupByLibrary.simpleMessage("No Task Today"),
         "not_allow_track": MessageLookupByLibrary.simpleMessage(
             "We don\'t have permission to track your distance"),
         "not_found": MessageLookupByLibrary.simpleMessage("Not Found"),
+        "not_now_button": MessageLookupByLibrary.simpleMessage("Not now"),
         "note_hint":
             MessageLookupByLibrary.simpleMessage("Write your note here...."),
         "note_title": MessageLookupByLibrary.simpleMessage("Note"),
@@ -809,6 +812,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "relevant_suggestion_1": MessageLookupByLibrary.simpleMessage(
             "Consider explaining why this goal is important to you"),
         "relevant_title": MessageLookupByLibrary.simpleMessage("Relevant"),
+        "reminder_permission_denied": MessageLookupByLibrary.simpleMessage(
+            "Cannot reminder without notification permission"),
+        "reminder_permission_request": MessageLookupByLibrary.simpleMessage(
+            "Please provide notification permission to reminder your habit"),
         "reminder_section": MessageLookupByLibrary.simpleMessage("Reminder"),
         "remove_water_button": m24,
         "reps_unit": MessageLookupByLibrary.simpleMessage("reps"),

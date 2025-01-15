@@ -6,6 +6,8 @@
   "success_title": "Success",
   "failure_title": "Failure",
   "warning_title": "Warning",
+  "not_now_button": "Not now",
+  "enable_button": "Enable",
   "loading_title": "Loading...",
   "searching_title": "Searching...",
   "no_data_title": "No Data",
@@ -351,6 +353,8 @@
 
   "reminder_section": "Reminder",
   "add_reminder": "Add reminder",
+  "reminder_permission_denied": "Cannot reminder without notification permission",
+  "reminder_permission_request": "Please provide notification permission to reminder your habit",
 
   "@__NOTIFICATION__": {},
   "notification_screen_title": "Keep your habits on track!",
@@ -362,6 +366,7 @@
   "afternoon_greeting": "Good Afternoon",
   "evening_greeting": "Good Evening",
   "night_greeting": "Good night",
+  "no_task_today": "No Task Today",
 
   "habit_quote_1": "A habit cannot be tossed out the window; it must be coaxed down the stairs a step at a time",
   "habit_quote_2": "And once you understand that habits can change, you have the freedom and the responsibility to remake them",

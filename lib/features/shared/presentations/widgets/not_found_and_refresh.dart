@@ -26,7 +26,6 @@ class NotFoundAndRefresh extends StatelessWidget {
             fontSize: AppFontSize.h3,
           ),
         ),
-        const SizedBox(height: AppSpacing.marginXS),
         IconButton(
           onPressed: onRefresh,
           icon: const Icon(

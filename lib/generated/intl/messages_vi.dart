@@ -367,6 +367,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Đã có tài khoản sử dụng email này."),
         "empty_field": MessageLookupByLibrary.simpleMessage(
             "Vui lòng không để trống trường này"),
+        "enable_button": MessageLookupByLibrary.simpleMessage("Cho phép"),
         "end_date": MessageLookupByLibrary.simpleMessage("Ngày kết thúc"),
         "end_value_must_be_greater_than_start":
             MessageLookupByLibrary.simpleMessage(
@@ -721,9 +722,13 @@ class MessageLookup extends MessageLookupByLibrary {
             "Không tìm thấy thói quen nào"),
         "no_habit_item_selected": MessageLookupByLibrary.simpleMessage(
             "Vui lòng chọn ít nhất một thói quen để thêm"),
+        "no_task_today": MessageLookupByLibrary.simpleMessage(
+            "Không có nhiệm vụ nào cần hoàn thành"),
         "not_allow_track": MessageLookupByLibrary.simpleMessage(
             "Chúng tôi không được cấp quyền để theo dõi quãng đường di chuyển của bạn"),
         "not_found": MessageLookupByLibrary.simpleMessage("Không tìm thấy"),
+        "not_now_button":
+            MessageLookupByLibrary.simpleMessage("Không phải bây giờ"),
         "note_hint": MessageLookupByLibrary.simpleMessage(
             "Viết ghi chú của bạn tại đây...."),
         "note_title": MessageLookupByLibrary.simpleMessage("Ghi chú"),
@@ -823,6 +828,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "Xem xét tại sao bạn cần đạt được mục đích đó"),
         "relevant_title":
             MessageLookupByLibrary.simpleMessage("Thực tế - Relevant"),
+        "reminder_permission_denied": MessageLookupByLibrary.simpleMessage(
+            "Không thể thực hiện nhắc nhở nếu không có quyền thông báo"),
+        "reminder_permission_request": MessageLookupByLibrary.simpleMessage(
+            "Vui lòng cấp thông báo để có thể nhắc nhở thói quen của bạn"),
         "reminder_section": MessageLookupByLibrary.simpleMessage("Nhắc nhở"),
         "remove_water_button": m24,
         "reps_unit": MessageLookupByLibrary.simpleMessage("lần"),

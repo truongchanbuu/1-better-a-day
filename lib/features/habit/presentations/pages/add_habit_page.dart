@@ -18,7 +18,6 @@ import '../../../../core/extensions/string_extension.dart';
 import '../../../../core/extensions/time_of_day_extension.dart';
 import '../../../../core/helpers/alert_helper.dart';
 import '../../../../generated/l10n.dart';
-import '../../../notification/presentations/blocs/reminder/reminder_bloc.dart';
 import '../../../shared/presentations/blocs/internet/internet_bloc.dart';
 import '../../domain/entities/habit_frequency.dart';
 import '../../domain/entities/habit_icon.dart';
@@ -483,7 +482,6 @@ class _AddHabitPageState extends State<AddHabitPage> {
   }
 
   Future<void> _onPickReminder() async {
-    // context.read<ReminderBloc>().add(InitializeReminder());
     final validateBloc = context.read<ValidateHabitBloc>();
     final selectedTime = await showTimePicker(
       context: context,

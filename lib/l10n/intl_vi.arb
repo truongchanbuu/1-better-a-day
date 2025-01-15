@@ -7,6 +7,8 @@
   "failure_title": "Thất bại",
   "warning_title": "Cảnh báo",
   "no_data_title": "Trống",
+  "not_now_button": "Không phải bây giờ",
+  "enable_button": "Cho phép",
   "loading_title": "Đang tải...",
   "searching_title": "Tìm kiếm...",
   "send_button": "Gửi",
@@ -349,6 +351,8 @@
 
   "reminder_section": "Nhắc nhở",
   "add_reminder": "Thêm lịch nhắc nhở",
+  "reminder_permission_denied": "Không thể thực hiện nhắc nhở nếu không có quyền thông báo",
+  "reminder_permission_request": "Vui lòng cấp thông báo để có thể nhắc nhở thói quen của bạn",
 
   "@__NOTIFICATION__": {},
   "notification_screen_title": "Giữ vững thói quen của bạn!",
@@ -359,6 +363,7 @@
   "afternoon_greeting": "Chào buổi trưa",
   "evening_greeting": "Chào buổi chiểu",
   "night_greeting": "Chào buổi tối",
+  "no_task_today": "Không có nhiệm vụ nào cần hoàn thành",
 
   "habit_quote_1": "Có công mài sắt, có ngày nên kim",
   "habit_quote_2": "Có chí thì nên",

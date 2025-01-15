@@ -24,7 +24,7 @@ class TextWithCircleBorderContainer extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppSpacing.circleRadius),
-        color: (backgroundColor ?? AppColors.primary).withOpacity(0.2),
+        color: (backgroundColor ?? AppColors.primary).withValues(alpha: .2),
       ),
       padding: const EdgeInsets.symmetric(
         horizontal: AppSpacing.paddingM,

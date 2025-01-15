@@ -90,6 +90,26 @@ class S {
     );
   }
 
+  /// `Not now`
+  String get not_now_button {
+    return Intl.message(
+      'Not now',
+      name: 'not_now_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enable`
+  String get enable_button {
+    return Intl.message(
+      'Enable',
+      name: 'enable_button',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Loading...`
   String get loading_title {
     return Intl.message(
@@ -2531,6 +2551,26 @@ class S {
     );
   }
 
+  /// `Cannot reminder without notification permission`
+  String get reminder_permission_denied {
+    return Intl.message(
+      'Cannot reminder without notification permission',
+      name: 'reminder_permission_denied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please provide notification permission to reminder your habit`
+  String get reminder_permission_request {
+    return Intl.message(
+      'Please provide notification permission to reminder your habit',
+      name: 'reminder_permission_request',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Keep your habits on track!`
   String get notification_screen_title {
     return Intl.message(
@@ -2596,6 +2636,16 @@ class S {
     return Intl.message(
       'Good night',
       name: 'night_greeting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No Task Today`
+  String get no_task_today {
+    return Intl.message(
+      'No Task Today',
+      name: 'no_task_today',
       desc: '',
       args: [],
     );
