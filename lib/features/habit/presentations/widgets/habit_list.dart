@@ -97,15 +97,16 @@ class _HabitListState extends State<HabitList> with RouteAware {
 
         return AnimatedSwitcherPlus.translationBottom(
           duration: const Duration(milliseconds: 500),
-          child: state is! HabitCrudSucceed
+          child: state is Executing
               ? const LoadingIndicator(indicatorType: Indicator.pacman)
               : _buildHabitView(),
         );
       },
-      buildWhen: (previous, current) =>
-          current is HabitCrudSucceed ||
-          current is Executing ||
-          current is CrudInitial,
+      // buildWhen: (previous, current) =>
+      //     current is HabitCrudSucceed ||
+      //     current is Executing ||
+      //     current is CrudInitial ||
+      //     current is HabitCrudFailed,
     );
   }
 

@@ -42,6 +42,15 @@ enum GoalUnit {
   static GoalUnit fromString(String? str) =>
       EnumHelper.fromString(values, str) ?? custom;
 
+  static GoalUnit fromMultiLanguageString(String? str) {
+    final langMap = {
+      for (var entry in values.asMap().entries)
+        values[entry.key].unitName: entry.value
+    };
+
+    return langMap[str] ?? custom;
+  }
+
   String get unitName => switch (this) {
         reps => S.current.reps_unit,
         sets => S.current.sets_unit,

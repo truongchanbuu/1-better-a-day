@@ -306,7 +306,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Category Distribution"),
         "challenges_screen": MessageLookupByLibrary.simpleMessage("Challenges"),
         "change_from_last_week": m3,
-        "cm_unit": MessageLookupByLibrary.simpleMessage("centimeters"),
+        "cm_unit": MessageLookupByLibrary.simpleMessage("cm"),
         "collection_tab": MessageLookupByLibrary.simpleMessage("Collections"),
         "community_challenges":
             MessageLookupByLibrary.simpleMessage("Community Challenges"),
@@ -360,6 +360,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "empty_field": MessageLookupByLibrary.simpleMessage(
             "Please do not empty the field"),
         "enable_button": MessageLookupByLibrary.simpleMessage("Enable"),
+        "enable_notifications":
+            MessageLookupByLibrary.simpleMessage("Enable Notifications"),
         "end_date": MessageLookupByLibrary.simpleMessage("End Date"),
         "end_value_must_be_greater_than_start":
             MessageLookupByLibrary.simpleMessage(
@@ -540,10 +542,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "invalid_verification_id": MessageLookupByLibrary.simpleMessage(
             "The credential verification ID received is invalid."),
         "keep_button": MessageLookupByLibrary.simpleMessage("Keep"),
-        "km_unit": MessageLookupByLibrary.simpleMessage("kilometers"),
+        "km_unit": MessageLookupByLibrary.simpleMessage("km"),
         "know_more_about_habit":
             MessageLookupByLibrary.simpleMessage("More Knowledge about habit"),
-        "l_unit": MessageLookupByLibrary.simpleMessage("liters"),
+        "l_unit": MessageLookupByLibrary.simpleMessage("l"),
         "language_tile": MessageLookupByLibrary.simpleMessage("Language"),
         "last_completed_at": m17,
         "last_n_day": m18,
@@ -557,7 +559,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "logout_button": MessageLookupByLibrary.simpleMessage("Log out"),
         "longest_streak":
             MessageLookupByLibrary.simpleMessage("Longest Streak"),
-        "m_unit": MessageLookupByLibrary.simpleMessage("meters"),
+        "m_unit": MessageLookupByLibrary.simpleMessage("m"),
         "manage_account_choice":
             MessageLookupByLibrary.simpleMessage("Manage Account"),
         "mark_as_done": MessageLookupByLibrary.simpleMessage("Mark as done"),
@@ -674,7 +676,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "miles_unit": MessageLookupByLibrary.simpleMessage("miles"),
         "minute_unit": MessageLookupByLibrary.simpleMessage("minute"),
         "miss_title": MessageLookupByLibrary.simpleMessage("Miss"),
-        "ml_unit": MessageLookupByLibrary.simpleMessage("milliliters"),
+        "ml_unit": MessageLookupByLibrary.simpleMessage("ml"),
         "month_title": MessageLookupByLibrary.simpleMessage("Month"),
         "monthly_process_section":
             MessageLookupByLibrary.simpleMessage("Monthly"),
@@ -715,6 +717,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "note_hint":
             MessageLookupByLibrary.simpleMessage("Write your note here...."),
         "note_title": MessageLookupByLibrary.simpleMessage("Note"),
+        "notification_permission_request": MessageLookupByLibrary.simpleMessage(
+            "To help you build better habits, we\\\'d like to send you reminders.\nWould you like to enable notifications?"),
         "notification_screen_title":
             MessageLookupByLibrary.simpleMessage("Keep your habits on track!"),
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),

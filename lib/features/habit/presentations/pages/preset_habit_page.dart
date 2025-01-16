@@ -16,11 +16,11 @@ import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/helpers/date_time_helper.dart';
 import '../../../../core/helpers/setting_helper.dart';
 import '../../../../generated/l10n.dart';
+import '../../../notification/presentations/blocs/reminder/reminder_bloc.dart';
 import '../../../shared/presentations/widgets/icon_with_text.dart';
 import '../../../shared/presentations/widgets/search_bar.dart';
 import '../../data/models/preset_habit.dart';
 import '../../domain/entities/habit_entity.dart';
-import '../blocs/ai_habit_generate/ai_habit_generate_bloc.dart';
 import '../blocs/crud/habit_crud_bloc.dart';
 import '../widgets/crud_habit/edit_template_dialog.dart';
 import '../widgets/generated_habit.dart';
@@ -41,6 +41,7 @@ class _PresetHabitPageState extends State<PresetHabitPage> {
   HabitCategory? selected;
 
   bool _isAllSelected = false;
+  bool _isReminderEnabled = false;
 
   List<String> selectedHabitIds = [];
 
@@ -80,8 +81,14 @@ class _PresetHabitPageState extends State<PresetHabitPage> {
         bottomNavigationBar: _buildAddButton(),
         body: MultiBlocListener(
           listeners: [
+            BlocListener<ReminderBloc, ReminderState>(
+              listener: (context, state) {
+                _isReminderEnabled = state is ReminderPermissionAllowed;
+              },
+            ),
             BlocListener<HabitCrudBloc, HabitCrudState>(
               listener: (context, state) async {
+                final navigator = Navigator.of(context);
                 if (state is HabitCrudSucceed &&
                     (state.action == HabitCrudAction.add ||
                         state.action == HabitCrudAction.addList)) {
@@ -93,6 +100,7 @@ class _PresetHabitPageState extends State<PresetHabitPage> {
                     barrierColor: Colors.transparent.withValues(alpha: .2),
                     onDismissCallback: (type) {
                       _updateHabits(state.habits);
+                      navigator.pop();
                     },
                   );
 
@@ -112,13 +120,6 @@ class _PresetHabitPageState extends State<PresetHabitPage> {
                 }
               },
             ),
-            BlocListener<AIHabitGenerateBloc, AIHabitGenerateState>(
-              listener: (context, state) {
-                if (state is AddHabitSucceed) {
-                  _updateHabits([state.habit]);
-                }
-              },
-            )
           ],
           child: SingleChildScrollView(
             child: Padding(
@@ -147,33 +148,47 @@ class _PresetHabitPageState extends State<PresetHabitPage> {
                     },
                   ),
                   _spacing,
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: presetHabits
-                        .map((habit) => _HabitItem(
-                              habit: habit,
-                              onLongPressed: (habitId) => setState(() {
-                                if (!selectedHabitIds.contains(habitId)) {
-                                  selectedHabitIds.add(habitId);
-                                } else {
-                                  selectedHabitIds.remove(habitId);
-                                }
-                              }),
-                              onPressed: (habitId) {
-                                if (selectedHabitIds.contains(habitId)) {
-                                  setState(
-                                      () => selectedHabitIds.remove(habitId));
-                                }
-                              },
-                              onDoubleTap: () => _onHabitDetailDisplay(habit),
-                              isSelected:
-                                  selectedHabitIds.contains(habit.habitId),
-                            )
-                                .animate()
-                                .fadeIn(
-                                    delay: 100.ms * presetHabits.indexOf(habit))
-                                .scale(begin: const Offset(0, 0)))
-                        .toList(),
+                  BlocBuilder<ReminderBloc, ReminderState>(
+                    builder: (context, state) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: presetHabits
+                            .map((habit) => _HabitItem(
+                                  habit: habit,
+                                  onLongPressed: (habitId) => setState(() {
+                                    if (!selectedHabitIds.contains(habitId)) {
+                                      selectedHabitIds.add(habitId);
+                                    } else {
+                                      selectedHabitIds.remove(habitId);
+                                    }
+                                  }),
+                                  onPressed: (habitId) {
+                                    if (selectedHabitIds.contains(habitId)) {
+                                      setState(() =>
+                                          selectedHabitIds.remove(habitId));
+                                    }
+                                  },
+                                  onDoubleTap: () {
+                                    context
+                                        .read<ReminderBloc>()
+                                        .add(GrantReminderPermission());
+                                    _onHabitDetailDisplay(
+                                      habit.copyWith(
+                                        isReminderEnabled: _isReminderEnabled,
+                                      ),
+                                    );
+                                  },
+                                  isSelected:
+                                      selectedHabitIds.contains(habit.habitId),
+                                )
+                                    .animate()
+                                    .fadeIn(
+                                        delay: 100.ms *
+                                            presetHabits.indexOf(habit))
+                                    .scale(begin: const Offset(0, 0)))
+                            .toList(),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -280,32 +295,13 @@ class _PresetHabitPageState extends State<PresetHabitPage> {
       isScrollControlled: true,
       useSafeArea: true,
       context: context,
-      builder: (ctx) => BlocProvider.value(
-        value: context.read<AIHabitGenerateBloc>(),
-        child: EditTemplateDialog(
-          child: BlocListener<AIHabitGenerateBloc, AIHabitGenerateState>(
-            listener: (innerCtx, state) async {
-              if (state is AddHabitSucceed) {
-                final alertDialog = AwesomeDialog(
-                  context: context,
-                  dialogType: DialogType.success,
-                  title: S.current.success_title,
-                  desc: S.current.add_success,
-                );
-
-                Navigator.pop(context);
-
-                await Future.delayed(const Duration(milliseconds: 200));
-                alertDialog.show();
-                await Future.delayed(const Duration(seconds: 5));
-                alertDialog.dismiss();
-              }
-            },
-            child: GeneratedHabit(
-              habit: habit,
-              onEdit: (habit) =>
-                  context.read<AIHabitGenerateBloc>().add(AddHabitEvent(habit)),
-            ),
+      builder: (ctx) => EditTemplateDialog(
+        child: BlocProvider.value(
+          value: context.read<ReminderBloc>(),
+          child: GeneratedHabit(
+            habit: habit,
+            onEdit: (habit) =>
+                context.read<HabitCrudBloc>().add(AddHabit(habit)),
           ),
         ),
       ),

@@ -75,7 +75,7 @@ class HabitDatePickerState extends State<HabitDatePicker> {
         borderRadius: BorderRadius.circular(AppSpacing.radiusM),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             spreadRadius: 1,
             blurRadius: 4,
           ),

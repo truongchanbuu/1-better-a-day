@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 
 import '../../../../../config/log/app_logger.dart';
 import '../../../../../core/enums/habit/habit_category.dart';
@@ -20,7 +21,7 @@ class HabitCrudBloc extends Bloc<HabitCrudEvent, HabitCrudState> {
   final HabitRepository habitRepository;
 
   HabitCrudBloc(this.habitRepository) : super(CrudInitial()) {
-    on<AddHabit>(_onAddHabit);
+    on<AddHabit>(_onAddHabit, transformer: sequential());
     on<AddListOfHabits>(_onAddListOfHabits);
     on<GetHabitById>(_onGetHabitById);
     on<GetAllHabits>(_onGetAllHabits);

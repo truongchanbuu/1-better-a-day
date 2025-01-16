@@ -17,11 +17,3 @@ final class GenerateSMARTHabitGoal extends AIHabitGenerateEvent {
   @override
   List<Object?> get props => [sentence, language];
 }
-
-final class AddHabitEvent extends AIHabitGenerateEvent {
-  final HabitEntity habit;
-  const AddHabitEvent(this.habit);
-
-  @override
-  List<Object> get props => [habit];
-}

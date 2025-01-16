@@ -13,24 +13,19 @@ import '../../../../../core/enums/habit/habit_status.dart';
 import '../../../../../core/enums/habit/habit_time_of_day.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../notification/presentations/blocs/reminder/reminder_bloc.dart';
-import '../../../data/models/habit_model.dart';
 import '../../../domain/entities/habit_entity.dart';
 import '../../../domain/entities/habit_frequency.dart';
 import '../../../domain/entities/habit_goal.dart';
 import '../../../domain/entities/habit_icon.dart';
-import '../../../domain/repositories/habit_repository.dart';
+import '../crud/habit_crud_bloc.dart';
 
 part 'validate_habit_event.dart';
 part 'validate_habit_state.dart';
 
 class ValidateHabitBloc extends Bloc<ValidateHabitEvent, ValidateHabitState> {
-  final HabitRepository habitRepository;
-  final ReminderBloc reminderBloc;
-
   static const Duration _debounceTime = Duration(milliseconds: 500);
 
-  ValidateHabitBloc(this.habitRepository, this.reminderBloc)
-      : super(ValidateHabitInitial()) {
+  ValidateHabitBloc() : super(ValidateHabitInitial()) {
     on<ChangeHabitName>(
       _onHabitNameChanged,
       transformer: debounce(_debounceTime),
@@ -200,8 +195,6 @@ class ValidateHabitBloc extends Bloc<ValidateHabitEvent, ValidateHabitState> {
       return;
     }
 
-    emit(ValidateSucceed(current: state));
-
     final habitId = const Uuid().v4();
     final habit = HabitEntity(
       habitId: habitId,
@@ -220,16 +213,10 @@ class ValidateHabitBloc extends Bloc<ValidateHabitEvent, ValidateHabitState> {
       endDate: state.endDate,
       habitIcon: state.habitIcon,
       reminderTimes: state.reminderTimes,
+      isReminderEnabled: state.reminderTimes.isNotEmpty,
     );
 
-    await habitRepository.createHabit(HabitModel.fromEntity(
-        habit.copyWith(habitStatus: HabitStatus.inProgress)));
-    final createdHabit = await habitRepository.getHabitById(habit.habitId);
-    if (createdHabit != null) {
-      emit(HabitAdded(createdHabit));
-    } else {
-      emit(HabitAddFailed(errorMessage: S.current.cannot_generate_habit));
-    }
+    emit(ValidateSucceed(habit));
   }
 
   void _onHabitUnitChange(

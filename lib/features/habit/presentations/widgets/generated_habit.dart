@@ -1,33 +1,59 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/constants/app_color.dart';
 import '../../../../core/constants/app_font_size.dart';
 import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/enums/habit/habit_category.dart';
 import '../../../../core/extensions/context_extension.dart';
+import '../../../../core/extensions/time_of_day_extension.dart';
 import '../../../../core/helpers/date_time_helper.dart';
 import '../../../../generated/l10n.dart';
+import '../../../../injection_container.dart';
+import '../../../notification/presentations/blocs/reminder/reminder_bloc.dart';
 import '../../../shared/presentations/widgets/icon_with_text.dart';
 import '../../domain/entities/habit_entity.dart';
 import '../../domain/entities/habit_icon.dart';
+import '../blocs/crud/habit_crud_bloc.dart';
 import '../helper/shared_habit_action.dart';
 import 'crud_habit/add_habit_drop_down_field.dart';
 import 'crud_habit/date_field.dart';
 import 'crud_habit/pick_icon_field.dart';
 import 'crud_habit/reminder_times_list.dart';
 
-class GeneratedHabit extends StatefulWidget {
+class GeneratedHabit extends StatelessWidget {
   final HabitEntity habit;
   final void Function(HabitEntity habit) onEdit;
 
   const GeneratedHabit({super.key, required this.habit, required this.onEdit});
 
   @override
-  State<GeneratedHabit> createState() => GeneratedHabitState();
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => getIt.get<HabitCrudBloc>()),
+      ],
+      child: GeneratedHabitView(habit: habit, onEdit: onEdit),
+    );
+  }
 }
 
-class GeneratedHabitState extends State<GeneratedHabit> {
+class GeneratedHabitView extends StatefulWidget {
+  final HabitEntity habit;
+  final void Function(HabitEntity habit) onEdit;
+
+  const GeneratedHabitView({
+    super.key,
+    required this.habit,
+    required this.onEdit,
+  });
+
+  @override
+  State<GeneratedHabitView> createState() => GeneratedHabitViewState();
+}
+
+class GeneratedHabitViewState extends State<GeneratedHabitView> {
   bool _isEditMode = false;
   late final TextEditingController _titleController;
   late final TextEditingController _descController;
@@ -125,181 +151,194 @@ class GeneratedHabitState extends State<GeneratedHabit> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            color:
-                context.isDarkMode ? AppColors.darkText : AppColors.lightText,
-            borderRadius:
-                const BorderRadius.all(Radius.circular(AppSpacing.radiusS)),
-            boxShadow: const [
-              BoxShadow(
-                color: Colors.black12,
-                blurRadius: 5,
-                spreadRadius: 2,
-              )
-            ],
-          ),
-          padding: const EdgeInsets.all(AppSpacing.paddingM),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                S.current.habit_generated_title,
-                style: TextStyle(
-                  color: context.isDarkMode
-                      ? AppColors.lightText
-                      : AppColors.primary,
-                  fontWeight: FontWeight.bold,
-                  fontSize: AppFontSize.h3,
-                ),
-              ),
-              const SizedBox(height: AppSpacing.marginM),
-              if (_isEditMode) ...[
-                _buildEditableField(S.current.habit_name, _titleController),
-                const SizedBox(height: AppSpacing.marginM),
-                _buildEditableField(S.current.habit_desc, _descController),
-                const SizedBox(height: AppSpacing.marginM),
-                _buildEditableField(S.current.habit_goal, _goalController),
-              ] else ...[
-                _GeneratedHabitDataRow(
-                  title: S.current.habit_name,
-                  info: _editedHabit.habitTitle,
-                ),
-                const SizedBox(height: AppSpacing.marginM),
-                _GeneratedHabitDataRow(
-                  title: S.current.habit_desc,
-                  info: _editedHabit.habitDesc,
-                ),
-                const SizedBox(height: AppSpacing.marginM),
-                _GeneratedHabitDataRow(
-                  title: S.current.habit_goal,
-                  info: _editedHabit.habitGoal.goalDesc,
-                ),
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color:
+                  context.isDarkMode ? AppColors.darkText : AppColors.lightText,
+              borderRadius:
+                  const BorderRadius.all(Radius.circular(AppSpacing.radiusS)),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 5,
+                  spreadRadius: 2,
+                )
               ],
-              const SizedBox(height: AppSpacing.marginM),
-              (_isEditMode)
-                  ? AddHabitDropdownField(
-                      title: S.current.habit_category,
-                      onSelected: (value) {
-                        final category =
-                            HabitCategory.fromMultiLangString(value);
-                        if (category != null) {
-                          habitCategory = category;
-                        }
-                      },
-                      items: HabitCategory.values
-                          .takeWhile((value) => value != HabitCategory.custom)
-                          .map((e) => e.categoryName)
-                          .toList(),
-                      selected: habitCategory.categoryName,
-                    )
-                  : _GeneratedHabitDataRow(
-                      title: S.current.habit_category,
-                      info: habitCategory.categoryName,
-                    ),
-              const SizedBox(height: AppSpacing.marginM),
-              PickIconField(
-                habitIcon: habitIcon,
-                onPickIcon: _isEditMode
-                    ? () => SharedHabitAction.onPickIcon(
-                          selected: habitIcon,
-                          onSelect: _onSelect,
-                        )
-                    : null,
-              ),
-              const SizedBox(height: AppSpacing.marginM),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: _isEditMode
-                        ? DateField(
-                            selectedDate: _editedHabit.startDate,
-                            onSelected: (selected) {
-                              if (selected.isAfter(endDate) &&
-                                  selected.isBefore(DateTime.now())) {
-                                _showAlert(S.current.invalid_start_date);
-                              } else {
-                                startDate = selected;
-                              }
-                            },
-                          )
-                        : _GeneratedDateRow(
-                            title: S.current.start_date,
-                            date: _editedHabit.startDate,
-                          ),
+            ),
+            padding: const EdgeInsets.all(AppSpacing.paddingM),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  S.current.habit_generated_title,
+                  style: TextStyle(
+                    color: context.isDarkMode
+                        ? AppColors.lightText
+                        : AppColors.primary,
+                    fontWeight: FontWeight.bold,
+                    fontSize: AppFontSize.h3,
                   ),
-                  const SizedBox(width: AppSpacing.marginS),
-                  Expanded(
-                    child: _isEditMode
-                        ? DateField(
-                            selectedDate: _editedHabit.endDate,
-                            onSelected: (selected) {
-                              if (selected.isBefore(startDate)) {
-                                _showAlert(S.current.invalid_end_date);
-                              } else {
-                                endDate = selected;
-                              }
-                            },
-                          )
-                        : _GeneratedDateRow(
-                            title: S.current.end_date,
-                            date: _editedHabit.endDate,
-                          ),
+                ),
+                const SizedBox(height: AppSpacing.marginM),
+                if (_isEditMode) ...[
+                  _buildEditableField(S.current.habit_name, _titleController),
+                  const SizedBox(height: AppSpacing.marginM),
+                  _buildEditableField(S.current.habit_desc, _descController),
+                  const SizedBox(height: AppSpacing.marginM),
+                  _buildEditableField(S.current.habit_goal, _goalController),
+                ] else ...[
+                  _GeneratedHabitDataRow(
+                    title: S.current.habit_name,
+                    info: _editedHabit.habitTitle,
+                  ),
+                  const SizedBox(height: AppSpacing.marginM),
+                  _GeneratedHabitDataRow(
+                    title: S.current.habit_desc,
+                    info: _editedHabit.habitDesc,
+                  ),
+                  const SizedBox(height: AppSpacing.marginM),
+                  _GeneratedHabitDataRow(
+                    title: S.current.habit_goal,
+                    info: _editedHabit.habitGoal.goalDesc,
                   ),
                 ],
-              ),
-              const SizedBox(height: AppSpacing.marginM),
-              if (!_isEditMode)
-                ReminderTimesListSection(reminderTimes: _reminderTimes)
-              else
-                ReminderTimesListSection(
-                  reminderTimes: _reminderTimes,
-                  onDeleteItem: (time) =>
-                      setState(() => _reminderTimes.remove(time)),
-                  onPickReminder: () {},
+                const SizedBox(height: AppSpacing.marginM),
+                (_isEditMode)
+                    ? AddHabitDropdownField(
+                        title: S.current.habit_category,
+                        onSelected: (value) {
+                          final category =
+                              HabitCategory.fromMultiLangString(value);
+                          if (category != null) {
+                            habitCategory = category;
+                          }
+                        },
+                        items: HabitCategory.values
+                            .takeWhile((value) => value != HabitCategory.custom)
+                            .map((e) => e.categoryName)
+                            .toList(),
+                        selected: habitCategory.categoryName,
+                      )
+                    : _GeneratedHabitDataRow(
+                        title: S.current.habit_category,
+                        info: habitCategory.categoryName,
+                      ),
+                const SizedBox(height: AppSpacing.marginM),
+                PickIconField(
+                  habitIcon: habitIcon,
+                  onPickIcon: _isEditMode
+                      ? () => SharedHabitAction.onPickIcon(
+                            selected: habitIcon,
+                            onSelect: _onSelect,
+                          )
+                      : null,
                 ),
-            ],
+                const SizedBox(height: AppSpacing.marginM),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: _isEditMode
+                          ? DateField(
+                              selectedDate: _editedHabit.startDate,
+                              onSelected: (selected) {
+                                if (selected.isAfter(endDate) &&
+                                    selected.isBefore(DateTime.now())) {
+                                  _showAlert(S.current.invalid_start_date);
+                                } else {
+                                  startDate = selected;
+                                }
+                              },
+                            )
+                          : _GeneratedDateRow(
+                              title: S.current.start_date,
+                              date: _editedHabit.startDate,
+                            ),
+                    ),
+                    const SizedBox(width: AppSpacing.marginS),
+                    Expanded(
+                      child: _isEditMode
+                          ? DateField(
+                              selectedDate: _editedHabit.endDate,
+                              onSelected: (selected) {
+                                if (selected.isBefore(startDate)) {
+                                  _showAlert(S.current.invalid_end_date);
+                                } else {
+                                  endDate = selected;
+                                }
+                              },
+                            )
+                          : _GeneratedDateRow(
+                              title: S.current.end_date,
+                              date: _editedHabit.endDate,
+                            ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: AppSpacing.marginM),
+                if (!_isEditMode)
+                  ReminderTimesListSection(reminderTimes: _reminderTimes)
+                else
+                  // ReminderTimesListSection(
+                  //   reminderTimes: _reminderTimes,
+                  //   onDeleteItem: (time) =>
+                  //       setState(() => _reminderTimes.remove(time)),
+                  //   onPickReminder: () {},
+                  // ),
+                  BlocBuilder<ReminderBloc, ReminderState>(
+                    builder: (context, state) => ReminderTimesListSection(
+                      reminderTimes: _reminderTimes,
+                      onPickReminder: () async => await SharedHabitAction
+                          .onGrantPermissionAndPickReminder(
+                              context, state, _onPickReminder),
+                      onDeleteItem: (item) =>
+                          setState(() => _reminderTimes.remove(item)),
+                    ),
+                  ),
+              ],
+            ),
           ),
-        ),
-        const SizedBox(height: AppSpacing.marginS),
-        ElevatedButton(
-          onPressed: _toggleEditMode,
-          style: ElevatedButton.styleFrom(
-            backgroundColor:
-                context.isDarkMode ? AppColors.primaryDark : AppColors.success,
-          ),
-          child: IconWithText(
-            icon: _isEditMode ? Icons.save : Icons.edit,
-            text: _isEditMode ? S.current.save_button : S.current.edit_button,
-            iconColor: AppColors.lightText,
-            fontColor: AppColors.lightText,
-            fontSize: AppFontSize.h3,
-          ),
-        ),
-        const SizedBox(height: AppSpacing.marginM),
-        if (!_isEditMode)
+          const SizedBox(height: AppSpacing.marginS),
           ElevatedButton(
-            onPressed: () {
-              widget.onEdit(_editedHabit);
-            },
+            onPressed: _toggleEditMode,
             style: ElevatedButton.styleFrom(
               backgroundColor: context.isDarkMode
                   ? AppColors.primaryDark
-                  : AppColors.primary,
+                  : AppColors.success,
             ),
             child: IconWithText(
-              icon: Icons.check_circle,
-              text: S.current.accept_button,
+              icon: _isEditMode ? Icons.save : Icons.edit,
+              text: _isEditMode ? S.current.save_button : S.current.edit_button,
               iconColor: AppColors.lightText,
               fontColor: AppColors.lightText,
               fontSize: AppFontSize.h3,
             ),
           ),
-      ],
+          const SizedBox(height: AppSpacing.marginM),
+          if (!_isEditMode)
+            ElevatedButton(
+              onPressed: () {
+                widget.onEdit(_editedHabit);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: context.isDarkMode
+                    ? AppColors.primaryDark
+                    : AppColors.primary,
+              ),
+              child: IconWithText(
+                icon: Icons.check_circle,
+                text: S.current.accept_button,
+                iconColor: AppColors.lightText,
+                fontColor: AppColors.lightText,
+                fontSize: AppFontSize.h3,
+              ),
+            ),
+        ],
+      ),
     );
   }
 
@@ -319,6 +358,22 @@ class GeneratedHabitState extends State<GeneratedHabit> {
     setState(() {
       this.habitIcon = habitIcon;
     });
+  }
+
+  Future<void> _onPickReminder() async {
+    final selectedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+
+    if (selectedTime != null) {
+      setState(() {
+        _reminderTimes = _reminderTimes
+          ..add(selectedTime.toShortString)
+          ..toList().sort()
+          ..toSet();
+      });
+    }
   }
 }
 

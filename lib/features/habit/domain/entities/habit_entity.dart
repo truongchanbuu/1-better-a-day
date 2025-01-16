@@ -22,6 +22,7 @@ class HabitEntity extends Equatable {
   final DateTime endDate;
   final HabitStatus habitStatus;
   final Set<String> reminderTimes;
+  final  bool isReminderEnabled;
 
   const HabitEntity({
     required this.habitId,
@@ -38,6 +39,7 @@ class HabitEntity extends Equatable {
     required this.habitIcon,
     this.reminderTimes = const {},
     this.habitProgress = 0,
+    this.isReminderEnabled = true,
   });
 
   HabitEntity copyWith({
@@ -55,6 +57,7 @@ class HabitEntity extends Equatable {
     DateTime? endDate,
     Set<String>? reminderTimes,
     HabitStatus? habitStatus,
+    bool? isReminderEnabled,
   }) {
     return HabitEntity(
       habitId: habitId ?? this.habitId,
@@ -71,6 +74,7 @@ class HabitEntity extends Equatable {
       endDate: endDate ?? this.endDate,
       reminderTimes: reminderTimes ?? this.reminderTimes,
       habitStatus: habitStatus ?? this.habitStatus,
+        isReminderEnabled: isReminderEnabled ?? this.isReminderEnabled,
     );
   }
 
@@ -91,6 +95,7 @@ class HabitEntity extends Equatable {
       endDate,
       reminderTimes,
       habitStatus,
+      isReminderEnabled,
     ];
   }
 

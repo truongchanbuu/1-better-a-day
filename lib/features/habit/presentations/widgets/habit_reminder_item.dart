@@ -5,17 +5,24 @@ import '../../../../core/constants/app_color.dart';
 import '../../../../core/constants/app_font_size.dart';
 import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/extensions/context_extension.dart';
+import '../../../../core/extensions/time_of_day_extension.dart';
 import '../../../../generated/l10n.dart';
 import '../../domain/entities/habit_frequency.dart';
 
 class HabitReminderItem extends StatelessWidget {
   final Set<String> reminderTimes;
   final HabitFrequency frequency;
+  final bool isReminderEnable;
+  final void Function(TimeOfDay? item)? onItemDeleted;
+  final void Function(bool isReminderEnable)? onReminderEnabled;
 
   const HabitReminderItem({
     super.key,
     required this.reminderTimes,
     required this.frequency,
+    required this.isReminderEnable,
+    this.onItemDeleted,
+    this.onReminderEnabled,
   });
 
   @override
@@ -38,9 +45,9 @@ class HabitReminderItem extends StatelessWidget {
                   ),
                 ),
                 Switch.adaptive(
-                  value: false,
-                  onChanged: (value) {},
-                  activeColor: Theme.of(context).colorScheme.primary,
+                  value: isReminderEnable,
+                  onChanged: onReminderEnabled,
+                  activeColor: AppColors.primary,
                 ),
               ],
             ),
@@ -55,7 +62,20 @@ class HabitReminderItem extends StatelessWidget {
                       spacing: 8,
                       runSpacing: 8,
                       children: reminderTimes
-                          .map((time) => Chip(
+                          .map((time) => FilterChip(
+                                chipAnimationStyle: ChipAnimationStyle(
+                                  deleteDrawerAnimation: AnimationStyle(
+                                    duration: Duration(milliseconds: 200),
+                                    curve: Curves.ease,
+                                  ),
+                                ),
+                                deleteIconColor: context.isDarkMode
+                                    ? AppColors.lightText
+                                    : AppColors.darkText,
+                                deleteIcon: Icon(Icons.close),
+                                onDeleted: () => onItemDeleted
+                                    ?.call(TimeOfDayExtension.tryParse(time)),
+                                onSelected: (value) {},
                                 label: Text(time),
                                 backgroundColor: context.isDarkMode
                                     ? AppColors.darkText

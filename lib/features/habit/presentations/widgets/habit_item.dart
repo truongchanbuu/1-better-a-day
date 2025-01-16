@@ -160,7 +160,7 @@ class _HabitItemState extends State<HabitItem> {
                 key: _itemKey,
                 decoration: BoxDecoration(
                   borderRadius: HabitItem.itemBorderRadius,
-                  color: Colors.black.withOpacity(0.5),
+                  color: Colors.black.withValues(alpha: 0.5),
                 ),
                 child: Center(
                   child: Row(
@@ -216,37 +216,37 @@ class _HabitItemState extends State<HabitItem> {
 
     SmartDialog.show(
       builder: (ctx) => EditTemplateDialog(
-        child: BlocProvider.value(
-          value: habitCrudBloc,
-          child: BlocListener<HabitCrudBloc, HabitCrudState>(
-            listener: (blocCtx, state) async {
-              if (state is HabitCrudSucceed) {
-                if (state.action == HabitCrudAction.update) {
-                  SmartDialog.dismiss();
-                  final alertDialog = AwesomeDialog(
-                    context: context,
-                    dialogType: DialogType.success,
-                    title: S.current.success_title,
-                    desc: S.current.update_success_title,
-                    btnOkOnPress: () {},
-                  )..show();
-
-                  await Future.delayed(AppCommons.alertShowDuration);
-                  alertDialog.dismiss();
-
-                  setState(() {
-                    currentHabit = state.habits.first;
-                  });
-                }
-              } else if (state is HabitCrudFailed) {
-                AwesomeDialog(
+        child: BlocListener<HabitCrudBloc, HabitCrudState>(
+          listener: (blocCtx, state) async {
+            if (state is HabitCrudSucceed) {
+              if (state.action == HabitCrudAction.update) {
+                SmartDialog.dismiss();
+                final alertDialog = AwesomeDialog(
                   context: context,
-                  dialogType: DialogType.error,
-                  title: S.current.failure_title,
-                  desc: state.errorMessage,
-                ).show();
+                  dialogType: DialogType.success,
+                  title: S.current.success_title,
+                  desc: S.current.update_success_title,
+                  btnOkOnPress: () {},
+                )..show();
+
+                await Future.delayed(AppCommons.alertShowDuration);
+                alertDialog.dismiss();
+
+                setState(() {
+                  currentHabit = state.habits.first;
+                });
               }
-            },
+            } else if (state is HabitCrudFailed) {
+              AwesomeDialog(
+                context: context,
+                dialogType: DialogType.error,
+                title: S.current.failure_title,
+                desc: state.errorMessage,
+              ).show();
+            }
+          },
+          child: BlocProvider.value(
+            value: context.read<ReminderBloc>(),
             child: GeneratedHabit(
               habit: currentHabit,
               onEdit: (habit) => habitCrudBloc.add(EditHabit(
@@ -470,7 +470,7 @@ class _HabitIconLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: category.color.withOpacity(0.2),
+        color: category.color.withValues(alpha: 0.2),
         borderRadius: const BorderRadius.all(
           Radius.circular(AppSpacing.circleRadius),
         ),

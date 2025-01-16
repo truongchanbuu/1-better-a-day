@@ -259,18 +259,22 @@ final class ValidateFailed extends ValidateHabitState {
 }
 
 final class ValidateSucceed extends ValidateHabitState {
-  ValidateSucceed({required ValidateHabitState current})
+  final HabitEntity habit;
+  ValidateSucceed(this.habit)
       : super(
-          habitName: current.habitName,
-          habitDesc: current.habitDesc,
-          habitGoal: current.habitGoal,
-          reminderTimes: current.reminderTimes,
-          habitCategory: current.habitCategory,
-          habitIcon: current.habitIcon,
-          startDate: current.startDate,
-          endDate: current.endDate,
-          errorMessage: current.errorMessage,
+          reminderTimes: habit.reminderTimes,
+          habitGoal: habit.habitGoal,
+          errorMessage: null,
+          habitIcon: habit.habitIcon,
+          habitCategory: habit.habitCategory,
+          habitName: habit.habitTitle,
+          habitDesc: habit.habitDesc,
+          startDate: habit.startDate,
+          endDate: habit.endDate,
         );
+
+  @override
+  List<Object?> get props => [habit];
 }
 
 final class Validating extends ValidateHabitState {
@@ -286,19 +290,4 @@ final class Validating extends ValidateHabitState {
           habitName: current.habitName,
           habitIcon: current.habitIcon,
         );
-}
-
-final class HabitAdded extends ValidateHabitState {
-  final HabitEntity habit;
-  HabitAdded(this.habit);
-
-  @override
-  List<Object?> get props => [habit];
-}
-
-final class HabitAddFailed extends ValidateHabitState {
-  HabitAddFailed({super.errorMessage});
-
-  @override
-  List<Object?> get props => [errorMessage];
 }

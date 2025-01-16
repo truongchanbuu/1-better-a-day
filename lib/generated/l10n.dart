@@ -2591,6 +2591,26 @@ class S {
     );
   }
 
+  /// `Enable Notifications`
+  String get enable_notifications {
+    return Intl.message(
+      'Enable Notifications',
+      name: 'enable_notifications',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `To help you build better habits, we\'d like to send you reminders.\nWould you like to enable notifications?`
+  String get notification_permission_request {
+    return Intl.message(
+      'To help you build better habits, we\\\'d like to send you reminders.\nWould you like to enable notifications?',
+      name: 'notification_permission_request',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Greetings`
   String get default_greeting {
     return Intl.message(
@@ -5519,20 +5539,20 @@ class S {
     );
   }
 
-  /// `liters`
+  /// `l`
   String get l_unit {
     return Intl.message(
-      'liters',
+      'l',
       name: 'l_unit',
       desc: '',
       args: [],
     );
   }
 
-  /// `milliliters`
+  /// `ml`
   String get ml_unit {
     return Intl.message(
-      'milliliters',
+      'ml',
       name: 'ml_unit',
       desc: '',
       args: [],
@@ -5589,30 +5609,30 @@ class S {
     );
   }
 
-  /// `centimeters`
+  /// `cm`
   String get cm_unit {
     return Intl.message(
-      'centimeters',
+      'cm',
       name: 'cm_unit',
       desc: '',
       args: [],
     );
   }
 
-  /// `kilometers`
+  /// `km`
   String get km_unit {
     return Intl.message(
-      'kilometers',
+      'km',
       name: 'km_unit',
       desc: '',
       args: [],
     );
   }
 
-  /// `meters`
+  /// `m`
   String get m_unit {
     return Intl.message(
-      'meters',
+      'm',
       name: 'm_unit',
       desc: '',
       args: [],

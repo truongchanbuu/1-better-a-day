@@ -36,7 +36,7 @@
 //             child: Column(
 //               children: [
 //                 Container(
-//                   color: Colors.grey.withOpacity(0.2),
+//                   color: Colors.grey.withValues(alpha: 0.2),
 //                   width: MediaQuery.of(context).size.width,
 //                   padding: const EdgeInsets.all(AppSpacing.marginS),
 //                   child: Column(
@@ -97,7 +97,7 @@
 //                             icon: Icons.check,
 //                             text: S.current.smart_criteria_achieved,
 //                             iconColor: AppColors.success,
-//                             backgroundColor: AppColors.success.withOpacity(0.2),
+//                             backgroundColor: AppColors.success.withValues(alpha: 0.2),
 //                             fontSize: AppFontSize.labelLarge,
 //                             padding: const EdgeInsets.all(AppSpacing.marginS),
 //                           )

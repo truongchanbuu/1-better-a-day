@@ -26,6 +26,7 @@ class HabitModel extends HabitEntity implements HiveBaseModel<HabitModel> {
     required super.startDate,
     required super.endDate,
     super.reminderTimes,
+    super.isReminderEnabled,
     required super.habitStatus,
   }) : super(habitGoal: habitGoal.toEntity());
 
@@ -64,6 +65,7 @@ class HabitModel extends HabitEntity implements HiveBaseModel<HabitModel> {
       currentStreak: currentStreak,
       longestStreak: longestStreak,
       reminderTimes: reminderTimes,
+      isReminderEnabled: isReminderEnabled,
     );
   }
 
@@ -83,6 +85,7 @@ class HabitModel extends HabitEntity implements HiveBaseModel<HabitModel> {
       habitStatus: entity.habitStatus,
       reminderTimes: entity.reminderTimes,
       habitIcon: entity.habitIcon,
+      isReminderEnabled: entity.isReminderEnabled,
     );
   }
 
@@ -107,6 +110,7 @@ class HabitModel extends HabitEntity implements HiveBaseModel<HabitModel> {
     DateTime? endDate,
     Set<String>? reminderTimes,
     HabitStatus? habitStatus,
+    bool? isReminderEnabled,
   }) {
     return HabitModel(
       habitId: habitId ?? this.habitId,
@@ -123,6 +127,7 @@ class HabitModel extends HabitEntity implements HiveBaseModel<HabitModel> {
       endDate: endDate ?? this.endDate,
       reminderTimes: reminderTimes ?? this.reminderTimes,
       habitStatus: habitStatus ?? this.habitStatus,
+      isReminderEnabled: isReminderEnabled ?? this.isReminderEnabled,
     );
   }
 
@@ -134,6 +139,7 @@ class HabitModel extends HabitEntity implements HiveBaseModel<HabitModel> {
       habitIcon,
       habitDesc,
       habitProgress,
+      isReminderEnabled,
       habitGoal,
       habitCategory,
       timeOfDay,

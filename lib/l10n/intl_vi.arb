@@ -356,6 +356,9 @@
 
   "@__NOTIFICATION__": {},
   "notification_screen_title": "Giữ vững thói quen của bạn!",
+  "notify_at": "Thông báo vào lúc: ",
+  "enable_notifications": "Cho phép gửi thông báo",
+  "notification_permission_request": "Để giúp bạn xây dựng thói quen tốt hơn, chúng tôi muốn gửi cho bạn các thông báo nhắc nhở.\nBạn có muốn bật thông báo không?",
 
   "@__TODAY__": {},
   "default_greeting": "Chào",

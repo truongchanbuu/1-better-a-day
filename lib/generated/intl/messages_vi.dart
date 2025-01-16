@@ -368,6 +368,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "empty_field": MessageLookupByLibrary.simpleMessage(
             "Vui lòng không để trống trường này"),
         "enable_button": MessageLookupByLibrary.simpleMessage("Cho phép"),
+        "enable_notifications":
+            MessageLookupByLibrary.simpleMessage("Cho phép gửi thông báo"),
         "end_date": MessageLookupByLibrary.simpleMessage("Ngày kết thúc"),
         "end_value_must_be_greater_than_start":
             MessageLookupByLibrary.simpleMessage(
@@ -732,9 +734,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "note_hint": MessageLookupByLibrary.simpleMessage(
             "Viết ghi chú của bạn tại đây...."),
         "note_title": MessageLookupByLibrary.simpleMessage("Ghi chú"),
+        "notification_permission_request": MessageLookupByLibrary.simpleMessage(
+            "Để giúp bạn xây dựng thói quen tốt hơn, chúng tôi muốn gửi cho bạn các thông báo nhắc nhở.\nBạn có muốn bật thông báo không?"),
         "notification_screen_title":
             MessageLookupByLibrary.simpleMessage("Giữ vững thói quen của bạn!"),
         "notifications": MessageLookupByLibrary.simpleMessage("Thông báo"),
+        "notify_at":
+            MessageLookupByLibrary.simpleMessage("Thông báo vào lúc: "),
         "on_your_way": m19,
         "operation_not_allowed": MessageLookupByLibrary.simpleMessage(
             "Hoạt động không được phép. Vui lòng liên hệ hỗ trợ."),

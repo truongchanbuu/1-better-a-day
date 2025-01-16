@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../config/log/app_logger.dart';
 import '../config/route/app_route.dart';
+import '../core/extensions/time_of_day_extension.dart';
 import '../features/habit/domain/entities/habit_entity.dart';
 import '../features/habit/domain/entities/habit_frequency.dart';
 import '../features/shared/presentations/widgets/dialog/notification_permission_dialog.dart';
@@ -17,11 +18,16 @@ class ReminderService {
   static const String _permissionKey = 'notification_permission_requested';
   static final ReminderService _instance = ReminderService._internal();
   factory ReminderService() => _instance;
+
+  bool _isInit = false;
+  bool get isInitialized => _isInit;
+
   ReminderService._internal();
 
   final _appLogger = getIt.get<AppLogger>();
 
   Future<void> init() async {
+    _isInit = true;
     await AwesomeNotifications().initialize(
       null, // null = use default app icon
       [
@@ -72,6 +78,7 @@ class ReminderService {
     final context = AppRoute.navigatorKey.currentContext;
     if (context == null) {
       // Fallback to direct request if no context
+      _appLogger.w('Context is null. Falling back to direct request.');
       return await AwesomeNotifications()
           .requestPermissionToSendNotifications();
     }
@@ -82,10 +89,17 @@ class ReminderService {
       builder: (context) => const NotificationPermissionDialog(),
     );
 
-    if (result ?? false) {
+    if (result == null) {
+      _appLogger.i('User dismissed the notification permission dialog.');
+      return false;
+    }
+
+    if (result) {
       return await AwesomeNotifications()
           .requestPermissionToSendNotifications();
     }
+
+    _appLogger.i('User declined to enable notifications.');
     return false;
   }
 
@@ -100,9 +114,16 @@ class ReminderService {
   }
 
   Future<void> scheduleReminder(HabitEntity habit, String timeString) async {
-    final timeParts = timeString.split(':');
-    int hour = int.tryParse(timeParts.first) ?? 0;
-    int minute = int.tryParse(timeParts.last) ?? 0;
+    await cancelAllHabitReminders(habit.habitId);
+    if (!habit.isReminderEnabled) return;
+
+    final time = TimeOfDayExtension.tryParse(timeString);
+    if (time == null) {
+      throw FormatException('Invalid TimeOfDay format');
+    }
+
+    int hour = time.hour;
+    int minute = time.minute;
 
     final frequency = habit.habitGoal.goalFrequency;
 
@@ -199,8 +220,9 @@ class ReminderService {
   }) async {
     try {
       // Schedule separate notification for each weekday
+      int scheduledDays = 0;
       for (final weekDay in weekDays) {
-        await AwesomeNotifications().createNotification(
+        bool isScheduled = await AwesomeNotifications().createNotification(
           content: content.copyWith(
             id: content.id! + weekDay, // Unique ID for each weekday
             map: content.toMap(),
@@ -213,41 +235,53 @@ class ReminderService {
           ),
           actionButtons: actionButtons,
         );
+
+        if (isScheduled) scheduledDays++;
       }
 
-      return true;
+      return scheduledDays == weekDays.length;
     } catch (e) {
       _appLogger.e(e);
       return false;
     }
   }
 
-  Future<void> _scheduleMonthlyReminders({
+  Future<bool> _scheduleMonthlyReminders({
     required NotificationContent content,
     required List<NotificationActionButton> actionButtons,
     required Set<int> monthlyDates,
     required int hour,
     required int minute,
   }) async {
-    // Schedule separate notification for each monthly date
-    for (final date in monthlyDates) {
-      await AwesomeNotifications().createNotification(
-        content: content.copyWith(
-          id: content.id! + date, // Unique ID for each date
-          map: content.toMap(),
-        ),
-        schedule: NotificationCalendar(
-          hour: hour,
-          minute: minute,
-          day: date,
-          repeats: true,
-        ),
-        actionButtons: actionButtons,
-      );
+    try {
+      int scheduledDates = 0;
+      // Schedule separate notification for each monthly date
+      for (final date in monthlyDates) {
+        bool isScheduled = await AwesomeNotifications().createNotification(
+          content: content.copyWith(
+            id: content.id! + date, // Unique ID for each date
+            map: content.toMap(),
+          ),
+          schedule: NotificationCalendar(
+            hour: hour,
+            minute: minute,
+            day: date,
+            repeats: true,
+          ),
+          actionButtons: actionButtons,
+        );
+
+        if (isScheduled) scheduledDates++;
+      }
+
+      return scheduledDates == monthlyDates.length;
+    } catch (e) {
+      _appLogger.e(e);
+      return false;
     }
   }
 
-  Future<void> _scheduleIntervalReminder({
+  Future<bool> _scheduleIntervalReminder({
     required NotificationContent content,
     required List<NotificationActionButton> actionButtons,
     required HabitFrequency frequency,
@@ -279,7 +313,7 @@ class ReminderService {
           daysPerMonth,
     };
 
-    await AwesomeNotifications().createNotification(
+    return await AwesomeNotifications().createNotification(
       content: content,
       schedule: NotificationCalendar(
         hour: hour,

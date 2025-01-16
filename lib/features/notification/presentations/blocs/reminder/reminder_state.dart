@@ -19,6 +19,12 @@ class ReminderError extends ReminderState {
   List<Object> get props => [message];
 }
 
-final class ReminderPermisssionDenied extends ReminderState {}
+final class ReminderPermissionDenied extends ReminderState {
+  final DateTime timestamp;
+  ReminderPermissionDenied() : timestamp = DateTime.now();
 
-final class ReminderPermisssionAllowed extends ReminderState {}
+  @override
+  List<Object> get props => [timestamp];
+}
+
+final class ReminderPermissionAllowed extends ReminderState {}

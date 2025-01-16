@@ -85,5 +85,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'better-a-day.firebasestorage.app',
     measurementId: 'G-K9RW2WJYGK',
   );
-
 }

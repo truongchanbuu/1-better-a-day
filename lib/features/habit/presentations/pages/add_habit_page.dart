@@ -18,9 +18,11 @@ import '../../../../core/extensions/string_extension.dart';
 import '../../../../core/extensions/time_of_day_extension.dart';
 import '../../../../core/helpers/alert_helper.dart';
 import '../../../../generated/l10n.dart';
+import '../../../notification/presentations/blocs/reminder/reminder_bloc.dart';
 import '../../../shared/presentations/blocs/internet/internet_bloc.dart';
 import '../../domain/entities/habit_frequency.dart';
 import '../../domain/entities/habit_icon.dart';
+import '../blocs/crud/habit_crud_bloc.dart';
 import '../blocs/validate_habit/validate_habit_bloc.dart';
 import '../helper/shared_habit_action.dart';
 import '../widgets/crud_habit/add_habit_field.dart';
@@ -40,6 +42,9 @@ class AddHabitPage extends StatefulWidget {
 
 class _AddHabitPageState extends State<AddHabitPage> {
   late final GlobalKey<FormState> _formKey;
+  late final TextEditingController _habitTitleController;
+  late final TextEditingController _goalDescController;
+  late final TextEditingController _habitDescController;
   late final TextEditingController _customUnitController;
   late final TextEditingController _freqController;
 
@@ -59,6 +64,9 @@ class _AddHabitPageState extends State<AddHabitPage> {
     super.initState();
     _reminderTimes = {};
     _formKey = GlobalKey();
+    _habitTitleController = TextEditingController();
+    _habitDescController = TextEditingController();
+    _goalDescController = TextEditingController();
     _customUnitController = TextEditingController();
     _freqController =
         TextEditingController(text: _habitFrequency.getDisplayText());
@@ -66,6 +74,9 @@ class _AddHabitPageState extends State<AddHabitPage> {
 
   @override
   void dispose() {
+    _habitTitleController.dispose();
+    _goalDescController.dispose();
+    _habitDescController.dispose();
     _customUnitController.dispose();
     _freqController.dispose();
     super.dispose();
@@ -102,15 +113,24 @@ class _AddHabitPageState extends State<AddHabitPage> {
                 },
               ),
               BlocListener<ValidateHabitBloc, ValidateHabitState>(
-                listener: (context, state) {
-                  if (state is ValidateFailed) {
+                listener: (context, validateState) {
+                  if (validateState is ValidateFailed) {
                     AlertHelper.showAwesomeSnackBar(
                       context,
                       S.current.failure_title,
                       S.current.invalid_form,
                       ContentType.failure,
                     );
-                  } else if (state is HabitAdded) {
+                  } else if (validateState is ValidateSucceed) {
+                    context
+                        .read<HabitCrudBloc>()
+                        .add(AddHabit(validateState.habit));
+                  }
+                },
+              ),
+              BlocListener<HabitCrudBloc, HabitCrudState>(
+                listener: (context, habitCrudState) {
+                  if (habitCrudState is HabitCrudSucceed) {
                     AwesomeDialog(
                       context: context,
                       dialogType: DialogType.success,
@@ -122,17 +142,30 @@ class _AddHabitPageState extends State<AddHabitPage> {
                   }
                 },
               ),
+              SharedHabitAction.reminderPermissionListener(_onPickReminder),
             ],
-            child: BlocBuilder<ValidateHabitBloc, ValidateHabitState>(
+            child: BlocBuilder<HabitCrudBloc, HabitCrudState>(
               builder: (context, state) {
-                if (state is Validating) {
+                if (state is Executing) {
                   return const LoadingIndicator(
-                    indicatorType: Indicator.pacman,
-                  );
+                      indicatorType: Indicator.pacman);
                 }
 
-                return SingleChildScrollView(
-                  child: _buildFields(state),
+                return BlocBuilder<ValidateHabitBloc, ValidateHabitState>(
+                  builder: (context, validateState) {
+                    if (validateState is Validating) {
+                      return const LoadingIndicator(
+                          indicatorType: Indicator.pacman);
+                    }
+
+                    _habitTitleController.text = validateState.habitName;
+                    _goalDescController.text = validateState.habitGoal.goalDesc;
+                    _habitDescController.text = validateState.habitDesc;
+
+                    return SingleChildScrollView(
+                      child: _buildFields(validateState),
+                    );
+                  },
                 );
               },
             ),
@@ -176,6 +209,7 @@ class _AddHabitPageState extends State<AddHabitPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildAddHabitField(
+              controller: _habitTitleController,
               validator: _generalValidator,
               eventGenerator: (value) => ChangeHabitName(value),
               label: S.current.habit_name,
@@ -183,6 +217,7 @@ class _AddHabitPageState extends State<AddHabitPage> {
             ),
             _spacing,
             _buildAddHabitField(
+              controller: _habitDescController,
               validator: _generalValidator,
               eventGenerator: (value) => ChangeHabitDesc(value),
               label: S.current.habit_desc,
@@ -190,6 +225,7 @@ class _AddHabitPageState extends State<AddHabitPage> {
             ),
             _spacing,
             AddHabitField(
+              controller: _goalDescController,
               validator: _generalValidator,
               label: S.current.goal_desc,
               hintText: S.current.add_goal_desc,
@@ -248,7 +284,8 @@ class _AddHabitPageState extends State<AddHabitPage> {
                     onSelected: (value) async {
                       final validateBloc = context.read<ValidateHabitBloc>();
                       if (value?.isNotEmpty ?? false) {
-                        final goalUnit = GoalUnit.fromString(value);
+                        final goalUnit =
+                            GoalUnit.fromMultiLanguageString(value);
 
                         if (value == GoalUnit.custom.name) {
                           final customUnit = await _showCustomUnitDialog();
@@ -345,11 +382,15 @@ class _AddHabitPageState extends State<AddHabitPage> {
               ],
             ),
             _spacing,
-            ReminderTimesListSection(
-              reminderTimes: _reminderTimes,
-              onPickReminder: _onPickReminder,
-              onDeleteItem: (item) =>
-                  setState(() => _reminderTimes.remove(item)),
+            BlocBuilder<ReminderBloc, ReminderState>(
+              builder: (context, state) => ReminderTimesListSection(
+                reminderTimes: _reminderTimes,
+                onPickReminder: () async =>
+                    await SharedHabitAction.onGrantPermissionAndPickReminder(
+                        context, state, _onPickReminder),
+                onDeleteItem: (item) =>
+                    setState(() => _reminderTimes.remove(item)),
+              ),
             ),
             _spacing,
             ElevatedButton(

@@ -26,19 +26,3 @@ final class AIGenerationSucceed extends AIHabitGenerateState {
   @override
   List<Object> get props => [habit];
 }
-
-final class AddHabitFailed extends AIHabitGenerateState {
-  final String errorMessage;
-  const AddHabitFailed(this.errorMessage);
-
-  @override
-  List<Object> get props => [errorMessage];
-}
-
-final class AddHabitSucceed extends AIHabitGenerateState {
-  final HabitEntity habit;
-  const AddHabitSucceed(this.habit);
-
-  @override
-  List<Object> get props => [habit];
-}

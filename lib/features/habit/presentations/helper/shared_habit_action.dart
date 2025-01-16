@@ -57,21 +57,24 @@ class SharedHabitAction {
     final Widget page;
 
     if (selection == S.current.get_preset_habit_option) {
-      page = MultiBlocProvider(
-        providers: [
-          BlocProvider(create: (context) => getIt.get<HabitCrudBloc>()),
-          BlocProvider(create: (context) => getIt.get<AIHabitGenerateBloc>()),
-        ],
+      page = BlocProvider(
+        create: (context) => getIt.get<HabitCrudBloc>(),
         child: const PresetHabitPage(),
       );
     } else if (selection == S.current.add_habit_with_few_words_option) {
-      page = BlocProvider(
-        create: (context) => getIt.get<AIHabitGenerateBloc>(),
+      page = MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => getIt.get<AIHabitGenerateBloc>()),
+          BlocProvider(create: (context) => getIt.get<HabitCrudBloc>())
+        ],
         child: const AddHabitWithAIPage(),
       );
     } else {
-      page = BlocProvider(
-        create: (context) => getIt.get<ValidateHabitBloc>(),
+      page = MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => getIt.get<ValidateHabitBloc>()),
+          BlocProvider(create: (context) => getIt.get<HabitCrudBloc>()),
+        ],
         child: const AddHabitPage(),
       );
     }
@@ -143,5 +146,32 @@ class SharedHabitAction {
         ),
       ),
     );
+  }
+
+  static BlocListener reminderPermissionListener(VoidCallback onAddReminder) =>
+      BlocListener<ReminderBloc, ReminderState>(
+        listener: (context, state) {
+          if (state is ReminderPermissionDenied) {
+            AwesomeDialog(
+                    context: context,
+                    dialogType: DialogType.error,
+                    title: S.current.reminder_permission_denied,
+                    desc: S.current.reminder_permission_request,
+                    descTextStyle:
+                        const TextStyle(overflow: TextOverflow.visible))
+                .show();
+          } else if (state is ReminderPermissionAllowed) {
+            onAddReminder();
+          }
+        },
+      );
+
+  static Future<void> onGrantPermissionAndPickReminder(BuildContext context,
+      ReminderState state, Future<void> Function() func) async {
+    if (state is ReminderPermissionDenied || state is ReminderInitial) {
+      context.read<ReminderBloc>().add(GrantReminderPermission());
+    } else {
+      await func();
+    }
   }
 }

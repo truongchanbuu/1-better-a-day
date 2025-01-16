@@ -145,7 +145,7 @@ class _MoreHabitKnowledgePageState extends State<MoreHabitKnowledgePage>
                           backgroundColor: AppColors.primary,
                           controller: _tabController,
                           contentPadding:
-                              EdgeInsets.only(right: AppSpacing.paddingS),
+                              const EdgeInsets.only(right: AppSpacing.paddingS),
                           tabs: _tabBarItems
                               .map((item) => Tab(
                                     icon: Icon(item.icon),
@@ -247,7 +247,7 @@ class _SentenceTemplate extends StatelessWidget {
       decoration: BoxDecoration(
         color: context.isDarkMode
             ? AppColors.primaryDark
-            : backgroundColor.withOpacity(0.2),
+            : backgroundColor.withValues(alpha: 0.2),
         borderRadius:
             const BorderRadius.all(Radius.circular(AppSpacing.radiusS)),
         boxShadow: const [

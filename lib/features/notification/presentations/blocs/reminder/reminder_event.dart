@@ -24,3 +24,5 @@ class CancelReminder extends ReminderEvent {
 }
 
 final class InitializeReminder extends ReminderEvent {}
+
+final class GrantReminderPermission extends ReminderEvent {}

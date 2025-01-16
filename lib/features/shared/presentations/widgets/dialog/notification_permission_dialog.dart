@@ -9,18 +9,17 @@ class NotificationPermissionDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text(
-        'Enable Notifications',
-        style: TextStyle(
+      title: Text(
+        S.current.enable_notifications,
+        style: const TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: AppFontSize.h3,
         ),
       ),
-      content: const Text(
-        'To help you build better habits, we\'d like to send you reminders. '
-        'Would you like to enable notifications?',
+      content: Text(
+        S.current.notification_permission_request,
         overflow: TextOverflow.visible,
-        maxLines: 3,
+        maxLines: 4,
       ),
       actions: [
         TextButton(

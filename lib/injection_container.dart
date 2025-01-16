@@ -132,12 +132,9 @@ Future<void> initializeDependencies() async {
   // Bloc
   getIt.registerSingleton<AuthBloc>(AuthBloc(getIt()));
   getIt.registerSingleton<InternetBloc>(InternetBloc());
-  getIt.registerFactory<ValidateHabitBloc>(() => ValidateHabitBloc(
-        getIt(),
-        getIt(),
-      ));
-  getIt.registerFactory<AIHabitGenerateBloc>(() => AIHabitGenerateBloc(
-      habitAIRepository: getIt(), habitRepository: getIt()));
+  getIt.registerFactory<ValidateHabitBloc>(() => ValidateHabitBloc());
+  getIt
+      .registerFactory<AIHabitGenerateBloc>(() => AIHabitGenerateBloc(getIt()));
   getIt.registerFactory<HabitCrudBloc>(() => HabitCrudBloc(getIt()));
   getIt.registerFactory<HabitHistoryCrudBloc>(
       () => HabitHistoryCrudBloc(getIt(), getIt()));

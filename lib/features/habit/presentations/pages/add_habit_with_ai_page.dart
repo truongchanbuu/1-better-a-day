@@ -13,8 +13,10 @@ import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../injection_container.dart';
+import '../../../notification/presentations/blocs/reminder/reminder_bloc.dart';
 import '../../../shared/presentations/widgets/icon_with_text.dart';
 import '../blocs/ai_habit_generate/ai_habit_generate_bloc.dart';
+import '../blocs/crud/habit_crud_bloc.dart';
 import '../blocs/validate_habit/validate_habit_bloc.dart';
 import '../widgets/generated_habit.dart';
 import 'add_habit_page.dart';
@@ -56,18 +58,12 @@ class _AddHabitWithAIPageState extends State<AddHabitWithAIPage> {
             child: BlocListener<AIHabitGenerateBloc, AIHabitGenerateState>(
               listener: (context, state) {
                 SmartDialog.dismiss();
-                if (state is AIGenerationFailed || state is AddHabitFailed) {
-                  final errorMessage = state is AIGenerationFailed
-                      ? state.errorMessage
-                      : (state is AddHabitFailed)
-                          ? state.errorMessage
-                          : S.current.failure_title;
-
+                if (state is AIGenerationFailed) {
                   AwesomeDialog(
                     dialogType: DialogType.error,
                     context: context,
                     title: S.current.failure_title,
-                    desc: errorMessage,
+                    desc: state.errorMessage,
                     descTextStyle:
                         const TextStyle(overflow: TextOverflow.visible),
                     btnOkText: S.current.add_habit_manually,
@@ -84,17 +80,6 @@ class _AddHabitWithAIPageState extends State<AddHabitWithAIPage> {
                       child: LoadingIndicator(indicatorType: Indicator.pacman),
                     ),
                   );
-                } else if (state is AddHabitSucceed) {
-                  AwesomeDialog(
-                    context: context,
-                    dialogType: DialogType.success,
-                    title: S.current.success_title,
-                    desc: S.current.add_success,
-                    btnOkText: S.current.go_home_button,
-                    btnOkOnPress: () {
-                      Navigator.popUntil(context, ModalRoute.withName('/'));
-                    },
-                  ).show();
                 }
               },
               child: Padding(
@@ -133,14 +118,32 @@ class _AddHabitWithAIPageState extends State<AddHabitWithAIPage> {
                                       maxLines: 5,
                                     ),
                                     const SizedBox(height: AppSpacing.marginL),
-                                    ElevatedButton(
-                                      onPressed: () => _onGenerate(langCode),
-                                      child: IconWithText(
-                                        icon: FontAwesomeIcons.headset,
-                                        text: S.current.ask_ai_button,
-                                        fontColor: AppColors.lightText,
-                                        iconColor: AppColors.lightText,
-                                        fontSize: AppFontSize.h3,
+                                    BlocConsumer<ReminderBloc, ReminderState>(
+                                      listener: (context, state) {
+                                        _onGenerate(langCode);
+                                      },
+                                      listenWhen: (previous, current) =>
+                                          current
+                                              is ReminderPermissionAllowed ||
+                                          current is ReminderPermissionDenied,
+                                      builder: (context, state) =>
+                                          ElevatedButton(
+                                        onPressed: () {
+                                          if (state
+                                              is! ReminderPermissionAllowed) {
+                                            context
+                                                .read<ReminderBloc>()
+                                                .add(GrantReminderPermission());
+                                          }
+                                          _onGenerate(langCode);
+                                        },
+                                        child: IconWithText(
+                                          icon: FontAwesomeIcons.headset,
+                                          text: S.current.ask_ai_button,
+                                          fontColor: AppColors.lightText,
+                                          iconColor: AppColors.lightText,
+                                          fontSize: AppFontSize.h3,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -175,12 +178,28 @@ class _AddHabitWithAIPageState extends State<AddHabitWithAIPage> {
                                         iconSize: 20,
                                       ),
                                     ),
-                                    GeneratedHabit(
-                                      habit: state.habit,
-                                      onEdit: (habit) {
-                                        context
-                                            .read<AIHabitGenerateBloc>()
-                                            .add(AddHabitEvent(habit));
+                                    BlocBuilder<ReminderBloc, ReminderState>(
+                                      builder: (context, reminderState) {
+                                        bool isReminderEnable = reminderState
+                                            is ReminderPermissionAllowed;
+
+                                        return BlocProvider.value(
+                                          value: context.read<ReminderBloc>(),
+                                          child: GeneratedHabit(
+                                            habit: state.habit.copyWith(
+                                              isReminderEnabled:
+                                                  isReminderEnable,
+                                              reminderTimes: isReminderEnable
+                                                  ? state.habit.reminderTimes
+                                                  : {},
+                                            ),
+                                            onEdit: (habit) {
+                                              context
+                                                  .read<HabitCrudBloc>()
+                                                  .add(AddHabit(habit));
+                                            },
+                                          ),
+                                        );
                                       },
                                     ),
                                   ],
@@ -228,8 +247,12 @@ class _AddHabitWithAIPageState extends State<AddHabitWithAIPage> {
     Navigator.push(
       context,
       PageTransition(
-        child: BlocProvider(
-          create: (context) => getIt.get<ValidateHabitBloc>(),
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: context.read<ReminderBloc>()),
+            BlocProvider.value(value: context.read<HabitCrudBloc>()),
+            BlocProvider(create: (context) => getIt.get<ValidateHabitBloc>()),
+          ],
           child: const AddHabitPage(),
         ),
         type: PageTransitionType.leftToRight,

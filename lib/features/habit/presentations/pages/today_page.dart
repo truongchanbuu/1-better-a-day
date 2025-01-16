@@ -13,7 +13,6 @@ import '../../../auth/presentations/bloc/auth_bloc/auth_bloc.dart';
 import '../../../shared/presentations/widgets/not_found_and_refresh.dart';
 import '../../domain/entities/habit_entity.dart';
 import '../helper/shared_habit_action.dart';
-import '../widgets/today_habit_item.dart';
 import '../widgets/today_quote.dart';
 
 class TodayPage extends StatefulWidget {
@@ -43,7 +42,7 @@ class _TodayPageState extends State<TodayPage> {
           onPressed: () => SharedHabitAction.showAddHabitOptions(context),
           shape: const CircleBorder(),
           tooltip: S.current.add_habit,
-          child: const Icon(FontAwesomeIcons.plus),
+          child: const Icon(FontAwesomeIcons.plus, color: Colors.white),
         ),
         body: SingleChildScrollView(
           child: Padding(

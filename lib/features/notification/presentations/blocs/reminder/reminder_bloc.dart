@@ -19,6 +19,7 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
     AwesomeNotifications().setListeners(
       onActionReceivedMethod: ReminderHandler.onActionReceivedMethod,
     );
+    on<GrantReminderPermission>(_onGrantPermission);
     on<InitializeReminder>(_onInitializeReminder);
     on<ScheduleReminder>(_onScheduleReminder);
     on<CancelReminder>(_onCancelReminder);
@@ -26,16 +27,23 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
 
   final _appLogger = getIt.get<AppLogger>();
 
-  FutureOr<void> _onInitializeReminder(
-      InitializeReminder event, Emitter<ReminderState> emit) async {
+  FutureOr<void> _onGrantPermission(
+      GrantReminderPermission event, Emitter<ReminderState> emit) async {
     final isGranted = await reminderService.requestPermission();
 
     if (!isGranted) {
-      emit(ReminderPermisssionDenied());
+      emit(ReminderPermissionDenied());
     } else {
-      emit(ReminderPermisssionAllowed());
+      emit(ReminderPermissionAllowed());
     }
 
+    if (!reminderService.isInitialized) {
+      add(InitializeReminder());
+    }
+  }
+
+  FutureOr<void> _onInitializeReminder(
+      InitializeReminder event, Emitter<ReminderState> emit) async {
     await reminderService.init();
   }
 
