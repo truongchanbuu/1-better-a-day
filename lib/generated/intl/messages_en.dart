@@ -398,6 +398,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Generate Habit"),
         "get_preset_habit_option": MessageLookupByLibrary.simpleMessage(
             "Get some useful pre-set habit"),
+        "glass_unit": MessageLookupByLibrary.simpleMessage("glasses"),
         "go_home_button": MessageLookupByLibrary.simpleMessage("Go Home"),
         "goal_completion": MessageLookupByLibrary.simpleMessage("Completion"),
         "goal_count": MessageLookupByLibrary.simpleMessage("Count"),
@@ -535,6 +536,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Password must have at least 6 characters"),
         "invalid_phone":
             MessageLookupByLibrary.simpleMessage("Phone number is not valid"),
+        "invalid_reminders_message": MessageLookupByLibrary.simpleMessage(
+            "There\'s need at least one to reminder"),
         "invalid_start_date": MessageLookupByLibrary.simpleMessage(
             "Start date cannot be after end date"),
         "invalid_verification_code": MessageLookupByLibrary.simpleMessage(

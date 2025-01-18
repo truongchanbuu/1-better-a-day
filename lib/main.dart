@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,10 +18,8 @@ import 'features/shared/presentations/pages/app_view.dart';
 import 'firebase_options.dart';
 import 'generated/l10n.dart';
 import 'injection_container.dart';
+import 'services/reminder_service.dart';
 
-// TODO: PACKAGES:
-// - TIME_PLANNER FOR TIME SCHEDULE
-// FREQUENCY OF HABIT
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -29,6 +28,7 @@ void main() async {
 
   // getIt.get<HabitHistoryRepository>().deleteAllHistories();
   // getIt.get<HabitRepository>().deleteAll();
+
   runApp(const MyApp());
 }
 

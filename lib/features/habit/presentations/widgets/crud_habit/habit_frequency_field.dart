@@ -127,8 +127,8 @@ class _HabitFrequencyFieldState extends State<HabitFrequencyField> {
                 onSaved: (value) {
                   if (value != null) {
                     _interval = TimeInterval(
-                      int.parse(value),
-                      _interval?.type ?? IntervalType.minutes,
+                      value: int.parse(value),
+                      type: _interval?.type ?? IntervalType.minutes,
                     );
                   }
                 },
@@ -138,8 +138,8 @@ class _HabitFrequencyFieldState extends State<HabitFrequencyField> {
             Expanded(
               child: DropdownButtonFormField<IntervalType>(
                 value: _interval?.type ?? IntervalType.minutes,
-                decoration: const InputDecoration(
-                  labelText: 'Đơn vị',
+                decoration: InputDecoration(
+                  labelText: S.current.goal_unit,
                   border: OutlineInputBorder(),
                 ),
                 items: [
@@ -163,7 +163,8 @@ class _HabitFrequencyFieldState extends State<HabitFrequencyField> {
                 onChanged: (value) {
                   if (value != null && _interval != null) {
                     setState(() {
-                      _interval = TimeInterval(_interval!.value, value);
+                      _interval =
+                          TimeInterval(value: _interval!.value, type: value);
                     });
                   }
                 },
@@ -186,25 +187,26 @@ class _HabitFrequencyFieldState extends State<HabitFrequencyField> {
           spacing: 8,
           runSpacing: 8,
           children: DateTimeHelper.getWeekDays.entries.map((entry) {
+            int key = entry.key;
             return FilterChip(
               selectedColor: AppColors.primary,
               checkmarkColor: Colors.white,
               label: Text(
                 entry.value,
                 style: TextStyle(
-                  color: (_weekDays?.contains(entry.key) ?? false)
+                  color: (_weekDays?.contains(key) ?? false)
                       ? AppColors.lightText
                       : null,
                 ),
               ),
-              selected: _weekDays?.contains(entry.key) ?? false,
+              selected: _weekDays?.contains(key) ?? false,
               onSelected: (bool selected) {
                 setState(() {
                   _weekDays ??= {};
                   if (selected) {
-                    _weekDays!.add(entry.key);
+                    _weekDays!.add(key);
                   } else {
-                    _weekDays!.remove(entry.key);
+                    _weekDays!.remove(key);
                   }
                 });
               },
@@ -272,33 +274,23 @@ class _HabitFrequencyFieldState extends State<HabitFrequencyField> {
     if (_formKey.currentState?.validate() ?? false) {
       _formKey.currentState?.save();
 
-      HabitFrequency getFrequencyWithDefaults({
-        Set<int>? monthlyDates,
-        Set<int>? weekDays,
-        TimeInterval? interval,
-        int? everyNMonth,
-      }) {
-        return HabitFrequency(
-          type: _selectedType,
-          interval: interval,
-          monthlyDates: monthlyDates?.isNotEmpty == true ? monthlyDates : null,
-          weekDays: weekDays?.isNotEmpty == true ? weekDays : null,
-        );
-      }
-
       HabitFrequency frequency = switch (_selectedType) {
-        FrequencyType.interval => getFrequencyWithDefaults(
-            interval: TimeInterval(_interval!.value, _interval!.type),
+        FrequencyType.interval => HabitFrequency(
+            type: _selectedType,
+            interval:
+                TimeInterval(value: _interval!.value, type: _interval!.type),
           ),
-        FrequencyType.daily => getFrequencyWithDefaults(
-            interval: const TimeInterval(1, IntervalType.days),
+        FrequencyType.daily => HabitFrequency(
+            type: _selectedType,
+            interval: const TimeInterval(value: 1, type: IntervalType.days),
           ),
-        FrequencyType.weekDays => getFrequencyWithDefaults(
-            weekDays: _weekDays,
+        FrequencyType.weekDays => HabitFrequency(
+            type: _selectedType,
+            weekDays: _weekDays?.isNotEmpty ?? false ? _weekDays : {1},
           ),
-        FrequencyType.monthly => getFrequencyWithDefaults(
-            monthlyDates:
-                (_monthlyDates.isNotEmpty == true) ? _monthlyDates : {1},
+        FrequencyType.monthly => HabitFrequency(
+            type: _selectedType,
+            monthlyDates: _monthlyDates.isNotEmpty ? _monthlyDates : {1},
           ),
       };
 

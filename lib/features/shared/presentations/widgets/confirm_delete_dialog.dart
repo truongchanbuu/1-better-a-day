@@ -33,6 +33,7 @@ class ConfirmDeleteDialog extends StatelessWidget {
               () {
                 Navigator.of(context).pop(true);
               },
+          style: TextButton.styleFrom(overlayColor: Colors.red),
           child: Text(
             S.current.delete_button,
             style: const TextStyle(

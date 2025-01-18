@@ -153,13 +153,12 @@ class SharedHabitAction {
         listener: (context, state) {
           if (state is ReminderPermissionDenied) {
             AwesomeDialog(
-                    context: context,
-                    dialogType: DialogType.error,
-                    title: S.current.reminder_permission_denied,
-                    desc: S.current.reminder_permission_request,
-                    descTextStyle:
-                        const TextStyle(overflow: TextOverflow.visible))
-                .show();
+              context: context,
+              dialogType: DialogType.error,
+              title: S.current.reminder_permission_denied,
+              desc: S.current.reminder_permission_request,
+              descTextStyle: const TextStyle(overflow: TextOverflow.visible),
+            ).show();
           } else if (state is ReminderPermissionAllowed) {
             onAddReminder();
           }

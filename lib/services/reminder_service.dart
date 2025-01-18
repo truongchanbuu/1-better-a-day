@@ -1,5 +1,6 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../config/log/app_logger.dart';
@@ -8,7 +9,6 @@ import '../core/extensions/time_of_day_extension.dart';
 import '../features/habit/domain/entities/habit_entity.dart';
 import '../features/habit/domain/entities/habit_frequency.dart';
 import '../features/shared/presentations/widgets/dialog/notification_permission_dialog.dart';
-import '../generated/l10n.dart';
 import '../injection_container.dart';
 
 class ReminderService {
@@ -40,6 +40,8 @@ class ReminderService {
           importance: NotificationImportance.High,
         ),
       ],
+      debug: true,
+      languageCode: Intl.getCurrentLocale(),
     );
   }
 
@@ -134,18 +136,21 @@ class ReminderService {
       body: habit.habitDesc,
       category: NotificationCategory.Reminder,
       wakeUpScreen: true,
+      actionType: ActionType.KeepOnTop,
+      timeoutAfter: const Duration(seconds: 30),
+      groupKey: habit.habitId,
       payload: {'habitId': habit.habitId},
     );
 
-    final actionButtons = [
-      NotificationActionButton(
-        key: markCompletedKey,
-        label: S.current.mark_as_done,
-      ),
-      NotificationActionButton(
-        key: postponeKey,
-        label: S.current.mark_as_pause,
-      ),
+    final List<NotificationActionButton> actionButtons = [
+      // NotificationActionButton(
+      //   key: markCompletedKey,
+      //   label: S.current.mark_as_done,
+      // ),
+      // NotificationActionButton(
+      //   key: postponeKey,
+      //   label: S.current.mark_as_pause,
+      // ),
     ];
 
     switch (frequency.type) {
@@ -182,11 +187,11 @@ class ReminderService {
           content: content,
           actionButtons: actionButtons,
           frequency: frequency,
-          hour: hour,
-          minute: minute,
         );
         break;
     }
+
+    _appLogger.i('Notification scheduled: ${habit.habitTitle}');
   }
 
   Future<bool> _scheduleDailyReminder({
@@ -285,52 +290,71 @@ class ReminderService {
     required NotificationContent content,
     required List<NotificationActionButton> actionButtons,
     required HabitFrequency frequency,
-    required int hour,
-    required int minute,
   }) async {
-    DateTime nextTriggerDate = frequency.getNextDueTime();
+    try {
+      final interval = frequency.interval!;
 
-    // If the time has passed today, start from tomorrow
-    if (nextTriggerDate.isBefore(DateTime.now())) {
-      nextTriggerDate = nextTriggerDate.add(const Duration(days: 1));
+      final duration = switch (interval.type) {
+        IntervalType.minutes => Duration(minutes: interval.value),
+        IntervalType.hours => Duration(hours: interval.value),
+        IntervalType.days => Duration(days: interval.value),
+        IntervalType.months => Duration(days: interval.value * 30),
+      };
+
+      return await AwesomeNotifications().createNotification(
+        content: content,
+        schedule: NotificationInterval(
+          interval: duration,
+          repeats: true,
+        ),
+        actionButtons: actionButtons,
+      );
+    } catch (e) {
+      _appLogger.e(e);
+      return false;
     }
-
-    final interval = frequency.interval!;
-    // Convert interval to minutes for consistency
-    const int secondsPerMinute = 60;
-    const int minutesPerHour = 60;
-    const int hoursPerDay = 24;
-    const int daysPerMonth = 30;
-    int intervalInSeconds = switch (interval.type) {
-      IntervalType.minutes => interval.value * secondsPerMinute,
-      IntervalType.hours => interval.value * secondsPerMinute * minutesPerHour,
-      IntervalType.days =>
-        interval.value * secondsPerMinute * minutesPerHour * hoursPerDay,
-      IntervalType.months => interval.value *
-          secondsPerMinute *
-          minutesPerHour *
-          hoursPerDay *
-          daysPerMonth,
-    };
-
-    return await AwesomeNotifications().createNotification(
-      content: content,
-      schedule: NotificationCalendar(
-        hour: hour,
-        minute: minute,
-        repeats: true,
-        second: intervalInSeconds,
-      ),
-      actionButtons: actionButtons,
-    );
   }
 
   Future<void> cancelReminder(String habitId, String timeString) async {
     await AwesomeNotifications().cancel('$habitId$timeString'.hashCode);
+    _appLogger.i('Notification Canceled: $habitId');
   }
 
   Future<void> cancelAllHabitReminders(String habitId) async {
     await AwesomeNotifications().cancelNotificationsByGroupKey(habitId);
+    _appLogger.i('Notifications Canceled: $habitId');
+  }
+
+  Future<void> cancelExpiredHabitNotification(HabitEntity habit) async {
+    if (DateTime.now().isAfter(habit.endDate)) {
+      await cancelAllHabitReminders(habit.habitId);
+      _appLogger
+          .i('Notification Deleted Based on Due Date: ${habit.habitTitle}');
+    }
+  }
+
+  Future<void> getAllScheduledNotifications() async {
+    try {
+      // Fetch all scheduled notifications
+      final List<NotificationModel> scheduledNotifications =
+          await AwesomeNotifications().listScheduledNotifications();
+
+      // Print the details of each notification
+      for (final notification in scheduledNotifications) {
+        _appLogger.i('Notification ID: ${notification.content?.id}');
+        _appLogger.i('Title: ${notification.content?.title}');
+        _appLogger.i('Body: ${notification.content?.body}');
+        _appLogger.i('Channel Key: ${notification.content?.channelKey}');
+        _appLogger.i('Schedule: ${notification.schedule}');
+        _appLogger.i('--------------------------------------');
+      }
+
+      if (scheduledNotifications.isEmpty) {
+        _appLogger.i('No scheduled notifications found.');
+      }
+    } catch (e) {
+      _appLogger.e('Error fetching scheduled notifications: $e');
+    }
   }
 }
 

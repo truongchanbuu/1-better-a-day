@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import '../../../../config/log/app_logger.dart';
 import '../../../../core/enums/habit/goal_type.dart';
+import '../../../../core/enums/habit/goal_unit.dart';
 import '../../../../core/enums/habit/habit_category.dart';
 import '../../../../core/enums/habit/habit_time_of_day.dart';
 import '../../../../injection_container.dart';
@@ -225,8 +226,7 @@ class GoalValidator implements Validator<Map<String, dynamic>> {
         'goalType': _validateGoalType(goalData['goalType']),
         'targetValue': _safeNumber(
             goalData['targetValue'], HabitDefaults.goalDefaults['targetValue']),
-        'goalUnit': _safeString(
-            goalData['goalUnit'], HabitDefaults.goalDefaults['goalUnit']),
+        'goalUnit': _validateGoalUnit(goalData['goalUnit']),
         'goalFrequency': frequencyResult.data,
       };
 
@@ -238,8 +238,20 @@ class GoalValidator implements Validator<Map<String, dynamic>> {
 
   String _validateGoalType(dynamic type) {
     final validTypes = GoalType.values.map((e) => e.name).toList();
-    final safeType = (type?.toString().toLowerCase() ?? 'completion');
-    return validTypes.contains(safeType) ? safeType : 'completion';
+    final safeType = (type?.toString().toLowerCase() ??
+        HabitDefaults.goalDefaults['goalType']);
+    return validTypes.contains(safeType)
+        ? safeType
+        : HabitDefaults.goalDefaults['goalType'];
+  }
+
+  String _validateGoalUnit(dynamic unit) {
+    final validUnits = GoalUnit.values.map((e) => e.name).toList();
+    final safeUnit = (unit?.toString().toLowerCase() ??
+        HabitDefaults.goalDefaults['goalUnit']);
+    return validUnits.contains(safeUnit)
+        ? safeUnit
+        : HabitDefaults.goalDefaults['goalUnit'];
   }
 
   String _safeString(dynamic value, String defaultValue) {

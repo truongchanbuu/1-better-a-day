@@ -14,19 +14,27 @@ import '../../../../injection_container.dart';
 import '../../../notification/presentations/blocs/reminder/reminder_bloc.dart';
 import '../../../shared/presentations/widgets/icon_with_text.dart';
 import '../../domain/entities/habit_entity.dart';
+import '../../domain/entities/habit_frequency.dart';
 import '../../domain/entities/habit_icon.dart';
 import '../blocs/crud/habit_crud_bloc.dart';
 import '../helper/shared_habit_action.dart';
 import 'crud_habit/add_habit_drop_down_field.dart';
 import 'crud_habit/date_field.dart';
+import 'crud_habit/habit_frequency_field.dart';
 import 'crud_habit/pick_icon_field.dart';
 import 'crud_habit/reminder_times_list.dart';
 
 class GeneratedHabit extends StatelessWidget {
   final HabitEntity habit;
+  final bool showCloseButton;
   final void Function(HabitEntity habit) onEdit;
 
-  const GeneratedHabit({super.key, required this.habit, required this.onEdit});
+  const GeneratedHabit({
+    super.key,
+    required this.habit,
+    required this.onEdit,
+    this.showCloseButton = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -34,19 +42,25 @@ class GeneratedHabit extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => getIt.get<HabitCrudBloc>()),
       ],
-      child: GeneratedHabitView(habit: habit, onEdit: onEdit),
+      child: GeneratedHabitView(
+        habit: habit,
+        onEdit: onEdit,
+        showCloseButton: showCloseButton,
+      ),
     );
   }
 }
 
 class GeneratedHabitView extends StatefulWidget {
   final HabitEntity habit;
+  final bool showCloseButton;
   final void Function(HabitEntity habit) onEdit;
 
   const GeneratedHabitView({
     super.key,
     required this.habit,
     required this.onEdit,
+    this.showCloseButton = true,
   });
 
   @override
@@ -63,6 +77,7 @@ class GeneratedHabitViewState extends State<GeneratedHabitView> {
   Set<String> _reminderTimes = {};
   late HabitCategory habitCategory;
   late HabitIcon habitIcon;
+  late HabitFrequency habitFrequency;
   late DateTime startDate;
   late DateTime endDate;
 
@@ -74,6 +89,7 @@ class GeneratedHabitViewState extends State<GeneratedHabitView> {
     _reminderTimes = _editedHabit.reminderTimes;
     startDate = _editedHabit.startDate;
     endDate = _editedHabit.endDate;
+    habitFrequency = _editedHabit.habitGoal.goalFrequency;
     habitCategory = _editedHabit.habitCategory;
     habitIcon = _editedHabit.habitIcon;
   }
@@ -110,13 +126,16 @@ class GeneratedHabitViewState extends State<GeneratedHabitView> {
         _editedHabit = _editedHabit.copyWith(
           habitTitle: _titleController.text,
           habitDesc: _descController.text,
-          habitGoal:
-              widget.habit.habitGoal.copyWith(goalDesc: _goalController.text),
+          habitGoal: widget.habit.habitGoal.copyWith(
+            goalDesc: _goalController.text,
+            goalFrequency: habitFrequency,
+          ),
           startDate: startDate,
           endDate: endDate,
           reminderTimes: _reminderTimes,
           habitCategory: habitCategory,
           habitIcon: habitIcon,
+          reminderStates: {for (var time in _reminderTimes) time: true},
         );
       }
     });
@@ -149,6 +168,7 @@ class GeneratedHabitViewState extends State<GeneratedHabitView> {
     );
   }
 
+  static const SizedBox _spacing = SizedBox(height: AppSpacing.marginM);
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -173,40 +193,55 @@ class GeneratedHabitViewState extends State<GeneratedHabitView> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  S.current.habit_generated_title,
-                  style: TextStyle(
-                    color: context.isDarkMode
-                        ? AppColors.lightText
-                        : AppColors.primary,
-                    fontWeight: FontWeight.bold,
-                    fontSize: AppFontSize.h3,
-                  ),
+                Stack(
+                  children: [
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        S.current.habit_generated_title,
+                        style: TextStyle(
+                          color: context.isDarkMode
+                              ? AppColors.lightText
+                              : AppColors.primary,
+                          fontWeight: FontWeight.bold,
+                          fontSize: AppFontSize.h3,
+                        ),
+                      ),
+                    ),
+                    if (widget.showCloseButton)
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: GestureDetector(
+                          onTap: () => Navigator.pop(context),
+                          child: Icon(Icons.close),
+                        ),
+                      ),
+                  ],
                 ),
-                const SizedBox(height: AppSpacing.marginM),
+                _spacing,
                 if (_isEditMode) ...[
                   _buildEditableField(S.current.habit_name, _titleController),
-                  const SizedBox(height: AppSpacing.marginM),
+                  _spacing,
                   _buildEditableField(S.current.habit_desc, _descController),
-                  const SizedBox(height: AppSpacing.marginM),
+                  _spacing,
                   _buildEditableField(S.current.habit_goal, _goalController),
                 ] else ...[
                   _GeneratedHabitDataRow(
                     title: S.current.habit_name,
                     info: _editedHabit.habitTitle,
                   ),
-                  const SizedBox(height: AppSpacing.marginM),
+                  _spacing,
                   _GeneratedHabitDataRow(
                     title: S.current.habit_desc,
                     info: _editedHabit.habitDesc,
                   ),
-                  const SizedBox(height: AppSpacing.marginM),
+                  _spacing,
                   _GeneratedHabitDataRow(
                     title: S.current.habit_goal,
                     info: _editedHabit.habitGoal.goalDesc,
                   ),
                 ],
-                const SizedBox(height: AppSpacing.marginM),
+                _spacing,
                 (_isEditMode)
                     ? AddHabitDropdownField(
                         title: S.current.habit_category,
@@ -227,7 +262,7 @@ class GeneratedHabitViewState extends State<GeneratedHabitView> {
                         title: S.current.habit_category,
                         info: habitCategory.categoryName,
                       ),
-                const SizedBox(height: AppSpacing.marginM),
+                _spacing,
                 PickIconField(
                   habitIcon: habitIcon,
                   onPickIcon: _isEditMode
@@ -237,7 +272,33 @@ class GeneratedHabitViewState extends State<GeneratedHabitView> {
                           )
                       : null,
                 ),
-                const SizedBox(height: AppSpacing.marginM),
+                _spacing,
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    S.current.habit_frequency,
+                    style: TextStyle(
+                      fontSize: AppFontSize.h4,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                _spacing,
+                TextField(
+                  readOnly: true,
+                  enabled: _isEditMode,
+                  onTap: _onFrequencyChange,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: habitFrequency.getDisplayText(),
+                    hintStyle: TextStyle(
+                      color: context.isDarkMode
+                          ? AppColors.lightText
+                          : AppColors.darkText,
+                    ),
+                  ),
+                ),
+                _spacing,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -279,26 +340,21 @@ class GeneratedHabitViewState extends State<GeneratedHabitView> {
                     ),
                   ],
                 ),
-                const SizedBox(height: AppSpacing.marginM),
-                if (!_isEditMode)
-                  ReminderTimesListSection(reminderTimes: _reminderTimes)
-                else
-                  // ReminderTimesListSection(
-                  //   reminderTimes: _reminderTimes,
-                  //   onDeleteItem: (time) =>
-                  //       setState(() => _reminderTimes.remove(time)),
-                  //   onPickReminder: () {},
-                  // ),
-                  BlocBuilder<ReminderBloc, ReminderState>(
-                    builder: (context, state) => ReminderTimesListSection(
-                      reminderTimes: _reminderTimes,
-                      onPickReminder: () async => await SharedHabitAction
-                          .onGrantPermissionAndPickReminder(
-                              context, state, _onPickReminder),
-                      onDeleteItem: (item) =>
-                          setState(() => _reminderTimes.remove(item)),
+                _spacing,
+                if (habitFrequency.type != FrequencyType.interval)
+                  if (!_isEditMode)
+                    ReminderTimesListSection(reminderTimes: _reminderTimes)
+                  else
+                    BlocBuilder<ReminderBloc, ReminderState>(
+                      builder: (context, state) => ReminderTimesListSection(
+                        reminderTimes: _reminderTimes,
+                        onPickReminder: () async => await SharedHabitAction
+                            .onGrantPermissionAndPickReminder(
+                                context, state, _onPickReminder),
+                        onDeleteItem: (item) =>
+                            setState(() => _reminderTimes.remove(item)),
+                      ),
                     ),
-                  ),
               ],
             ),
           ),
@@ -318,7 +374,7 @@ class GeneratedHabitViewState extends State<GeneratedHabitView> {
               fontSize: AppFontSize.h3,
             ),
           ),
-          const SizedBox(height: AppSpacing.marginM),
+          _spacing,
           if (!_isEditMode)
             ElevatedButton(
               onPressed: () {
@@ -374,6 +430,29 @@ class GeneratedHabitViewState extends State<GeneratedHabitView> {
           ..toSet();
       });
     }
+  }
+
+  void _onFrequencyChange() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        contentPadding: EdgeInsets.zero,
+        content: HabitFrequencyField(
+          initialValue: habitFrequency,
+          onSave: (habitFrequency) {
+            setState(() {
+              this.habitFrequency = habitFrequency;
+
+              if (this.habitFrequency.type == FrequencyType.interval) {
+                _reminderTimes.clear();
+              }
+            });
+
+            Navigator.pop(context);
+          },
+        ),
+      ),
+    );
   }
 }
 

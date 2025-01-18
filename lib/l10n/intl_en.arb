@@ -355,6 +355,7 @@
   "add_reminder": "Add reminder",
   "reminder_permission_denied": "Cannot reminder without notification permission",
   "reminder_permission_request": "Please provide notification permission to reminder your habit",
+  "invalid_reminders_message": "There's need at least one to reminder",
 
   "@__NOTIFICATION__": {},
   "notification_screen_title": "Keep your habits on track!",
@@ -967,6 +968,7 @@
   "steps_unit": "steps",
   "miles_unit": "miles",
   "times_unit": "times",
+  "glass_unit": "glasses",
   "custom_unit": "custom",
 
   "@_GOAL_TYPE": {},

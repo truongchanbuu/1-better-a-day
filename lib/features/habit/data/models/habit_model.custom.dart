@@ -18,6 +18,7 @@ HabitModel _$HabitModelFromJson(Map<String, dynamic> json) => HabitModel(
           : {},
       habitStatus: $enumDecode(_$HabitStatusEnumMap, json['habitStatus']),
       isReminderEnabled: json['isReminderEnabled'] ?? false,
+      reminderStates: json['reminderStates'],
     );
 
 Map<String, dynamic> _$HabitModelToJson(HabitModel instance) {
@@ -37,6 +38,7 @@ Map<String, dynamic> _$HabitModelToJson(HabitModel instance) {
     'reminderTimes': instance.reminderTimes,
     'habitStatus': _$HabitStatusEnumMap[instance.habitStatus],
     'isReminderEnabled': instance.isReminderEnabled,
+    'reminderStates': instance.reminderStates,
   };
 }
 

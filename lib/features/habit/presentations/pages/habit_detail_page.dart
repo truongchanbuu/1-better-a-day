@@ -29,10 +29,10 @@ import '../../../shared/presentations/widgets/icon_with_text.dart';
 import '../../../shared/presentations/widgets/not_found_and_refresh.dart';
 import '../../../shared/presentations/widgets/text_with_circle_border_container.dart';
 import '../../domain/entities/habit_entity.dart';
+import '../../domain/entities/habit_frequency.dart';
 import '../../domain/entities/habit_history.dart';
 import '../blocs/crud/habit_crud_bloc.dart';
 import '../blocs/habit_history_crud/habit_history_crud_bloc.dart';
-import '../helper/shared_habit_action.dart';
 import '../widgets/crud_habit/edit_template_dialog.dart';
 import '../widgets/generated_habit.dart';
 import '../widgets/habit_reminder_item.dart';
@@ -52,6 +52,9 @@ class HabitDetailPage extends StatefulWidget {
 class _HabitDetailPageState extends State<HabitDetailPage> {
   late HabitEntity currentHabit;
   List<HabitHistory> histories = [];
+
+  String? _pendingAction;
+  bool? _pendingReminderEnabled;
 
   @override
   initState() {
@@ -114,7 +117,20 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
               }
             },
           ),
-          SharedHabitAction.reminderPermissionListener(_onAddReminder),
+          BlocListener<ReminderBloc, ReminderState>(
+            listener: (context, state) {
+              if (state is ReminderPermissionDenied) {
+                AwesomeDialog(
+                  context: context,
+                  dialogType: DialogType.error,
+                  title: S.current.reminder_permission_denied,
+                  desc: S.current.reminder_permission_request,
+                  descTextStyle:
+                      const TextStyle(overflow: TextOverflow.visible),
+                ).show();
+              }
+            },
+          ),
         ],
         child: Scaffold(
           backgroundColor: context.isDarkMode
@@ -245,34 +261,30 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
                 ),
 
                 // Reminder
-                BlocBuilder<ReminderBloc, ReminderState>(
+                BlocConsumer<ReminderBloc, ReminderState>(
+                  listener: (context, state) {
+                    if (state is ReminderPermissionAllowed) {
+                      _executePendingAction(context);
+                    }
+                  },
                   builder: (context, state) {
                     return _SectionContainer(
                       title: S.current.reminder_section,
-                      suffix: IconButton(
-                        onPressed: () async => await SharedHabitAction
-                            .onGrantPermissionAndPickReminder(
-                                context, state, _onAddReminder),
-                        icon: const Icon(Icons.add),
-                      ),
+                      suffix: _buildSuffixButton(context, state),
                       children: [
                         HabitReminderItem(
-                          onItemDeleted: (TimeOfDay? time) {
-                            if (time != null) {
-                              _updateCurrentReminderTimes(time, true);
-                            }
-                          },
-                          onReminderEnabled: (isReminderEnable) => context
-                              .read<HabitCrudBloc>()
-                              .add(
-                                EditHabit(
-                                    id: currentHabit.habitId,
-                                    updatedHabit: currentHabit.copyWith(
-                                        isReminderEnabled: isReminderEnable)),
-                              ),
+                          onItemDeleted: _handleItemDeleted,
+                          onReminderEnabled: (isReminderEnabled) =>
+                              _handleReminderEnabled(
+                            context,
+                            state,
+                            isReminderEnabled,
+                          ),
                           reminderTimes: currentHabit.reminderTimes,
                           frequency: currentHabit.habitGoal.goalFrequency,
                           isReminderEnable: currentHabit.isReminderEnabled,
+                          timeStates: currentHabit.reminderStates,
+                          onTimeToggled: _onTimeToggled,
                         ),
                       ],
                     );
@@ -527,28 +539,33 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
         child: BlocListener<HabitCrudBloc, HabitCrudState>(
           listener: (blocContext, state) async {
             if (state is HabitCrudSucceed) {
+              await updateSucceedAlert();
+            } else if (state is HabitCrudFailed) {
               final alertDialog = AwesomeDialog(
                 context: context,
-                dialogType: DialogType.success,
-                title: S.current.success_title,
-                desc: S.current.add_success,
-              );
+                dialogType: DialogType.error,
+                title: S.current.failure_title,
+                desc: S.current.cannot_generate_habit,
+              )..show();
 
-              await Future.delayed(const Duration(milliseconds: 200));
-              alertDialog.show();
-              await Future.delayed(const Duration(seconds: 5));
+              await Future.delayed(AppCommons.alertShowDuration);
               alertDialog.dismiss();
             }
           },
           child: SingleChildScrollView(
-            child: EditTemplateDialog(
-              child: BlocProvider.value(
-                value: context.read<ReminderBloc>(),
+            child: BlocProvider.value(
+              value: context.read<ReminderBloc>(),
+              child: EditTemplateDialog(
                 child: GeneratedHabit(
                     habit: currentHabit,
-                    onEdit: (habit) {
-                      context.read<HabitCrudBloc>().add(
-                          EditHabit(id: habit.habitId, updatedHabit: habit));
+                    onEdit: (habit) async {
+                      if (currentHabit != habit) {
+                        context.read<HabitCrudBloc>().add(
+                              EditHabit(id: habit.habitId, updatedHabit: habit),
+                            );
+                      } else {
+                        await updateSucceedAlert();
+                      }
                     }),
               ),
             ),
@@ -585,30 +602,141 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
     }
   }
 
+  Widget? _buildSuffixButton(BuildContext context, ReminderState state) {
+    if (currentHabit.habitGoal.goalFrequency.type == FrequencyType.interval) {
+      return null;
+    }
+
+    return IconButton(
+      onPressed: () {
+        if (state is ReminderPermissionDenied || state is ReminderInitial) {
+          _pendingAction = 'add';
+          context.read<ReminderBloc>().add(GrantReminderPermission());
+        } else {
+          _onAddReminder();
+        }
+      },
+      icon: const Icon(Icons.add),
+    );
+  }
+
+  void _handleItemDeleted(TimeOfDay? time) {
+    if (currentHabit.reminderTimes.length <= 1 &&
+        currentHabit.isReminderEnabled) {
+      AwesomeDialog(
+        context: context,
+        dialogType: DialogType.warning,
+        title: S.current.warning_title,
+        desc: S.current.invalid_reminders_message,
+      ).show();
+      return;
+    }
+
+    if (time != null) {
+      _updateCurrentReminderTimes(time, true);
+      return;
+    }
+  }
+
+  void _handleReminderEnabled(
+    BuildContext context,
+    ReminderState state,
+    bool isReminderEnabled,
+  ) {
+    if (state is ReminderPermissionDenied || state is ReminderInitial) {
+      _pendingAction = 'enable';
+      _pendingReminderEnabled = isReminderEnabled;
+      context.read<ReminderBloc>().add(GrantReminderPermission());
+    } else {
+      _updateReminder(context, isReminderEnabled);
+    }
+  }
+
+  void _updateReminder(BuildContext context, bool isReminderEnabled) {
+    currentHabit = currentHabit.copyWith(isReminderEnabled: isReminderEnabled);
+
+    if (isReminderEnabled) {
+      context.read<ReminderBloc>().add(ScheduleReminder(habit: currentHabit));
+    } else {
+      context.read<ReminderBloc>().add(CancelReminder(currentHabit.habitId));
+    }
+
+    context
+        .read<HabitCrudBloc>()
+        .add(EditHabit(id: currentHabit.habitId, updatedHabit: currentHabit));
+  }
+
+  void _executePendingAction(BuildContext context) {
+    if (_pendingAction == 'add') {
+      _onAddReminder();
+    } else if (_pendingAction == 'enable') {
+      _updateReminder(context, _pendingReminderEnabled!);
+    }
+    _pendingAction = null;
+  }
+
   void _updateCurrentReminderTimes(TimeOfDay selectedTime,
       [bool isRemovable = false]) {
     final habitCrudBloc = context.read<HabitCrudBloc>();
-    final sortedList = currentHabit.reminderTimes.toList();
+    final habitReminderBloc = context.read<ReminderBloc>();
+
+    final updatedReminderTimes = List<String>.from(currentHabit.reminderTimes);
+    final updatedReminderStates =
+        Map<String, bool>.from(currentHabit.reminderStates);
 
     if (isRemovable) {
-      sortedList
-        ..remove(selectedTime.toShortString)
-        ..sort();
+      updatedReminderTimes.remove(selectedTime.toShortString);
+      updatedReminderStates.remove(selectedTime.toShortString);
+      habitReminderBloc.add(CancelSpecificReminder(
+        currentHabit.habitId,
+        selectedTime.toShortString,
+      ));
     } else {
-      sortedList
-        ..add(selectedTime.toShortString)
-        ..sort();
+      final timeString = selectedTime.toShortString;
+      updatedReminderTimes.add(timeString);
+      updatedReminderStates[timeString] = true;
+      habitReminderBloc
+          .add(ScheduleReminder(habit: currentHabit, specificTime: timeString));
     }
 
-    setState(() {
-      currentHabit.reminderTimes
-        ..clear()
-        ..addAll(sortedList);
-    });
+    updatedReminderTimes.sort();
 
-    habitCrudBloc.add(
-      EditHabit(id: currentHabit.habitId, updatedHabit: currentHabit),
+    final updatedHabit = currentHabit.copyWith(
+      reminderTimes: updatedReminderTimes.toSet(),
+      reminderStates: updatedReminderStates,
     );
+
+    habitCrudBloc
+        .add(EditHabit(id: updatedHabit.habitId, updatedHabit: updatedHabit));
+  }
+
+  Future<void> updateSucceedAlert() async {
+    final navigator = Navigator.of(context);
+    final alertDialog = AwesomeDialog(
+      context: context,
+      dialogType: DialogType.success,
+      title: S.current.success_title,
+      desc: S.current.add_success,
+      onDismissCallback: (type) => navigator.pop(),
+    )..show();
+
+    await Future.delayed(AppCommons.alertShowDuration);
+    alertDialog.dismiss();
+  }
+
+  void _onTimeToggled(String time, bool enabled) {
+    final updatedReminderStates = {
+      ...currentHabit.reminderStates,
+      time: enabled
+    };
+
+    currentHabit = currentHabit.copyWith(
+      reminderStates: updatedReminderStates,
+    );
+
+    context
+        .read<HabitCrudBloc>()
+        .add(EditHabit(id: currentHabit.habitId, updatedHabit: currentHabit));
   }
 }
 
@@ -760,10 +888,14 @@ class _HabitMenuActions extends StatelessWidget {
       children: [
         ListTile(
           onTap: onEdit,
-          leading: const Icon(FontAwesomeIcons.penToSquare),
+          leading:
+              const Icon(FontAwesomeIcons.penToSquare, color: Colors.green),
           title: Text(
             S.current.edit_button,
-            style: const TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.green,
+            ),
           ),
         ),
         ListTile(

@@ -2571,6 +2571,16 @@ class S {
     );
   }
 
+  /// `There's need at least one to reminder`
+  String get invalid_reminders_message {
+    return Intl.message(
+      'There\'s need at least one to reminder',
+      name: 'invalid_reminders_message',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Keep your habits on track!`
   String get notification_screen_title {
     return Intl.message(
@@ -5664,6 +5674,16 @@ class S {
     return Intl.message(
       'times',
       name: 'times_unit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `glasses`
+  String get glass_unit {
+    return Intl.message(
+      'glasses',
+      name: 'glass_unit',
       desc: '',
       args: [],
     );

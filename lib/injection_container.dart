@@ -152,4 +152,6 @@ Future<void> initializeDependencies() async {
   getIt.registerFactoryParam<DistanceTrackCubit, double, void>(
     (targetDistance, _) => DistanceTrackCubit(targetDistance: targetDistance),
   );
+
+  await getIt.get<ReminderService>().init();
 }

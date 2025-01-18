@@ -11,6 +11,8 @@ final class ReminderInitial extends ReminderState {}
 
 final class ReminderScheduled extends ReminderState {}
 
+final class ReminderCanceled extends ReminderState {}
+
 class ReminderError extends ReminderState {
   final String message;
   const ReminderError(this.message);

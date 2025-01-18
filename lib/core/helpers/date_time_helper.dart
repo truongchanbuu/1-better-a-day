@@ -24,8 +24,9 @@ class DateTimeHelper {
     var now = DateTime.now();
     var days = <int, String>{};
 
-    for (int i = 2; i <= 8; i++) {
-      days[i] = formatter.format(now.add(Duration(days: i)));
+    for (int i = 1; i <= 7; i++) {
+      final weekdayDate = now.add(Duration(days: i - now.weekday));
+      days[i] = formatter.format(weekdayDate);
     }
 
     return days;

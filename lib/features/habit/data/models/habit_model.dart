@@ -28,6 +28,7 @@ class HabitModel extends HabitEntity implements HiveBaseModel<HabitModel> {
     super.reminderTimes,
     super.isReminderEnabled,
     required super.habitStatus,
+    super.reminderStates,
   }) : super(habitGoal: habitGoal.toEntity());
 
   factory HabitModel.init() {
@@ -46,6 +47,7 @@ class HabitModel extends HabitEntity implements HiveBaseModel<HabitModel> {
       habitStatus: HabitStatus.inProgress,
       habitIcon: HabitIcon.fromKey(PredefinedHabitIconKey.custom),
       reminderTimes: const {},
+      reminderStates: const {},
     );
   }
 
@@ -66,6 +68,7 @@ class HabitModel extends HabitEntity implements HiveBaseModel<HabitModel> {
       longestStreak: longestStreak,
       reminderTimes: reminderTimes,
       isReminderEnabled: isReminderEnabled,
+      reminderStates: reminderStates,
     );
   }
 
@@ -86,6 +89,7 @@ class HabitModel extends HabitEntity implements HiveBaseModel<HabitModel> {
       reminderTimes: entity.reminderTimes,
       habitIcon: entity.habitIcon,
       isReminderEnabled: entity.isReminderEnabled,
+      reminderStates: entity.reminderStates,
     );
   }
 
@@ -111,6 +115,7 @@ class HabitModel extends HabitEntity implements HiveBaseModel<HabitModel> {
     Set<String>? reminderTimes,
     HabitStatus? habitStatus,
     bool? isReminderEnabled,
+    Map<String, bool>? reminderStates,
   }) {
     return HabitModel(
       habitId: habitId ?? this.habitId,
@@ -128,28 +133,8 @@ class HabitModel extends HabitEntity implements HiveBaseModel<HabitModel> {
       reminderTimes: reminderTimes ?? this.reminderTimes,
       habitStatus: habitStatus ?? this.habitStatus,
       isReminderEnabled: isReminderEnabled ?? this.isReminderEnabled,
+      reminderStates: reminderStates ?? this.reminderStates,
     );
-  }
-
-  @override
-  List<Object?> get props {
-    return [
-      habitId,
-      habitTitle,
-      habitIcon,
-      habitDesc,
-      habitProgress,
-      isReminderEnabled,
-      habitGoal,
-      habitCategory,
-      timeOfDay,
-      currentStreak,
-      longestStreak,
-      startDate,
-      endDate,
-      reminderTimes,
-      habitStatus,
-    ];
   }
 
   @override
@@ -175,6 +160,16 @@ class HabitModel extends HabitEntity implements HiveBaseModel<HabitModel> {
         convertedMap['habitIcon'] = convertedHabitIcon;
       } else {
         throw const FormatException('Invalid habitGoal format');
+      }
+
+      final reminderStates = map['reminderStates'];
+      if (reminderStates != null && reminderStates is Map<dynamic, dynamic>) {
+        final convertedReminderStates = <String, bool>{};
+        reminderStates
+            .forEach((k, v) => convertedReminderStates[k.toString()] = v);
+        convertedMap['reminderStates'] = convertedReminderStates;
+      } else {
+        convertedMap['reminderStates'] = null;
       }
 
       return HabitModel.fromJson(convertedMap);

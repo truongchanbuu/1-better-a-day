@@ -15,14 +15,18 @@ class HabitReminderItem extends StatelessWidget {
   final bool isReminderEnable;
   final void Function(TimeOfDay? item)? onItemDeleted;
   final void Function(bool isReminderEnable)? onReminderEnabled;
+  final void Function(String timeString, bool enabled)? onTimeToggled;
+  final Map<String, bool> timeStates;
 
   const HabitReminderItem({
     super.key,
     required this.reminderTimes,
     required this.frequency,
     required this.isReminderEnable,
+    required this.timeStates,
     this.onItemDeleted,
     this.onReminderEnabled,
+    this.onTimeToggled,
   });
 
   @override
@@ -51,7 +55,7 @@ class HabitReminderItem extends StatelessWidget {
                 ),
               ],
             ),
-            if (reminderTimes.isNotEmpty) ...[
+            if (reminderTimes.isNotEmpty && isReminderEnable) ...[
               const SizedBox(height: AppSpacing.marginS),
               Row(
                 children: [
@@ -62,30 +66,7 @@ class HabitReminderItem extends StatelessWidget {
                       spacing: 8,
                       runSpacing: 8,
                       children: reminderTimes
-                          .map((time) => FilterChip(
-                                chipAnimationStyle: ChipAnimationStyle(
-                                  deleteDrawerAnimation: AnimationStyle(
-                                    duration: Duration(milliseconds: 200),
-                                    curve: Curves.ease,
-                                  ),
-                                ),
-                                deleteIconColor: context.isDarkMode
-                                    ? AppColors.lightText
-                                    : AppColors.darkText,
-                                deleteIcon: Icon(Icons.close),
-                                onDeleted: () => onItemDeleted
-                                    ?.call(TimeOfDayExtension.tryParse(time)),
-                                onSelected: (value) {},
-                                label: Text(time),
-                                backgroundColor: context.isDarkMode
-                                    ? AppColors.darkText
-                                    : AppColors.lightText,
-                                labelStyle: TextStyle(
-                                  color: !context.isDarkMode
-                                      ? AppColors.darkText
-                                      : AppColors.lightText,
-                                ),
-                              ))
+                          .map((time) => _buildReminderChip(context, time))
                           .toList(),
                     ),
                   ),
@@ -115,6 +96,34 @@ class HabitReminderItem extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildReminderChip(BuildContext context, String time) {
+    final isTimeEnabled = timeStates[time] ?? true;
+    final basedColor = isTimeEnabled
+        ? AppColors.lightText
+        : (!context.isDarkMode ? AppColors.darkText : AppColors.lightText);
+
+    return FilterChip(
+      selectedColor: AppColors.primary,
+      selected: isTimeEnabled,
+      iconTheme: IconThemeData(color: basedColor),
+      checkmarkColor: basedColor,
+      chipAnimationStyle: ChipAnimationStyle(
+        deleteDrawerAnimation: AnimationStyle(
+          duration: Duration(milliseconds: 200),
+          curve: Curves.ease,
+        ),
+      ),
+      deleteIconColor: basedColor,
+      deleteIcon: Icon(Icons.close),
+      onDeleted: () => onItemDeleted?.call(TimeOfDayExtension.tryParse(time)),
+      onSelected: (value) => onTimeToggled?.call(time, value),
+      label: Text(time),
+      backgroundColor:
+          context.isDarkMode ? AppColors.darkText : AppColors.lightText,
+      labelStyle: TextStyle(color: basedColor),
     );
   }
 }

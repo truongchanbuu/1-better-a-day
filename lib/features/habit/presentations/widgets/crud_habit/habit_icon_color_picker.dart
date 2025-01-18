@@ -141,7 +141,7 @@ class _HabitIconPickerState extends State<HabitIconPicker> {
         HabitIcon(
           key: 'default',
           icon: categorizedIcons.values.first.first,
-          color: colorPalette[0][0],
+          color: Colors.blue,
           size: widget.defaultSize,
         );
   }

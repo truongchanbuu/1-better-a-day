@@ -408,6 +408,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Tạo thói quen"),
         "get_preset_habit_option":
             MessageLookupByLibrary.simpleMessage("Chọn các thói quen có sẵn"),
+        "glass_unit": MessageLookupByLibrary.simpleMessage("ly"),
         "go_home_button": MessageLookupByLibrary.simpleMessage("Về trang chủ"),
         "goal_completion": MessageLookupByLibrary.simpleMessage("Hoàn thành"),
         "goal_count": MessageLookupByLibrary.simpleMessage("Đếm"),
@@ -546,6 +547,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Mật khẩu phải có ít nhất 6 ký tự"),
         "invalid_phone":
             MessageLookupByLibrary.simpleMessage("Số điện thoại không hợp lệ"),
+        "invalid_reminders_message": MessageLookupByLibrary.simpleMessage(
+            "Cần ít nhất một thời gian để reminder"),
         "invalid_start_date": MessageLookupByLibrary.simpleMessage(
             "Ngày bắt đầu không thể sau ngày kết thúc"),
         "invalid_verification_code": MessageLookupByLibrary.simpleMessage(

@@ -187,7 +187,9 @@ class HabitCrudBloc extends Bloc<HabitCrudEvent, HabitCrudState> {
   }
 
   FutureOr<void> _onEditHabit(
-      EditHabit event, Emitter<HabitCrudState> emit) async {
+    EditHabit event,
+    Emitter<HabitCrudState> emit,
+  ) async {
     emit(Executing());
     try {
       final habit = await habitRepository.getHabitById(event.id);
@@ -203,9 +205,12 @@ class HabitCrudBloc extends Bloc<HabitCrudEvent, HabitCrudState> {
         if (updatedOne?.toEntity() != event.updatedHabit) {
           emit(HabitCrudFailed(S.current.cannot_update_habit));
         } else {
-          emit(HabitCrudSucceed(
+          emit(
+            HabitCrudSucceed(
               action: HabitCrudAction.update,
-              habits: [updatedOne!.toEntity()]));
+              habits: [updatedOne!.toEntity()],
+            ),
+          );
         }
       }
     } catch (e) {

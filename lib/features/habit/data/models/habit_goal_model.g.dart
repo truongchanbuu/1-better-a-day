@@ -52,5 +52,6 @@ const _$GoalUnitEnumMap = {
   GoalUnit.steps: 'steps',
   GoalUnit.miles: 'miles',
   GoalUnit.times: 'times',
+  GoalUnit.glasses: 'glasses',
   GoalUnit.custom: 'custom',
 };

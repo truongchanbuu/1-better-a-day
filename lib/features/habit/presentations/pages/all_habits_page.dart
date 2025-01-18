@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -9,6 +10,8 @@ import '../../../../core/enums/habit/habit_category.dart';
 import '../../../../core/enums/habit/habit_status.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../generated/l10n.dart';
+import '../../../../injection_container.dart';
+import '../../../notification/presentations/blocs/reminder/reminder_bloc.dart';
 import '../helper/shared_habit_action.dart';
 import '../widgets/habit_list.dart';
 import '../widgets/search_filter/habit_search_filter_bar.dart';
@@ -140,11 +143,14 @@ class _AllHabitsPageState extends State<AllHabitsPage> {
                 ),
                 _spacing,
                 Expanded(
-                  child: HabitList(
-                    category: category,
-                    status: status,
-                    progress: progress,
-                    isListView: _isHabitListView,
+                  child: BlocProvider(
+                    create: (context) => getIt.get<ReminderBloc>(),
+                    child: HabitList(
+                      category: category,
+                      status: status,
+                      progress: progress,
+                      isListView: _isHabitListView,
+                    ),
                   ),
                 ),
               ],

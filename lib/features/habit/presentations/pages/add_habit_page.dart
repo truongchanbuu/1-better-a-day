@@ -130,7 +130,10 @@ class _AddHabitPageState extends State<AddHabitPage> {
               ),
               BlocListener<HabitCrudBloc, HabitCrudState>(
                 listener: (context, habitCrudState) {
-                  if (habitCrudState is HabitCrudSucceed) {
+                  if (habitCrudState is HabitCrudSucceed &&
+                      habitCrudState.action == HabitCrudAction.add) {
+                    context.read<ReminderBloc>().add(
+                        ScheduleReminder(habit: habitCrudState.habits.first));
                     AwesomeDialog(
                       context: context,
                       dialogType: DialogType.success,
@@ -381,17 +384,19 @@ class _AddHabitPageState extends State<AddHabitPage> {
                 ),
               ],
             ),
-            _spacing,
-            BlocBuilder<ReminderBloc, ReminderState>(
-              builder: (context, state) => ReminderTimesListSection(
-                reminderTimes: _reminderTimes,
-                onPickReminder: () async =>
-                    await SharedHabitAction.onGrantPermissionAndPickReminder(
-                        context, state, _onPickReminder),
-                onDeleteItem: (item) =>
-                    setState(() => _reminderTimes.remove(item)),
+            if (_habitFrequency.type != FrequencyType.interval) ...[
+              _spacing,
+              BlocBuilder<ReminderBloc, ReminderState>(
+                builder: (context, state) => ReminderTimesListSection(
+                  reminderTimes: _reminderTimes,
+                  onPickReminder: () async =>
+                      await SharedHabitAction.onGrantPermissionAndPickReminder(
+                          context, state, _onPickReminder),
+                  onDeleteItem: (item) =>
+                      setState(() => _reminderTimes.remove(item)),
+                ),
               ),
-            ),
+            ],
             _spacing,
             ElevatedButton(
               onPressed: _onHabitCreate,
@@ -508,13 +513,21 @@ class _AddHabitPageState extends State<AddHabitPage> {
   void _onHabitFrequency() {
     showModalBottomSheet(
       context: context,
-      builder: (context) => HabitFrequencyField(
+      builder: (ctx) => HabitFrequencyField(
         initialValue: _habitFrequency,
         onSave: (habitFrequency) {
           setState(() {
             _habitFrequency = habitFrequency;
             _freqController.text = _habitFrequency.getDisplayText();
           });
+
+          context
+              .read<ValidateHabitBloc>()
+              .add(ChangeFrequency(_habitFrequency));
+
+          if (_habitFrequency.type == FrequencyType.interval) {
+            context.read<ValidateHabitBloc>().add(ChangeRemindTime({}));
+          }
 
           Navigator.pop(context);
         },

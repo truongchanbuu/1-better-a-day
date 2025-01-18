@@ -353,6 +353,7 @@
   "add_reminder": "Thêm lịch nhắc nhở",
   "reminder_permission_denied": "Không thể thực hiện nhắc nhở nếu không có quyền thông báo",
   "reminder_permission_request": "Vui lòng cấp thông báo để có thể nhắc nhở thói quen của bạn",
+  "invalid_reminders_message": "Cần ít nhất một thời gian để reminder",
 
   "@__NOTIFICATION__": {},
   "notification_screen_title": "Giữ vững thói quen của bạn!",
@@ -902,6 +903,7 @@
   "steps_unit": "bước",
   "miles_unit": "dặm",
   "times_unit": "lần",
+  "glass_unit": "ly",
   "custom_unit": "tùy chỉnh",
 
   "@_GOAL_TYPE": {},

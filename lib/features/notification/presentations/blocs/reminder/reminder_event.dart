@@ -4,15 +4,16 @@ sealed class ReminderEvent extends Equatable {
   const ReminderEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 final class ScheduleReminder extends ReminderEvent {
   final HabitEntity habit;
-  const ScheduleReminder(this.habit);
+  final String? specificTime;
+  const ScheduleReminder({required this.habit, this.specificTime});
 
   @override
-  List<Object> get props => [habit];
+  List<Object?> get props => [habit, specificTime];
 }
 
 class CancelReminder extends ReminderEvent {
@@ -21,6 +22,16 @@ class CancelReminder extends ReminderEvent {
 
   @override
   List<Object> get props => [habitId];
+}
+
+final class CancelSpecificReminder extends ReminderEvent {
+  final String habitId;
+  final String timeString;
+
+  const CancelSpecificReminder(this.habitId, this.timeString);
+
+  @override
+  List<Object> get props => [habitId, timeString];
 }
 
 final class InitializeReminder extends ReminderEvent {}

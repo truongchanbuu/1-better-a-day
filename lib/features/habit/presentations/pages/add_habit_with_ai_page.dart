@@ -55,33 +55,57 @@ class _AddHabitWithAIPageState extends State<AddHabitWithAIPage> {
         child: Scaffold(
           appBar: AppBar(),
           body: SingleChildScrollView(
-            child: BlocListener<AIHabitGenerateBloc, AIHabitGenerateState>(
-              listener: (context, state) {
-                SmartDialog.dismiss();
-                if (state is AIGenerationFailed) {
-                  AwesomeDialog(
-                    dialogType: DialogType.error,
-                    context: context,
-                    title: S.current.failure_title,
-                    desc: state.errorMessage,
-                    descTextStyle:
-                        const TextStyle(overflow: TextOverflow.visible),
-                    btnOkText: S.current.add_habit_manually,
-                    btnOkColor: AppColors.primary,
-                    btnOkOnPress: _onAddHabit,
-                    btnCancelText: S.current.cancel_button,
-                    btnCancelOnPress: () {},
-                  ).show();
-                } else if (state is AIGenerating) {
-                  SmartDialog.show(
-                    builder: (context) => const SizedBox(
-                      width: 200,
-                      height: 200,
-                      child: LoadingIndicator(indicatorType: Indicator.pacman),
-                    ),
-                  );
-                }
-              },
+            child: MultiBlocListener(
+              listeners: [
+                BlocListener<AIHabitGenerateBloc, AIHabitGenerateState>(
+                  listener: (context, state) {
+                    SmartDialog.dismiss();
+                    if (state is AIGenerationFailed) {
+                      AwesomeDialog(
+                        dialogType: DialogType.error,
+                        context: context,
+                        title: S.current.failure_title,
+                        desc: state.errorMessage,
+                        descTextStyle:
+                            const TextStyle(overflow: TextOverflow.visible),
+                        btnOkText: S.current.add_habit_manually,
+                        btnOkColor: AppColors.primary,
+                        btnOkOnPress: _onAddHabit,
+                        btnCancelText: S.current.cancel_button,
+                        btnCancelOnPress: () {},
+                      ).show();
+                    } else if (state is AIGenerating) {
+                      SmartDialog.show(
+                        clickMaskDismiss: false,
+                        builder: (context) => const SizedBox(
+                          width: 200,
+                          height: 200,
+                          child:
+                              LoadingIndicator(indicatorType: Indicator.pacman),
+                        ),
+                      );
+                    }
+                  },
+                ),
+                BlocListener<HabitCrudBloc, HabitCrudState>(
+                  listener: (context, state) {
+                    if (state is HabitCrudSucceed) {
+                      if (state.action == HabitCrudAction.add) {
+                        context
+                            .read<ReminderBloc>()
+                            .add(ScheduleReminder(habit: state.habits.first));
+                        AwesomeDialog(
+                          context: context,
+                          title: S.current.success_title,
+                          desc: S.current.add_success,
+                          dialogType: DialogType.success,
+                          onDismissCallback: (type) => Navigator.pop(context),
+                        ).show();
+                      }
+                    }
+                  },
+                ),
+              ],
               child: Padding(
                 padding: const EdgeInsets.all(AppSpacing.paddingM),
                 child: Column(
@@ -115,17 +139,18 @@ class _AddHabitWithAIPageState extends State<AddHabitWithAIPage> {
                                         hintText: S.current.add_goal_desc,
                                         labelText: S.current.habit_desc,
                                       ),
+                                      textInputAction: TextInputAction.done,
                                       maxLines: 5,
                                     ),
                                     const SizedBox(height: AppSpacing.marginL),
                                     BlocConsumer<ReminderBloc, ReminderState>(
                                       listener: (context, state) {
-                                        _onGenerate(langCode);
+                                        if (state
+                                                is ReminderPermissionAllowed ||
+                                            state is ReminderPermissionDenied) {
+                                          _onGenerate(langCode);
+                                        }
                                       },
-                                      listenWhen: (previous, current) =>
-                                          current
-                                              is ReminderPermissionAllowed ||
-                                          current is ReminderPermissionDenied,
                                       builder: (context, state) =>
                                           ElevatedButton(
                                         onPressed: () {
@@ -134,8 +159,9 @@ class _AddHabitWithAIPageState extends State<AddHabitWithAIPage> {
                                             context
                                                 .read<ReminderBloc>()
                                                 .add(GrantReminderPermission());
+                                          } else {
+                                            _onGenerate(langCode);
                                           }
-                                          _onGenerate(langCode);
                                         },
                                         child: IconWithText(
                                           icon: FontAwesomeIcons.headset,
@@ -186,6 +212,7 @@ class _AddHabitWithAIPageState extends State<AddHabitWithAIPage> {
                                         return BlocProvider.value(
                                           value: context.read<ReminderBloc>(),
                                           child: GeneratedHabit(
+                                            showCloseButton: false,
                                             habit: state.habit.copyWith(
                                               isReminderEnabled:
                                                   isReminderEnable,

@@ -12,12 +12,10 @@ import '../../../../../core/extensions/time_of_day_extension.dart';
 import '../../../../../core/enums/habit/habit_status.dart';
 import '../../../../../core/enums/habit/habit_time_of_day.dart';
 import '../../../../../generated/l10n.dart';
-import '../../../../notification/presentations/blocs/reminder/reminder_bloc.dart';
 import '../../../domain/entities/habit_entity.dart';
 import '../../../domain/entities/habit_frequency.dart';
 import '../../../domain/entities/habit_goal.dart';
 import '../../../domain/entities/habit_icon.dart';
-import '../crud/habit_crud_bloc.dart';
 
 part 'validate_habit_event.dart';
 part 'validate_habit_state.dart';
@@ -112,8 +110,11 @@ class ValidateHabitBloc extends Bloc<ValidateHabitEvent, ValidateHabitState> {
     ChangeFrequency event,
     Emitter<ValidateHabitState> emit,
   ) {
-    emit(
-        HabitFrequencyChanged(current: state, habitFrequency: event.frequency));
+    emit(HabitFrequencyChanged(
+      current: state,
+      habitFrequency: event.frequency,
+    ));
+    print(state);
   }
 
   void _onHabitReminderChanged(
@@ -200,10 +201,8 @@ class ValidateHabitBloc extends Bloc<ValidateHabitEvent, ValidateHabitState> {
       habitId: habitId,
       habitTitle: state.habitName,
       habitDesc: state.habitDesc,
-      habitGoal: state.habitGoal.copyWith(
-        goalId: const Uuid().v4(),
-        habitId: habitId,
-      ),
+      habitGoal:
+          state.habitGoal.copyWith(goalId: const Uuid().v4(), habitId: habitId),
       habitCategory: state.habitCategory,
       timeOfDay: getTimeOfDay(),
       habitStatus: DateTime.now().isBefore(state.startDate)

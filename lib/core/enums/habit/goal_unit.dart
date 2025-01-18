@@ -36,6 +36,8 @@ enum GoalUnit {
   miles,
   @JsonValue('times')
   times,
+  @JsonValue('glasses')
+  glasses,
   @JsonValue('custom')
   custom;
 
@@ -68,6 +70,7 @@ enum GoalUnit {
         custom => S.current.custom_unit,
         times => S.current.times_unit,
         day => S.current.day_unit,
+        glasses => S.current.glass_unit
       };
 
   IconData get unitIcon => switch (this) {
@@ -87,6 +90,7 @@ enum GoalUnit {
         custom => FontAwesomeIcons.gears,
         times => FontAwesomeIcons.repeat,
         day => FontAwesomeIcons.calendarDay,
+        glasses => FontAwesomeIcons.glasses,
       };
 
   Color get unitColor => switch (this) {
@@ -105,6 +109,7 @@ enum GoalUnit {
         miles => Colors.amber,
         custom => Colors.brown,
         times => Colors.blue,
-        GoalUnit.day => Colors.blue,
+        day => Colors.blue,
+        glasses => Colors.blue,
       };
 }

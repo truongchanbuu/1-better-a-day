@@ -15,7 +15,7 @@ import '../constants/app_color.dart';
 enum TabType {
   today,
   habits,
-  notifications,
+  // notifications,
   challenges,
   settings;
 
@@ -23,8 +23,8 @@ enum TabType {
     switch (this) {
       case TabType.today:
         return S.current.today;
-      case TabType.notifications:
-        return S.current.notifications;
+      // case TabType.notifications:
+      //   return S.current.notifications;
       case TabType.settings:
         return S.current.settings;
       case TabType.habits:
@@ -38,8 +38,8 @@ enum TabType {
     switch (this) {
       case TabType.today:
         return FontAwesomeIcons.circleDot;
-      case TabType.notifications:
-        return Icons.notifications;
+      // case TabType.notifications:
+      //   return Icons.notifications;
       case TabType.settings:
         return Icons.settings;
       case TabType.habits:
@@ -55,8 +55,8 @@ enum TabType {
         return const TodayPage();
       case TabType.settings:
         return const SettingsPage();
-      case TabType.notifications:
-        return const NotificationPage();
+      // case TabType.notifications:
+      //   return const NotificationPage();
       case TabType.habits:
         return MultiBlocProvider(
           providers: [
@@ -70,13 +70,13 @@ enum TabType {
   }
 
   Widget get trailing => switch (this) {
-        TabType.notifications => IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              FontAwesomeIcons.circlePlus,
-              color: AppColors.lightText,
-            ),
-          ),
+        // TabType.notifications => IconButton(
+        //     onPressed: () {},
+        //     icon: const Icon(
+        //       FontAwesomeIcons.circlePlus,
+        //       color: AppColors.lightText,
+        //     ),
+        //   ),
         TabType.settings => const SizedBox.shrink(),
         TabType.habits => const SizedBox.shrink(),
         TabType.today => const SizedBox.shrink(),

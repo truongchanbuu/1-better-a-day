@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import '../../../../generated/l10n.dart';
@@ -6,13 +7,13 @@ import '../../../../generated/l10n.dart';
 part 'habit_frequency.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class HabitFrequency {
+class HabitFrequency extends Equatable {
   final FrequencyType type;
   @JsonKey(fromJson: timeIntervalFromJson)
   final TimeInterval? interval;
   // 1-31
   final Set<int>? monthlyDates;
-  // T2-CN => 2-8
+  // T2-CN => 1-7
   final Set<int>? weekDays;
   final DateTime? lastCompletionTime;
 
@@ -35,8 +36,8 @@ class HabitFrequency {
         assert(
           weekDays == null ||
               (weekDays.isNotEmpty &&
-                  weekDays.every((day) => day >= 2 && day <= 8)),
-          'Week days must be between 2 and 8',
+                  weekDays.every((day) => day >= 1 && day <= 7)),
+          'Week days must be between 1 and 7',
         );
 
   // Predefined frequencies
@@ -49,7 +50,7 @@ class HabitFrequency {
     assert(n > 0, 'Minutes must be greater than 0');
     return HabitFrequency(
       type: FrequencyType.interval,
-      interval: TimeInterval(n, IntervalType.minutes),
+      interval: TimeInterval(value: n, type: IntervalType.minutes),
     );
   }
 
@@ -57,7 +58,7 @@ class HabitFrequency {
     assert(n > 0, 'Hours must be greater than 0');
     return HabitFrequency(
       type: FrequencyType.interval,
-      interval: TimeInterval(n, IntervalType.hours),
+      interval: TimeInterval(value: n, type: IntervalType.hours),
     );
   }
 
@@ -84,7 +85,7 @@ class HabitFrequency {
     assert(n > 0, 'Months must be greater than 0');
     return HabitFrequency(
         type: FrequencyType.interval,
-        interval: TimeInterval(n, IntervalType.months));
+        interval: TimeInterval(value: n, type: IntervalType.months));
   }
 
   // Display text
@@ -346,6 +347,15 @@ class HabitFrequency {
       throw const FormatException('Invalid format for time interval');
     }
   }
+
+  @override
+  List<Object?> get props => [
+        type,
+        interval,
+        weekDays,
+        monthlyDates,
+        lastCompletionTime,
+      ];
 }
 
 enum FrequencyType {
@@ -373,16 +383,16 @@ enum IntervalType {
   };
 }
 
-class TimeInterval {
+class TimeInterval extends Equatable {
   final int value;
   final IntervalType type;
 
-  const TimeInterval(this.value, this.type);
+  const TimeInterval({required this.value, required this.type});
 
   factory TimeInterval.fromJson(Map<String, dynamic> json) {
     return TimeInterval(
-      json['value'] ?? 0,
-      $enumDecode(IntervalType._$IntervalTypeEnumMap, json['type']),
+      value: json['value'] ?? 0,
+      type: $enumDecode(IntervalType._$IntervalTypeEnumMap, json['type']),
     );
   }
 
@@ -392,4 +402,10 @@ class TimeInterval {
       'value': value,
     };
   }
+
+  @override
+  List<Object?> get props => [
+        type,
+        value,
+      ];
 }

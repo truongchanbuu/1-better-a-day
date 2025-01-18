@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/icons/mdi.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -7,7 +8,7 @@ part 'habit_icon.g.dart';
 enum PredefinedHabitIconKey { water, exercise, time, education, custom }
 
 @JsonSerializable()
-class HabitIcon {
+class HabitIcon extends Equatable {
   final String key;
   final String icon;
   @ColorConverter()
@@ -60,6 +61,9 @@ class HabitIcon {
       _$HabitIconFromJson(json);
 
   Map<String, dynamic> toJson() => _$HabitIconToJson(this);
+
+  @override
+  List<Object?> get props => [key, color, icon, size];
 }
 
 class ColorConverter implements JsonConverter<Color, String> {

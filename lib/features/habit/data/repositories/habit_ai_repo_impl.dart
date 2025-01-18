@@ -224,8 +224,8 @@ Instructions:
    }
 
 4. Frequency Generation Rules:
-   - For daily habits: Use "daily" type
-   - For weekly habits: Use "weekDays" with specific days (2=Monday to 8=Sunday)
+   - For daily habits: Use "daily" type and interval is not null with {"type": "days", value: 1}
+   - For weekly habits: Use "weekDays" with specific days (1=Monday to 7=Sunday)
    - For monthly habits: Use "monthly" with specific dates (1-31)
    - For interval-based: Use "interval" with appropriate TimeInterval
 
@@ -249,11 +249,11 @@ Return a JSON string with this exact structure (no markdown, no explanation):
     "goalFrequency": {
       "type": "interval"|"daily"|"weekDays"|"monthly",
       "interval": {"value": number, "type": "months"|"days"|"hours"|"minutes"} | null,
-      "monthlyDate": [number] | null,
+      "monthlyDates": [number] | null,
       "weekDays": [number] | null,
       "lastCompletionTime": null
     },
-    "goalUnit": "reps"|"sets"|"l"|"ml"|"page"|"day"|"second"|"minute"|"hour"|"cm"|"km"|"m"|"steps"|"miles"|"times",
+    "goalUnit": "reps"|"sets"|"l"|"ml"|"page"|"day"|"second"|"minutes"|"hour"|"cm"|"km"|"m"|"steps"|"miles"|"times|glasses",
   },
   "habitIcon": {
     "key": string,

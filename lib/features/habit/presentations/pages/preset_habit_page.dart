@@ -99,6 +99,7 @@ class _PresetHabitPageState extends State<PresetHabitPage> {
                     desc: S.current.add_success,
                     barrierColor: Colors.transparent.withValues(alpha: .2),
                     onDismissCallback: (type) {
+                      _scheduleNotification(state.habits);
                       _updateHabits(state.habits);
                       navigator.pop();
                     },
@@ -168,16 +169,7 @@ class _PresetHabitPageState extends State<PresetHabitPage> {
                                           selectedHabitIds.remove(habitId));
                                     }
                                   },
-                                  onDoubleTap: () {
-                                    context
-                                        .read<ReminderBloc>()
-                                        .add(GrantReminderPermission());
-                                    _onHabitDetailDisplay(
-                                      habit.copyWith(
-                                        isReminderEnabled: _isReminderEnabled,
-                                      ),
-                                    );
-                                  },
+                                  onDoubleTap: () => _handleDoubleTap(habit),
                                   isSelected:
                                       selectedHabitIds.contains(habit.habitId),
                                 )
@@ -304,6 +296,38 @@ class _PresetHabitPageState extends State<PresetHabitPage> {
                 context.read<HabitCrudBloc>().add(AddHabit(habit)),
           ),
         ),
+      ),
+    );
+  }
+
+  void _scheduleNotification(List<HabitEntity> habits) {
+    for (var habit in habits) {
+      context.read<ReminderBloc>().add(ScheduleReminder(habit: habit));
+    }
+  }
+
+  Future<void> _handleDoubleTap(HabitEntity habit) async {
+    if (!_isReminderEnabled) {
+      final completer = Completer<void>();
+
+      late final StreamSubscription sub;
+      sub = context.read<ReminderBloc>().stream.listen((state) {
+        if (state is ReminderPermissionAllowed ||
+            state is ReminderPermissionDenied) {
+          completer.complete();
+          sub.cancel();
+        }
+      });
+
+      context.read<ReminderBloc>().add(GrantReminderPermission());
+
+      await completer.future;
+    }
+
+    _onHabitDetailDisplay(
+      habit.copyWith(
+        reminderTimes: _isReminderEnabled ? habit.reminderTimes : {},
+        isReminderEnabled: _isReminderEnabled,
       ),
     );
   }
