@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../features/habit/presentations/blocs/crud/habit_crud_bloc.dart';
+import '../../features/habit/presentations/blocs/habit_history_crud/habit_history_crud_bloc.dart';
 import '../../features/habit/presentations/pages/all_habits_page.dart';
 import '../../features/habit/presentations/pages/today_page.dart';
 import '../../features/notification/presentations/pages/notification_page.dart';
@@ -52,7 +53,14 @@ enum TabType {
   Widget get page {
     switch (this) {
       case TabType.today:
-        return const TodayPage();
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider(
+                create: (context) => getIt.get<HabitHistoryCrudBloc>()),
+            BlocProvider(create: (context) => getIt.get<HabitCrudBloc>())
+          ],
+          child: const TodayPage(),
+        );
       case TabType.settings:
         return const SettingsPage();
       // case TabType.notifications:

@@ -39,6 +39,14 @@ final class HabitHistoryCrudDelete extends HabitHistoryCrudEvent {
   List<Object> get props => [habitHistoryId];
 }
 
+final class DeleteAllHistoriesByHabitId extends HabitHistoryCrudEvent {
+  final String habitId;
+  const DeleteAllHistoriesByHabitId(this.habitId);
+
+  @override
+  List<Object> get props => [habitId];
+}
+
 final class HabitHistoryCrudList extends HabitHistoryCrudEvent {
   const HabitHistoryCrudList();
 

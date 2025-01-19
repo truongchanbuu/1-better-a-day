@@ -515,6 +515,7 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
   Future<void> _onDeleteHabit() async {
     final navigator = Navigator.of(context);
     final habitCrudBloc = context.read<HabitCrudBloc>();
+    final habitHistoryCrudBloc = context.read<HabitHistoryCrudBloc>();
     bool isAllowed = await SmartDialog.show<bool>(
             builder: (innerCtx) => ConfirmDeleteDialog(
                   onDelete: () => SmartDialog.dismiss(result: true),
@@ -524,6 +525,8 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
 
     if (isAllowed) {
       habitCrudBloc.add(DeleteHabit(currentHabit.habitId));
+      habitHistoryCrudBloc
+          .add(DeleteAllHistoriesByHabitId(currentHabit.habitId));
       navigator.popUntil(ModalRoute.withName('/'));
     }
   }

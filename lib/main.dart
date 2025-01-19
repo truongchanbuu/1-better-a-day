@@ -25,10 +25,6 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FlutterForegroundTask.initCommunicationPort();
   await initializeDependencies();
-
-  // getIt.get<HabitHistoryRepository>().deleteAllHistories();
-  // getIt.get<HabitRepository>().deleteAll();
-
   runApp(const MyApp());
 }
 

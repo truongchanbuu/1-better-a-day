@@ -35,6 +35,7 @@ class HabitHistoryCrudBloc
     on<SetHabitHistoryStatus>(_onSetHabitHistoryStatus);
     on<SearchHabitsByFilter>(_onSearchHabitByFilter);
     on<HabitHistoryCrudUpdate>(_onUpdateHistory);
+    on<DeleteAllHistoriesByHabitId>(_onDeleteAllByHabitId);
   }
 
   final _appLogger = getIt.get<AppLogger>();
@@ -324,6 +325,32 @@ class HabitHistoryCrudBloc
     } catch (e) {
       _appLogger.e(e.toString());
       emit(const HabitHistoryCrudFailure('Cannot update history'));
+    }
+  }
+
+  FutureOr<void> _onDeleteAllByHabitId(DeleteAllHistoriesByHabitId event,
+      Emitter<HabitHistoryCrudState> emit) async {
+    try {
+      final histories = await habitHistoryRepository
+          .getHabitHistoriesByHabitId(event.habitId);
+
+      if (histories.isNotEmpty) {
+        for (var history in histories) {
+          await habitHistoryRepository.deleteHabitHistory(history.id);
+        }
+
+        emit(
+          HabitHistoryCrudSuccess(
+            HabitHistoryCrudEventType.delete,
+            histories.map((e) => e.toEntity()).toList(),
+          ),
+        );
+      } else {
+        emit(HabitHistoryCrudSuccess(HabitHistoryCrudEventType.delete, []));
+      }
+    } catch (e) {
+      _appLogger.e(e);
+      emit(HabitHistoryCrudFailure(e.toString()));
     }
   }
 }
