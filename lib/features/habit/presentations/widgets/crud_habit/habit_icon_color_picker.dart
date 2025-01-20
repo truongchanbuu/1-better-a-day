@@ -214,7 +214,7 @@ class _HabitIconPickerState extends State<HabitIconPicker> {
                               decoration: BoxDecoration(
                                 border: Border.all(
                                   color: selectedHabitIcon.icon == icon
-                                      ? selectedHabitIcon.color
+                                      ? selectedHabitIcon.color!
                                       : Colors.grey,
                                   width: 2,
                                 ),

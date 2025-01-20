@@ -36,6 +36,13 @@ import 'features/notification/data/repositories/reminder_repo_impl.dart';
 import 'features/notification/domain/entities/reminder_entity.dart';
 import 'features/notification/domain/repositories/reminder_repository.dart';
 import 'features/notification/presentations/blocs/reminder/reminder_bloc.dart';
+import 'features/rewards/data/models/achievement_model.dart';
+import 'features/rewards/data/repositories/achievement_repository_impl.dart';
+import 'features/rewards/domain/entities/achievements/achievement_entity.dart';
+import 'features/rewards/domain/repositories/achievement_repository.dart';
+import 'features/rewards/presentations/blocs/challenge_crud/challenge_crud_bloc.dart';
+import 'features/rewards/presentations/blocs/collection_crud/collection_crud_bloc.dart';
+
 import 'features/settings/presentations/bloc/settings_cubit.dart';
 import 'features/shared/presentations/blocs/internet/internet_bloc.dart';
 import 'features/user/data/repositories/user_repository_impl.dart';
@@ -83,6 +90,16 @@ Future<void> initializeDependencies() async {
     ),
   );
 
+  final challengeBox = await Hive.openBox<Map>('challenges');
+  getIt.registerSingleton<Box<Map>>(challengeBox, instanceName: 'challengeBox');
+  getIt.registerFactory<HiveCRUDInterface<AchievementModel>>(
+    () => HiveCRUDImplementation(
+      getIt.get<Box<Map>>(instanceName: 'challengeBox'),
+      () => AchievementModel.fromEntity(AchievementEntity.init()),
+    ),
+  );
+
+  // GEMINI
   getIt.registerSingleton(GenerativeModel(
     model: 'gemini-pro',
     apiKey: dotenv.env['GEMINI_API_KEY'] ?? '',
@@ -127,6 +144,8 @@ Future<void> initializeDependencies() async {
   getIt
       .registerSingleton<HabitHistoryRepository>(HabitHistoryRepoImpl(getIt()));
   getIt.registerSingleton<ReminderRepository>(ReminderRepoImpl(getIt()));
+  getIt.registerSingleton<AchievementRepository>(
+      AchievementRepositoryImpl(getIt()));
   getIt.registerSingleton<ReminderService>(ReminderService());
 
   // Bloc
@@ -143,6 +162,8 @@ Future<void> initializeDependencies() async {
   getIt.registerFactoryParam<ReviewHabitActionBloc, HabitHistory, void>(
       (history, _) => ReviewHabitActionBloc(history));
   getIt.registerFactory<ReminderBloc>(() => ReminderBloc(getIt()));
+  getIt.registerFactory<ChallengeCrudBloc>(() => ChallengeCrudBloc());
+  getIt.registerFactory<CollectionCrudBloc>(() => CollectionCrudBloc(getIt()));
 
   // Cubit
   getIt.registerSingleton<SettingsCubit>(SettingsCubit(getIt()));

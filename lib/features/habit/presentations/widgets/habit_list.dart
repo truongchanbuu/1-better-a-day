@@ -119,7 +119,11 @@ class _HabitListState extends State<HabitList> with RouteAware {
         child: habits.isEmpty
             ? NotFoundAndRefresh(
                 title: S.current.no_habit_found,
-                onRefresh: _onRefresh,
+                onRefresh: (widget.category != null ||
+                        widget.status != null ||
+                        widget.progress.isNotEmpty)
+                    ? () {}
+                    : _onRefresh,
               )
             : widget.isListView
                 ? _buildListView()

@@ -15,7 +15,7 @@ enum GoalType {
   @JsonValue('custom')
   custom;
 
-  static GoalType fromString(String str) =>
+  static GoalType fromString(String? str) =>
       EnumHelper.fromString(values, str) ?? GoalType.custom;
 
   static GoalType fromMultiLangString(String str) {

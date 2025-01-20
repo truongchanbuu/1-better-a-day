@@ -441,6 +441,13 @@
   "collection_tab": "Collections",
   "personal_achievements": "Personal Achievements",
   "community_challenges": "Community Challenges",
+  "earned_at": "Achieved at: {time}",
+  "challenge_level": "Level",
+  "quick_stats_title": "Quick Stats",
+  "latest_achievement_title": "Latest Achievement",
+  "first_achievement_title": "First Achievement",
+  "most_achieved_level": "Most Achieved Level",
+  "most_achieved_type": "Most Achieved Type",
 
   "@__ADD_HABIT__": {},
   "get_preset_habit_option": "Get some useful pre-set habit",

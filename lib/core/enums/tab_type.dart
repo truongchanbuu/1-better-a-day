@@ -6,7 +6,7 @@ import '../../features/habit/presentations/blocs/crud/habit_crud_bloc.dart';
 import '../../features/habit/presentations/blocs/habit_history_crud/habit_history_crud_bloc.dart';
 import '../../features/habit/presentations/pages/all_habits_page.dart';
 import '../../features/habit/presentations/pages/today_page.dart';
-import '../../features/notification/presentations/pages/notification_page.dart';
+import '../../features/rewards/presentations/blocs/challenge_crud/challenge_crud_bloc.dart';
 import '../../features/rewards/presentations/pages/challenge_page.dart';
 import '../../features/settings/presentations/pages/settings_page.dart';
 import '../../generated/l10n.dart';
@@ -73,7 +73,10 @@ enum TabType {
           child: const AllHabitsPage(),
         );
       case TabType.challenges:
-        return const ChallengesPage();
+        return BlocProvider(
+          create: (context) => getIt.get<ChallengeCrudBloc>(),
+          child: const ChallengesPage(),
+        );
     }
   }
 
@@ -91,7 +94,7 @@ enum TabType {
         TabType.challenges => IconButton(
             onPressed: () {},
             icon: const Icon(
-              FontAwesomeIcons.circlePlus,
+              FontAwesomeIcons.plus,
               color: AppColors.lightText,
             ),
           ),

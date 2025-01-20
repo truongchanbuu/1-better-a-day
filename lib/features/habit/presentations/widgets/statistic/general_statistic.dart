@@ -106,9 +106,7 @@ class _GeneralStatisticsState extends State<GeneralStatistics> {
             tabData: tabData,
             contentWidgets: _getCurrentGraph,
             defaultHeightRatio: .55,
-            heightRatios: const {
-              1: 0.7,
-            },
+            heightRatios: const {1: 0.75},
           )
         ],
       ),
@@ -195,6 +193,7 @@ class _CategoryBasedRate extends StatelessWidget {
       title: S.current.category_distribution,
       chart: CategoryDistributionChart(
         categories: HabitCategory.values
+            .takeWhile((value) => value != HabitCategory.custom)
             .map((category) => category.categoryName)
             .toList(),
       ),
@@ -225,6 +224,7 @@ class _CategoryDistributionChart extends StatelessWidget {
       spacing: 0,
       chart: HabitGeneralPieChart(
         dataItems: HabitCategory.values
+            .takeWhile((value) => value != HabitCategory.custom)
             .map(
               (category) => PieChartDataItem(
                 color: category.color,

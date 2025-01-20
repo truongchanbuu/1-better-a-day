@@ -439,6 +439,12 @@
   "collection_tab": "Bộ sưu tập",
   "personal_achievements": "Thành tựu cá nhân",
   "community_challenges": "Thử thách cộng đồng",
+  "earned_at": "Đạt được vào lúc: {time}",
+  "challenge_level": "Cấp độ",
+  "quick_stats_title": "Các thông số sơ bộ",
+  "latest_achievement_title": "Thành tựu gần đây",
+  "first_achievement_title": "Thành tựu đầu tiên",
+  "most_achieved_level": "Loại thành tưu hay hoàn thành nhất",
 
   "@__ADD_HABIT__": {},
   "get_preset_habit_option": "Chọn các thói quen có sẵn",

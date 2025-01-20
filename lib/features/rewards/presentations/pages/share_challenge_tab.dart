@@ -22,6 +22,7 @@ class ShareChallengeTab extends StatelessWidget {
                 ? S.current.search_community_challenge
                 : S.current.search_my_custom_challenge,
           ),
+          const SizedBox(height: AppSpacing.marginM),
           ...List.generate(10, (index) => SharedHabitItem(tab: tab)),
         ],
       ),

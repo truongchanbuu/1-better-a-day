@@ -3167,6 +3167,76 @@ class S {
     );
   }
 
+  /// `Achieved at: {time}`
+  String earned_at(Object time) {
+    return Intl.message(
+      'Achieved at: $time',
+      name: 'earned_at',
+      desc: '',
+      args: [time],
+    );
+  }
+
+  /// `Level`
+  String get challenge_level {
+    return Intl.message(
+      'Level',
+      name: 'challenge_level',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Quick Stats`
+  String get quick_stats_title {
+    return Intl.message(
+      'Quick Stats',
+      name: 'quick_stats_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Latest Achievement`
+  String get latest_achievement_title {
+    return Intl.message(
+      'Latest Achievement',
+      name: 'latest_achievement_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `First Achievement`
+  String get first_achievement_title {
+    return Intl.message(
+      'First Achievement',
+      name: 'first_achievement_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Most Achieved Level`
+  String get most_achieved_level {
+    return Intl.message(
+      'Most Achieved Level',
+      name: 'most_achieved_level',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Most Achieved Type`
+  String get most_achieved_type {
+    return Intl.message(
+      'Most Achieved Type',
+      name: 'most_achieved_type',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Get some useful pre-set habit`
   String get get_preset_habit_option {
     return Intl.message(

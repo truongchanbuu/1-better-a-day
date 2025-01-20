@@ -12,13 +12,13 @@ class HabitIcon extends Equatable {
   final String key;
   final String icon;
   @ColorConverter()
-  final Color color;
+  final Color? color;
   final double size;
 
   const HabitIcon({
     required this.key,
     required this.icon,
-    required this.color,
+    this.color,
     this.size = 24.0,
   });
 

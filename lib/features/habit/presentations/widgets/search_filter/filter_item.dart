@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
@@ -84,8 +86,9 @@ class FilterItemState extends State<FilterItem> {
             contentPadding: EdgeInsets.zero,
           ),
           buttonStyleData: const ButtonStyleData(
-            padding: EdgeInsets.symmetric(horizontal: AppSpacing.paddingS),
+            padding: EdgeInsets.symmetric(horizontal: AppSpacing.paddingM),
           ),
+          dropdownStyleData: DropdownStyleData(width: max(widget.width, 150)),
           isExpanded: true,
           onChanged: (value) {
             setState(() {

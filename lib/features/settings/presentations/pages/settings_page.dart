@@ -215,6 +215,8 @@ class SettingsPage extends StatelessWidget {
           ],
         ),
 
+        // TODO: STORE REMOTELY
+
         // Logout
         if (currentUser.isLoggedIn)
           SettingsSection(

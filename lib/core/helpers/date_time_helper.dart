@@ -113,6 +113,28 @@ class DateTimeHelper {
     return DateFormat.E(locale).format(date);
   }
 
+  static String formatDuration(Duration duration) {
+    final years = duration.inDays ~/ 365;
+    final months = (duration.inDays % 365) ~/ 30;
+    final days = (duration.inDays % 365) % 30;
+    final hours = duration.inHours % 24;
+    final minutes = duration.inMinutes % 60;
+    final seconds = duration.inSeconds % 60;
+    final parts = <String>[];
+    if (years > 0) parts.add('$years year${years > 1 ? 's' : ''}');
+    if (months > 0) parts.add('$months month${months > 1 ? 's' : ''}');
+    if (days > 0) parts.add('$days day${days > 1 ? 's' : ''}');
+    if (hours > 0) parts.add('$hours hour${hours > 1 ? 's' : ''}');
+    if (minutes > 0) parts.add('$minutes minute${minutes > 1 ? 's' : ''}');
+    if (seconds > 0 || parts.isEmpty) {
+      parts.add('$seconds second${seconds > 1 ? 's' : ''}');
+    }
+
+    return parts
+        .join(', ')
+        .replaceAllMapped(RegExp(r', (?!.*, )'), (match) => ' and ');
+  }
+
   // Specific
   // History
   static List<DateTime> getDatesByStatus(

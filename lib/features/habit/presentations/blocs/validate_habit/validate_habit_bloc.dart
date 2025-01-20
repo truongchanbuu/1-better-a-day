@@ -114,7 +114,6 @@ class ValidateHabitBloc extends Bloc<ValidateHabitEvent, ValidateHabitState> {
       current: state,
       habitFrequency: event.frequency,
     ));
-    print(state);
   }
 
   void _onHabitReminderChanged(

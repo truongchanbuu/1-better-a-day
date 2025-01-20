@@ -224,7 +224,7 @@ class _PresetHabitPageState extends State<PresetHabitPage> {
     if (_debounce?.isActive ?? false) _debounce!.cancel();
 
     _debounce = Timer(
-      const Duration(milliseconds: 200),
+      const Duration(milliseconds: AppCommons.searchDebounceTime),
       () {
         final searchText = value.toLowerCase();
 
@@ -435,7 +435,7 @@ class _HabitItemState extends State<_HabitItem> {
             decoration: BoxDecoration(
               color: context.isDarkMode
                   ? AppColors.darkText
-                  : habitIcon.color.withValues(alpha: .2),
+                  : habitIcon.color?.withValues(alpha: .2),
               borderRadius:
                   const BorderRadius.all(Radius.circular(AppSpacing.radiusS)),
             ),

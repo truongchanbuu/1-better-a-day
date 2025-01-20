@@ -52,8 +52,6 @@ enum HabitCategory {
         return Icons.eco;
       case custom:
         return Icons.star;
-      default:
-        return Icons.help;
     }
   }
 

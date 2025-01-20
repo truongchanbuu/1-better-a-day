@@ -19,7 +19,7 @@ enum HabitStatus {
   @JsonValue('pending')
   pending;
 
-  static HabitStatus fromString(String str) =>
+  static HabitStatus fromString(String? str) =>
       EnumHelper.fromString(values, str) ?? HabitStatus.pending;
 
   String get statusName {
@@ -36,8 +36,6 @@ enum HabitStatus {
         return S.current.status_achieved;
       case HabitStatus.pending:
         return S.current.status_pending;
-      default:
-        return S.current.status_unknown;
     }
   }
 
@@ -66,12 +64,8 @@ enum HabitStatus {
         return FontAwesomeIcons.forward;
       case achieved:
         return FontAwesomeIcons.trophy;
-
       case pending:
         return FontAwesomeIcons.hourglassHalf;
-
-      default:
-        return Icons.help_outline;
     }
   }
 
@@ -90,9 +84,6 @@ enum HabitStatus {
 
       case HabitStatus.pending:
         return Colors.yellow;
-
-      default:
-        return Colors.black;
     }
   }
 }
