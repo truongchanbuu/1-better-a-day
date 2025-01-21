@@ -10,6 +10,7 @@ import '../../../../generated/l10n.dart';
 import '../../../../injection_container.dart';
 import '../../../shared/domain/entities/tab_bar_item.dart';
 import '../../domain/entities/achievements/achievement_entity.dart';
+import '../blocs/challenge_crud/challenge_crud_bloc.dart';
 import '../blocs/collection_crud/collection_crud_bloc.dart';
 import 'all_achievement_tab.dart';
 import 'collection_tab.dart';
@@ -37,9 +38,14 @@ class _RewardTabState extends State<RewardTab> with TickerProviderStateMixin {
     super.initState();
     items = [
       const AllAchievementTab(),
-      BlocProvider(
-        create: (_) =>
-            getIt.get<CollectionCrudBloc>()..add(LoadCollectionData()),
+      MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (_) =>
+                getIt.get<CollectionCrudBloc>()..add(LoadCollectionData()),
+          ),
+          BlocProvider.value(value: context.read<ChallengeCrudBloc>()),
+        ],
         child: const CollectionTab(),
       ),
     ];

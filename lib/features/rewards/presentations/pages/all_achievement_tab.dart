@@ -23,12 +23,10 @@ class AllAchievementTab extends StatefulWidget {
 
 class _AllAchievementTabState extends State<AllAchievementTab> {
   Timer? _debounce;
-  late final TextEditingController _searchController;
 
   @override
   void initState() {
     super.initState();
-    _searchController = TextEditingController();
     _loadAllChallenges();
   }
 

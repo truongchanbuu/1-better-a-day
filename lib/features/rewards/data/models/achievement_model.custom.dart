@@ -8,16 +8,23 @@ Map<String, dynamic> _$AchievementModelToJson(AchievementModel instance) {
     'achievementType': instance.achievementType.name,
     'achievementRequirement': instance.achievementRequirement.toJson(),
     'isUnlocked': instance.isUnlocked,
-    'achievementIcon': instance.achievementIcon,
+    'achievementIcon': instance.achievementIcon.toJson(),
     'achievementLevel': instance.achievementLevel.name,
     'unlockedDate': instance.unlockedDate?.toIso8601String(),
     'userEmail': instance.userEmail,
+    'username': instance.username,
   };
 }
 
 AchievementModel _$AchievementModelFromJson(Map<String, dynamic> json) {
   final achievementType = AchievementType.fromString(json['achievementType']);
   AchievementRequirement requirement;
+  final jsonRequirement = json['achievementRequirement'];
+  if (jsonRequirement is Map) {
+    json['achievementRequirement'] = Map<String, dynamic>.from(jsonRequirement);
+  } else {
+    throw FormatException('Unexpected requirement format');
+  }
 
   if (achievementType == AchievementType.accumulation) {
     requirement =
@@ -38,8 +45,19 @@ AchievementModel _$AchievementModelFromJson(Map<String, dynamic> json) {
     achievementRequirement: requirement,
     isUnlocked: json['isUnlocked'],
     achievementIcon: HabitIcon.fromJson(json['achievementIcon']),
-    achievementLevel: AchievementLevel.fromString(json['achievementLevel']),
+    achievementLevel:
+        $enumDecode(_$AchievementLevelEnum, json['achievementLevel']),
     userEmail: json['userEmail'],
-    unlockedDate: DateTime.tryParse(json['unlockedDate']),
+    unlockedDate: json['unlockedDate'] != null
+        ? DateTime.tryParse(json['unlockedDate'])
+        : null,
+    username: json['username'],
   );
 }
+
+const _$AchievementLevelEnum = {
+  AchievementLevel.common: 'common',
+  AchievementLevel.rare: 'rare',
+  AchievementLevel.epic: 'epic',
+  AchievementLevel.legendary: 'legendary',
+};

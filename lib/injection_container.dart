@@ -39,6 +39,7 @@ import 'features/notification/presentations/blocs/reminder/reminder_bloc.dart';
 import 'features/rewards/data/models/achievement_model.dart';
 import 'features/rewards/data/repositories/achievement_repository_impl.dart';
 import 'features/rewards/domain/entities/achievements/achievement_entity.dart';
+import 'features/rewards/domain/entities/achievements/pre_defined/pre_defined_achievements.dart';
 import 'features/rewards/domain/repositories/achievement_repository.dart';
 import 'features/rewards/presentations/blocs/challenge_crud/challenge_crud_bloc.dart';
 import 'features/rewards/presentations/blocs/collection_crud/collection_crud_bloc.dart';
@@ -162,7 +163,7 @@ Future<void> initializeDependencies() async {
   getIt.registerFactoryParam<ReviewHabitActionBloc, HabitHistory, void>(
       (history, _) => ReviewHabitActionBloc(history));
   getIt.registerFactory<ReminderBloc>(() => ReminderBloc(getIt()));
-  getIt.registerFactory<ChallengeCrudBloc>(() => ChallengeCrudBloc());
+  getIt.registerFactory<ChallengeCrudBloc>(() => ChallengeCrudBloc(getIt()));
   getIt.registerFactory<CollectionCrudBloc>(() => CollectionCrudBloc(getIt()));
 
   // Cubit
@@ -175,4 +176,5 @@ Future<void> initializeDependencies() async {
   );
 
   await getIt.get<ReminderService>().init();
+  await PreDefinedAchievements.storeAllPredefinedAchievements();
 }

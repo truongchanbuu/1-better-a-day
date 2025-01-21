@@ -1,3 +1,5 @@
+import 'package:json_annotation/json_annotation.dart';
+
 import '../../../../core/enums/rewards/achievement_level.dart';
 import '../../../../core/enums/rewards/achievement_type.dart';
 import '../../../../core/resources/hive_base_model.dart';
@@ -23,6 +25,7 @@ class AchievementModel extends AchievementEntity
     required super.achievementLevel,
     super.unlockedDate,
     super.userEmail,
+    super.username,
   });
 
   factory AchievementModel.fromEntity(AchievementEntity entity) {
@@ -37,6 +40,7 @@ class AchievementModel extends AchievementEntity
       achievementLevel: entity.achievementLevel,
       unlockedDate: entity.unlockedDate,
       userEmail: entity.userEmail,
+      username: entity.username,
     );
   }
 
@@ -52,6 +56,7 @@ class AchievementModel extends AchievementEntity
       achievementLevel: achievementLevel,
       unlockedDate: unlockedDate,
       userEmail: userEmail,
+      username: username,
     );
   }
 
@@ -61,7 +66,18 @@ class AchievementModel extends AchievementEntity
 
   @override
   AchievementModel fromMap(Map<String, dynamic> map) {
-    return fromMap(map);
+    final convertedMap = Map<String, dynamic>.from(map);
+
+    final achievementIcon = map['achievementIcon'];
+    if (achievementIcon is Map<dynamic, dynamic>) {
+      final convertedIcon = <String, dynamic>{};
+      achievementIcon.forEach((k, v) => convertedIcon[k.toString()] = v);
+      convertedMap['achievementIcon'] = convertedIcon;
+    } else {
+      throw const FormatException('Invalid icon format');
+    }
+
+    return AchievementModel.fromJson(convertedMap);
   }
 
   @override

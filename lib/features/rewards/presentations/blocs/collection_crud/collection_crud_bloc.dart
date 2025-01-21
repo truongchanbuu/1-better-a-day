@@ -33,105 +33,40 @@ class CollectionCrudBloc
     LoadCollectionData event,
     Emitter<CollectionCrudState> emit,
   ) async {
-    // try {
-    //   emit(CollectionLoading());
-    //
-    //   List<AchievementEntity> allAchievements =
-    //       PreDefinedAchievements.allAchievements;
-    //
-    //   List<AchievementModel> localAchievements =
-    //       await achievementRepository.getAllLocalAchievements();
-    //
-    //   if (localAchievements.isNotEmpty) {
-    //     allAchievements
-    //         .addAll(localAchievements.map((e) => e.toEntity()).toList());
-    //   }
-    //
-    //   final totalCompletedAchievements =
-    //       allAchievements.where((e) => e.isUnlocked).toList();
-    //
-    //   final sortedAchievedByUnlockedDate = totalCompletedAchievements
-    //     ..sortedByCompare((e) => e.unlockedDate, (a, b) {
-    //       if (a == null) {
-    //         return -1;
-    //       } else if (b == null) {
-    //         return 1;
-    //       }
-    //
-    //       return a.compareTo(b);
-    //     }).toList();
-    //
-    //   final levelStats = Map.fromEntries(
-    //     AchievementLevel.values.map((level) {
-    //       final total =
-    //           allAchievements.where((e) => e.achievementLevel == level).length;
-    //       final completed = allAchievements
-    //           .where((e) => e.achievementLevel == level && e.isUnlocked)
-    //           .length;
-    //       return MapEntry(
-    //           level, AchievementLevelStats(total: total, completed: completed));
-    //     }),
-    //   );
-    //
-    //   emit(CollectionLoaded(
-    //       totalAchievements: totalCompletedAchievements.length,
-    //       levelStats: levelStats,
-    //       completedAchievements: totalCompletedAchievements,
-    //       firstAchievedChallenge: sortedAchievedByUnlockedDate.firstOrNull,
-    //       lastAchievedChallenge: sortedAchievedByUnlockedDate.lastOrNull,
-    //       mostAchievedLevel: EnumHelper.getMostFrequentEnumValue(
-    //         totalCompletedAchievements,
-    //         (AchievementEntity achievement) => achievement.achievementLevel,
-    //       ),
-    //       mostAchievedType: EnumHelper.getMostFrequentEnumValue(
-    //         totalCompletedAchievements,
-    //         (AchievementEntity achievement) => achievement.achievementType,
-    //       )));
-    // } catch (e) {
-    //   _appLogger.e(e);
-    //   emit(CollectionLoadedFailed(S.current.not_found));
-    // }
-    emit(CollectionLoading());
+    try {
+      emit(CollectionLoading());
 
-    List<AchievementEntity> allAchievements =
-        PreDefinedAchievements.allAchievements;
+      List<AchievementModel> localAchievements =
+          await achievementRepository.getAllLocalAchievements();
 
-    List<AchievementModel> localAchievements =
-        await achievementRepository.getAllLocalAchievements();
+      final totalCompletedAchievements =
+          localAchievements.where((e) => e.isUnlocked).toList();
 
-    if (localAchievements.isNotEmpty) {
-      allAchievements
-          .addAll(localAchievements.map((e) => e.toEntity()).toList());
-    }
+      final sortedAchievedByUnlockedDate = totalCompletedAchievements
+        ..sortedByCompare((e) => e.unlockedDate, (a, b) {
+          if (a == null) {
+            return -1;
+          } else if (b == null) {
+            return 1;
+          }
 
-    final totalCompletedAchievements =
-        allAchievements.where((e) => e.isUnlocked).toList();
+          return a.compareTo(b);
+        }).toList();
 
-    final sortedAchievedByUnlockedDate = totalCompletedAchievements
-      ..sortedByCompare((e) => e.unlockedDate, (a, b) {
-        if (a == null) {
-          return -1;
-        } else if (b == null) {
-          return 1;
-        }
+      final levelStats = Map.fromEntries(
+        AchievementLevel.values.map((level) {
+          final total = PreDefinedAchievements.allAchievements
+              .where((e) => e.achievementLevel == level)
+              .length;
+          final completed = localAchievements
+              .where((e) => e.achievementLevel == level && e.isUnlocked)
+              .length;
+          return MapEntry(
+              level, AchievementLevelStats(total: total, completed: completed));
+        }),
+      );
 
-        return a.compareTo(b);
-      }).toList();
-
-    final levelStats = Map.fromEntries(
-      AchievementLevel.values.map((level) {
-        final total =
-            allAchievements.where((e) => e.achievementLevel == level).length;
-        final completed = allAchievements
-            .where((e) => e.achievementLevel == level && e.isUnlocked)
-            .length;
-        return MapEntry(
-            level, AchievementLevelStats(total: total, completed: completed));
-      }),
-    );
-
-    emit(
-      CollectionLoaded(
+      emit(CollectionLoaded(
           totalAchievements: totalCompletedAchievements.length,
           levelStats: levelStats,
           completedAchievements: totalCompletedAchievements,
@@ -144,8 +79,11 @@ class CollectionCrudBloc
           mostAchievedType: EnumHelper.getMostFrequentEnumValue(
             totalCompletedAchievements,
             (AchievementEntity achievement) => achievement.achievementType,
-          )),
-    );
+          )));
+    } catch (e) {
+      _appLogger.e(e);
+      emit(CollectionLoadedFailed(S.current.not_found));
+    }
   }
 }
 

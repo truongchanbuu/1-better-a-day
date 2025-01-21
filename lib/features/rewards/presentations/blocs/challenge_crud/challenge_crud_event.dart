@@ -24,3 +24,11 @@ final class SearchChallengeByKeyWords extends ChallengeCrudEvent {
   @override
   List<Object> get props => [keyword];
 }
+
+final class CheckHabitAchievement extends ChallengeCrudEvent {
+  final HabitEntity habit;
+  const CheckHabitAchievement(this.habit);
+
+  @override
+  List<Object> get props => [habit];
+}

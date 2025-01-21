@@ -15,6 +15,7 @@ import '../../../../core/extensions/string_extension.dart';
 import '../../../../generated/l10n.dart';
 import '../../../shared/presentations/widgets/icon_with_text.dart';
 import '../../domain/entities/achievements/achievement_entity.dart';
+import '../blocs/challenge_crud/challenge_crud_bloc.dart';
 import '../blocs/collection_crud/collection_crud_bloc.dart';
 
 class CollectionTab extends StatelessWidget {
@@ -24,36 +25,41 @@ class CollectionTab extends StatelessWidget {
   static const _spacing = SizedBox(height: AppSpacing.marginM);
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<CollectionCrudBloc, CollectionCrudState>(
-      listener: (context, state) {
-        if (state is CollectionLoadedFailed) {
-          AwesomeDialog(
-            context: context,
-            title: S.current.failure_title,
-            desc: state.message,
-          ).show();
-        }
-      },
-      builder: (context, state) {
-        if (state is CollectionLoading) {
-          return LoadingIndicator(indicatorType: Indicator.pacman);
-        }
+    return BlocListener<ChallengeCrudBloc, ChallengeCrudState>(
+      listener: (context, state) =>
+          context.read<CollectionCrudBloc>().add(LoadCollectionData()),
+      listenWhen: (previous, current) => current is UnlockChallenge,
+      child: BlocConsumer<CollectionCrudBloc, CollectionCrudState>(
+        listener: (context, state) {
+          if (state is CollectionLoadedFailed) {
+            AwesomeDialog(
+              context: context,
+              title: S.current.failure_title,
+              desc: state.message,
+            ).show();
+          }
+        },
+        builder: (context, state) {
+          if (state is CollectionLoading) {
+            return LoadingIndicator(indicatorType: Indicator.pacman);
+          }
 
-        if (state is CollectionLoaded) {
-          return Container(
-            padding: const EdgeInsets.all(AppSpacing.marginM),
-            child: Column(
-              children: [
-                _buildRewards(context, state),
-                _spacing,
-                _buildQuickStats(context, state),
-              ],
-            ),
-          );
-        }
+          if (state is CollectionLoaded) {
+            return Container(
+              padding: const EdgeInsets.all(AppSpacing.marginM),
+              child: Column(
+                children: [
+                  _buildRewards(context, state),
+                  _spacing,
+                  _buildQuickStats(context, state),
+                ],
+              ),
+            );
+          }
 
-        return const SizedBox.shrink();
-      },
+          return const SizedBox.shrink();
+        },
+      ),
     );
   }
 
@@ -148,24 +154,33 @@ class CollectionTab extends StatelessWidget {
   }
 
   Widget _buildStatTile(String title, String value, [Color? valueColor]) {
-    return ListTile(
-      title: Text(
-        title,
-        style: TextStyle(
-          fontSize: AppFontSize.h4,
-        ),
-        maxLines: 3,
-        overflow: TextOverflow.ellipsis,
-      ),
-      trailing: Text(
-        value,
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: AppFontSize.h4,
-          color: valueColor,
-        ),
-        maxLines: 3,
-        overflow: TextOverflow.ellipsis,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Text(
+              title,
+              style: TextStyle(fontSize: AppFontSize.h4),
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          Flexible(
+            child: Text(
+              value,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: AppFontSize.h4,
+                color: valueColor,
+              ),
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.end,
+            ),
+          ),
+        ],
       ),
     );
   }

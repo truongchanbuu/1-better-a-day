@@ -39,21 +39,16 @@ class HiveCRUDImplementation<T extends HiveBaseModel>
 
   @override
   Future<List<T>> readAll() async {
-    // try {
-    //   return box.values.map((map) {
-    //     T instance = createInstance();
-    //     instance = instance.fromMap(Map.from(map));
-    //     return instance;
-    //   }).toList();
-    // } catch (e) {
-    //   _appLogger.e("ReadAll error: $e");
-    //   return [];
-    // }
-    return box.values.map((map) {
-      T instance = createInstance();
-      instance = instance.fromMap(Map.from(map));
-      return instance;
-    }).toList();
+    try {
+      return box.values.map((map) {
+        T instance = createInstance();
+        instance = instance.fromMap(Map<String, dynamic>.from(map));
+        return instance;
+      }).toList();
+    } catch (e) {
+      _appLogger.e("ReadAll error: $e");
+      return [];
+    }
   }
 
   @override

@@ -159,7 +159,7 @@ class HabitModel extends HabitEntity implements HiveBaseModel<HabitModel> {
         habitIcon.forEach((k, v) => convertedHabitIcon[k.toString()] = v);
         convertedMap['habitIcon'] = convertedHabitIcon;
       } else {
-        throw const FormatException('Invalid habitGoal format');
+        throw const FormatException('Invalid icon format');
       }
 
       final reminderStates = map['reminderStates'];

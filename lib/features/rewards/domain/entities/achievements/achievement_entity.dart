@@ -9,6 +9,7 @@ import 'streak_requirement.dart';
 
 class AchievementEntity extends Equatable {
   final String? userEmail;
+  final String? username;
   final String achievementId;
   final String achievementName;
   final String achievementDesc;
@@ -30,6 +31,7 @@ class AchievementEntity extends Equatable {
     required this.achievementLevel,
     this.unlockedDate,
     this.userEmail,
+    this.username,
   });
 
   factory AchievementEntity.init() {
@@ -61,6 +63,7 @@ class AchievementEntity extends Equatable {
     DateTime? unlockedDate,
     AchievementLevel? achievementLevel,
     String? userEmail,
+    String? username,
   }) {
     return AchievementEntity(
       achievementId: achievementId ?? this.achievementId,
@@ -74,6 +77,7 @@ class AchievementEntity extends Equatable {
       unlockedDate: unlockedDate ?? this.unlockedDate,
       achievementLevel: achievementLevel ?? this.achievementLevel,
       userEmail: userEmail ?? this.userEmail,
+      username: username ?? this.username,
     );
   }
 
@@ -90,6 +94,7 @@ class AchievementEntity extends Equatable {
       unlockedDate,
       achievementLevel,
       userEmail,
+      username,
     ];
   }
 }

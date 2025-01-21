@@ -17,6 +17,8 @@ final class AllChallengeGot extends ChallengeCrudState {
   List<Object> get props => [achievements];
 }
 
+final class ChallengeUnlocked extends ChallengeCrudState {}
+
 final class ChallengeCrudFailed extends ChallengeCrudState {
   final String errorMessage;
   const ChallengeCrudFailed(this.errorMessage);
