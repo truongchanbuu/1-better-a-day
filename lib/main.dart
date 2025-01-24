@@ -11,8 +11,8 @@ import 'config/route/app_route.dart';
 import 'config/theme/app_theme.dart';
 import 'core/constants/app_common.dart';
 import 'features/auth/presentations/bloc/auth_bloc/auth_bloc.dart';
-import 'features/habit/domain/repositories/habit_history_repository.dart';
-import 'features/habit/domain/repositories/habit_repository.dart';
+import 'features/rewards/domain/repositories/achievement_repository.dart';
+import 'features/rewards/presentations/blocs/challenge_crud/challenge_crud_bloc.dart';
 import 'features/settings/presentations/bloc/settings_cubit.dart';
 import 'features/shared/presentations/blocs/internet/internet_bloc.dart';
 import 'features/shared/presentations/pages/app_view.dart';
@@ -26,6 +26,7 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FlutterForegroundTask.initCommunicationPort();
   await initializeDependencies();
+
   runApp(const MyApp());
 }
 
@@ -41,7 +42,8 @@ class MyApp extends StatelessWidget {
               getIt.get<AuthBloc>()..add(AuthUserSubscriptionRequest()),
         ),
         BlocProvider(create: (context) => getIt.get<SettingsCubit>()),
-        BlocProvider(create: (context) => getIt.get<InternetBloc>())
+        BlocProvider(create: (context) => getIt.get<InternetBloc>()),
+        BlocProvider(create: (context) => getIt.get<ChallengeCrudBloc>()),
       ],
       child: const AppContainer(),
     );

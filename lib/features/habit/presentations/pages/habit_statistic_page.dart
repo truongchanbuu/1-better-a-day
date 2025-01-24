@@ -44,7 +44,6 @@ class _HabitStatisticPageState extends State<HabitStatisticPage> {
   }
 
   static const _spacing = SizedBox(height: AppSpacing.marginS);
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(

@@ -14,7 +14,7 @@ import '../../../../main.dart';
 import '../../../auth/presentations/bloc/auth_bloc/auth_bloc.dart';
 import '../../../shared/presentations/widgets/not_found_and_refresh.dart';
 import '../blocs/crud/habit_crud_bloc.dart';
-import '../helper/shared_habit_action.dart';
+import '../helpers/shared_habit_action.dart';
 import '../widgets/today_habit_item.dart';
 import '../widgets/today_quote.dart';
 

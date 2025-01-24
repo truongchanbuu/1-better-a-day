@@ -1274,12 +1274,16 @@ class S {
   }
 
   /// `Last completed at: {dateTime}`
-  String last_completed_at(Object dateTime) {
+  String last_completed_at(DateTime dateTime) {
+    final DateFormat dateTimeDateFormat =
+        DateFormat('dd/MM/yyyy HH:mm:ss', Intl.getCurrentLocale());
+    final String dateTimeString = dateTimeDateFormat.format(dateTime);
+
     return Intl.message(
-      'Last completed at: $dateTime',
+      'Last completed at: $dateTimeString',
       name: 'last_completed_at',
       desc: '',
-      args: [dateTime],
+      args: [dateTimeString],
     );
   }
 
@@ -1468,6 +1472,26 @@ class S {
     return Intl.message(
       'Completed',
       name: 'status_completed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unlocked`
+  String get status_unlocked {
+    return Intl.message(
+      'Unlocked',
+      name: 'status_unlocked',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Locked`
+  String get status_locked {
+    return Intl.message(
+      'Locked',
+      name: 'status_locked',
       desc: '',
       args: [],
     );

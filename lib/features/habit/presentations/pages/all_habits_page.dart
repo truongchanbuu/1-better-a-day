@@ -12,7 +12,7 @@ import '../../../../core/extensions/context_extension.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../injection_container.dart';
 import '../../../notification/presentations/blocs/reminder/reminder_bloc.dart';
-import '../helper/shared_habit_action.dart';
+import '../helpers/shared_habit_action.dart';
 import '../widgets/habit_list.dart';
 import '../widgets/search_filter/habit_search_filter_bar.dart';
 import '../widgets/habit_section_container.dart';

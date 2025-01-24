@@ -17,7 +17,7 @@ import '../../domain/entities/habit_entity.dart';
 import '../../domain/entities/habit_frequency.dart';
 import '../../domain/entities/habit_icon.dart';
 import '../blocs/crud/habit_crud_bloc.dart';
-import '../helper/shared_habit_action.dart';
+import '../helpers/shared_habit_action.dart';
 import 'crud_habit/add_habit_drop_down_field.dart';
 import 'crud_habit/date_field.dart';
 import 'crud_habit/habit_frequency_field.dart';

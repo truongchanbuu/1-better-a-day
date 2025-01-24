@@ -73,10 +73,7 @@ enum TabType {
           child: const AllHabitsPage(),
         );
       case TabType.challenges:
-        return BlocProvider(
-          create: (context) => getIt.get<ChallengeCrudBloc>(),
-          child: const ChallengesPage(),
-        );
+        return const ChallengesPage();
     }
   }
 
@@ -91,12 +88,6 @@ enum TabType {
         TabType.settings => const SizedBox.shrink(),
         TabType.habits => const SizedBox.shrink(),
         TabType.today => const SizedBox.shrink(),
-        TabType.challenges => IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              FontAwesomeIcons.plus,
-              color: AppColors.lightText,
-            ),
-          ),
+        TabType.challenges => const SizedBox(),
       };
 }

@@ -16,7 +16,7 @@ import '../../../../shared/presentations/widgets/icon_with_text.dart';
 import '../../../../shared/presentations/widgets/text_with_circle_border_container.dart';
 import '../../../../../core/enums/habit/goal_unit.dart';
 import '../../../domain/entities/habit_history.dart';
-import '../../helper/shared_habit_action.dart';
+import '../../helpers/shared_habit_action.dart';
 
 class HistoryItem extends StatefulWidget {
   final HabitHistory history;

@@ -17,7 +17,13 @@ final class AllChallengeGot extends ChallengeCrudState {
   List<Object> get props => [achievements];
 }
 
-final class ChallengeUnlocked extends ChallengeCrudState {}
+final class ChallengeUnlocked extends ChallengeCrudState {
+  final AchievementEntity achievement;
+  const ChallengeUnlocked(this.achievement);
+
+  @override
+  List<Object> get props => [achievement];
+}
 
 final class ChallengeCrudFailed extends ChallengeCrudState {
   final String errorMessage;

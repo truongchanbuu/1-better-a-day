@@ -19,9 +19,9 @@ class ChallengesPage extends StatefulWidget {
 class _ChallengesPageState extends State<ChallengesPage> {
   final List<GButton> bottomTabs = [
     GButton(icon: FontAwesomeIcons.gift, text: S.current.my_reward_tab),
-    GButton(icon: FontAwesomeIcons.rocket, text: S.current.discover_tab),
-    GButton(
-        icon: FontAwesomeIcons.star, text: S.current.my_custom_challenge_tab),
+    // GButton(icon: FontAwesomeIcons.rocket, text: S.current.discover_tab),
+    // GButton(
+    //     icon: FontAwesomeIcons.star, text: S.current.my_custom_challenge_tab),
   ];
 
   int currentBottomNavbarIndex = 0;
@@ -33,8 +33,8 @@ class _ChallengesPageState extends State<ChallengesPage> {
     super.initState();
     pages = [
       const RewardTab(),
-      const ShareChallengeTab(tab: ShareTab.discover),
-      const ShareChallengeTab(tab: ShareTab.customChallenge)
+      // const ShareChallengeTab(tab: ShareTab.discover),
+      // const ShareChallengeTab(tab: ShareTab.customChallenge)
     ];
   }
 

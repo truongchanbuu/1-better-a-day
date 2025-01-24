@@ -69,8 +69,11 @@ class HabitHistoryCrudBloc
       final histories = await habitHistoryRepository
           .getHabitHistoriesByHabitId(event.habitId);
 
-      emit(HabitHistoryCrudSuccess(HabitHistoryCrudEventType.list,
-          histories.map((e) => e.toEntity()).toList()));
+      emit(HabitHistoryCrudSuccess(
+        HabitHistoryCrudEventType.list,
+        histories.map((e) => e.toEntity()).toList()
+          ..sort((a, b) => b.date.compareTo(a.date)),
+      ));
     } catch (e) {
       _appLogger.e(e.toString());
       emit(HabitHistoryCrudFailure(e.toString()));
@@ -78,7 +81,9 @@ class HabitHistoryCrudBloc
   }
 
   FutureOr<void> _onAddWaterHabit(
-      AddWaterHabitHistory event, Emitter<HabitHistoryCrudState> emit) async {
+    AddWaterHabitHistory event,
+    Emitter<HabitHistoryCrudState> emit,
+  ) async {
     emit(HabitHistoryCrudInProgress());
     try {
       final todayHistory = await _getOrCreateTodayHistory(event.habitId);
@@ -96,7 +101,9 @@ class HabitHistoryCrudBloc
       }
 
       emit(HabitHistoryCrudSuccess(
-          HabitHistoryCrudEventType.update, [updatedHistory.toEntity()]));
+        HabitHistoryCrudEventType.update,
+        [updatedHistory.toEntity()],
+      ));
     } catch (e) {
       _appLogger.e(e.toString());
       emit(HabitHistoryCrudFailure(e.toString()));
@@ -136,7 +143,9 @@ class HabitHistoryCrudBloc
   }
 
   FutureOr<void> _onGetTodayHabitHistory(
-      GetTodayHabitHistory event, Emitter<HabitHistoryCrudState> emit) async {
+    GetTodayHabitHistory event,
+    Emitter<HabitHistoryCrudState> emit,
+  ) async {
     try {
       List<HabitHistoryModel> habits = await habitHistoryRepository
           .getHabitHistoriesByHabitId(event.habitId);

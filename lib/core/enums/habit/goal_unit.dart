@@ -18,8 +18,8 @@ enum GoalUnit {
   day,
   @JsonValue('second')
   second,
-  @JsonValue('minutes')
-  minutes,
+  @JsonValue('minute')
+  minute,
   @JsonValue('hour')
   hour,
   @JsonValue('page')
@@ -59,7 +59,7 @@ enum GoalUnit {
         l => S.current.l_unit,
         ml => S.current.ml_unit,
         second => S.current.second_unit,
-        minutes => S.current.minute_unit,
+        minute => S.current.minute_unit,
         hour => S.current.hour_unit,
         page => S.current.page_unit,
         cm => S.current.cm_unit,
@@ -79,7 +79,7 @@ enum GoalUnit {
         l => FontAwesomeIcons.droplet,
         ml => FontAwesomeIcons.droplet,
         second => FontAwesomeIcons.stopwatch,
-        minutes => FontAwesomeIcons.clock,
+        minute => FontAwesomeIcons.clock,
         hour => FontAwesomeIcons.hourglassHalf,
         page => FontAwesomeIcons.book,
         cm => FontAwesomeIcons.rulerHorizontal,
@@ -99,7 +99,7 @@ enum GoalUnit {
         l => Colors.green,
         ml => Colors.lightGreen,
         second => Colors.yellow,
-        minutes => Colors.orange,
+        minute => Colors.orange,
         hour => Colors.deepOrange,
         page => Colors.purple,
         cm => Colors.pink,
@@ -112,4 +112,43 @@ enum GoalUnit {
         day => Colors.blue,
         glasses => Colors.blue,
       };
+}
+
+class UnitConverter {
+  static const Map<GoalUnit, double> unitToBase = {
+    GoalUnit.km: 1000.0, // 1 km = 1000 m
+    GoalUnit.m: 1.0, // 1 m
+    GoalUnit.cm: 0.01, // 1 cm = 0.01 m
+    GoalUnit.miles: 1600.0,
+    GoalUnit.l: 1000.0, // 1 liter = 1000 ml
+    GoalUnit.ml: 1.0, // 1 ml là đơn vị cơ sở
+    GoalUnit.glasses: 250.0, // 1 glass = 250 ml
+    GoalUnit.page: 1,
+    GoalUnit.reps: 1,
+    GoalUnit.sets: 1,
+    GoalUnit.hour: 60,
+    GoalUnit.minute: 1,
+    GoalUnit.second: 1 / 60.0,
+    GoalUnit.times: 1,
+    GoalUnit.steps: 1,
+    GoalUnit.day: 1,
+  };
+
+  static double normalizeValue(GoalUnit unit, double value) {
+    if (!unitToBase.containsKey(unit)) {
+      throw ArgumentError("Unsupported unit: $unit");
+    }
+
+    print('UNIT: $unit - ${unitToBase[unit]}');
+    return value * unitToBase[unit]!;
+  }
+
+  static double convert(GoalUnit fromUnit, GoalUnit toUnit, double value) {
+    final normalizedValue = normalizeValue(fromUnit, value);
+    final toBase = unitToBase[toUnit];
+    if (toBase == null) {
+      throw ArgumentError("Unsupported unit: $toUnit");
+    }
+    return normalizedValue / toBase;
+  }
 }

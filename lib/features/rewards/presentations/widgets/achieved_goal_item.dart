@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
+import 'package:iconify_flutter_plus/icons/ant_design.dart';
 
 import '../../../../core/constants/app_color.dart';
 import '../../../../core/constants/app_font_size.dart';
 import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/extensions/context_extension.dart';
+import '../../../../core/extensions/num_extension.dart';
 import '../../../../core/extensions/string_extension.dart';
 import '../../../../core/helpers/date_time_helper.dart';
 import '../../../../generated/l10n.dart';
@@ -60,11 +62,13 @@ class AchievedGoalItem extends StatelessWidget {
                       overflow: TextOverflow.visible,
                     ),
                   ),
-                  TextWithCircleBorderContainer(
-                    title: achievement
-                        .achievementLevel.name.toUpperCaseFirstLetter,
-                    backgroundColor: achievement.achievementLevel.color,
-                  ),
+                  (achievement.isUnlocked)
+                      ? _buildCheckIcon()
+                      : TextWithCircleBorderContainer(
+                          title: achievement
+                              .achievementLevel.name.toUpperCaseFirstLetter,
+                          backgroundColor: achievement.achievementLevel.color,
+                        ),
                 ],
               ),
             ),
@@ -77,22 +81,26 @@ class AchievedGoalItem extends StatelessWidget {
               ),
             ),
           ),
-          _spacing,
-          if (!achievement.isUnlocked && achievement.unlockedDate != null)
-            IconWithText(
-              icon: FontAwesomeIcons.calendar,
-              text: S.current.earned_at(achievement.unlockedDate!),
-              iconSize: 20,
-              fontSize: AppFontSize.labelLarge,
-              fontColor: _subTitleColor,
-              iconColor: _subTitleColor,
+          if (achievement.isUnlocked && achievement.unlockedDate != null) ...[
+            _spacing,
+            Align(
+              alignment: Alignment.centerLeft,
+              child: IconWithText(
+                icon: FontAwesomeIcons.calendar,
+                text: S.current.earned_at(achievement.unlockedDate!),
+                iconSize: 20,
+                fontSize: AppFontSize.labelLarge,
+                fontColor: _subTitleColor,
+                iconColor: _subTitleColor,
+              ),
             ),
+          ],
           _spacing,
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               IconWithText(
-                icon: FontAwesomeIcons.calendar,
+                icon: FontAwesomeIcons.barsProgress,
                 text: _buildCurrentProgress(achievement.achievementRequirement),
                 iconSize: 20,
                 fontSize: AppFontSize.labelLarge,
@@ -109,7 +117,6 @@ class AchievedGoalItem extends StatelessWidget {
               ),
             ],
           ),
-          _spacing,
         ],
       ),
     );
@@ -117,11 +124,11 @@ class AchievedGoalItem extends StatelessWidget {
 
   String _buildCurrentProgress(AchievementRequirement requirement) {
     if (requirement is AccumulationRequirement) {
-      return '${S.current.current_progress}: ${requirement.current}';
+      return '${S.current.current_progress}: ${requirement.current.toStringAsFixedWithoutZero()} ${achievement.achievementRequirement.baseUnit.unitName.toUpperCaseFirstLetter}';
     } else if (requirement is TimeRequirement) {
       return DateTimeHelper.formatDuration(requirement.currentTime);
     } else if (requirement is StreakRequirement) {
-      return '${S.current.longest_streak}: ${requirement.currentStreak}';
+      return '${S.current.longest_streak}: ${requirement.currentStreak.toStringAsFixedWithoutZero()}';
     }
 
     return '';
@@ -129,7 +136,7 @@ class AchievedGoalItem extends StatelessWidget {
 
   String _buildTarget(AchievementRequirement requirement) {
     if (requirement is AccumulationRequirement) {
-      return '${requirement.target} ${requirement.unit.unitName.toUpperCaseFirstLetter}';
+      return '${requirement.target} ${requirement.baseUnit.unitName.toUpperCaseFirstLetter}';
     } else if (requirement is TimeRequirement) {
       return DateTimeHelper.formatDuration(requirement.targetTime);
     } else if (requirement is StreakRequirement) {
@@ -137,5 +144,12 @@ class AchievedGoalItem extends StatelessWidget {
     }
 
     return '';
+  }
+
+  Widget _buildCheckIcon() {
+    return Iconify(
+      AntDesign.check_circle_fill,
+      color: Colors.green,
+    );
   }
 }

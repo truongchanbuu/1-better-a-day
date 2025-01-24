@@ -12,6 +12,7 @@ import '../../../../generated/l10n.dart';
 import '../../../../injection_container.dart';
 import '../../../../main.dart';
 import '../../../notification/presentations/blocs/reminder/reminder_bloc.dart';
+import '../../../rewards/presentations/blocs/challenge_crud/challenge_crud_bloc.dart';
 import '../../domain/entities/habit_entity.dart';
 import '../../domain/entities/habit_history.dart';
 import '../blocs/crud/habit_crud_bloc.dart';
@@ -165,6 +166,8 @@ class _TodayHabitItemState extends State<TodayHabitItem> with RouteAware {
                 create: (context) => getIt.get<HabitHistoryCrudBloc>()),
             BlocProvider(create: (context) => getIt.get<HabitCrudBloc>()),
             BlocProvider(create: (context) => getIt.get<ReminderBloc>()),
+            BlocProvider(create: (context) => getIt.get<ReminderBloc>()),
+            BlocProvider.value(value: context.read<ChallengeCrudBloc>()),
           ],
           child: HabitDetailPage(habit: widget.habit),
         ),

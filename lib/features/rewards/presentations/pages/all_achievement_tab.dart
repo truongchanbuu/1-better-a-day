@@ -11,6 +11,7 @@ import '../../../../core/extensions/string_extension.dart';
 import '../../../../generated/l10n.dart';
 import '../../../habit/presentations/widgets/search_filter/filter_item.dart';
 import '../../../shared/presentations/widgets/search_bar.dart';
+import '../../domain/entities/achievements/achievement_entity.dart';
 import '../blocs/challenge_crud/challenge_crud_bloc.dart';
 import '../widgets/achieved_goal_item.dart';
 
@@ -23,11 +24,15 @@ class AllAchievementTab extends StatefulWidget {
 
 class _AllAchievementTabState extends State<AllAchievementTab> {
   Timer? _debounce;
+  AchievementLevel? searchLevel;
+  bool? isUnlockStatus;
+  late List<AchievementEntity> achievements;
 
   @override
   void initState() {
     super.initState();
     _loadAllChallenges();
+    achievements = [];
   }
 
   @override
@@ -53,27 +58,47 @@ class _AllAchievementTabState extends State<AllAchievementTab> {
             onChanged: _onSearch,
           ),
           const SizedBox(height: AppSpacing.marginS),
-          FilterItem(
-            width: 120,
-            title: S.current.challenge_level,
-            items: AchievementLevel.values
-                .map((e) => e.name.toUpperCaseFirstLetter)
-                .toList()
-              ..insert(0, _allKey),
-            onChanged: (value) {
-              if (value != null) {
-                if (value == _allKey) {
-                  _loadAllChallenges();
-                } else {
-                  final AchievementLevel level =
-                      AchievementLevel.fromString(value);
+          Row(
+            children: [
+              FilterItem(
+                width: 120,
+                title: S.current.challenge_level,
+                items: AchievementLevel.values
+                    .map((e) => e.name.toUpperCaseFirstLetter)
+                    .toList()
+                  ..insert(0, _allKey),
+                onChanged: (value) {
+                  if (value != null) {
+                    if (value == _allKey) {
+                      searchLevel = null;
+                    } else {
+                      searchLevel = AchievementLevel.fromString(value);
+                    }
 
-                  context
-                      .read<ChallengeCrudBloc>()
-                      .add(SearchChallengeByLevel(level));
-                }
-              }
-            },
+                    _searchByFilters();
+                  }
+                },
+              ),
+              FilterItem(
+                width: 150,
+                title: S.current.status_title,
+                items: [
+                  _allKey,
+                  S.current.status_unlocked,
+                  S.current.status_locked,
+                ],
+                onChanged: (value) {
+                  if (value != null) {
+                    if (value == _allKey) {
+                      isUnlockStatus = null;
+                    } else {
+                      isUnlockStatus = value == S.current.status_unlocked;
+                    }
+                    _searchByFilters();
+                  }
+                },
+              ),
+            ],
           ),
           const SizedBox(height: AppSpacing.marginS),
           BlocBuilder<ChallengeCrudBloc, ChallengeCrudState>(
@@ -82,12 +107,16 @@ class _AllAchievementTabState extends State<AllAchievementTab> {
                 return LoadingIndicator(indicatorType: Indicator.pacman);
               }
 
-              if (state is! AllChallengeGot || state.achievements.isEmpty) {
-                return const SizedBox.shrink();
+              if (state is ChallengeUnlocked) {
+                _updateAchievements(state.achievement);
+              }
+
+              if (state is AllChallengeGot) {
+                achievements = state.achievements;
               }
 
               return Column(
-                children: state.achievements
+                children: achievements
                     .map((achievement) =>
                         AchievedGoalItem(achievement: achievement))
                     .toList(),
@@ -115,5 +144,18 @@ class _AllAchievementTabState extends State<AllAchievementTab> {
         }
       },
     );
+  }
+
+  void _updateAchievements(AchievementEntity achievement) {
+    achievements
+      ..removeWhere((found) => found.achievementId == achievement.achievementId)
+      ..add(achievement);
+  }
+
+  void _searchByFilters() {
+    context.read<ChallengeCrudBloc>().add(SearchByFilters(
+          level: searchLevel,
+          isUnlocked: isUnlockStatus,
+        ));
   }
 }

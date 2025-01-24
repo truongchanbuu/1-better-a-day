@@ -3,16 +3,19 @@ import '../../domain/entities/habit_statistic_entity.dart';
 
 part 'habit_statistic_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class HabitStatisticModel extends HabitStatisticEntity {
   const HabitStatisticModel({
-    required super.habitId,
-    required super.totalTrackedDays,
-    required super.totalCompletions,
-    required super.averageRating,
-    required super.mostCommonMood,
-    required super.longestStreak,
-    required super.totalDuration,
+    super.achievedHabits,
+    super.achievementsCompleted,
+    super.activeHabits,
+    super.completionRate,
+    super.completionRateChange,
+    super.failedHabits,
+    super.longestStreak,
+    super.pausedHabits,
+    super.totalHabits,
+    super.trendPercentage,
   });
 
   factory HabitStatisticModel.fromJson(Map<String, dynamic> json) =>
@@ -22,25 +25,31 @@ class HabitStatisticModel extends HabitStatisticEntity {
 
   factory HabitStatisticModel.fromEntity(HabitStatisticEntity entity) {
     return HabitStatisticModel(
-      habitId: entity.habitId,
-      totalTrackedDays: entity.totalTrackedDays,
-      totalCompletions: entity.totalCompletions,
-      averageRating: entity.averageRating,
-      mostCommonMood: entity.mostCommonMood,
       longestStreak: entity.longestStreak,
-      totalDuration: entity.totalDuration,
+      achievedHabits: entity.achievedHabits,
+      achievementsCompleted: entity.achievementsCompleted,
+      activeHabits: entity.activeHabits,
+      completionRate: entity.completionRate,
+      completionRateChange: entity.completionRateChange,
+      failedHabits: entity.failedHabits,
+      pausedHabits: entity.pausedHabits,
+      totalHabits: entity.totalHabits,
+      trendPercentage: entity.trendPercentage,
     );
   }
 
   HabitStatisticEntity toEntity() {
     return HabitStatisticEntity(
-      habitId: habitId,
-      totalTrackedDays: totalTrackedDays,
-      totalCompletions: totalCompletions,
-      averageRating: averageRating,
-      mostCommonMood: mostCommonMood,
+      trendPercentage: trendPercentage,
+      totalHabits: totalHabits,
+      pausedHabits: pausedHabits,
+      failedHabits: failedHabits,
+      completionRateChange: completionRateChange,
+      completionRate: completionRate,
+      activeHabits: activeHabits,
+      achievementsCompleted: achievementsCompleted,
+      achievedHabits: achievedHabits,
       longestStreak: longestStreak,
-      totalDuration: totalDuration,
     );
   }
 }

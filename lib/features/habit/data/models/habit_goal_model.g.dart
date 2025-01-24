@@ -43,7 +43,7 @@ const _$GoalUnitEnumMap = {
   GoalUnit.ml: 'ml',
   GoalUnit.day: 'day',
   GoalUnit.second: 'second',
-  GoalUnit.minutes: 'minutes',
+  GoalUnit.minute: 'minute',
   GoalUnit.hour: 'hour',
   GoalUnit.page: 'page',
   GoalUnit.cm: 'cm',

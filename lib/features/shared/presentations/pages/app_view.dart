@@ -5,6 +5,8 @@ import '../../../../core/constants/app_font_size.dart';
 
 import '../../../../core/constants/app_color.dart';
 import '../../../../core/enums/tab_type.dart';
+import '../../../../injection_container.dart';
+import '../../../rewards/presentations/blocs/challenge_crud/challenge_crud_bloc.dart';
 import '../../../settings/presentations/bloc/settings_cubit.dart';
 import '../widgets/drawer_slider.dart';
 

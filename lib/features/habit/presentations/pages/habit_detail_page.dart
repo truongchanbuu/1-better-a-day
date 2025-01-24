@@ -24,6 +24,7 @@ import '../../../../core/helpers/date_time_helper.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../injection_container.dart';
 import '../../../notification/presentations/blocs/reminder/reminder_bloc.dart';
+import '../../../rewards/presentations/blocs/challenge_crud/challenge_crud_bloc.dart';
 import '../../../shared/presentations/widgets/confirm_delete_dialog.dart';
 import '../../../shared/presentations/widgets/icon_with_text.dart';
 import '../../../shared/presentations/widgets/not_found_and_refresh.dart';
@@ -71,6 +72,10 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
     return SafeArea(
       child: MultiBlocListener(
         listeners: [
+          BlocListener<ChallengeCrudBloc, ChallengeCrudState>(
+              listener: (context, state) {
+            print('STATE: $state');
+          }),
           BlocListener<HabitCrudBloc, HabitCrudState>(
             listener: (context, state) {
               if (state is HabitCrudSucceed) {
@@ -113,6 +118,11 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
                   context
                       .read<HabitCrudBloc>()
                       .add(GetHabitById(currentHabit.habitId));
+
+                  context.read<ChallengeCrudBloc>().add(UpdateAchievement(
+                        habitUnit: newHistory.measurement,
+                        value: newHistory.currentValue,
+                      ));
                 }
               }
             },
@@ -231,10 +241,11 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
                   title: S.current.history_section,
                   suffix: histories.isNotEmpty
                       ? IconButton(
-                          onPressed: () => context
-                              .read<HabitHistoryCrudBloc>()
-                              .add(HabitHistoryCrudListByHabitId(
-                                  currentHabit.habitId)),
+                          onPressed: () =>
+                              context.read<HabitHistoryCrudBloc>().add(
+                                    HabitHistoryCrudListByHabitId(
+                                        currentHabit.habitId),
+                                  ),
                           icon: const Icon(Icons.refresh),
                         )
                       : null,

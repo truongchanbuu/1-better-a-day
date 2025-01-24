@@ -23,7 +23,11 @@ class PreDefinedAchievements {
       achievementDesc:
           "Steadfast warrior, you've conquered the 7-day streak with unwavering determination. Your resolve stands tall in the battle against time. Carry on with honor\nCongratulations! Keep your spirit strong and your path clear 🛡️🗡️.",
       achievementType: AchievementType.streak,
-      achievementRequirement: StreakRequirement(requiredDays: 7),
+      achievementRequirement: StreakRequirement(
+        requiredDays: 7,
+        acceptableUnits: {GoalUnit.day},
+        baseUnit: GoalUnit.day,
+      ),
       achievementIcon: HabitIcon(
         key: 'streak_warrior_7_day_in_line',
         icon: AkarIcons.double_sword,
@@ -41,8 +45,15 @@ class PreDefinedAchievements {
       achievementDesc:
           "Hydration Champion, you have proven yourself a true guardian of well-being! With every sip, you fortify your body, maintaining the balance of life 💧🛡️.",
       achievementType: AchievementType.accumulation,
-      achievementRequirement:
-          AccumulationRequirement(target: 2, unit: GoalUnit.l),
+      achievementRequirement: AccumulationRequirement(
+        target: 2,
+        acceptableUnits: {
+          GoalUnit.l,
+          GoalUnit.ml,
+          GoalUnit.glasses,
+        },
+        baseUnit: GoalUnit.l,
+      ),
       isUnlocked: false,
       achievementIcon: HabitIcon(
         key: "aqua_guardian_2_l_a_day",
@@ -60,8 +71,11 @@ class PreDefinedAchievements {
       achievementDesc:
           "Chill Guy, you have embraced the tranquility within and mastered the art of meditation. By dedicating 10 minutes each day for an entire week\nKeep up the great work in finding your inner calm and maintaining this mindful practice! 🌿🧘‍♂️✨.",
       achievementType: AchievementType.time,
-      achievementRequirement:
-          TimeRequirement(targetTime: Duration(minutes: 70)),
+      achievementRequirement: TimeRequirement(
+        targetTime: Duration(minutes: 70),
+        acceptableUnits: {GoalUnit.minute, GoalUnit.hour, GoalUnit.second},
+        baseUnit: GoalUnit.minute,
+      ),
       isUnlocked: false,
       achievementIcon: HabitIcon(
         key: "chill_guy_for_a_week",

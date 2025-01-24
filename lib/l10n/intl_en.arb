@@ -161,6 +161,15 @@
   "mark_as_done": "Mark as done",
   "mark_as_pause": "Mark as pause",
   "last_completed_at": "Last completed at: {dateTime}",
+  "@last_completed_at": {
+    "placeholders": {
+      "dateTime": {
+        "type": "DateTime",
+        "format": "dd/MM/yyyy HH:mm:ss",
+        "isCustomDateFormat": "true"
+      }
+    }
+  },
   "daily_completed": "You completed this habit today",
   "daily_paused": "You delayed this habit today",
   "rate_and_note_completed_habit": "Rate & Note",
@@ -182,6 +191,8 @@
   "status_pending": "Pending",
   "status_unknown": "Unknown",
   "status_completed": "Completed",
+  "status_unlocked": "Unlocked",
+  "status_locked": "Locked",
 
   "habit_failure_reason_lack_of_time": "Lack of Time",
   "habit_failure_reason_lack_of_motivation": "Lack of Motivation",

@@ -28,7 +28,7 @@ class CollectionTab extends StatelessWidget {
     return BlocListener<ChallengeCrudBloc, ChallengeCrudState>(
       listener: (context, state) =>
           context.read<CollectionCrudBloc>().add(LoadCollectionData()),
-      listenWhen: (previous, current) => current is UnlockChallenge,
+      listenWhen: (previous, current) => current is ChallengeUnlocked,
       child: BlocConsumer<CollectionCrudBloc, CollectionCrudState>(
         listener: (context, state) {
           if (state is CollectionLoadedFailed) {

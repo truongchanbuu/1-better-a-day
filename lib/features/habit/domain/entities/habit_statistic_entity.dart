@@ -1,56 +1,70 @@
-import 'dart:convert';
-
 import 'package:equatable/equatable.dart';
 
 class HabitStatisticEntity extends Equatable {
-  final String habitId;
-  final int totalTrackedDays;
-  final int totalCompletions;
-  final double averageRating;
-  final String mostCommonMood;
+  final int totalHabits;
+  final int activeHabits;
+  final int pausedHabits;
+  final int failedHabits;
+  final int achievedHabits;
+  final double completionRate;
+  final int completionRateChange;
   final int longestStreak;
-  final Duration totalDuration;
+  final double trendPercentage;
+  final int achievementsCompleted;
 
   const HabitStatisticEntity({
-    required this.habitId,
-    required this.totalTrackedDays,
-    required this.totalCompletions,
-    required this.averageRating,
-    required this.mostCommonMood,
-    required this.longestStreak,
-    required this.totalDuration,
+    this.totalHabits = 0,
+    this.activeHabits = 0,
+    this.pausedHabits = 0,
+    this.failedHabits = 0,
+    this.achievedHabits = 0,
+    this.completionRate = 0.0,
+    this.completionRateChange = 0,
+    this.longestStreak = 0,
+    this.trendPercentage = 0.0,
+    this.achievementsCompleted = 0,
   });
 
   HabitStatisticEntity copyWith({
-    String? habitId,
-    int? totalTrackedDays,
-    int? totalCompletions,
-    double? averageRating,
-    String? mostCommonMood,
+    int? totalHabits,
+    int? activeHabits,
+    int? pausedHabits,
+    int? failedHabits,
+    int? achievedHabits,
+    double? completionRate,
+    int? completionRateChange,
     int? longestStreak,
-    Duration? totalDuration,
+    double? trendPercentage,
+    int? achievementsCompleted,
   }) {
     return HabitStatisticEntity(
-      habitId: habitId ?? this.habitId,
-      totalTrackedDays: totalTrackedDays ?? this.totalTrackedDays,
-      totalCompletions: totalCompletions ?? this.totalCompletions,
-      averageRating: averageRating ?? this.averageRating,
-      mostCommonMood: mostCommonMood ?? this.mostCommonMood,
+      totalHabits: totalHabits ?? this.totalHabits,
+      activeHabits: activeHabits ?? this.activeHabits,
+      pausedHabits: pausedHabits ?? this.pausedHabits,
+      failedHabits: failedHabits ?? this.failedHabits,
+      achievedHabits: achievedHabits ?? this.achievedHabits,
+      completionRate: completionRate ?? this.completionRate,
+      completionRateChange: completionRateChange ?? this.completionRateChange,
       longestStreak: longestStreak ?? this.longestStreak,
-      totalDuration: totalDuration ?? this.totalDuration,
+      trendPercentage: trendPercentage ?? this.trendPercentage,
+      achievementsCompleted:
+          achievementsCompleted ?? this.achievementsCompleted,
     );
   }
 
   @override
   List<Object?> get props {
     return [
-      habitId,
-      totalTrackedDays,
-      totalCompletions,
-      averageRating,
-      mostCommonMood,
+      totalHabits,
+      activeHabits,
+      pausedHabits,
+      failedHabits,
+      achievedHabits,
+      completionRate,
+      completionRateChange,
       longestStreak,
-      totalDuration,
+      trendPercentage,
+      achievementsCompleted,
     ];
   }
 }

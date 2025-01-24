@@ -18,14 +18,14 @@ class HabitHistory extends Equatable {
   final Mood? mood;
   final double? targetValue;
   final double currentValue;
-  final GoalUnit? measurement;
-  final Map<String, dynamic>? customData;
+  final GoalUnit measurement;
 
   const HabitHistory({
     required this.id,
     required this.habitId,
     required this.date,
     required this.executionStatus,
+    required this.measurement,
     this.startTime,
     this.endTime,
     this.duration,
@@ -34,10 +34,7 @@ class HabitHistory extends Equatable {
     this.mood,
     this.targetValue,
     this.currentValue = 0,
-    this.measurement,
-    this.customData,
-  }) : assert(measurement != GoalUnit.custom || customData != null,
-            'customData must not be null when measurement is custom');
+  });
 
   factory HabitHistory.init() {
     return HabitHistory(
@@ -52,8 +49,7 @@ class HabitHistory extends Equatable {
       rating: null,
       mood: null,
       targetValue: null,
-      measurement: null,
-      customData: null,
+      measurement: GoalUnit.custom,
     );
   }
 
@@ -70,8 +66,7 @@ class HabitHistory extends Equatable {
     ValueGetter<double?>? rating,
     ValueGetter<Mood?>? mood,
     ValueGetter<double?>? targetValue,
-    ValueGetter<GoalUnit?>? measurement,
-    ValueGetter<Map<String, dynamic>?>? customData,
+    ValueGetter<GoalUnit>? measurement,
   }) {
     return HabitHistory(
       id: id ?? this.id,
@@ -87,7 +82,6 @@ class HabitHistory extends Equatable {
       mood: mood != null ? mood() : this.mood,
       targetValue: targetValue != null ? targetValue() : this.targetValue,
       measurement: measurement != null ? measurement() : this.measurement,
-      customData: customData != null ? customData() : this.customData,
     );
   }
 
@@ -107,7 +101,6 @@ class HabitHistory extends Equatable {
       mood,
       targetValue,
       measurement,
-      customData,
     ];
   }
 }

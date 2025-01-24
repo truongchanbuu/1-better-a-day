@@ -161,7 +161,7 @@ Instructions:
    - Time-bound: What's the frequency and timing?
 
 2. Goal Types and Units Guide:
-   - Duration goals: Use minutes (e.g., meditation, exercise)
+   - Duration goals: Use minute (e.g., meditation, exercise)
    - Count goals: Use appropriate units (pages, glasses, steps)
    - Completion goals: Simple yes/no tasks
    - Distance goals: Use km or m
@@ -253,7 +253,7 @@ Return a JSON string with this exact structure (no markdown, no explanation):
       "weekDays": [number] | null,
       "lastCompletionTime": null
     },
-    "goalUnit": "reps"|"sets"|"l"|"ml"|"page"|"day"|"second"|"minutes"|"hour"|"cm"|"km"|"m"|"steps"|"miles"|"times|glasses",
+    "goalUnit": "reps"|"sets"|"l"|"ml"|"page"|"day"|"second"|"minute"|"hour"|"cm"|"km"|"m"|"steps"|"miles"|"times|glasses",
   },
   "habitIcon": {
     "key": string,

@@ -19,7 +19,7 @@ import '../../../domain/entities/habit_history.dart';
 import '../../blocs/distance_track/distance_track_cubit.dart';
 import '../../blocs/habit_history_crud/habit_history_crud_bloc.dart';
 import '../../blocs/habit_time_tracker/habit_time_tracker_bloc.dart';
-import '../../helper/shared_habit_action.dart';
+import '../../helpers/shared_habit_action.dart';
 import 'distance_tracker.dart';
 import 'progress_tracker.dart';
 import 'time_tracker.dart';
@@ -72,52 +72,57 @@ class _HabitTrackerState extends State<HabitTracker> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<HabitHistoryCrudBloc, HabitHistoryCrudState>(
+    return BlocConsumer<HabitHistoryCrudBloc, HabitHistoryCrudState>(
       listener: (context, state) {
         if (state is DailyHabitCompleted) {
           trackStatus = DayStatus.completed;
 
           SharedHabitAction.showDailyCompletionDialog(
-              context: context, history: history);
+            context: context,
+            history: history,
+          );
         } else if (state is DailyHabitPaused) {
           trackStatus = DayStatus.skipped;
 
           SharedHabitAction.showDailyCompletionDialog(
-              context: context, history: history);
+            context: context,
+            history: history,
+          );
         }
       },
-      child: BlocBuilder<HabitHistoryCrudBloc, HabitHistoryCrudState>(
-        buildWhen: (previous, current) => current is HabitHistoryCrudSuccess,
-        builder: (context, state) {
-          if (state is! HabitHistoryCrudSuccess || state.histories.isEmpty) {
-            return const SizedBox.shrink();
-          }
+      buildWhen: (previous, current) =>
+          current is HabitHistoryCrudSuccess &&
+          (current.type == HabitHistoryCrudEventType.update ||
+              current.type == HabitHistoryCrudEventType.read),
+      builder: (context, state) {
+        if (state is! HabitHistoryCrudSuccess || state.histories.isEmpty) {
+          return const SizedBox.shrink();
+        }
 
-          history = state.histories.first;
-          if ([DayStatus.completed, DayStatus.skipped]
-              .contains(history.executionStatus)) {
-            bool isCompleted = history.executionStatus == DayStatus.completed;
-            return Center(
-              child: Iconify(
-                isCompleted
-                    ? AntDesign.check_circle_fill
-                    : AntDesign.pause_circle_fill,
-                color: isCompleted ? Colors.green : Colors.amber,
-                size: 40,
-              ),
-            );
-          }
-
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _getTracker(),
-              const SizedBox(height: AppSpacing.marginS),
-              _buildCompletionTracker(),
-            ],
+        history = state.histories.first;
+        if ([DayStatus.completed, DayStatus.skipped]
+            .contains(history.executionStatus)) {
+          bool isCompleted = history.executionStatus == DayStatus.completed;
+          return Center(
+            child: Iconify(
+              isCompleted
+                  ? AntDesign.check_circle_fill
+                  : AntDesign.pause_circle_fill,
+              color: isCompleted ? Colors.green : Colors.amber,
+              size: 40,
+            ),
           );
-        },
-      ),
+        }
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _getTracker(),
+            const SizedBox(height: AppSpacing.marginS),
+            _buildCompletionTracker(),
+          ],
+        );
+      },
     );
   }
 
@@ -125,7 +130,7 @@ class _HabitTrackerState extends State<HabitTracker> {
     if (_goalUnit == GoalUnit.l || _goalUnit == GoalUnit.ml) {
       return _buildWaterDrinkingTracker();
     } else if (_goalType == GoalType.duration ||
-        _goalUnit == GoalUnit.minutes ||
+        _goalUnit == GoalUnit.minute ||
         _goalUnit == GoalUnit.second) {
       return _buildTimerTracker();
     } else if (_goalType == GoalType.distance) {
@@ -157,7 +162,7 @@ class _HabitTrackerState extends State<HabitTracker> {
 
   Widget _buildTimerTracker() {
     int time = _habitGoal.targetValue.toInt();
-    if (_goalUnit == GoalUnit.minutes) {
+    if (_goalUnit == GoalUnit.minute) {
       time *= 60;
     } else if (_goalUnit == GoalUnit.hour) {
       time *= 3600;

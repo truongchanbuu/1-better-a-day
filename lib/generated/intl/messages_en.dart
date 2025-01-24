@@ -931,11 +931,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "status_failed": MessageLookupByLibrary.simpleMessage("Failed"),
         "status_in_progress":
             MessageLookupByLibrary.simpleMessage("In Progress"),
+        "status_locked": MessageLookupByLibrary.simpleMessage("Locked"),
         "status_paused": MessageLookupByLibrary.simpleMessage("Paused"),
         "status_pending": MessageLookupByLibrary.simpleMessage("Pending"),
         "status_skipped": MessageLookupByLibrary.simpleMessage("Skipped"),
         "status_title": MessageLookupByLibrary.simpleMessage("Status"),
         "status_unknown": MessageLookupByLibrary.simpleMessage("Unknown"),
+        "status_unlocked": MessageLookupByLibrary.simpleMessage("Unlocked"),
         "steps_unit": MessageLookupByLibrary.simpleMessage("steps"),
         "stop_button": MessageLookupByLibrary.simpleMessage("Stop"),
         "stop_tracking": MessageLookupByLibrary.simpleMessage("Stop Tracking"),

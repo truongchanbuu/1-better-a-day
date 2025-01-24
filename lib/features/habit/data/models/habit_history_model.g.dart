@@ -12,6 +12,7 @@ HabitHistoryModel _$HabitHistoryModelFromJson(Map<String, dynamic> json) =>
       habitId: json['habitId'] as String,
       date: DateTime.parse(json['date'] as String),
       executionStatus: $enumDecode(_$DayStatusEnumMap, json['executionStatus']),
+      measurement: $enumDecode(_$GoalUnitEnumMap, json['measurement']),
       startTime: json['startTime'] == null
           ? null
           : DateTime.parse(json['startTime'] as String),
@@ -21,9 +22,7 @@ HabitHistoryModel _$HabitHistoryModelFromJson(Map<String, dynamic> json) =>
       duration: json['duration'] == null
           ? null
           : Duration(microseconds: (json['duration'] as num).toInt()),
-      measurement: $enumDecodeNullable(_$GoalUnitEnumMap, json['measurement']),
       mood: $enumDecodeNullable(_$MoodEnumMap, json['mood']),
-      customData: json['customData'] as Map<String, dynamic>?,
       note: json['note'] as String?,
       targetValue: (json['targetValue'] as num?)?.toDouble(),
       rating: (json['rating'] as num?)?.toDouble(),
@@ -44,8 +43,7 @@ Map<String, dynamic> _$HabitHistoryModelToJson(HabitHistoryModel instance) =>
       'mood': _$MoodEnumMap[instance.mood],
       'targetValue': instance.targetValue,
       'currentValue': instance.currentValue,
-      'measurement': _$GoalUnitEnumMap[instance.measurement],
-      'customData': instance.customData,
+      'measurement': _$GoalUnitEnumMap[instance.measurement]!,
     };
 
 const _$DayStatusEnumMap = {
@@ -62,7 +60,7 @@ const _$GoalUnitEnumMap = {
   GoalUnit.ml: 'ml',
   GoalUnit.day: 'day',
   GoalUnit.second: 'second',
-  GoalUnit.minutes: 'minutes',
+  GoalUnit.minute: 'minute',
   GoalUnit.hour: 'hour',
   GoalUnit.page: 'page',
   GoalUnit.cm: 'cm',

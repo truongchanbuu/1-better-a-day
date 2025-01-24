@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:moment_dart/moment_dart.dart';
 
 import '../../../../core/constants/app_color.dart';
 import '../../../../core/constants/app_font_size.dart';
@@ -81,11 +80,8 @@ class HabitReminderItem extends StatelessWidget {
                   const SizedBox(width: AppSpacing.marginS),
                   Expanded(
                     child: Text(
-                      S.current.last_completed_at(
-                        frequency.lastCompletionTime!
-                            .toMoment()
-                            .formatDateTimeShort(),
-                      ),
+                      S.current
+                          .last_completed_at(frequency.lastCompletionTime!),
                       style: const TextStyle(fontSize: AppFontSize.h4),
                       maxLines: 3,
                     ),

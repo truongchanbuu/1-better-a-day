@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:iconify_flutter_plus/icons/mdi.dart';
 
+import '../../../../../core/enums/habit/goal_unit.dart';
 import '../../../../../core/enums/rewards/achievement_level.dart';
 import '../../../../../core/enums/rewards/achievement_type.dart';
 import '../../../../habit/domain/entities/habit_icon.dart';
@@ -40,7 +41,11 @@ class AchievementEntity extends Equatable {
       achievementName: '',
       achievementDesc: '',
       achievementType: AchievementType.streak,
-      achievementRequirement: StreakRequirement(requiredDays: 0),
+      achievementRequirement: StreakRequirement(
+        requiredDays: 0,
+        acceptableUnits: {GoalUnit.custom},
+        baseUnit: GoalUnit.custom,
+      ),
       isUnlocked: false,
       achievementIcon: HabitIcon(key: 'default', icon: Mdi.circle),
       achievementLevel: AchievementLevel.common,

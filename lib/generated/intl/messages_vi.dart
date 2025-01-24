@@ -948,12 +948,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "status_failed": MessageLookupByLibrary.simpleMessage("Thất bại"),
         "status_in_progress":
             MessageLookupByLibrary.simpleMessage("Đang thực hiện"),
+        "status_locked": MessageLookupByLibrary.simpleMessage("Chưa mở khóa"),
         "status_paused": MessageLookupByLibrary.simpleMessage("Tạm dừng"),
         "status_pending": MessageLookupByLibrary.simpleMessage("Chờ xử lý"),
         "status_skipped": MessageLookupByLibrary.simpleMessage("Bỏ qua"),
         "status_title": MessageLookupByLibrary.simpleMessage("Trạng thái"),
         "status_unknown":
             MessageLookupByLibrary.simpleMessage("Không xác định"),
+        "status_unlocked": MessageLookupByLibrary.simpleMessage("Đã mở khóa"),
         "steps_unit": MessageLookupByLibrary.simpleMessage("bước"),
         "stop_button": MessageLookupByLibrary.simpleMessage("Dừng"),
         "stop_tracking": MessageLookupByLibrary.simpleMessage("Dừng theo dõi"),

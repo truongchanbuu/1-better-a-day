@@ -82,12 +82,7 @@ class _RewardTabState extends State<RewardTab> with TickerProviderStateMixin {
               .map((tab) => Tab(
                     key: ValueKey(tab.title),
                     text: tab.title,
-                    icon: Icon(
-                      tab.icon,
-                      color: context.isDarkMode
-                          ? AppColors.lightText
-                          : AppColors.darkText,
-                    ),
+                    icon: Icon(tab.icon),
                   ))
               .toList(),
         ),

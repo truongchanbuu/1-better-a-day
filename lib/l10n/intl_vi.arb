@@ -161,6 +161,15 @@
   "mark_as_done": "Đã thực hiện",
   "mark_as_pause": "Tạm dừng",
   "last_completed_at": "Hoàn thành gần nhất vào lúc: {dateTime}",
+  "@last_completed_at": {
+    "placeholders": {
+      "dateTime": {
+        "type": "DateTime",
+        "format": "dd/MM/yyyy HH:mm:ss",
+        "isCustomDateFormat": "true"
+      }
+    }
+  },
   "daily_completed": "Bạn đã hoàn thành thói quen cho ngày hôm nay",
   "daily_paused": "Bạn đã tạm dừng thói quen này hôm nay",
   "rate_and_note_completed_habit": "Đánh giá và ghi chú",
@@ -182,6 +191,8 @@
   "status_pending": "Chờ xử lý",
   "status_unknown": "Không xác định",
   "status_completed": "Hoàn thành",
+  "status_unlocked": "Đã mở khóa",
+  "status_locked": "Chưa mở khóa",
 
   "habit_failure_reason_lack_of_time": "Thiếu thời gian",
   "habit_failure_reason_lack_of_motivation": "Thiếu động lực",
