@@ -71,7 +71,7 @@ enum Mood {
     }
   }
 
-  AnimatedEmojiData get lottieAsset {
+  AnimatedEmojiData get moodAnimatedIcon {
     switch (this) {
       case great:
         return AnimatedEmojis.partyingFace;

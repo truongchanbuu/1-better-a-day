@@ -253,7 +253,8 @@ class MoodSelectionSheet extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: currentMood == mood ? AppColors.primary : null,
                           borderRadius: const BorderRadius.all(
-                              Radius.circular(AppSpacing.radiusS)),
+                            Radius.circular(AppSpacing.radiusS),
+                          ),
                         ),
                         padding: const EdgeInsets.all(AppSpacing.paddingM),
                         child: Column(

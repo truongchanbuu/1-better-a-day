@@ -21,7 +21,6 @@ final class StatisticCrudLoading extends StatisticCrudState {
 /// State when a CRUD operation completes successfully
 final class StatisticCrudSuccess extends StatisticCrudState {
   final String message; // Optional message to indicate success details
-
   const StatisticCrudSuccess([this.message = 'Operation successful']);
 
   @override
@@ -40,8 +39,7 @@ final class StatisticCrudFailure extends StatisticCrudState {
 
 /// State when statistics are successfully loaded
 final class StatisticCrudLoaded extends StatisticCrudState {
-  final List<HabitStatisticEntity> statistics;
-
+  final HabitStatisticEntity statistics;
   const StatisticCrudLoaded(this.statistics);
 
   @override

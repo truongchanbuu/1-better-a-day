@@ -168,7 +168,9 @@ class HabitCrudBloc extends Bloc<HabitCrudEvent, HabitCrudState> {
   }
 
   FutureOr<void> _onDeleteHabit(
-      DeleteHabit event, Emitter<HabitCrudState> emit) async {
+    DeleteHabit event,
+    Emitter<HabitCrudState> emit,
+  ) async {
     emit(Executing());
     try {
       final habit = await habitRepository.getHabitById(event.id);
@@ -177,8 +179,12 @@ class HabitCrudBloc extends Bloc<HabitCrudEvent, HabitCrudState> {
         emit(HabitCrudFailed(S.current.not_found));
       } else {
         await habitRepository.deleteHabitById(event.id);
-        emit(HabitCrudSucceed(
-            action: HabitCrudAction.delete, habits: [habit.toEntity()]));
+        emit(
+          HabitCrudSucceed(
+            action: HabitCrudAction.delete,
+            habits: [habit.toEntity()],
+          ),
+        );
       }
     } catch (e) {
       _appLogger.e(e);

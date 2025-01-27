@@ -51,7 +51,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m9(completedTasks, totalTasks) =>
       "${completedTasks}/${totalTasks}";
 
-  static String m10(time) => "Đạt được vào lúc: ${time}";
+  static String m10(value) => "Đạt được vào lúc: ${value}";
 
   static String m11(n) =>
       "${Intl.plural(n, one: 'Mỗi ${n} ngày', other: 'Mỗi ${n} ngày')}";
@@ -110,6 +110,8 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m31(count) =>
       "${Intl.plural(count, zero: 'Chưa thực hiện chuỗi', one: 'Chuỗi 1', other: 'Chuối ${count} ngày')}";
 
+  static String m32(name) => "Bạn đã đạt được ${name}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "accept_button": MessageLookupByLibrary.simpleMessage("Chấp nhận"),
@@ -131,6 +133,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "achieved_statistic_page":
             MessageLookupByLibrary.simpleMessage("Đã đạt được"),
         "achievement_done": MessageLookupByLibrary.simpleMessage("Thành tựu"),
+        "achievements_screen":
+            MessageLookupByLibrary.simpleMessage("Thành tựu"),
         "action_creative_build":
             MessageLookupByLibrary.simpleMessage("xây dựng"),
         "action_creative_compose":
@@ -328,6 +332,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Cải thiện 1% mỗi ngày sẽ giúp bạn tốt hơn 37 lần sau một năm."),
         "confirm_password_field":
             MessageLookupByLibrary.simpleMessage("Xác nhận mật khẩu"),
+        "congratulation_title":
+            MessageLookupByLibrary.simpleMessage("Chúc mừng"),
         "create_new_challenge":
             MessageLookupByLibrary.simpleMessage("Tạo những thử thách mới"),
         "current_distance":
@@ -1128,6 +1134,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Hằng tuần"),
         "wrong_password": MessageLookupByLibrary.simpleMessage(
             "Mật khẩu không chính xác, vui lòng thử lại."),
-        "year_title": MessageLookupByLibrary.simpleMessage("Năm")
+        "year_title": MessageLookupByLibrary.simpleMessage("Năm"),
+        "you_achieved": m32
       };
 }

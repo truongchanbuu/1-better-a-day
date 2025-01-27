@@ -35,6 +35,7 @@ class _TodayQuoteState extends State<TodayQuote> {
   Widget build(BuildContext context) {
     return AnimatedTextKit(
       totalRepeatCount: 1,
+      displayFullTextOnTap: true,
       animatedTexts: [
         TyperAnimatedText(
           quotes[randomQuoteNumber],

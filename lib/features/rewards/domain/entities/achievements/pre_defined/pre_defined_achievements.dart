@@ -98,7 +98,9 @@ class PreDefinedAchievements {
 
     for (final achievement in allAchievements) {
       try {
-        if (!allLocalAchievements.contains(achievement)) {
+        if (!allLocalAchievements
+            .map((e) => e.achievementId)
+            .contains(achievement.achievementId)) {
           await achievementRepository
               .createAchievement(AchievementModel.fromEntity(achievement));
         }

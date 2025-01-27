@@ -20,6 +20,7 @@ import '../../../../core/enums/habit/goal_unit.dart';
 import '../../../../core/enums/habit/habit_category.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/num_extension.dart';
+import '../../../../core/extensions/string_extension.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../injection_container.dart';
 import '../../../notification/presentations/blocs/reminder/reminder_bloc.dart';
@@ -533,7 +534,7 @@ class _HabitMeasurementLabel extends StatelessWidget {
           _buildIcon(),
           const SizedBox(width: AppSpacing.marginXS),
           Text(
-            '$targetValue $unitName',
+            '$targetValue ${unitName.toUpperCaseFirstLetter}',
             style: textStyle,
           ),
         ],

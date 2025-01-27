@@ -8,7 +8,6 @@ import '../../../../core/constants/app_font_size.dart';
 import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../generated/l10n.dart';
-import '../../../shared/presentations/widgets/icon_with_text.dart';
 import '../../domain/entities/reminder_entity.dart';
 
 class ReminderItem extends StatelessWidget {

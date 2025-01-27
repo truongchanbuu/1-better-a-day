@@ -750,11 +750,11 @@ class S {
     );
   }
 
-  /// `Challenges`
-  String get challenges_screen {
+  /// `Achievements`
+  String get achievements_screen {
     return Intl.message(
-      'Challenges',
-      name: 'challenges_screen',
+      'Achievements',
+      name: 'achievements_screen',
       desc: '',
       args: [],
     );
@@ -3191,13 +3191,17 @@ class S {
     );
   }
 
-  /// `Achieved at: {time}`
-  String earned_at(Object time) {
+  /// `Achieved at: {value}`
+  String earned_at(DateTime value) {
+    final DateFormat valueDateFormat =
+        DateFormat('dd/MM/yyyy HH:mm:ss', Intl.getCurrentLocale());
+    final String valueString = valueDateFormat.format(value);
+
     return Intl.message(
-      'Achieved at: $time',
+      'Achieved at: $valueString',
       name: 'earned_at',
       desc: '',
-      args: [time],
+      args: [valueString],
     );
   }
 
@@ -3258,6 +3262,26 @@ class S {
       name: 'most_achieved_type',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `Congratulation`
+  String get congratulation_title {
+    return Intl.message(
+      'Congratulation',
+      name: 'congratulation_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You achieved {name}`
+  String you_achieved(Object name) {
+    return Intl.message(
+      'You achieved $name',
+      name: 'you_achieved',
+      desc: '',
+      args: [name],
     );
   }
 

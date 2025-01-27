@@ -7,7 +7,6 @@ import '../../../../core/constants/app_color.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../generated/l10n.dart';
 import 'reward_tab.dart';
-import 'share_challenge_tab.dart';
 
 class ChallengesPage extends StatefulWidget {
   const ChallengesPage({super.key});

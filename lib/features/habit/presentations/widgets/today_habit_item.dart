@@ -47,12 +47,6 @@ class _TodayHabitItemState extends State<TodayHabitItem> with RouteAware {
   }
 
   @override
-  void didPop() {
-    super.didPop();
-    _loadTodayHistory();
-  }
-
-  @override
   void didPopNext() {
     super.didPopNext();
     _loadTodayHistory();
@@ -164,8 +158,7 @@ class _TodayHabitItemState extends State<TodayHabitItem> with RouteAware {
           providers: [
             BlocProvider(
                 create: (context) => getIt.get<HabitHistoryCrudBloc>()),
-            BlocProvider(create: (context) => getIt.get<HabitCrudBloc>()),
-            BlocProvider(create: (context) => getIt.get<ReminderBloc>()),
+            BlocProvider.value(value: context.read<HabitCrudBloc>()),
             BlocProvider(create: (context) => getIt.get<ReminderBloc>()),
             BlocProvider.value(value: context.read<ChallengeCrudBloc>()),
           ],

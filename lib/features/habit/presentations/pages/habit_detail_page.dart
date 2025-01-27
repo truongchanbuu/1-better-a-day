@@ -25,6 +25,7 @@ import '../../../../generated/l10n.dart';
 import '../../../../injection_container.dart';
 import '../../../notification/presentations/blocs/reminder/reminder_bloc.dart';
 import '../../../rewards/presentations/blocs/challenge_crud/challenge_crud_bloc.dart';
+import '../../../rewards/presentations/widgets/achieved_dialog.dart';
 import '../../../shared/presentations/widgets/confirm_delete_dialog.dart';
 import '../../../shared/presentations/widgets/icon_with_text.dart';
 import '../../../shared/presentations/widgets/not_found_and_refresh.dart';
@@ -73,9 +74,15 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
       child: MultiBlocListener(
         listeners: [
           BlocListener<ChallengeCrudBloc, ChallengeCrudState>(
-              listener: (context, state) {
-            print('STATE: $state');
-          }),
+            listener: (ctx, achievementState) {
+              if (achievementState is ChallengeUnlocked) {
+                AchievementDialog.show(
+                  context: context,
+                  achievement: achievementState.achievement,
+                );
+              }
+            },
+          ),
           BlocListener<HabitCrudBloc, HabitCrudState>(
             listener: (context, state) {
               if (state is HabitCrudSucceed) {
@@ -90,6 +97,8 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
                       currentHabit = state.habits.first;
                     });
                   }
+                } else if (state.action == HabitCrudAction.delete) {
+                  Navigator.of(context).popUntil(ModalRoute.withName('/'));
                 }
               }
             },
@@ -168,6 +177,7 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
                         vertical: AppSpacing.marginM,
                       ),
                       child: AnimatedTextKit(
+                        displayFullTextOnTap: true,
                         repeatForever: false,
                         totalRepeatCount: 1,
                         animatedTexts: [
@@ -524,7 +534,6 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
   }
 
   Future<void> _onDeleteHabit() async {
-    final navigator = Navigator.of(context);
     final habitCrudBloc = context.read<HabitCrudBloc>();
     final habitHistoryCrudBloc = context.read<HabitHistoryCrudBloc>();
     bool isAllowed = await SmartDialog.show<bool>(
@@ -536,9 +545,9 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
 
     if (isAllowed) {
       habitCrudBloc.add(DeleteHabit(currentHabit.habitId));
-      habitHistoryCrudBloc
-          .add(DeleteAllHistoriesByHabitId(currentHabit.habitId));
-      navigator.popUntil(ModalRoute.withName('/'));
+      habitHistoryCrudBloc.add(
+        DeleteAllHistoriesByHabitId(currentHabit.habitId),
+      );
     }
   }
 

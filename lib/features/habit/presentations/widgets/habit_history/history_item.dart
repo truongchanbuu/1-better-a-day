@@ -11,6 +11,7 @@ import '../../../../../core/constants/app_spacing.dart';
 import '../../../../../core/enums/habit/mood.dart';
 import '../../../../../core/extensions/context_extension.dart';
 import '../../../../../core/extensions/num_extension.dart';
+import '../../../../../core/extensions/string_extension.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../shared/presentations/widgets/icon_with_text.dart';
 import '../../../../shared/presentations/widgets/text_with_circle_border_container.dart';
@@ -65,7 +66,7 @@ class _HistoryItemState extends State<HistoryItem> {
             SharedHabitAction.onRateAndNote(context, widget.history);
           },
           child: Container(
-            width: 100,
+            width: 120,
             decoration: BoxDecoration(
               borderRadius:
                   const BorderRadius.all(Radius.circular(AppSpacing.radiusS)),
@@ -194,7 +195,7 @@ class _HistoryItemState extends State<HistoryItem> {
   }
 
   Widget _buildTarget() {
-    final GoalUnit goalUnit = widget.history.measurement ?? GoalUnit.custom;
+    final GoalUnit goalUnit = widget.history.measurement;
     String unit =
         (goalUnit == GoalUnit.custom) ? goalUnit.unitName : goalUnit.name;
 
@@ -202,13 +203,13 @@ class _HistoryItemState extends State<HistoryItem> {
       contentPadding: EdgeInsets.zero,
       leading: Icon(goalUnit.unitIcon, color: goalUnit.unitColor),
       title: Text(
-        '${widget.history.targetValue} $unit',
+        '${widget.history.targetValue} ${unit.toUpperCaseFirstLetter}',
         style: _titleTextStyle,
       ),
     );
   }
 
-  String get formattedDate => DateTimeFormat.onlyDate(widget.history.date);
+  String get formattedDate => widget.history.date.toMoment().formatDate();
 
   String get formattedTime =>
       widget.history.date.toMoment().formatTimeWithSeconds();

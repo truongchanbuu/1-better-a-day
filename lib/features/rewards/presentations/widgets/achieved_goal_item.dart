@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/ant_design.dart';
@@ -18,6 +19,7 @@ import '../../domain/entities/achievements/achievement_entity.dart';
 import '../../domain/entities/achievements/achievement_requirement.dart';
 import '../../domain/entities/achievements/streak_requirement.dart';
 import '../../domain/entities/achievements/time_requirement.dart';
+import '../blocs/challenge_crud/challenge_crud_bloc.dart';
 
 class AchievedGoalItem extends StatelessWidget {
   final AchievementEntity achievement;
@@ -27,98 +29,120 @@ class AchievedGoalItem extends StatelessWidget {
   static const _subTitleColor = AppColors.grayText;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: context.isDarkMode ? AppColors.darkText : AppColors.lightText,
-        borderRadius:
-            const BorderRadius.all(Radius.circular(AppSpacing.radiusM)),
-      ),
-      padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.paddingM, vertical: AppSpacing.paddingS),
-      margin: const EdgeInsets.all(AppSpacing.marginS),
-      child: Column(
-        children: [
-          ListTile(
-            contentPadding: EdgeInsets.zero,
-            leading: Iconify(
-              achievement.achievementIcon.icon,
-              color: achievement.achievementIcon.color,
-            ),
-            title: Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: AppSpacing.paddingS),
-              child: Row(
+    return BlocBuilder<ChallengeCrudBloc, ChallengeCrudState>(
+      builder: (context, state) {
+        AchievementEntity currentAchievement = achievement;
+
+        if (state is ChallengeUnlocked && state.achievement != achievement) {
+          currentAchievement = state.achievement;
+        } else if (state is ChallengeUpdated &&
+            state.achievement != achievement) {
+          currentAchievement = state.achievement;
+        }
+
+        return Container(
+          decoration: BoxDecoration(
+            color:
+                context.isDarkMode ? AppColors.darkText : AppColors.lightText,
+            borderRadius:
+                const BorderRadius.all(Radius.circular(AppSpacing.radiusM)),
+          ),
+          padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.paddingM, vertical: AppSpacing.paddingS),
+          margin: const EdgeInsets.all(AppSpacing.marginS),
+          child: Column(
+            children: [
+              ListTile(
+                contentPadding: EdgeInsets.zero,
+                leading: Iconify(
+                  currentAchievement.achievementIcon.icon,
+                  color: currentAchievement.achievementIcon.color,
+                ),
+                title: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: AppSpacing.paddingS),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          currentAchievement.achievementName,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: AppFontSize.h3,
+                          ),
+                          semanticsLabel: currentAchievement.achievementName,
+                          maxLines: 5,
+                          overflow: TextOverflow.visible,
+                        ),
+                      ),
+                      (currentAchievement.isUnlocked)
+                          ? _buildCheckIcon()
+                          : TextWithCircleBorderContainer(
+                              title: achievement
+                                  .achievementLevel.name.toUpperCaseFirstLetter,
+                              backgroundColor:
+                                  currentAchievement.achievementLevel.color,
+                            ),
+                    ],
+                  ),
+                ),
+                subtitle: Text(
+                  currentAchievement.achievementDesc,
+                  maxLines: 10,
+                  style: TextStyle(
+                    color: _subTitleColor,
+                    fontSize: AppFontSize.bodyLarge,
+                  ),
+                ),
+              ),
+              if (currentAchievement.isUnlocked &&
+                  currentAchievement.unlockedDate != null) ...[
+                _spacing,
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: IconWithText(
+                    icon: FontAwesomeIcons.calendar,
+                    text: S.current.earned_at(currentAchievement.unlockedDate!),
+                    iconSize: 20,
+                    fontSize: AppFontSize.labelLarge,
+                    fontColor: _subTitleColor,
+                    iconColor: _subTitleColor,
+                  ),
+                ),
+              ],
+              _spacing,
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Flexible(
-                    child: Text(
-                      achievement.achievementName,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: AppFontSize.h3,
-                      ),
-                      semanticsLabel: achievement.achievementName,
-                      maxLines: 5,
-                      overflow: TextOverflow.visible,
-                    ),
+                  IconWithText(
+                    icon: FontAwesomeIcons.barsProgress,
+                    text: _buildCurrentProgress(
+                        currentAchievement.achievementRequirement),
+                    iconSize: 20,
+                    fontSize: AppFontSize.labelLarge,
+                    fontColor: _subTitleColor,
+                    iconColor: _subTitleColor,
                   ),
-                  (achievement.isUnlocked)
-                      ? _buildCheckIcon()
-                      : TextWithCircleBorderContainer(
-                          title: achievement
-                              .achievementLevel.name.toUpperCaseFirstLetter,
-                          backgroundColor: achievement.achievementLevel.color,
-                        ),
+                  Text(
+                    _buildTarget(currentAchievement.achievementRequirement),
+                    style: TextStyle(
+                      color: _subTitleColor,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    maxLines: 5,
+                  ),
                 ],
-              ),
-            ),
-            subtitle: Text(
-              achievement.achievementDesc,
-              maxLines: 10,
-              style: TextStyle(
-                color: _subTitleColor,
-                fontSize: AppFontSize.bodyLarge,
-              ),
-            ),
-          ),
-          if (achievement.isUnlocked && achievement.unlockedDate != null) ...[
-            _spacing,
-            Align(
-              alignment: Alignment.centerLeft,
-              child: IconWithText(
-                icon: FontAwesomeIcons.calendar,
-                text: S.current.earned_at(achievement.unlockedDate!),
-                iconSize: 20,
-                fontSize: AppFontSize.labelLarge,
-                fontColor: _subTitleColor,
-                iconColor: _subTitleColor,
-              ),
-            ),
-          ],
-          _spacing,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconWithText(
-                icon: FontAwesomeIcons.barsProgress,
-                text: _buildCurrentProgress(achievement.achievementRequirement),
-                iconSize: 20,
-                fontSize: AppFontSize.labelLarge,
-                fontColor: _subTitleColor,
-                iconColor: _subTitleColor,
-              ),
-              Text(
-                _buildTarget(achievement.achievementRequirement),
-                style: TextStyle(
-                  color: _subTitleColor,
-                  fontWeight: FontWeight.bold,
-                ),
-                maxLines: 5,
               ),
             ],
           ),
-        ],
-      ),
+        );
+      },
+      buildWhen: (previous, current) =>
+          (current is ChallengeUnlocked &&
+              current.achievement.achievementId == achievement.achievementId) ||
+          (current is ChallengeUpdated &&
+              current.achievement.achievementId == achievement.achievementId),
     );
   }
 

@@ -36,6 +36,16 @@ final class HabitHistoryCrudFailure extends HabitHistoryCrudState {
   List<Object> get props => [message];
 }
 
-final class DailyHabitCompleted extends HabitHistoryCrudState {}
+final class DailyHabitCompleted extends HabitHistoryCrudState {
+  final HabitHistory history;
+  const DailyHabitCompleted(this.history);
+  @override
+  List<Object> get props => [history];
+}
 
-final class DailyHabitPaused extends HabitHistoryCrudState {}
+final class DailyHabitSkipped extends HabitHistoryCrudState {
+  final HabitHistory history;
+  const DailyHabitSkipped(this.history);
+  @override
+  List<Object> get props => [history];
+}

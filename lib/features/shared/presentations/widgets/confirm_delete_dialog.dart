@@ -29,6 +29,18 @@ class ConfirmDeleteDialog extends StatelessWidget {
       ),
       actions: [
         TextButton(
+          onPressed: onCancel ??
+              () {
+                Navigator.of(context).pop(false);
+              },
+          child: Text(
+            S.current.cancel_button,
+            style: const TextStyle(
+              color: AppColors.primary,
+            ),
+          ),
+        ),
+        TextButton(
           onPressed: onDelete ??
               () {
                 Navigator.of(context).pop(true);
@@ -38,18 +50,6 @@ class ConfirmDeleteDialog extends StatelessWidget {
             S.current.delete_button,
             style: const TextStyle(
               color: Colors.red,
-            ),
-          ),
-        ),
-        TextButton(
-          onPressed: onCancel ??
-              () {
-                Navigator.of(context).pop(false);
-              },
-          child: Text(
-            S.current.cancel_button,
-            style: const TextStyle(
-              color: AppColors.primary,
             ),
           ),
         ),

@@ -35,7 +35,9 @@ class ChallengeCrudBloc extends Bloc<ChallengeCrudEvent, ChallengeCrudState> {
     try {
       final achievements =
           await achievementRepository.getAllLocalAchievements();
-      emit(AllChallengeGot(achievements));
+      emit(AllChallengeGot(
+        achievements.map((e) => e.toEntity()).toList(),
+      ));
     } catch (e) {
       _appLogger.e(e);
       emit(ChallengeCrudFailed("Failed to load local achievements"));
@@ -95,14 +97,15 @@ class ChallengeCrudBloc extends Bloc<ChallengeCrudEvent, ChallengeCrudState> {
   FutureOr<void> _onUpdateAchievement(
       UpdateAchievement event, Emitter<ChallengeCrudState> emit) async {
     try {
-      List<AchievementModel> achievements =
+      final allAchievements =
           await achievementRepository.getAllLocalAchievements();
 
-      achievements = achievements.where((e) => !e.isUnlocked).toList();
+      final lockedAchievements = allAchievements
+        ..removeWhere((e) => e.isUnlocked);
 
       final matcher = AchievementMatcher();
-      final matchingAchievements =
-          await matcher.findMatchingAchievements(achievements, event.habitUnit);
+      final matchingAchievements = await matcher.findMatchingAchievements(
+          lockedAchievements, event.habitUnit);
 
       final handlers = [
         AccumulationHandler(),
@@ -130,17 +133,20 @@ class ChallengeCrudBloc extends Bloc<ChallengeCrudEvent, ChallengeCrudState> {
           normalizeValue,
         );
 
-        if (updatedRequirement.isCompleted) {
-          final unlockedAchievement = achievement.copyWith(
-            achievementRequirement: updatedRequirement,
-            isUnlocked: true,
-            unlockedDate: DateTime.now(),
-          );
+        final unlockedAchievement = achievement.copyWith(
+          achievementRequirement: updatedRequirement,
+          isUnlocked: updatedRequirement.isCompleted,
+          unlockedDate: updatedRequirement.isCompleted ? DateTime.now() : null,
+        );
 
-          await achievementRepository.updateAchievement(
-            AchievementModel.fromEntity(unlockedAchievement),
-          );
+        await achievementRepository.updateAchievement(
+          AchievementModel.fromEntity(unlockedAchievement),
+        );
+
+        if (updatedRequirement.isCompleted) {
           emit(ChallengeUnlocked(unlockedAchievement));
+        } else {
+          emit(ChallengeUpdated(unlockedAchievement));
         }
       }
     } catch (e) {

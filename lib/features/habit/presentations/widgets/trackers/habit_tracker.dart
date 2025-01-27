@@ -79,14 +79,14 @@ class _HabitTrackerState extends State<HabitTracker> {
 
           SharedHabitAction.showDailyCompletionDialog(
             context: context,
-            history: history,
+            history: state.history,
           );
-        } else if (state is DailyHabitPaused) {
+        } else if (state is DailyHabitSkipped) {
           trackStatus = DayStatus.skipped;
 
           SharedHabitAction.showDailyCompletionDialog(
             context: context,
-            history: history,
+            history: state.history,
           );
         }
       },

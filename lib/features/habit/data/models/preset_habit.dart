@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:hive_ce/hive.dart';
+import 'package:iconify_flutter_plus/icons/arcticons.dart';
 
 import '../../../../core/enums/habit/goal_type.dart';
 import '../../../../core/enums/habit/goal_unit.dart';
@@ -87,7 +89,11 @@ class PresetHabits {
         goalUnit: GoalUnit.minute,
       ),
       habitCategory: HabitCategory.mindfulness,
-      habitIcon: HabitIcon.fromKey(PredefinedHabitIconKey.exercise),
+      habitIcon: HabitIcon(
+        key: PredefinedHabitIconKey.exercise.name,
+        icon: Arcticons.meditation_timer,
+        color: Colors.purple,
+      ),
       habitStatus: HabitStatus.pending,
       timeOfDay: HabitTimeOfDay.morning,
       reminderTimes: {'6:30'},

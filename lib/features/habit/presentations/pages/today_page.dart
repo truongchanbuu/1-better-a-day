@@ -29,7 +29,7 @@ class _TodayPageState extends State<TodayPage> with RouteAware {
   @override
   void initState() {
     super.initState();
-    _loadAllTodayHabits();
+    _loadAllHabits();
   }
 
   @override
@@ -41,13 +41,7 @@ class _TodayPageState extends State<TodayPage> with RouteAware {
   @override
   void didPopNext() {
     super.didPopNext();
-    _loadAllTodayHabits();
-  }
-
-  @override
-  void didPop() {
-    super.didPop();
-    _loadAllTodayHabits();
+    _loadAllHabits();
   }
 
   @override
@@ -70,7 +64,7 @@ class _TodayPageState extends State<TodayPage> with RouteAware {
       ),
       body: SafeArea(
         child: RefreshIndicator(
-          onRefresh: () async => _loadAllTodayHabits(),
+          onRefresh: () async => _loadAllHabits(),
           child: CustomScrollView(
             slivers: [
               // Header section with greeting
@@ -189,12 +183,12 @@ class _TodayPageState extends State<TodayPage> with RouteAware {
     return Center(
       child: NotFoundAndRefresh(
         title: S.current.no_task_today,
-        onRefresh: _loadAllTodayHabits,
+        onRefresh: _loadAllHabits,
       ),
     );
   }
 
-  void _loadAllTodayHabits() {
+  void _loadAllHabits() {
     context.read<HabitCrudBloc>().add(GetAllHabits());
   }
 }

@@ -6,12 +6,10 @@ import '../../features/habit/presentations/blocs/crud/habit_crud_bloc.dart';
 import '../../features/habit/presentations/blocs/habit_history_crud/habit_history_crud_bloc.dart';
 import '../../features/habit/presentations/pages/all_habits_page.dart';
 import '../../features/habit/presentations/pages/today_page.dart';
-import '../../features/rewards/presentations/blocs/challenge_crud/challenge_crud_bloc.dart';
 import '../../features/rewards/presentations/pages/challenge_page.dart';
 import '../../features/settings/presentations/pages/settings_page.dart';
 import '../../generated/l10n.dart';
 import '../../injection_container.dart';
-import '../constants/app_color.dart';
 
 enum TabType {
   today,
@@ -31,7 +29,7 @@ enum TabType {
       case TabType.habits:
         return S.current.all_habits;
       case TabType.challenges:
-        return S.current.challenges_screen;
+        return S.current.achievements_screen;
     }
   }
 
@@ -88,6 +86,6 @@ enum TabType {
         TabType.settings => const SizedBox.shrink(),
         TabType.habits => const SizedBox.shrink(),
         TabType.today => const SizedBox.shrink(),
-        TabType.challenges => const SizedBox(),
+        TabType.challenges => const SizedBox.shrink(),
       };
 }

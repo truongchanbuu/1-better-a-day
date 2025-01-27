@@ -100,10 +100,18 @@ class HabitHistoryCrudBloc
         return;
       }
 
+      final historyEntity = updatedHistory.toEntity();
+
       emit(HabitHistoryCrudSuccess(
         HabitHistoryCrudEventType.update,
-        [updatedHistory.toEntity()],
+        [historyEntity],
       ));
+
+      if (updatedHistory.executionStatus == DayStatus.completed) {
+        emit(DailyHabitCompleted(historyEntity));
+      } else if (updatedHistory.executionStatus == DayStatus.skipped) {
+        emit(DailyHabitSkipped(historyEntity));
+      }
     } catch (e) {
       _appLogger.e(e.toString());
       emit(HabitHistoryCrudFailure(e.toString()));
@@ -121,7 +129,9 @@ class HabitHistoryCrudBloc
   }
 
   HabitHistoryModel _updateWaterHabitHistory(
-      HabitHistoryModel history, AddWaterHabitHistory event) {
+    HabitHistoryModel history,
+    AddWaterHabitHistory event,
+  ) {
     final currentValue = history.currentValue + event.quantity;
     final isCompleted = currentValue >= event.targetValue;
     return history.copyWith(
@@ -177,7 +187,9 @@ class HabitHistoryCrudBloc
   }
 
   Future<void> _onSetHabitHistoryStatus(
-      SetHabitHistoryStatus event, Emitter<HabitHistoryCrudState> emit) async {
+    SetHabitHistoryStatus event,
+    Emitter<HabitHistoryCrudState> emit,
+  ) async {
     try {
       final isCompleted = event.status == DayStatus.completed;
       final history = await _updateHabitHistory(event);
@@ -186,16 +198,29 @@ class HabitHistoryCrudBloc
         return;
       }
 
-      final currentHabit =
-          await _updateParentHabit(history.habitId, isCompleted);
+      final currentHabit = await _updateParentHabit(
+        history.habitId,
+        isCompleted,
+      );
       if (currentHabit == null) {
         emit(HabitHistoryCrudFailure(S.current.cannot_get_any_habit));
         return;
       }
 
-      emit(isCompleted ? DailyHabitCompleted() : DailyHabitPaused());
-      emit(HabitHistoryCrudSuccess(
-          HabitHistoryCrudEventType.update, [history.toEntity()]));
+      final historyEntity = history.toEntity();
+
+      emit(
+        HabitHistoryCrudSuccess(
+          HabitHistoryCrudEventType.update,
+          [historyEntity],
+        ),
+      );
+
+      if (isCompleted) {
+        emit(DailyHabitCompleted(historyEntity));
+      } else if (event.status == DayStatus.skipped) {
+        emit(DailyHabitSkipped(historyEntity));
+      }
     } catch (e) {
       _appLogger.e(e.toString());
       emit(HabitHistoryCrudFailure(S.current.cannot_get_any_history));
@@ -203,7 +228,8 @@ class HabitHistoryCrudBloc
   }
 
   Future<HabitHistoryModel?> _updateHabitHistory(
-      SetHabitHistoryStatus event) async {
+    SetHabitHistoryStatus event,
+  ) async {
     final habit =
         await habitHistoryRepository.getHabitHistoryById(event.historyId);
     if (habit == null) return null;

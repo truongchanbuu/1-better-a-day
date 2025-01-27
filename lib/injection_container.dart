@@ -30,6 +30,7 @@ import 'features/habit/presentations/blocs/distance_track/distance_track_cubit.d
 import 'features/habit/presentations/blocs/habit_history_crud/habit_history_crud_bloc.dart';
 import 'features/habit/presentations/blocs/habit_time_tracker/habit_time_tracker_bloc.dart';
 import 'features/habit/presentations/blocs/review_habit_action/review_habit_action_bloc.dart';
+import 'features/habit/presentations/blocs/statistic_crud/statistic_crud_bloc.dart';
 import 'features/habit/presentations/blocs/validate_habit/validate_habit_bloc.dart';
 import 'features/notification/data/models/reminder_model.dart';
 import 'features/notification/data/repositories/reminder_repo_impl.dart';
@@ -83,19 +84,21 @@ Future<void> initializeDependencies() async {
   );
 
   final reminderBox = await Hive.openBox<Map>('reminders');
-  getIt.registerSingleton<Box<Map>>(reminderBox, instanceName: 'reminderBox');
+  getIt.registerSingleton<Box<Map<dynamic, dynamic>>>(reminderBox,
+      instanceName: 'reminderBox');
   getIt.registerFactory<HiveCRUDInterface<ReminderModel>>(
     () => HiveCRUDImplementation<ReminderModel>(
-      getIt.get<Box<Map>>(instanceName: 'reminderBox'),
+      getIt.get<Box<Map<dynamic, dynamic>>>(instanceName: 'reminderBox'),
       () => ReminderModel.fromEntity(ReminderEntity.init()),
     ),
   );
 
-  final challengeBox = await Hive.openBox<Map>('challenges');
-  getIt.registerSingleton<Box<Map>>(challengeBox, instanceName: 'challengeBox');
+  final challengeBox = await Hive.openBox<Map<dynamic, dynamic>>('challenges');
+  getIt.registerSingleton<Box<Map<dynamic, dynamic>>>(challengeBox,
+      instanceName: 'challengeBox');
   getIt.registerFactory<HiveCRUDInterface<AchievementModel>>(
     () => HiveCRUDImplementation(
-      getIt.get<Box<Map>>(instanceName: 'challengeBox'),
+      getIt.get<Box<Map<dynamic, dynamic>>>(instanceName: 'challengeBox'),
       () => AchievementModel.fromEntity(AchievementEntity.init()),
     ),
   );
@@ -165,6 +168,9 @@ Future<void> initializeDependencies() async {
   getIt.registerFactory<ReminderBloc>(() => ReminderBloc(getIt()));
   getIt.registerFactory<ChallengeCrudBloc>(() => ChallengeCrudBloc(getIt()));
   getIt.registerFactory<CollectionCrudBloc>(() => CollectionCrudBloc(getIt()));
+  getIt.registerFactory<StatisticCrudBloc>(
+    () => StatisticCrudBloc(habitRepository: getIt()),
+  );
 
   // Cubit
   getIt.registerSingleton<SettingsCubit>(SettingsCubit(getIt()));
@@ -174,9 +180,6 @@ Future<void> initializeDependencies() async {
   getIt.registerFactoryParam<DistanceTrackCubit, double, void>(
     (targetDistance, _) => DistanceTrackCubit(targetDistance: targetDistance),
   );
-
-  // TODO: TEST ONLY
-  await getIt.get<AchievementRepository>().deleteAll();
 
   await getIt.get<ReminderService>().init();
   await PreDefinedAchievements.storeAllPredefinedAchievements();

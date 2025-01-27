@@ -51,7 +51,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m9(completedTasks, totalTasks) =>
       "${completedTasks}/${totalTasks}";
 
-  static String m10(time) => "Achieved at: ${time}";
+  static String m10(value) => "Achieved at: ${value}";
 
   static String m11(n) =>
       "${Intl.plural(n, one: 'Every ${n} day', other: 'Every ${n} days')}";
@@ -111,6 +111,8 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m31(count) =>
       "${Intl.plural(count, zero: 'No Streak', one: '1 Streak', other: '${count} Streaks')}";
 
+  static String m32(name) => "You achieved ${name}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "accept_button": MessageLookupByLibrary.simpleMessage("Accept"),
@@ -131,6 +133,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "achieved_statistic_page":
             MessageLookupByLibrary.simpleMessage("Achieved"),
         "achievement_done": MessageLookupByLibrary.simpleMessage("Achievement"),
+        "achievements_screen":
+            MessageLookupByLibrary.simpleMessage("Achievements"),
         "action_creative_build": MessageLookupByLibrary.simpleMessage("build"),
         "action_creative_compose":
             MessageLookupByLibrary.simpleMessage("compose"),
@@ -307,7 +311,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "category_distribution":
             MessageLookupByLibrary.simpleMessage("Category Distribution"),
         "challenge_level": MessageLookupByLibrary.simpleMessage("Level"),
-        "challenges_screen": MessageLookupByLibrary.simpleMessage("Challenges"),
         "change_from_last_week": m3,
         "cm_unit": MessageLookupByLibrary.simpleMessage("cm"),
         "collection_tab": MessageLookupByLibrary.simpleMessage("Collections"),
@@ -323,6 +326,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Improving 1% each day will make you 37 times better after a year."),
         "confirm_password_field":
             MessageLookupByLibrary.simpleMessage("Confirm Password"),
+        "congratulation_title":
+            MessageLookupByLibrary.simpleMessage("Congratulation"),
         "create_new_challenge":
             MessageLookupByLibrary.simpleMessage("Create your own challenge"),
         "current_distance":
@@ -1103,6 +1108,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Weekly"),
         "wrong_password": MessageLookupByLibrary.simpleMessage(
             "Incorrect password, please try again."),
-        "year_title": MessageLookupByLibrary.simpleMessage("Year")
+        "year_title": MessageLookupByLibrary.simpleMessage("Year"),
+        "you_achieved": m32
       };
 }

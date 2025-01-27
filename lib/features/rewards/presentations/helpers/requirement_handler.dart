@@ -1,3 +1,5 @@
+import 'package:moment_dart/moment_dart.dart';
+
 import '../../../../core/enums/habit/goal_unit.dart';
 import '../../../../core/helpers/duration_helper.dart';
 import '../../domain/entities/achievements/accumulation_requirement.dart';
@@ -33,7 +35,7 @@ class AccumulationHandler extends RequirementHandler {
 class TimeRequirementHandler extends RequirementHandler {
   @override
   bool canHandle(AchievementRequirement requirement) =>
-      requirement is TimeRequirementHandler;
+      requirement is TimeRequirement;
 
   @override
   AchievementRequirement processUpdate(
@@ -43,6 +45,8 @@ class TimeRequirementHandler extends RequirementHandler {
       value,
       GoalUnit.minute,
     );
+
+    print('MY: $value = ${duration?.toDurationString()}');
     return req.checkAndUpdate(duration);
   }
 }

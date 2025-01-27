@@ -87,7 +87,7 @@
   "settings": "Settings",
   "notifications": "Notifications",
   "all_habits": "All Habits",
-  "challenges_screen": "Challenges",
+  "achievements_screen": "Achievements",
 
   "@__SETTING__": {},
   "general_section": "General",
@@ -439,7 +439,7 @@
     }
   },
   "completion": "{count, plural, =0 {No completion} =1 {1 completion} other {{count} completions}}",
-  "@completion":{
+  "@completion": {
     "placeholders": {
       "count": {
         "type": "int"
@@ -452,13 +452,24 @@
   "collection_tab": "Collections",
   "personal_achievements": "Personal Achievements",
   "community_challenges": "Community Challenges",
-  "earned_at": "Achieved at: {time}",
+  "earned_at": "Achieved at: {value}",
+  "@earned_at": {
+    "placeholders": {
+      "value": {
+        "type": "DateTime",
+        "format": "dd/MM/yyyy HH:mm:ss",
+        "isCustomDateFormat": "true"
+      }
+    }
+  },
   "challenge_level": "Level",
   "quick_stats_title": "Quick Stats",
   "latest_achievement_title": "Latest Achievement",
   "first_achievement_title": "First Achievement",
   "most_achieved_level": "Most Achieved Level",
   "most_achieved_type": "Most Achieved Type",
+  "congratulation_title": "Congratulation",
+  "you_achieved": "You achieved {name}",
 
   "@__ADD_HABIT__": {},
   "get_preset_habit_option": "Get some useful pre-set habit",

@@ -172,7 +172,9 @@ class _CompletionBarchartState extends State<CompletionBarchart> {
   List<String> get currentPageHabits {
     final startIndex = _currentPage * _itemPerPage;
     return samples.sublist(
-        startIndex, min(startIndex + _itemPerPage, samples.length));
+      startIndex,
+      min(startIndex + _itemPerPage, samples.length),
+    );
   }
 
   bool get hasNextPage => (_currentPage + 1) * _itemPerPage < samples.length;

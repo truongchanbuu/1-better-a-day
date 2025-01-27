@@ -1,17 +1,14 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
-import 'package:moment_dart/moment_dart.dart';
 
 import 'config/route/app_route.dart';
 import 'config/theme/app_theme.dart';
 import 'core/constants/app_common.dart';
 import 'features/auth/presentations/bloc/auth_bloc/auth_bloc.dart';
-import 'features/rewards/domain/repositories/achievement_repository.dart';
 import 'features/rewards/presentations/blocs/challenge_crud/challenge_crud_bloc.dart';
 import 'features/settings/presentations/bloc/settings_cubit.dart';
 import 'features/shared/presentations/blocs/internet/internet_bloc.dart';
@@ -19,7 +16,6 @@ import 'features/shared/presentations/pages/app_view.dart';
 import 'firebase_options.dart';
 import 'generated/l10n.dart';
 import 'injection_container.dart';
-import 'services/reminder_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

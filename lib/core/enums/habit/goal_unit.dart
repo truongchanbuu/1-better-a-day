@@ -96,8 +96,8 @@ enum GoalUnit {
   Color get unitColor => switch (this) {
         reps => Colors.blue,
         sets => Colors.red,
-        l => Colors.green,
-        ml => Colors.lightGreen,
+        l => Colors.blue,
+        ml => Colors.blue,
         second => Colors.yellow,
         minute => Colors.orange,
         hour => Colors.deepOrange,
