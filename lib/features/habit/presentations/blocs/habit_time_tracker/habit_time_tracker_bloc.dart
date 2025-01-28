@@ -74,7 +74,9 @@ class HabitTimeTrackerBloc
   }
 
   FutureOr<void> _onInitialize(
-      TimeTrackingInit event, Emitter<HabitTimeTrackerState> emit) async {
+    TimeTrackingInit event,
+    Emitter<HabitTimeTrackerState> emit,
+  ) async {
     final permissionResults = await _requestPermissions();
 
     if (permissionResults.values.every((isGranted) => isGranted)) {
@@ -100,8 +102,14 @@ class HabitTimeTrackerBloc
     Emitter<HabitTimeTrackerState> emit,
   ) async {
     try {
+      if (await FlutterForegroundTask.isRunningService) {
+        await FlutterForegroundTask.stopService();
+      }
+
       await FlutterForegroundTask.saveData(
-          key: 'targetTime', value: targetTime);
+        key: 'targetTime',
+        value: targetTime,
+      );
 
       FlutterForegroundTask.startService(
         notificationTitle: TimeTrackerNotificationConfig.title,
@@ -227,6 +235,7 @@ class HabitTimeTrackerBloc
       foregroundTaskOptions: ForegroundTaskOptions(
         eventAction: ForegroundTaskEventAction.nothing(),
         allowWifiLock: true,
+        autoRunOnBoot: false,
       ),
     );
   }

@@ -21,10 +21,14 @@ class DistanceTrackCubit extends Cubit<DistanceTrackState> {
   }
 
   Future<void> startTracking() async {
+    if (await isRunning) {
+      await FlutterForegroundTask.stopService();
+    }
+
     FlutterForegroundTask.startService(
       notificationTitle:
           DistanceTrackerNotificationConfig.notificationInitialTitle,
-      notificationText: 'Total Distance: 0 m',
+      notificationText: 'Start to track the distance',
       notificationButtons: DistanceTrackerNotificationConfig.buttons(),
       callback: startLocationCallback,
     );

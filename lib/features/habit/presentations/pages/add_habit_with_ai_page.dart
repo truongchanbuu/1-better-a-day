@@ -14,6 +14,7 @@ import '../../../../core/extensions/context_extension.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../injection_container.dart';
 import '../../../notification/presentations/blocs/reminder/reminder_bloc.dart';
+import '../../../shared/presentations/blocs/internet/internet_bloc.dart';
 import '../../../shared/presentations/widgets/icon_with_text.dart';
 import '../blocs/ai_habit_generate/ai_habit_generate_bloc.dart';
 import '../blocs/crud/habit_crud_bloc.dart';
@@ -34,6 +35,7 @@ class _AddHabitWithAIPageState extends State<AddHabitWithAIPage> {
   @override
   void initState() {
     super.initState();
+    context.read<InternetBloc>().add(CheckInternetConnection());
     habitGenerationSentenceController = TextEditingController();
   }
 
@@ -57,6 +59,23 @@ class _AddHabitWithAIPageState extends State<AddHabitWithAIPage> {
           body: SingleChildScrollView(
             child: MultiBlocListener(
               listeners: [
+                BlocListener<InternetBloc, InternetState>(
+                  listener: (context, state) {
+                    if (state is InternetDisconnected) {
+                      AwesomeDialog(
+                        context: context,
+                        dialogType: DialogType.info,
+                        title: S.current.internet_failure_title,
+                        btnOkText: S.current.add_habit_manually,
+                        btnOkOnPress: () {
+                          Navigator.pop(context);
+                          _onAddHabit();
+                        },
+                        btnOkColor: AppColors.primary,
+                      ).show();
+                    }
+                  },
+                ),
                 BlocListener<AIHabitGenerateBloc, AIHabitGenerateState>(
                   listener: (context, state) {
                     SmartDialog.dismiss();

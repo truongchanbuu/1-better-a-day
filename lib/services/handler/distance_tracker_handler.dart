@@ -8,7 +8,7 @@ import 'package:geolocator/geolocator.dart';
 import '../../config/foreground_service/distance_tracker_notification_config.dart';
 import '../../core/extensions/num_extension.dart';
 
-@pragma('vm:entry-point')
+@pragma("vm:entry-point")
 void startLocationCallback() {
   FlutterForegroundTask.setTaskHandler(LocationTaskHandler());
 }
