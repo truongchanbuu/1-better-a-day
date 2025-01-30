@@ -2383,11 +2383,11 @@ class S {
     );
   }
 
-  /// `{count, plural, =0 { "Today" } =1 {A day ago} other {Last {count} days}}`
+  /// `{count, plural, =0 {Today} =1 {A day ago} other {Last {count} days}}`
   String last_n_day(int count) {
     return Intl.plural(
       count,
-      zero: ' "Today" ',
+      zero: 'Today',
       one: 'A day ago',
       other: 'Last $count days',
       name: 'last_n_day',
@@ -2397,7 +2397,7 @@ class S {
   }
 
   /// `{selection, select, positive {+{percentageValue}% compared to last week} negative {-{percentageValue}% compared to last week} neutral {No change from last week} other {No change from last week}}`
-  String change_from_last_week(String selection, int percentageValue) {
+  String change_from_last_week(String selection, double percentageValue) {
     return Intl.select(
       selection,
       {

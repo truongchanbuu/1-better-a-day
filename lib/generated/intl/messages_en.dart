@@ -77,7 +77,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m18(dateTime) => "Last completed at: ${dateTime}";
 
   static String m19(count) =>
-      "${Intl.plural(count, zero: ' \"Today\" ', one: 'A day ago', other: 'Last ${count} days')}";
+      "${Intl.plural(count, zero: 'Today', one: 'A day ago', other: 'Last ${count} days')}";
 
   static String m20(value) => "You are ${value}% on your way";
 

@@ -1,11 +1,14 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/constants/app_color.dart';
 import '../../../../core/constants/app_font_size.dart';
 import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../generated/l10n.dart';
+import '../../../../injection_container.dart';
+import '../blocs/statistic_crud/statistic_crud_bloc.dart';
 import '../widgets/statistic/achieved_statistic.dart';
 import '../widgets/statistic/current_statistic.dart';
 import '../widgets/statistic/failed_statistic.dart';
@@ -104,7 +107,10 @@ class _HabitStatisticPageState extends State<HabitStatisticPage> {
   Widget _buildStatistics() {
     switch (_selectedPageKey) {
       case allPageKey:
-        return const GeneralStatistics();
+        return BlocProvider(
+          create: (context) => getIt.get<StatisticCrudBloc>(),
+          child: const GeneralStatistics(),
+        );
       case achievedPageKey:
         return const AchievedStatistic();
       case failedPageKey:

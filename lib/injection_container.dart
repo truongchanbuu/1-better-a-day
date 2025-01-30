@@ -169,7 +169,11 @@ Future<void> initializeDependencies() async {
   getIt.registerFactory<ChallengeCrudBloc>(() => ChallengeCrudBloc(getIt()));
   getIt.registerFactory<CollectionCrudBloc>(() => CollectionCrudBloc(getIt()));
   getIt.registerFactory<StatisticCrudBloc>(
-    () => StatisticCrudBloc(habitRepository: getIt()),
+    () => StatisticCrudBloc(
+      habitRepository: getIt(),
+      achievementRepository: getIt(),
+      habitHistoryRepository: getIt(),
+    ),
   );
 
   // Cubit

@@ -13,45 +13,68 @@ final class StatisticCrudInitial extends StatisticCrudState {
   const StatisticCrudInitial();
 }
 
-/// State while a CRUD operation is in progress (e.g., loading)
-final class StatisticCrudLoading extends StatisticCrudState {
-  const StatisticCrudLoading();
-}
+final class StatisticLoading extends StatisticCrudState {}
 
-/// State when a CRUD operation completes successfully
-final class StatisticCrudSuccess extends StatisticCrudState {
-  final String message; // Optional message to indicate success details
-  const StatisticCrudSuccess([this.message = 'Operation successful']);
-
-  @override
-  List<Object?> get props => [message];
-}
-
-/// State when a CRUD operation fails
-final class StatisticCrudFailure extends StatisticCrudState {
+final class StatisticLoadFailed extends StatisticCrudState {
   final String error;
 
-  const StatisticCrudFailure(this.error);
+  const StatisticLoadFailed(this.error);
 
   @override
   List<Object?> get props => [error];
 }
 
-/// State when statistics are successfully loaded
-final class StatisticCrudLoaded extends StatisticCrudState {
-  final HabitStatisticEntity statistics;
-  const StatisticCrudLoaded(this.statistics);
+final class BriefStatisticLoaded extends StatisticCrudState {
+  final int totalHabits;
+  final int longestStreak;
+  final int totalAchievements;
+
+  const BriefStatisticLoaded({
+    required this.totalHabits,
+    required this.longestStreak,
+    required this.totalAchievements,
+  });
 
   @override
-  List<Object?> get props => [statistics];
+  List<Object?> get props => [totalHabits, longestStreak, totalAchievements];
 }
 
-/// State when a single statistic is successfully fetched
-final class StatisticCrudDetailLoaded extends StatisticCrudState {
-  final HabitStatisticEntity statistic;
+final class GeneralStatisticLoaded extends StatisticCrudState {
+  final int totalHabits;
+  final int activeHabits;
+  final int pausedHabits;
+  final int failedHabits;
+  final int achievedHabits;
+  final int longestStreak;
+  final int totalAchievements;
+  final double completionRate;
+  final double completionRateTrend;
+  final List<HabitHistory> allHistories;
 
-  const StatisticCrudDetailLoaded(this.statistic);
+  const GeneralStatisticLoaded({
+    required this.totalHabits,
+    required this.activeHabits,
+    required this.pausedHabits,
+    required this.failedHabits,
+    required this.achievedHabits,
+    required this.longestStreak,
+    required this.totalAchievements,
+    required this.completionRate,
+    required this.completionRateTrend,
+    required this.allHistories,
+  });
 
   @override
-  List<Object?> get props => [statistic];
+  List<Object?> get props => [
+        totalHabits,
+        activeHabits,
+        achievedHabits,
+        failedHabits,
+        pausedHabits,
+        longestStreak,
+        totalAchievements,
+        completionRate,
+        completionRateTrend,
+        allHistories,
+      ];
 }

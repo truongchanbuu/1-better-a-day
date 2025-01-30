@@ -304,7 +304,7 @@
   "previous_habits_button": "Previous Page",
   "weekly_process_section": "Weekly",
   "monthly_process_section": "Monthly",
-  "last_n_day": "{count, plural, =0 { \"Today\" } =1 {A day ago} other {Last {count} days}}",
+  "last_n_day": "{count, plural, =0 {Today} =1 {A day ago} other {Last {count} days}}",
   "@last_n_day": {
     "placeholders": {
       "count": { "type": "int" }
@@ -317,7 +317,7 @@
         "type": "String",
         "description": "positive, negative, or neutral"
       },
-      "percentageValue": { "type": "int" }
+      "percentageValue": { "type": "double" }
     }
   },
   "achieved": "{count, plural, =0 {Achieved: 0} =1 {Achieved: 1} other {Achieved: {count}}}",

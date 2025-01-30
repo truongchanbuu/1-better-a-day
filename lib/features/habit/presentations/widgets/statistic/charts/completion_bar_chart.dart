@@ -1,12 +1,13 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:collection/collection.dart';
 
 import '../../../../../../core/constants/app_color.dart';
 import '../../../../../../core/constants/app_common.dart';
 import '../../../../../../core/constants/app_spacing.dart';
+import '../../../../../../core/enums/habit/day_status.dart';
 import '../../../../../../core/extensions/num_extension.dart';
 import '../../../../../../generated/l10n.dart';
 import '../../../../domain/entities/habit_history.dart';
@@ -22,25 +23,45 @@ class CompletionBarchart extends StatefulWidget {
 class _CompletionBarchartState extends State<CompletionBarchart> {
   static const _itemPerPage = 10;
   int _currentPage = 0;
+  late final Map<String, double> _completionRates;
+  late final List<MapEntry<String, double>> _sortedCompletionRates;
 
   static const double _axisNumberSize = 35;
-  static final samples = [
-    'Reading Book',
-    'Swimming',
-    'Jogging',
-    'Jogging 12',
-    'Jogging 1',
-    'Jogging 2',
-    'Jogging 3',
-    'Do Exercising',
-    'Drinking Water',
-    'Making breakfast',
-    'Making breakfast 2',
-    'Making breakfast 3',
-  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _completionRates = _calculateCompletionRates();
+    _sortedCompletionRates = _completionRates.entries.toList()
+      ..sort((a, b) => b.value.compareTo(a.value));
+  }
+
+  Map<String, double> _calculateCompletionRates() {
+    // Group histories by habit ID
+    final historiesByHabit = groupBy(
+      widget.allHabitHistories,
+      (history) => history.habitId,
+    );
+
+    // Calculate completion rate for each habit
+    return Map.fromEntries(
+      historiesByHabit.entries.map((entry) {
+        final histories = entry.value;
+        final completed = histories
+            .where((h) => h.executionStatus == DayStatus.completed)
+            .length;
+        final completionRate = (completed / histories.length) * 100;
+        return MapEntry(entry.key, completionRate);
+      }),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (_sortedCompletionRates.isEmpty) {
+      return const Center(child: Text('No habit data available'));
+    }
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -73,12 +94,13 @@ class _CompletionBarchartState extends State<CompletionBarchart> {
                 ),
               ),
               barTouchData: BarTouchData(
-                  touchTooltipData: BarTouchTooltipData(
-                fitInsideHorizontally: true,
-                fitInsideVertically: true,
-                getTooltipColor: (group) => AppColors.graphTooltipColor,
-                getTooltipItem: _buildToolTipItem,
-              )),
+                touchTooltipData: BarTouchTooltipData(
+                  fitInsideHorizontally: true,
+                  fitInsideVertically: true,
+                  getTooltipColor: (group) => AppColors.graphTooltipColor,
+                  getTooltipItem: _buildToolTipItem,
+                ),
+              ),
             ),
           ),
         ),
@@ -132,9 +154,14 @@ class _CompletionBarchartState extends State<CompletionBarchart> {
   }
 
   BarTooltipItem _buildToolTipItem(
-      BarChartGroupData group, groupIndex, BarChartRodData rod, rodIndex) {
+    BarChartGroupData group,
+    groupIndex,
+    BarChartRodData rod,
+    rodIndex,
+  ) {
+    final habitEntry = currentPageHabits[groupIndex];
     return BarTooltipItem(
-      currentPageHabits[groupIndex],
+      habitEntry.key,
       const TextStyle(
         color: AppColors.lightText,
         fontWeight: FontWeight.bold,
@@ -143,9 +170,11 @@ class _CompletionBarchartState extends State<CompletionBarchart> {
       children: [
         const TextSpan(text: '\n'),
         TextSpan(
-          children: [
-            TextSpan(text: (rod.toY as num).toStringAsFixedWithoutZero()),
-          ],
+          text: '${habitEntry.value.toStringAsFixedWithoutZero()}%',
+          style: const TextStyle(
+            color: AppColors.lightText,
+            fontWeight: FontWeight.normal,
+          ),
         )
       ],
     );
@@ -161,7 +190,7 @@ class _CompletionBarchartState extends State<CompletionBarchart> {
                 BarChartRodData(
                   width: 20,
                   borderRadius: BorderRadius.zero,
-                  toY: Random().nextInt(100).toDouble(),
+                  toY: e.value.value, // Use actual completion rate
                   color: AppColors.primary,
                 ),
               ],
@@ -169,13 +198,14 @@ class _CompletionBarchartState extends State<CompletionBarchart> {
         .toList();
   }
 
-  List<String> get currentPageHabits {
+  List<MapEntry<String, double>> get currentPageHabits {
     final startIndex = _currentPage * _itemPerPage;
-    return samples.sublist(
+    return _sortedCompletionRates.sublist(
       startIndex,
-      min(startIndex + _itemPerPage, samples.length),
+      min(startIndex + _itemPerPage, _sortedCompletionRates.length),
     );
   }
 
-  bool get hasNextPage => (_currentPage + 1) * _itemPerPage < samples.length;
+  bool get hasNextPage =>
+      (_currentPage + 1) * _itemPerPage < _sortedCompletionRates.length;
 }

@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../features/habit/presentations/blocs/crud/habit_crud_bloc.dart';
 import '../../features/habit/presentations/blocs/habit_history_crud/habit_history_crud_bloc.dart';
+import '../../features/habit/presentations/blocs/statistic_crud/statistic_crud_bloc.dart';
 import '../../features/habit/presentations/pages/all_habits_page.dart';
 import '../../features/habit/presentations/pages/today_page.dart';
 import '../../features/rewards/presentations/pages/challenge_page.dart';
@@ -66,7 +67,8 @@ enum TabType {
       case TabType.habits:
         return MultiBlocProvider(
           providers: [
-            BlocProvider(create: (context) => getIt.get<HabitCrudBloc>())
+            BlocProvider(create: (context) => getIt.get<HabitCrudBloc>()),
+            BlocProvider(create: (context) => getIt.get<StatisticCrudBloc>()),
           ],
           child: const AllHabitsPage(),
         );
