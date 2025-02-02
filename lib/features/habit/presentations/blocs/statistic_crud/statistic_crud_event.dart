@@ -11,3 +11,11 @@ sealed class StatisticCrudEvent extends Equatable {
 final class LoadBriefStatistic extends StatisticCrudEvent {}
 
 final class LoadGeneralStatistic extends StatisticCrudEvent {}
+
+final class LoadActiveStatistic extends StatisticCrudEvent {}
+
+final class LoadPauseStatistic extends StatisticCrudEvent {}
+
+final class LoadFailedStatistic extends StatisticCrudEvent {}
+
+final class LoadAchievedStatistic extends StatisticCrudEvent {}

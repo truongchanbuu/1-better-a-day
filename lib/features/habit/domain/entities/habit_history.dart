@@ -1,9 +1,11 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../../core/enums/habit/day_status.dart';
 import '../../../../core/enums/habit/goal_unit.dart';
 import '../../../../core/enums/habit/mood.dart';
+import 'habit_entity.dart';
 
 class HabitHistory extends Equatable {
   final String id;
@@ -50,6 +52,23 @@ class HabitHistory extends Equatable {
       mood: null,
       targetValue: null,
       measurement: GoalUnit.custom,
+    );
+  }
+
+  factory HabitHistory.failedHistory({
+    required String habitId,
+    required DateTime date,
+    required GoalUnit measurement,
+    double? targetValue,
+  }) {
+    return HabitHistory(
+      id: Uuid().v4(),
+      habitId: habitId,
+      date: date,
+      executionStatus: DayStatus.failed,
+      measurement: measurement,
+      targetValue: targetValue,
+      currentValue: 0,
     );
   }
 
@@ -102,5 +121,103 @@ class HabitHistory extends Equatable {
       targetValue,
       measurement,
     ];
+  }
+
+  static HabitEntity updateStreakIfNeeded({
+    required HabitEntity habit,
+    required List<HabitHistory> histories,
+  }) {
+    final now = DateTime.now();
+    final yesterday = now.subtract(const Duration(days: 1));
+
+    final normalizedYesterday = DateTime(
+      yesterday.year,
+      yesterday.month,
+      yesterday.day,
+    );
+
+    final yesterdayHistory = histories.where((history) {
+      final historyDate = DateTime(
+        history.date.year,
+        history.date.month,
+        history.date.day,
+      );
+      return historyDate.isAtSameMomentAs(normalizedYesterday);
+    }).firstOrNull;
+
+    if (yesterdayHistory == null ||
+        yesterdayHistory.executionStatus != DayStatus.completed) {
+      return habit.copyWith(
+        currentStreak: 0,
+        longestStreak: habit.longestStreak > habit.currentStreak
+            ? habit.longestStreak
+            : habit.currentStreak,
+      );
+    }
+
+    return habit;
+  }
+
+  static List<HabitEntity> batchUpdateStreaks({
+    required List<HabitEntity> habits,
+    required Map<String, List<HabitHistory>> historiesMap,
+  }) {
+    return habits.map((habit) {
+      final habitHistories = historiesMap[habit.habitId] ?? [];
+      return updateStreakIfNeeded(
+        habit: habit,
+        histories: habitHistories,
+      );
+    }).toList();
+  }
+
+  static HabitEntity incrementStreak(HabitEntity habit) {
+    final newStreak = habit.currentStreak + 1;
+    return habit.copyWith(
+      currentStreak: newStreak,
+      longestStreak:
+          newStreak > habit.longestStreak ? newStreak : habit.longestStreak,
+    );
+  }
+
+  static List<HabitHistory> fillMissingHistoryRecords({
+    required String habitId,
+    required DateTime startDate,
+    required DateTime endDate,
+    required Set<DateTime> existingDates,
+    required GoalUnit measurement,
+    double? targetValue,
+  }) {
+    final List<HabitHistory> generatedHistories = [];
+
+    final normalizedStartDate =
+        DateTime(startDate.year, startDate.month, startDate.day);
+    final normalizedEndDate =
+        DateTime(endDate.year, endDate.month, endDate.day);
+
+    for (var date = normalizedStartDate;
+        date.isBefore(normalizedEndDate) ||
+            date.isAtSameMomentAs(normalizedEndDate);
+        date = date.add(const Duration(days: 1))) {
+      // Check if we already have a history record for this date
+      bool hasExistingRecord = existingDates.contains(DateTime(
+        date.year,
+        date.month,
+        date.day,
+      ));
+
+      if (!hasExistingRecord) {
+        generatedHistories.add(
+          HabitHistory.failedHistory(
+            habitId: habitId,
+            date: date,
+            measurement: measurement,
+            targetValue: targetValue,
+          ),
+        );
+      }
+    }
+
+    return generatedHistories;
   }
 }

@@ -82,7 +82,7 @@ class CurrentStatistic extends StatelessWidget {
           icon: FontAwesomeIcons.triangleExclamation,
         ),
         StatisticItem(
-          title: S.current.pause_statistic_page,
+          title: S.current.paused_statistic_page,
           subTitle: '30% (3 ${S.current.day_title})',
           figureColor: AppColors.warning,
           iconColor: AppColors.warning,

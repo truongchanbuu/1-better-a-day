@@ -266,7 +266,7 @@
   "@__STATISTIC__": {},
   "all_statistic_page": "All",
   "active_statistic_page": "Active",
-  "pause_statistic_page": "Pause",
+  "paused_statistic_page": "Paused",
   "achieved_statistic_page": "Achieved",
   "failed_statistic_page": "Failed",
   "miss_title": "Miss",
@@ -294,6 +294,9 @@
   "total_paused_time": "Total Pause Time",
   "overall_completion_rate": "Overall Completion Rate",
   "avg_time": "Average Time",
+  "longest_time": "Longest Time",
+  "fastest_time": "Fastest Time",
+  "weekly_completion_rate": "Weekly Completion Rate",
   "completion_rate": "Completion Rate",
   "failed_rate": "Failed Rate",
   "category_distribution": "Category Distribution",
@@ -326,24 +329,28 @@
       "count": { "type": "int" }
     }
   },
+  "achieved_title": "Achieved:",
   "failed": "{count, plural, =0 {Failed: 0} =1 {Failed: 1} other {Failed: {count}}}",
   "@failed": {
     "placeholders": {
       "count": { "type": "int" }
     }
   },
+    "failed_title": "Failed:",
   "paused": "{count, plural, =0 {Paused: 0} =1 {Paused: 1} other {Paused: {count}}}",
   "@paused": {
     "placeholders": {
       "count": { "type": "int" }
     }
   },
+    "paused_title": "Paused:",
   "in_progress": "{count, plural, =0 {In Progress: 0} =1 {In Progress: 1} other {In Progress: {count}}}",
   "@in_progress": {
     "placeholders": {
       "count": { "type": "int" }
     }
   },
+  "in_progress_title": "In Progress:",
   "overall_progress": "Progress: {count}/{total} {time}",
   "@overall_progress": {
     "placeholders": {

@@ -1,13 +1,16 @@
+import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../config/log/app_logger.dart';
 import '../../../../../core/enums/habit/day_status.dart';
+import '../../../../../core/enums/habit/habit_category.dart';
 import '../../../../../core/enums/habit/habit_status.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../injection_container.dart';
 import '../../../../rewards/domain/repositories/achievement_repository.dart';
 import '../../../data/models/habit_model.dart';
+import '../../../domain/entities/habit_entity.dart';
 import '../../../domain/entities/habit_history.dart';
 import '../../../domain/repositories/habit_history_repository.dart';
 import '../../../domain/repositories/habit_repository.dart';
@@ -27,6 +30,10 @@ class StatisticCrudBloc extends Bloc<StatisticCrudEvent, StatisticCrudState> {
   }) : super(StatisticCrudInitial()) {
     on<LoadBriefStatistic>(_onLoadBriefStatistic);
     on<LoadGeneralStatistic>(_onLoadGeneralStatistic);
+    on<LoadActiveStatistic>(_onLoadActiveStatistic);
+    on<LoadPauseStatistic>(_onLoadPauseStatistic);
+    on<LoadFailedStatistic>(_onLoadFailedStatistic);
+    on<LoadAchievedStatistic>(_onLoadAchievedStatistic);
   }
 
   final _appLogger = getIt.get<AppLogger>();
@@ -48,7 +55,9 @@ class StatisticCrudBloc extends Bloc<StatisticCrudEvent, StatisticCrudState> {
   }
 
   Future<void> _onLoadGeneralStatistic(
-      LoadGeneralStatistic event, Emitter<StatisticCrudState> emit) async {
+    LoadGeneralStatistic event,
+    Emitter<StatisticCrudState> emit,
+  ) async {
     try {
       emit(StatisticLoading());
       // Get total habits
@@ -84,10 +93,12 @@ class StatisticCrudBloc extends Bloc<StatisticCrudEvent, StatisticCrudState> {
               e.date.isBefore(endOfPreviousWeek))
           .toList();
 
-      var stats = calculateCompletionStats(
+      var stats = calculateStatsByStatus(
         currentWeekHistories,
         previousWeekHistories,
       );
+
+      var overallCompletionRate = _calculateRateHabitsByStatus(allHabits);
 
       emit(GeneralStatisticLoaded(
         totalHabits: allHabits.length,
@@ -97,9 +108,115 @@ class StatisticCrudBloc extends Bloc<StatisticCrudEvent, StatisticCrudState> {
         achievedHabits: achievedHabits.length,
         longestStreak: await _getLongestStreak(),
         totalAchievements: await _getTotalAchievement(),
-        completionRate: stats.currentRate,
+        weeklyCompletionRate: stats.currentRate,
+        overallCompletionRate: overallCompletionRate,
         completionRateTrend: stats.relativeChange,
         allHistories: allHistories.map((e) => e.toEntity()).toList(),
+        allHabits: allHabits.map((e) => e.toEntity()).toList(),
+      ));
+    } catch (e) {
+      _appLogger.e(e);
+      emit(StatisticLoadFailed(S.current.not_found));
+    }
+  }
+
+  Future<void> _onLoadActiveStatistic(
+    LoadActiveStatistic event,
+    Emitter<StatisticCrudState> emit,
+  ) async {
+    try {
+      final allHabits =
+          (await _getAllHabits()).map((e) => e.toEntity()).toList();
+      final activeHabits =
+          allHabits.where((e) => e.habitStatus == HabitStatus.inProgress);
+
+      final habitData = _getHabitData(allHabits, HabitStatus.inProgress);
+
+      emit(ActiveStatisticLoaded(
+        activeHabits: activeHabits.length,
+        habitData: habitData,
+      ));
+    } catch (e) {
+      _appLogger.e(e);
+      emit(StatisticLoadFailed(S.current.not_found));
+    }
+  }
+
+  Future<void> _onLoadPauseStatistic(
+      LoadPauseStatistic event, Emitter<StatisticCrudState> emit) async {
+    try {
+      final allHabits =
+          (await _getAllHabits()).map((e) => e.toEntity()).toList();
+      final pausedHabits =
+          allHabits.where((e) => e.habitStatus == HabitStatus.paused);
+      final habitData = _getHabitData(allHabits, HabitStatus.paused);
+
+      emit(PausedStatisticLoaded(
+        pausedHabits: pausedHabits.length,
+        habitData: habitData,
+      ));
+    } catch (e) {
+      _appLogger.e(e);
+      emit(StatisticLoadFailed(S.current.not_found));
+    }
+  }
+
+  Future<void> _onLoadFailedStatistic(
+    LoadFailedStatistic event,
+    Emitter<StatisticCrudState> emit,
+  ) async {
+    try {
+      final allHabits =
+          (await _getAllHabits()).map((e) => e.toEntity()).toList();
+      final failedHabits =
+          allHabits.where((e) => e.habitStatus == HabitStatus.failed);
+
+      double failedRate = _calculateRateHabitsByStatus(allHabits);
+      final habitData = _getHabitData(allHabits, HabitStatus.failed);
+
+      emit(FailedStatisticLoaded(
+        failedHabits: failedHabits.length,
+        overallFailedRate: failedRate,
+        habitData: habitData,
+      ));
+    } catch (e) {
+      _appLogger.e(e);
+      emit(StatisticLoadFailed(S.current.not_found));
+    }
+  }
+
+  Future<void> _onLoadAchievedStatistic(
+    LoadAchievedStatistic event,
+    Emitter<StatisticCrudState> emit,
+  ) async {
+    try {
+      final allHabits =
+          (await _getAllHabits()).map((e) => e.toEntity()).toList();
+      final achievedHabits =
+          allHabits.where((e) => e.habitStatus == HabitStatus.achieved);
+
+      List<Duration> durations =
+          achievedHabits.map((entry) => entry.duration).toList();
+
+      Duration totalDuration = Duration.zero;
+      Duration avgDuration = Duration.zero;
+      Duration longestDuration = Duration.zero;
+      Duration fastestDuration = Duration.zero;
+
+      if (achievedHabits.isNotEmpty) {
+        totalDuration = durations.reduce((a, b) => a + b);
+        avgDuration = totalDuration ~/ durations.length;
+        longestDuration = durations.reduce((a, b) => a > b ? a : b);
+        fastestDuration = durations.reduce((a, b) => a < b ? a : b);
+      }
+      final habitData = _getHabitData(allHabits, HabitStatus.achieved);
+
+      emit(AchievedStatisticLoaded(
+        achievedHabits: achievedHabits.length,
+        avgDuration: avgDuration,
+        fastestDuration: fastestDuration,
+        longestDuration: longestDuration,
+        habitData: habitData,
       ));
     } catch (e) {
       _appLogger.e(e);
@@ -120,17 +237,17 @@ class StatisticCrudBloc extends Bloc<StatisticCrudEvent, StatisticCrudState> {
           .where((e) => e.isUnlocked)
           .length;
 
-  static CompletionStats calculateCompletionStats(
-    List<HabitHistory> currentWeekHistories,
-    List<HabitHistory> previousWeekHistories,
-  ) {
+  static StatsByStatus calculateStatsByStatus(
+      List<HabitHistory> currentWeekHistories,
+      List<HabitHistory> previousWeekHistories,
+      [DayStatus status = DayStatus.completed]) {
     // Calculate current week completion rate
     double currentWeekRate =
-        _calculateWeeklyCompletionRate(currentWeekHistories);
+        _calculateRateByStatus(currentWeekHistories, status);
 
     // Calculate previous week completion rate
     double previousWeekRate =
-        _calculateWeeklyCompletionRate(previousWeekHistories);
+        _calculateRateByStatus(previousWeekHistories, status);
 
     // Calculate the difference (as percentage points)
     double difference = currentWeekRate - previousWeekRate;
@@ -140,7 +257,7 @@ class StatisticCrudBloc extends Bloc<StatisticCrudEvent, StatisticCrudState> {
         ? ((currentWeekRate - previousWeekRate) / previousWeekRate) * 100
         : 0;
 
-    return CompletionStats(
+    return StatsByStatus(
       currentRate: currentWeekRate,
       previousRate: previousWeekRate,
       difference: difference,
@@ -153,29 +270,40 @@ class StatisticCrudBloc extends Bloc<StatisticCrudEvent, StatisticCrudState> {
     );
   }
 
-  /// Calculates the completion rate for a single week
-  static double _calculateWeeklyCompletionRate(List<HabitHistory> histories) {
+  /// Calculates the rate based on status for a single week
+  static double _calculateRateByStatus(List<HabitHistory> histories,
+      [DayStatus status = DayStatus.completed]) {
     if (histories.isEmpty) return 0;
 
-    int totalCompleted = histories
-        .where((history) => history.executionStatus == DayStatus.completed)
-        .length;
+    int totalCompleted =
+        histories.where((history) => history.executionStatus == status).length;
 
     return (totalCompleted / histories.length) * 100;
   }
 
+  /// Calculates the rate based on status for all habits
+  static double _calculateRateHabitsByStatus(List<HabitEntity> habits,
+      [HabitStatus status = HabitStatus.achieved]) {
+    if (habits.isEmpty) return 0;
+
+    int totalCompleted =
+        habits.where((habit) => habit.habitStatus == status).length;
+
+    return (totalCompleted / habits.length) * 100;
+  }
+
   /// Calculate completion rates grouped by habit
-  static Map<String, CompletionStats> calculateCompletionStatsByHabit(
+  static Map<String, StatsByStatus> calculateStatsByStatusByHabit(
     Map<String, List<HabitHistory>> currentWeekHistoriesByHabit,
     Map<String, List<HabitHistory>> previousWeekHistoriesByHabit,
   ) {
-    Map<String, CompletionStats> results = {};
+    Map<String, StatsByStatus> results = {};
 
     for (var habitId in currentWeekHistoriesByHabit.keys) {
       var currentHistories = currentWeekHistoriesByHabit[habitId] ?? [];
       var previousHistories = previousWeekHistoriesByHabit[habitId] ?? [];
 
-      results[habitId] = calculateCompletionStats(
+      results[habitId] = calculateStatsByStatus(
         currentHistories,
         previousHistories,
       );
@@ -183,20 +311,54 @@ class StatisticCrudBloc extends Bloc<StatisticCrudEvent, StatisticCrudState> {
 
     return results;
   }
+
+  int _calculateHabitStatusCount(
+    List<HabitEntity> habits,
+    HabitStatus status,
+  ) {
+    return habits.where((habit) => habit.habitStatus == status).length;
+  }
+
+  Map<String, List<double>> _getHabitData(
+    List<HabitEntity> allHabits,
+    HabitStatus status,
+  ) {
+    final categoryData = allHabits.groupListsBy((habit) => habit.habitCategory);
+    return Map.fromEntries(HabitCategory.valuesWithoutCustom.map((category) {
+      final categoryHabits = categoryData[category] ?? [];
+      double total = categoryHabits.length.toDouble();
+      double inProgress =
+          _calculateHabitStatusCount(categoryHabits, status).toDouble();
+
+      return MapEntry(
+        category.name,
+        [total, inProgress],
+      );
+    }));
+  }
 }
 
-class CompletionStats {
+class StatsByStatus extends Equatable {
   final double currentRate;
   final double previousRate;
   final double difference;
   final double relativeChange;
   final String trend;
 
-  CompletionStats({
+  const StatsByStatus({
     required this.currentRate,
     required this.previousRate,
     required this.difference,
     required this.relativeChange,
     required this.trend,
   });
+
+  @override
+  List<Object?> get props => [
+        currentRate,
+        previousRate,
+        difference,
+        relativeChange,
+        trend,
+      ];
 }

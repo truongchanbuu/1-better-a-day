@@ -85,7 +85,8 @@ class _HabitGeneralPieChartState extends State<HabitGeneralPieChart> {
         ChartColorNote(
           items: widget.dataItems
               .map(
-                  (item) => ColorNoteItem(color: item.color, title: item.label))
+                (item) => ColorNoteItem(color: item.color, title: item.label),
+              )
               .toList(),
         ),
       ],

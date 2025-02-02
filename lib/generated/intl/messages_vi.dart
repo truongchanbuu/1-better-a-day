@@ -132,6 +132,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Các thói quen đã đạt được"),
         "achieved_statistic_page":
             MessageLookupByLibrary.simpleMessage("Đã đạt được"),
+        "achieved_title": MessageLookupByLibrary.simpleMessage("Đạt đuược:"),
         "achievement_done": MessageLookupByLibrary.simpleMessage("Thành tựu"),
         "achievements_screen":
             MessageLookupByLibrary.simpleMessage("Thành tựu"),
@@ -405,7 +406,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "failed_rate": MessageLookupByLibrary.simpleMessage("Tỉ lệ thất bại"),
         "failed_statistic_page":
             MessageLookupByLibrary.simpleMessage("Thất bại"),
+        "failed_title": MessageLookupByLibrary.simpleMessage("Thất bại:"),
         "failure_title": MessageLookupByLibrary.simpleMessage("Thất bại"),
+        "fastest_time":
+            MessageLookupByLibrary.simpleMessage("Thời gian nhanh nhất"),
         "find_button": MessageLookupByLibrary.simpleMessage("Tìm kiếm"),
         "first_achievement_title":
             MessageLookupByLibrary.simpleMessage("Thành tựu đầu tiên"),
@@ -539,6 +543,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "in_progress": m17,
         "in_progress_habit": MessageLookupByLibrary.simpleMessage(
             "Các thói quen đang thực hiện"),
+        "in_progress_title":
+            MessageLookupByLibrary.simpleMessage("Đang tiến hành:"),
         "inactive_button":
             MessageLookupByLibrary.simpleMessage("Không kích hoạt"),
         "invalid_age": MessageLookupByLibrary.simpleMessage(
@@ -587,6 +593,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "logout_button": MessageLookupByLibrary.simpleMessage("Đăng xuất"),
         "longest_streak":
             MessageLookupByLibrary.simpleMessage("Chuỗi dài nhất"),
+        "longest_time":
+            MessageLookupByLibrary.simpleMessage("Thời gian lâu nhất"),
         "m_unit": MessageLookupByLibrary.simpleMessage("m"),
         "manage_account_choice":
             MessageLookupByLibrary.simpleMessage("Quản lý tài khoản"),
@@ -778,14 +786,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "passwords_do_not_match":
             MessageLookupByLibrary.simpleMessage("Mật khẩu không trùng khớp"),
         "pause_button": MessageLookupByLibrary.simpleMessage("Tạm dừng"),
-        "pause_statistic_page":
-            MessageLookupByLibrary.simpleMessage("Tạm ngưng"),
         "pause_tracking":
             MessageLookupByLibrary.simpleMessage("Tạm dừng theo dõi"),
         "paused": m23,
         "paused_at": m24,
         "paused_habit":
             MessageLookupByLibrary.simpleMessage("Các thói quen đang tạm dừng"),
+        "paused_statistic_page":
+            MessageLookupByLibrary.simpleMessage("Tạm ngưng"),
+        "paused_title": MessageLookupByLibrary.simpleMessage("Tạm dừng:"),
         "personal_achievements":
             MessageLookupByLibrary.simpleMessage("Thành tựu cá nhân"),
         "personal_info_section":
@@ -1128,6 +1137,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Vui lòng nhập mật khẩu mạnh hơn."),
         "weekday_title":
             MessageLookupByLibrary.simpleMessage("Các ngày trong tuần"),
+        "weekly_completion_rate":
+            MessageLookupByLibrary.simpleMessage("Tỉ lệ hoàn thành theo tuần"),
         "weekly_mood":
             MessageLookupByLibrary.simpleMessage("Tâm trạng trong tuần"),
         "weekly_process_section":

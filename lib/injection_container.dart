@@ -122,7 +122,8 @@ Future<void> initializeDependencies() async {
   // Storage
   getIt.registerSingleton<SharedPreferencesWithCache>(
     await SharedPreferencesWithCache.create(
-        cacheOptions: const SharedPreferencesWithCacheOptions()),
+      cacheOptions: const SharedPreferencesWithCacheOptions(),
+    ),
   );
   getIt.registerSingleton<CacheClient>(CacheClient(getIt()));
 
@@ -159,8 +160,11 @@ Future<void> initializeDependencies() async {
   getIt
       .registerFactory<AIHabitGenerateBloc>(() => AIHabitGenerateBloc(getIt()));
   getIt.registerFactory<HabitCrudBloc>(() => HabitCrudBloc(getIt()));
-  getIt.registerFactory<HabitHistoryCrudBloc>(
-      () => HabitHistoryCrudBloc(getIt(), getIt()));
+  getIt.registerFactory<HabitHistoryCrudBloc>(() => HabitHistoryCrudBloc(
+        habitHistoryRepository: getIt(),
+        habitRepository: getIt(),
+        cacheClient: getIt(),
+      ));
   getIt.registerCachedFactoryParam<HabitTimeTrackerBloc, int, void>(
       (target, _) => HabitTimeTrackerBloc(target));
   getIt.registerFactoryParam<ReviewHabitActionBloc, HabitHistory, void>(

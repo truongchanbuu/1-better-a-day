@@ -264,7 +264,7 @@
   "@__STATISTIC__": {},
   "all_statistic_page": "Tất cả",
   "active_statistic_page": "Đang thực hiện",
-  "pause_statistic_page": "Tạm ngưng",
+  "paused_statistic_page": "Tạm ngưng",
   "achieved_statistic_page": "Đã đạt được",
   "failed_statistic_page": "Thất bại",
   "miss_title": "Bỏ lỡ",
@@ -292,6 +292,9 @@
   "total_paused_time": "Tổng số thời gian tạm ngưng",
   "overall_completion_rate": "Tổng tỉ lệ hoàn thành",
   "avg_time": "Thời gian trung bình",
+  "longest_time": "Thời gian lâu nhất",
+  "fastest_time": "Thời gian nhanh nhất",
+  "weekly_completion_rate": "Tỉ lệ hoàn thành theo tuần",
   "completion_rate": "Tỉ lệ hoàn thành",
   "failed_rate": "Tỉ lệ thất bại",
   "category_based_completion_rate": "Tỉ lệ hoàn thành theo danh mục",
@@ -324,24 +327,29 @@
       "count": { "type": "int" }
     }
   },
+  "achieved_title": "Đạt đuược:",
+
   "failed": "{count, plural, =0 {Thất bại: 0} =1 {Thất bại: 1} other {Thất bại: {count}}}",
   "@failed": {
     "placeholders": {
       "count": { "type": "int" }
     }
   },
+  "failed_title": "Thất bại:",
   "paused": "{count, plural, =0 {Tạm dừng: 0} =1 {Tạm dừng: 1} other {Tạm dừng: {count}}}",
   "@paused": {
     "placeholders": {
       "count": { "type": "int" }
     }
   },
+  "paused_title": "Tạm dừng:",
   "in_progress": "{count, plural, =0 {Đang tiến hành: 0} =1 {Đang tiến hành: 1} other {Đang tiến hành: {count}}}",
   "@in_progress": {
     "placeholders": {
       "count": { "type": "int" }
     }
   },
+  "in_progress_title": "Đang tiến hành:",
   "overall_progress": "Tiến độ: {count}/{total} {time}",
   "@overall_progress": {
     "placeholders": {

@@ -47,9 +47,11 @@ final class GeneralStatisticLoaded extends StatisticCrudState {
   final int achievedHabits;
   final int longestStreak;
   final int totalAchievements;
-  final double completionRate;
+  final double weeklyCompletionRate;
+  final double overallCompletionRate;
   final double completionRateTrend;
   final List<HabitHistory> allHistories;
+  final List<HabitEntity> allHabits;
 
   const GeneralStatisticLoaded({
     required this.totalHabits,
@@ -59,9 +61,11 @@ final class GeneralStatisticLoaded extends StatisticCrudState {
     required this.achievedHabits,
     required this.longestStreak,
     required this.totalAchievements,
-    required this.completionRate,
+    required this.weeklyCompletionRate,
     required this.completionRateTrend,
     required this.allHistories,
+    required this.allHabits,
+    required this.overallCompletionRate,
   });
 
   @override
@@ -73,8 +77,73 @@ final class GeneralStatisticLoaded extends StatisticCrudState {
         pausedHabits,
         longestStreak,
         totalAchievements,
-        completionRate,
+        weeklyCompletionRate,
+        overallCompletionRate,
         completionRateTrend,
         allHistories,
+      ];
+}
+
+final class ActiveStatisticLoaded extends StatisticCrudState {
+  final int activeHabits;
+  final Map<String, List<double>> habitData;
+  const ActiveStatisticLoaded({
+    required this.activeHabits,
+    required this.habitData,
+  });
+
+  @override
+  List<Object?> get props => [activeHabits, habitData];
+}
+
+final class PausedStatisticLoaded extends StatisticCrudState {
+  final int pausedHabits;
+  final Map<String, List<double>> habitData;
+  const PausedStatisticLoaded({
+    required this.pausedHabits,
+    required this.habitData,
+  });
+
+  @override
+  List<Object?> get props => [pausedHabits, habitData];
+}
+
+final class FailedStatisticLoaded extends StatisticCrudState {
+  final int failedHabits;
+  final double overallFailedRate;
+  final Map<String, List<double>> habitData;
+
+  const FailedStatisticLoaded({
+    required this.failedHabits,
+    required this.overallFailedRate,
+    required this.habitData,
+  });
+
+  @override
+  List<Object?> get props => [failedHabits, overallFailedRate, habitData];
+}
+
+final class AchievedStatisticLoaded extends StatisticCrudState {
+  final int achievedHabits;
+  final Duration avgDuration;
+  final Duration longestDuration;
+  final Duration fastestDuration;
+  final Map<String, List<double>> habitData;
+
+  const AchievedStatisticLoaded({
+    required this.achievedHabits,
+    required this.avgDuration,
+    required this.longestDuration,
+    required this.fastestDuration,
+    required this.habitData,
+  });
+
+  @override
+  List<Object?> get props => [
+        achievedHabits,
+        avgDuration,
+        longestDuration,
+        fastestDuration,
+        habitData,
       ];
 }

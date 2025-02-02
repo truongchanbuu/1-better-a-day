@@ -1,26 +1,27 @@
-import 'dart:math';
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../../core/constants/app_color.dart';
 import '../../../../../../core/constants/app_spacing.dart';
+import '../../../../../../core/extensions/num_extension.dart';
 import '../../../../../../core/extensions/string_extension.dart';
 import '../../../../../../generated/l10n.dart';
 import 'chart_color_note.dart';
 
 class CategoryBasedCompletionRateBar extends StatelessWidget {
-  final List<String> categories;
+  final Map<String, List<double>> habitData;
   final Color primaryColor;
   final Color secondaryColor;
   final String primaryColorTitle;
+  final String tooltipTitle;
 
   const CategoryBasedCompletionRateBar({
     super.key,
-    required this.categories,
+    required this.habitData,
     this.primaryColor = AppColors.success,
     this.secondaryColor = AppColors.grayText,
     required this.primaryColorTitle,
+    required this.tooltipTitle,
   });
 
   @override
@@ -47,9 +48,14 @@ class CategoryBasedCompletionRateBar extends StatelessWidget {
         ),
         const SizedBox(height: AppSpacing.marginL),
         ChartColorNote(items: [
-          ColorNoteItem(color: primaryColor, title: primaryColorTitle),
           ColorNoteItem(
-              color: secondaryColor, title: S.current.same_type_habit),
+            color: primaryColor,
+            title: primaryColorTitle,
+          ),
+          ColorNoteItem(
+            color: secondaryColor,
+            title: S.current.same_type_habit,
+          ),
         ]),
       ],
     );
@@ -58,20 +64,23 @@ class CategoryBasedCompletionRateBar extends StatelessWidget {
   static const double _barWidth = 10;
   static const BorderRadius _borderRadius = BorderRadius.all(Radius.zero);
   List<BarChartGroupData> _buildBarGroups() {
-    return categories.asMap().entries.map(
-      (e) {
-        int index = e.key;
+    return habitData.entries.map(
+      (entry) {
+        String category = entry.key;
+        int index = habitData.keys.toList().indexOf(category);
+        final [total, data] = entry.value;
+
         return BarChartGroupData(
           x: index,
           barRods: [
             BarChartRodData(
-              toY: Random().nextInt(100).toDouble(),
+              toY: data,
               color: primaryColor,
               width: _barWidth,
               borderRadius: _borderRadius,
             ),
             BarChartRodData(
-              toY: Random().nextInt(100).toDouble(),
+              toY: total,
               color: secondaryColor,
               width: _barWidth,
               borderRadius: _borderRadius,
@@ -97,10 +106,17 @@ class CategoryBasedCompletionRateBar extends StatelessWidget {
     );
   }
 
-  BarTooltipItem? _buildToolTipItem(BarChartGroupData group, int groupIndex,
-      BarChartRodData rod, int rodIndex) {
+  BarTooltipItem? _buildToolTipItem(
+    BarChartGroupData group,
+    int groupIndex,
+    BarChartRodData rod,
+    int rodIndex,
+  ) {
+    String category = habitData.keys.toList()[groupIndex];
+    final [total, data] = habitData[category]!;
+
     return BarTooltipItem(
-      categories[groupIndex].toUpperCaseFirstLetter,
+      category.toUpperCaseFirstLetter,
       const TextStyle(
         color: AppColors.lightText,
         fontWeight: FontWeight.bold,
@@ -110,9 +126,11 @@ class CategoryBasedCompletionRateBar extends StatelessWidget {
         const TextSpan(text: '\n'),
         TextSpan(
           children: [
-            TextSpan(text: S.current.achieved(Random().nextInt(100))),
+            TextSpan(
+              text: '$tooltipTitle ${data.toStringAsFixedWithoutZero()}',
+            ),
             const TextSpan(text: '\n'),
-            TextSpan(text: S.current.total(Random().nextInt(100))),
+            TextSpan(text: S.current.total(total.toInt())),
           ],
         )
       ],

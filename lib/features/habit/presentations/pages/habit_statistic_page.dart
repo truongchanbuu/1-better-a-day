@@ -26,13 +26,13 @@ class HabitStatisticPage extends StatefulWidget {
 class _HabitStatisticPageState extends State<HabitStatisticPage> {
   static const allPageKey = 'allPage';
   static const activePageKey = 'activePage';
-  static const pausePageKey = 'pausePage';
+  static const pausedPageKey = 'pausedPage';
   static const failedPageKey = 'failedPage';
   static const achievedPageKey = 'achievedPage';
   Map<String, String> pageNames = {
     allPageKey: S.current.all_statistic_page,
     activePageKey: S.current.active_statistic_page,
-    pausePageKey: S.current.pause_statistic_page,
+    pausedPageKey: S.current.paused_statistic_page,
     failedPageKey: S.current.failed_statistic_page,
     achievedPageKey: S.current.achieved_statistic_page,
   };
@@ -83,19 +83,10 @@ class _HabitStatisticPageState extends State<HabitStatisticPage> {
                       .toList(),
                 ),
                 _spacing,
-                _buildStatistics(),
-                _spacing,
-
-                // Habit List
-                Text(
-                  S.current.habit_detail,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: AppFontSize.h3,
-                  ),
+                BlocProvider(
+                  create: (context) => getIt.get<StatisticCrudBloc>(),
+                  child: _buildStatistics(),
                 ),
-                // _spacing,
-                // const StatisticHabitList(habits: []),
               ],
             ),
           ),
@@ -107,15 +98,12 @@ class _HabitStatisticPageState extends State<HabitStatisticPage> {
   Widget _buildStatistics() {
     switch (_selectedPageKey) {
       case allPageKey:
-        return BlocProvider(
-          create: (context) => getIt.get<StatisticCrudBloc>(),
-          child: const GeneralStatistics(),
-        );
+        return const GeneralStatistics();
       case achievedPageKey:
         return const AchievedStatistic();
       case failedPageKey:
         return const FailedStatistic();
-      case pausePageKey:
+      case pausedPageKey:
         return const PausedStatistic();
       case activePageKey:
         return const InProgressStatistic();

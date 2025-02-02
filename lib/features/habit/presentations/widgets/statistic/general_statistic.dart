@@ -1,6 +1,5 @@
-import 'dart:math';
-
 import 'package:animated_switcher_plus/animated_switcher_plus.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bounce/flutter_bounce.dart';
@@ -11,9 +10,12 @@ import '../../../../../core/constants/app_color.dart';
 import '../../../../../core/constants/app_common.dart';
 import '../../../../../core/constants/app_spacing.dart';
 import '../../../../../core/enums/habit/habit_category.dart';
+import '../../../../../core/enums/habit/habit_status.dart';
 import '../../../../../core/extensions/num_extension.dart';
+import '../../../../../core/extensions/string_extension.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../shared/domain/entities/tab_bar_item.dart';
+import '../../../domain/entities/habit_entity.dart';
 import '../../../domain/entities/habit_history.dart';
 import '../../blocs/statistic_crud/statistic_crud_bloc.dart';
 import '../../pages/habit_statistic_page.dart';
@@ -59,10 +61,13 @@ class _GeneralStatisticsState extends State<GeneralStatistics> {
   ];
 
   List<Widget> _getCurrentGraph(GeneralStatisticLoaded state) => [
-        _CompletionBarChart(state.allHistories),
-        const _CategoryDistributionChart(),
-        const _CategoryBasedRate(),
-        const _GeneralPieChart(),
+        _CompletionBarChart(
+          allHabitHistories: state.allHistories,
+          habits: state.allHabits,
+        ),
+        _CategoryDistributionChart(state.allHabits),
+        _CategoryBasedRate(state.allHabits),
+        _GeneralPieChart(state.allHabits),
       ];
 
   static const _spacing = SizedBox(height: AppSpacing.marginM);
@@ -102,13 +107,22 @@ class _GeneralStatisticsState extends State<GeneralStatistics> {
                     : const SizedBox.shrink(),
               ),
               StatisticItem(
-                title: S.current.completion_rate,
-                subTitle: state.completionRate.toStringAsFixedWithoutZero(),
+                title: S.current.weekly_completion_rate,
+                subTitle:
+                    state.weeklyCompletionRate.toStringAsFixedWithoutZero(),
                 figure: S.current.change_from_last_week(
                   _getCompletionRateChangeText(state.completionRateTrend),
                   state.completionRateTrend,
                 ),
-                figureColor: AppColors.success,
+                figureColor:
+                    _getCompletionRateChangeColor(state.completionRateTrend),
+                icon: FontAwesomeIcons.chartLine,
+                iconColor: AppColors.success,
+              ),
+              StatisticItem(
+                title: S.current.overall_completion_rate,
+                subTitle:
+                    state.overallCompletionRate.toStringAsFixedWithoutZero(),
                 icon: FontAwesomeIcons.chartLine,
                 iconColor: AppColors.success,
               ),
@@ -179,10 +193,41 @@ class _GeneralStatisticsState extends State<GeneralStatistics> {
             ? 'negative'
             : 'neutral';
   }
+
+  Color _getCompletionRateChangeColor(double completionRateTrend) {
+    return completionRateTrend > 0
+        ? AppColors.success
+        : completionRateTrend < 0
+            ? AppColors.error
+            : AppColors.grayText;
+  }
 }
 
 class _GeneralPieChart extends StatelessWidget {
-  const _GeneralPieChart();
+  final List<HabitEntity> habits;
+  const _GeneralPieChart(this.habits);
+
+  Map<HabitStatus, double> get habitStatusDistribution {
+    final statusCount = <HabitStatus, int>{};
+
+    for (var status in HabitStatus.values) {
+      statusCount[status] = 0;
+    }
+
+    for (var habit in habits) {
+      statusCount[habit.habitStatus] =
+          (statusCount[habit.habitStatus] ?? 0) + 1;
+    }
+
+    final totalHabits =
+        statusCount.values.fold<int>(0, (sum, count) => sum + count);
+
+    return statusCount.map((key, value) {
+      final percentage = totalHabits > 0 ? (value / totalHabits * 100) : 0.0;
+
+      return MapEntry(key, percentage);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -193,22 +238,22 @@ class _GeneralPieChart extends StatelessWidget {
         dataItems: [
           PieChartDataItem(
             color: AppColors.success,
-            value: 40,
+            value: habitStatusDistribution[HabitStatus.achieved] ?? 0,
             label: S.current.achieved_habit,
           ),
           PieChartDataItem(
             color: AppColors.error,
-            value: 30,
+            value: habitStatusDistribution[HabitStatus.failed] ?? 0,
             label: S.current.failed_habit,
           ),
           PieChartDataItem(
             color: AppColors.warning,
-            value: 20,
+            value: habitStatusDistribution[HabitStatus.paused] ?? 0,
             label: S.current.paused_habit,
           ),
           PieChartDataItem(
             color: AppColors.primary,
-            value: 10,
+            value: habitStatusDistribution[HabitStatus.inProgress] ?? 0,
             label: S.current.in_progress_habit,
           ),
         ],
@@ -218,38 +263,70 @@ class _GeneralPieChart extends StatelessWidget {
 }
 
 class _CategoryBasedRate extends StatelessWidget {
-  const _CategoryBasedRate();
+  final List<HabitEntity> habits;
+  const _CategoryBasedRate(this.habits);
 
   @override
   Widget build(BuildContext context) {
     return ChartSection(
       title: S.current.category_distribution,
-      chart: CategoryDistributionChart(
-        categories: HabitCategory.values
-            .takeWhile((value) => value != HabitCategory.custom)
-            .map((category) => category.categoryName)
-            .toList(),
-      ),
+      chart: CategoryDistributionChart(habitData: habitData),
     );
+  }
+
+  Map<String, List<double>> get habitData {
+    final categoryData = habits.groupListsBy((habit) => habit.habitCategory);
+
+    return Map.fromEntries(HabitCategory.valuesWithoutCustom.map((category) {
+      final categoryHabits = categoryData[category] ?? [];
+
+      double total = categoryHabits.length.toDouble();
+      double achieved = categoryHabits
+          .where((h) => h.habitStatus == HabitStatus.achieved)
+          .length
+          .toDouble();
+      double failed = categoryHabits
+          .where((h) => h.habitStatus == HabitStatus.failed)
+          .length
+          .toDouble();
+      double paused = categoryHabits
+          .where((h) => h.habitStatus == HabitStatus.paused)
+          .length
+          .toDouble();
+      double inProgress = total - (achieved + failed + paused);
+
+      return MapEntry(
+        category.name,
+        [total, achieved, failed, paused, inProgress],
+      );
+    }));
   }
 }
 
 class _CompletionBarChart extends StatelessWidget {
+  final List<HabitEntity> habits;
   final List<HabitHistory> allHabitHistories;
-  const _CompletionBarChart(this.allHabitHistories);
+  const _CompletionBarChart({
+    required this.allHabitHistories,
+    required this.habits,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ChartSection(
       title: S.current.completion_rate,
       spacing: AppSpacing.marginXL,
-      chart: CompletionBarchart(allHabitHistories: allHabitHistories),
+      chart: CompletionBarchart(
+        allHabitHistories: allHabitHistories,
+        habits: habits,
+      ),
     );
   }
 }
 
 class _CategoryDistributionChart extends StatelessWidget {
-  const _CategoryDistributionChart();
+  final List<HabitEntity> habits;
+  const _CategoryDistributionChart(this.habits);
 
   @override
   Widget build(BuildContext context) {
@@ -257,18 +334,40 @@ class _CategoryDistributionChart extends StatelessWidget {
       title: S.current.category_distribution,
       spacing: 0,
       chart: HabitGeneralPieChart(
-        dataItems: HabitCategory.values
-            .takeWhile((value) => value != HabitCategory.custom)
-            .map(
-              (category) => PieChartDataItem(
-                color: category.color,
-                value: Random().nextInt(100).toDouble(),
-                label: category.name.toUpperCase(),
-                subData: category.name,
-              ),
-            )
-            .toList(),
+        dataItems: _calculateCategoryDistribution(),
       ),
     );
+  }
+
+  List<PieChartDataItem> _calculateCategoryDistribution() {
+    final categoryCount = <HabitCategory, int>{};
+
+    for (var category in HabitCategory.values) {
+      if (category != HabitCategory.custom) {
+        categoryCount[category] = 0;
+      }
+    }
+
+    for (var habit in habits) {
+      if (habit.habitCategory != HabitCategory.custom) {
+        categoryCount[habit.habitCategory] =
+            (categoryCount[habit.habitCategory] ?? 0) + 1;
+      }
+    }
+
+    final totalHabits =
+        categoryCount.values.fold<int>(0, (sum, count) => sum + count);
+
+    return categoryCount.entries.where((entry) => entry.value > 0).map((entry) {
+      final percentage =
+          totalHabits > 0 ? (entry.value / totalHabits * 100) : 0.0;
+
+      return PieChartDataItem(
+        color: entry.key.color,
+        value: percentage,
+        label: entry.key.name.toUpperCaseFirstLetter,
+        subData: S.current.habits(entry.value),
+      );
+    }).toList();
   }
 }

@@ -11,10 +11,17 @@ import '../../../../../../core/enums/habit/day_status.dart';
 import '../../../../../../core/extensions/num_extension.dart';
 import '../../../../../../generated/l10n.dart';
 import '../../../../domain/entities/habit_history.dart';
+import '../../../../domain/entities/habit_entity.dart';
 
 class CompletionBarchart extends StatefulWidget {
   final List<HabitHistory> allHabitHistories;
-  const CompletionBarchart({super.key, required this.allHabitHistories});
+  final List<HabitEntity> habits;
+
+  const CompletionBarchart({
+    super.key,
+    required this.allHabitHistories,
+    required this.habits, // Required for title lookup
+  });
 
   @override
   State<CompletionBarchart> createState() => _CompletionBarchartState();
@@ -25,25 +32,27 @@ class _CompletionBarchartState extends State<CompletionBarchart> {
   int _currentPage = 0;
   late final Map<String, double> _completionRates;
   late final List<MapEntry<String, double>> _sortedCompletionRates;
+  late final Map<String, String> _habitTitles; // Map habitId to habitTitle
 
   static const double _axisNumberSize = 35;
 
   @override
   void initState() {
     super.initState();
+    _habitTitles = {
+      for (var habit in widget.habits) habit.habitId: habit.habitTitle
+    };
     _completionRates = _calculateCompletionRates();
     _sortedCompletionRates = _completionRates.entries.toList()
       ..sort((a, b) => b.value.compareTo(a.value));
   }
 
   Map<String, double> _calculateCompletionRates() {
-    // Group histories by habit ID
     final historiesByHabit = groupBy(
       widget.allHabitHistories,
       (history) => history.habitId,
     );
 
-    // Calculate completion rate for each habit
     return Map.fromEntries(
       historiesByHabit.entries.map((entry) {
         final histories = entry.value;
@@ -154,14 +163,12 @@ class _CompletionBarchartState extends State<CompletionBarchart> {
   }
 
   BarTooltipItem _buildToolTipItem(
-    BarChartGroupData group,
-    groupIndex,
-    BarChartRodData rod,
-    rodIndex,
-  ) {
+      BarChartGroupData group, groupIndex, BarChartRodData rod, rodIndex) {
     final habitEntry = currentPageHabits[groupIndex];
+    final habitTitle =
+        _habitTitles[habitEntry.key] ?? 'Unknown Habit'; // Get habit title
     return BarTooltipItem(
-      habitEntry.key,
+      habitTitle, // Use habit title instead of ID
       const TextStyle(
         color: AppColors.lightText,
         fontWeight: FontWeight.bold,
@@ -190,7 +197,7 @@ class _CompletionBarchartState extends State<CompletionBarchart> {
                 BarChartRodData(
                   width: 20,
                   borderRadius: BorderRadius.zero,
-                  toY: e.value.value, // Use actual completion rate
+                  toY: e.value.value,
                   color: AppColors.primary,
                 ),
               ],

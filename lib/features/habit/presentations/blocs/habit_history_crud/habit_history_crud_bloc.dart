@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:bottom_picker/resources/extensions.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moment_dart/moment_dart.dart';
@@ -9,12 +10,15 @@ import 'package:uuid/uuid.dart';
 import '../../../../../config/log/app_logger.dart';
 import '../../../../../core/enums/habit/day_status.dart';
 import '../../../../../core/enums/habit/goal_unit.dart';
+import '../../../../../core/enums/habit/habit_status.dart';
 import '../../../../../core/enums/habit/mood.dart';
+import '../../../../../core/helpers/cached_client.dart';
 import '../../../../../core/helpers/date_time_helper.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../injection_container.dart';
 import '../../../data/models/habit_history_model.dart';
 import '../../../data/models/habit_model.dart';
+import '../../../domain/entities/habit_entity.dart';
 import '../../../domain/entities/habit_history.dart';
 import '../../../domain/repositories/habit_history_repository.dart';
 import '../../../domain/repositories/habit_repository.dart';
@@ -26,8 +30,13 @@ class HabitHistoryCrudBloc
     extends Bloc<HabitHistoryCrudEvent, HabitHistoryCrudState> {
   final HabitHistoryRepository habitHistoryRepository;
   final HabitRepository habitRepository;
-  HabitHistoryCrudBloc(this.habitHistoryRepository, this.habitRepository)
-      : super(HabitHistoryCrudInitial()) {
+  final CacheClient cacheClient;
+
+  HabitHistoryCrudBloc({
+    required this.habitHistoryRepository,
+    required this.habitRepository,
+    required this.cacheClient,
+  }) : super(HabitHistoryCrudInitial()) {
     on<HabitHistoryCrudCreate>(_onCreateHistory);
     on<HabitHistoryCrudListByHabitId>(_onGetHistoriesByHabitId);
     on<GetTodayHabitHistory>(_onGetTodayHabitHistory);
@@ -36,8 +45,10 @@ class HabitHistoryCrudBloc
     on<SearchHabitsByFilter>(_onSearchHabitByFilter);
     on<HabitHistoryCrudUpdate>(_onUpdateHistory);
     on<DeleteAllHistoriesByHabitId>(_onDeleteAllByHabitId);
+    on<CheckDailyStreaks>(_onCheckDailyStreaks);
   }
 
+  static const String lastCheckStreakKey = 'last_streak_check';
   final _appLogger = getIt.get<AppLogger>();
 
   FutureOr<void> _onCreateHistory(
@@ -283,6 +294,81 @@ class HabitHistoryCrudBloc
         .length;
 
     return completedDays / totalDays;
+  }
+
+  Future<void> _onCheckDailyStreaks(
+    CheckDailyStreaks event,
+    Emitter<HabitHistoryCrudState> emit,
+  ) async {
+    try {
+      final lastCheckMillis = cacheClient.getInt(lastCheckStreakKey);
+      final now = DateTime.now();
+      final lastCheck = lastCheckMillis != null
+          ? DateTime.fromMillisecondsSinceEpoch(lastCheckMillis)
+          : now.subtract(const Duration(days: 1));
+
+      final habits =
+          await habitRepository.getHabitsByStatus(HabitStatus.inProgress.name);
+
+      final List<HabitEntity> updatedHabits = [];
+
+      for (var habit in habits) {
+        final histories = (await habitHistoryRepository
+                .getHabitHistoriesByHabitId(habit.habitId))
+            .where((e) => e.date.isAtSameMomentOrAfter(lastCheck))
+            .toList();
+
+        final existingDates = histories
+            .map((h) => DateTime(
+                  h.date.year,
+                  h.date.month,
+                  h.date.day,
+                ))
+            .toSet();
+
+        final missingHistories = HabitHistory.fillMissingHistoryRecords(
+          habitId: habit.habitId,
+          startDate: lastCheck,
+          endDate: now.subtract(const Duration(days: 1)), // Chỉ tạo đến hôm qua
+          existingDates: existingDates,
+          measurement: habit.habitGoal.goalUnit,
+          targetValue: habit.habitGoal.targetValue,
+        );
+
+        for (var history in missingHistories) {
+          await habitHistoryRepository
+              .createHabitHistory(HabitHistoryModel.fromEntity(history));
+        }
+
+        var updatedHabit = habit;
+        if (missingHistories.isNotEmpty ||
+            !_hasCompletedHistoryForDate(
+                histories, now.subtract(const Duration(days: 1)))) {
+          updatedHabit = habit.copyWith(
+            currentStreak: 0,
+            longestStreak: habit.longestStreak > habit.currentStreak
+                ? habit.longestStreak
+                : habit.currentStreak,
+          );
+        }
+
+        updatedHabits.add(updatedHabit);
+        await habitRepository.updateHabit(updatedHabit.habitId, updatedHabit);
+      }
+
+      await cacheClient.setInt(lastCheckStreakKey, now.millisecondsSinceEpoch);
+    } catch (e) {
+      emit(HabitHistoryCrudFailure('Failed to update streaks: $e'));
+    }
+  }
+
+  bool _hasCompletedHistoryForDate(
+      List<HabitHistory> histories, DateTime date) {
+    final normalizedDate = DateTime(date.year, date.month, date.day);
+    return histories.any((history) =>
+        DateTime(history.date.year, history.date.month, history.date.day)
+            .isAtSameMomentAs(normalizedDate) &&
+        history.executionStatus == DayStatus.completed);
   }
 
   FutureOr<void> _onSearchHabitByFilter(

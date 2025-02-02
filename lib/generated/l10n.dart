@@ -2117,11 +2117,11 @@ class S {
     );
   }
 
-  /// `Pause`
-  String get pause_statistic_page {
+  /// `Paused`
+  String get paused_statistic_page {
     return Intl.message(
-      'Pause',
-      name: 'pause_statistic_page',
+      'Paused',
+      name: 'paused_statistic_page',
       desc: '',
       args: [],
     );
@@ -2283,6 +2283,36 @@ class S {
     );
   }
 
+  /// `Longest Time`
+  String get longest_time {
+    return Intl.message(
+      'Longest Time',
+      name: 'longest_time',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fastest Time`
+  String get fastest_time {
+    return Intl.message(
+      'Fastest Time',
+      name: 'fastest_time',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Weekly Completion Rate`
+  String get weekly_completion_rate {
+    return Intl.message(
+      'Weekly Completion Rate',
+      name: 'weekly_completion_rate',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Completion Rate`
   String get completion_rate {
     return Intl.message(
@@ -2425,6 +2455,16 @@ class S {
     );
   }
 
+  /// `Achieved:`
+  String get achieved_title {
+    return Intl.message(
+      'Achieved:',
+      name: 'achieved_title',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `{count, plural, =0 {Failed: 0} =1 {Failed: 1} other {Failed: {count}}}`
   String failed(int count) {
     return Intl.plural(
@@ -2435,6 +2475,16 @@ class S {
       name: 'failed',
       desc: '',
       args: [count],
+    );
+  }
+
+  /// `Failed:`
+  String get failed_title {
+    return Intl.message(
+      'Failed:',
+      name: 'failed_title',
+      desc: '',
+      args: [],
     );
   }
 
@@ -2451,6 +2501,16 @@ class S {
     );
   }
 
+  /// `Paused:`
+  String get paused_title {
+    return Intl.message(
+      'Paused:',
+      name: 'paused_title',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `{count, plural, =0 {In Progress: 0} =1 {In Progress: 1} other {In Progress: {count}}}`
   String in_progress(int count) {
     return Intl.plural(
@@ -2461,6 +2521,16 @@ class S {
       name: 'in_progress',
       desc: '',
       args: [count],
+    );
+  }
+
+  /// `In Progress:`
+  String get in_progress_title {
+    return Intl.message(
+      'In Progress:',
+      name: 'in_progress_title',
+      desc: '',
+      args: [],
     );
   }
 

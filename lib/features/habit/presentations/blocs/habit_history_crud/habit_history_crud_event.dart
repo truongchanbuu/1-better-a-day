@@ -116,3 +116,5 @@ final class SearchHabitsByFilter extends HabitHistoryCrudEvent {
   @override
   List<Object?> get props => [habitId, status, mood, date];
 }
+
+final class CheckDailyStreaks extends HabitHistoryCrudEvent {}

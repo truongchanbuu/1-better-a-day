@@ -7,6 +7,7 @@ import 'package:table_calendar/table_calendar.dart';
 import '../../../../core/constants/app_color.dart';
 import '../../../../core/constants/app_font_size.dart';
 import '../../../../core/constants/app_spacing.dart';
+import '../../../../core/enums/habit/habit_status.dart';
 import '../../../../core/enums/habit/habit_time_of_day.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../generated/l10n.dart';
@@ -189,7 +190,9 @@ class _TodayPageState extends State<TodayPage> with RouteAware {
   }
 
   void _loadAllHabits() {
-    context.read<HabitCrudBloc>().add(GetAllHabits());
+    context
+        .read<HabitCrudBloc>()
+        .add(GetListOfHabitsByStatus(HabitStatus.inProgress.name));
   }
 }
 

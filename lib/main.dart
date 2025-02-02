@@ -4,12 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_foreground_task/flutter_foreground_task.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
-import 'package:geolocator/geolocator.dart';
 
 import 'config/route/app_route.dart';
 import 'config/theme/app_theme.dart';
 import 'core/constants/app_common.dart';
+import 'core/helpers/cached_client.dart';
 import 'features/auth/presentations/bloc/auth_bloc/auth_bloc.dart';
+import 'features/habit/presentations/blocs/habit_history_crud/habit_history_crud_bloc.dart';
+import 'features/habit/presentations/helpers/habit_streak_observer.dart';
 import 'features/rewards/presentations/blocs/challenge_crud/challenge_crud_bloc.dart';
 import 'features/settings/presentations/bloc/settings_cubit.dart';
 import 'features/shared/presentations/blocs/internet/internet_bloc.dart';
@@ -27,8 +29,37 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  late HabitStreakObserver _streakObserver;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeApp();
+  }
+
+  Future<void> _initializeApp() async {
+    final habitHistoryCrudBloc = getIt.get<HabitHistoryCrudBloc>();
+    _streakObserver = HabitStreakObserver(
+      habitHistoryCrudBloc: habitHistoryCrudBloc,
+      cachedClient: getIt.get<CacheClient>(),
+    );
+
+    habitHistoryCrudBloc.add(CheckDailyStreaks());
+  }
+
+  @override
+  void dispose() {
+    _streakObserver.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

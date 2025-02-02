@@ -151,4 +151,6 @@ class HabitEntity extends Equatable {
       }
     }
   }
+
+  Duration get duration => endDate.difference(startDate);
 }

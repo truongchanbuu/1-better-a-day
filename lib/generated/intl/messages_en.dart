@@ -132,6 +132,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Achieved Habit"),
         "achieved_statistic_page":
             MessageLookupByLibrary.simpleMessage("Achieved"),
+        "achieved_title": MessageLookupByLibrary.simpleMessage("Achieved:"),
         "achievement_done": MessageLookupByLibrary.simpleMessage("Achievement"),
         "achievements_screen":
             MessageLookupByLibrary.simpleMessage("Achievements"),
@@ -394,7 +395,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "failed_habit": MessageLookupByLibrary.simpleMessage("Failed Habit"),
         "failed_rate": MessageLookupByLibrary.simpleMessage("Failed Rate"),
         "failed_statistic_page": MessageLookupByLibrary.simpleMessage("Failed"),
+        "failed_title": MessageLookupByLibrary.simpleMessage("Failed:"),
         "failure_title": MessageLookupByLibrary.simpleMessage("Failure"),
+        "fastest_time": MessageLookupByLibrary.simpleMessage("Fastest Time"),
         "find_button": MessageLookupByLibrary.simpleMessage("Find"),
         "first_achievement_title":
             MessageLookupByLibrary.simpleMessage("First Achievement"),
@@ -526,6 +529,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "in_progress": m17,
         "in_progress_habit":
             MessageLookupByLibrary.simpleMessage("In Progress Habit"),
+        "in_progress_title":
+            MessageLookupByLibrary.simpleMessage("In Progress:"),
         "inactive_button": MessageLookupByLibrary.simpleMessage("Inactive"),
         "internet_failure_title":
             MessageLookupByLibrary.simpleMessage("Internet connection failure"),
@@ -575,6 +580,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "logout_button": MessageLookupByLibrary.simpleMessage("Log out"),
         "longest_streak":
             MessageLookupByLibrary.simpleMessage("Longest Streak"),
+        "longest_time": MessageLookupByLibrary.simpleMessage("Longest Time"),
         "m_unit": MessageLookupByLibrary.simpleMessage("m"),
         "manage_account_choice":
             MessageLookupByLibrary.simpleMessage("Manage Account"),
@@ -761,12 +767,13 @@ class MessageLookup extends MessageLookupByLibrary {
         "passwords_do_not_match":
             MessageLookupByLibrary.simpleMessage("Password does not match"),
         "pause_button": MessageLookupByLibrary.simpleMessage("Pause"),
-        "pause_statistic_page": MessageLookupByLibrary.simpleMessage("Pause"),
         "pause_tracking":
             MessageLookupByLibrary.simpleMessage("Pause Tracking"),
         "paused": m23,
         "paused_at": m24,
         "paused_habit": MessageLookupByLibrary.simpleMessage("Paused Habit"),
+        "paused_statistic_page": MessageLookupByLibrary.simpleMessage("Paused"),
+        "paused_title": MessageLookupByLibrary.simpleMessage("Paused:"),
         "personal_achievements":
             MessageLookupByLibrary.simpleMessage("Personal Achievements"),
         "personal_info_section":
@@ -1103,6 +1110,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "weak_password": MessageLookupByLibrary.simpleMessage(
             "Please enter a stronger password."),
         "weekday_title": MessageLookupByLibrary.simpleMessage("Weekdays"),
+        "weekly_completion_rate":
+            MessageLookupByLibrary.simpleMessage("Weekly Completion Rate"),
         "weekly_mood": MessageLookupByLibrary.simpleMessage("Weekly Mood"),
         "weekly_process_section":
             MessageLookupByLibrary.simpleMessage("Weekly"),

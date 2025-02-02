@@ -12,8 +12,8 @@ import '../../../../../../generated/l10n.dart';
 import 'chart_color_note.dart';
 
 class CategoryDistributionChart extends StatelessWidget {
-  final List<String> categories;
-  const CategoryDistributionChart({super.key, required this.categories});
+  final Map<String, List<double>> habitData;
+  const CategoryDistributionChart({super.key, required this.habitData});
 
   @override
   Widget build(BuildContext context) {
@@ -40,21 +40,28 @@ class CategoryDistributionChart extends StatelessWidget {
         const SizedBox(height: AppSpacing.marginL),
         ChartColorNote(items: [
           ColorNoteItem(
-              color: AppColors.success, title: S.current.achieved_habit),
+            color: AppColors.success,
+            title: S.current.achieved_habit,
+          ),
           ColorNoteItem(color: AppColors.error, title: S.current.failed_habit),
           ColorNoteItem(
-              color: AppColors.warning, title: S.current.paused_habit),
+            color: AppColors.warning,
+            title: S.current.paused_habit,
+          ),
           ColorNoteItem(
-              color: AppColors.primary, title: S.current.in_progress_habit),
+            color: AppColors.primary,
+            title: S.current.in_progress_habit,
+          ),
         ]),
       ],
     );
   }
 
   List<BarChartGroupData> _buildBarGroups() {
-    return categories.asMap().entries.map((data) {
-      int index = data.key;
-      final [total, achieved, failed, paused] = getHabitFigures();
+    return habitData.entries.map((entry) {
+      String category = entry.key;
+      int index = habitData.keys.toList().indexOf(category);
+      final [total, achieved, failed, paused, inProgress] = entry.value;
 
       return BarChartGroupData(
         x: index,
@@ -63,8 +70,15 @@ class CategoryDistributionChart extends StatelessWidget {
             rodStackItems: [
               BarChartRodStackItem(0, achieved, AppColors.success),
               BarChartRodStackItem(
-                  achieved, achieved + failed, AppColors.error),
-              BarChartRodStackItem(failed, failed + paused, AppColors.warning),
+                achieved,
+                achieved + failed,
+                AppColors.error,
+              ),
+              BarChartRodStackItem(
+                achieved + failed,
+                achieved + failed + paused,
+                AppColors.warning,
+              ),
             ],
             toY: total,
             width: 20,
@@ -95,13 +109,18 @@ class CategoryDistributionChart extends StatelessWidget {
   static const _toolTipTextStyle = TextStyle(
     overflow: TextOverflow.ellipsis,
   );
-  BarTooltipItem? _buildToolTipItem(BarChartGroupData group, int groupIndex,
-      BarChartRodData rod, int rodIndex) {
-    final [total, achieved, failed, paused] = getHabitFigures();
-    final inProgress = total - (achieved + failed + paused);
+  BarTooltipItem? _buildToolTipItem(
+    BarChartGroupData group,
+    int groupIndex,
+    BarChartRodData rod,
+    int rodIndex,
+  ) {
+    String category = habitData.keys.toList()[groupIndex];
+    final [total, achieved, failed, paused, inProgress] = habitData[category]!;
+    // final inProgress = total - (achieved + failed + paused);
 
     return BarTooltipItem(
-      '${categories[groupIndex].toUpperCaseFirstLetter}: ${total.toStringAsFixedWithoutZero(0)}',
+      '${category.toUpperCaseFirstLetter}: ${total.toStringAsFixedWithoutZero(0)}',
       const TextStyle(
         color: AppColors.lightText,
         fontWeight: FontWeight.bold,
@@ -110,28 +129,18 @@ class CategoryDistributionChart extends StatelessWidget {
       children: [
         const TextSpan(text: '\n'),
         TextSpan(
-          children: [
-            TextSpan(
-              text: S.current.achieved(achieved.toInt()),
-              style: _toolTipTextStyle,
-            ),
-            const TextSpan(text: '\n'),
-            TextSpan(
-              text: S.current.failed(failed.toInt()),
-              style: _toolTipTextStyle,
-            ),
-            const TextSpan(text: '\n'),
-            TextSpan(
-              text: S.current.paused(paused.toInt()),
-              style: _toolTipTextStyle,
-            ),
-            const TextSpan(text: '\n'),
-            TextSpan(
-              text: S.current.in_progress(inProgress.toInt()),
-              style: _toolTipTextStyle,
-            ),
-          ],
-        )
+            text: S.current.achieved(achieved.toInt()),
+            style: _toolTipTextStyle),
+        const TextSpan(text: '\n'),
+        TextSpan(
+            text: S.current.failed(failed.toInt()), style: _toolTipTextStyle),
+        const TextSpan(text: '\n'),
+        TextSpan(
+            text: S.current.paused(paused.toInt()), style: _toolTipTextStyle),
+        const TextSpan(text: '\n'),
+        TextSpan(
+            text: S.current.in_progress(inProgress.toInt()),
+            style: _toolTipTextStyle),
       ],
     );
   }
