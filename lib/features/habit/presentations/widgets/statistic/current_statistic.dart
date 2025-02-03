@@ -23,7 +23,9 @@ class CurrentStatistic extends StatelessWidget {
 
   static final List<TabBarItem> tabData = [
     TabBarItem(
-        title: S.current.time_slot_heatmap, icon: FontAwesomeIcons.timeline),
+      title: S.current.time_slot_heatmap,
+      icon: FontAwesomeIcons.timeline,
+    ),
     TabBarItem(title: S.current.weekly_mood, icon: FontAwesomeIcons.calendar),
     TabBarItem(title: S.current.most_mood, icon: FontAwesomeIcons.chartPie),
   ];

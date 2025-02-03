@@ -42,9 +42,9 @@
 
     <application
         android:enableOnBackInvokedCallback="true"
-        android:label="one_better_a_day"
+        android:label="One Better A Day"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/launcher_icon"
         tools:targetApi="tiramisu">
         <activity
             android:name=".MainActivity"
