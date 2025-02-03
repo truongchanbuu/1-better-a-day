@@ -15,7 +15,6 @@ class HabitStreakObserver extends WidgetsBindingObserver {
     required this.cachedClient,
   }) {
     WidgetsBinding.instance.addObserver(this);
-    // Initial check and timer setup
     _checkAndUpdateStreaks();
     _setupMidnightTimer();
   }

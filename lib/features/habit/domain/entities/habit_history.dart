@@ -187,6 +187,7 @@ class HabitHistory extends Equatable {
     required Set<DateTime> existingDates,
     required GoalUnit measurement,
     double? targetValue,
+    required Map<DateTime, DayStatus> existingStatuses, // Add this parameter
   }) {
     final List<HabitHistory> generatedHistories = [];
 
@@ -199,14 +200,15 @@ class HabitHistory extends Equatable {
         date.isBefore(normalizedEndDate) ||
             date.isAtSameMomentAs(normalizedEndDate);
         date = date.add(const Duration(days: 1))) {
-      // Check if we already have a history record for this date
-      bool hasExistingRecord = existingDates.contains(DateTime(
+      final normalizedDate = DateTime(
         date.year,
         date.month,
         date.day,
-      ));
+      );
 
-      if (!hasExistingRecord) {
+      final existingStatus = existingStatuses[normalizedDate];
+
+      if (existingStatus == null || existingStatus == DayStatus.inProgress) {
         generatedHistories.add(
           HabitHistory.failedHistory(
             habitId: habitId,

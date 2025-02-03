@@ -356,7 +356,7 @@ class _ListViewItem extends StatelessWidget {
                   style: HabitItem.figureTextStyle,
                 ),
                 Text(
-                  habit.currentStreak.toString(),
+                  habit.currentStreak.toStringAsFixedWithoutZero(),
                   style: HabitItem.figureTextStyle,
                 ),
               ],

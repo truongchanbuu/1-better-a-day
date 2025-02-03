@@ -20,6 +20,7 @@ import 'firebase_options.dart';
 import 'generated/l10n.dart';
 import 'injection_container.dart';
 
+// TODO: AFTER FINISHING THE HABIT
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);

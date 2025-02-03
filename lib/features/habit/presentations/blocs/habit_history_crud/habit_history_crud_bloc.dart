@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:bottom_picker/resources/extensions.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moment_dart/moment_dart.dart';
@@ -313,10 +312,15 @@ class HabitHistoryCrudBloc
       final List<HabitEntity> updatedHabits = [];
 
       for (var habit in habits) {
-        final histories = (await habitHistoryRepository
-                .getHabitHistoriesByHabitId(habit.habitId))
-            .where((e) => e.date.isAtSameMomentOrAfter(lastCheck))
-            .toList();
+        final histories =
+            (await habitHistoryRepository.getHabitHistoriesByDateRange(
+                    habitId: habit.habitId, startDate: lastCheck, endDate: now))
+                .toList();
+
+        final existingStatuses = {
+          for (var h in histories)
+            DateTime(h.date.year, h.date.month, h.date.day): h.executionStatus
+        };
 
         final existingDates = histories
             .map((h) => DateTime(
@@ -329,11 +333,26 @@ class HabitHistoryCrudBloc
         final missingHistories = HabitHistory.fillMissingHistoryRecords(
           habitId: habit.habitId,
           startDate: lastCheck,
-          endDate: now.subtract(const Duration(days: 1)), // Chỉ tạo đến hôm qua
+          endDate: now.subtract(const Duration(days: 1)),
           existingDates: existingDates,
+          existingStatuses: existingStatuses,
           measurement: habit.habitGoal.goalUnit,
           targetValue: habit.habitGoal.targetValue,
         );
+
+        for (var history in missingHistories) {
+          final date = DateTime(
+            history.date.year,
+            history.date.month,
+            history.date.day,
+          );
+          if (existingStatuses[date] == DayStatus.inProgress) {
+            await habitHistoryRepository.deleteHabitHistoryByDate(
+              habitId: habit.habitId,
+              date: date,
+            );
+          }
+        }
 
         for (var history in missingHistories) {
           await habitHistoryRepository
