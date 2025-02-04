@@ -11,6 +11,8 @@ import 'core/constants/app_common.dart';
 import 'core/helpers/cached_client.dart';
 import 'features/auth/presentations/bloc/auth_bloc/auth_bloc.dart';
 import 'features/habit/presentations/blocs/habit_history_crud/habit_history_crud_bloc.dart';
+import 'features/habit/presentations/blocs/habit_progress/habit_progress_bloc.dart';
+import 'features/habit/presentations/helpers/habit_progress_observer.dart';
 import 'features/habit/presentations/helpers/habit_streak_observer.dart';
 import 'features/rewards/presentations/blocs/challenge_crud/challenge_crud_bloc.dart';
 import 'features/settings/presentations/bloc/settings_cubit.dart';
@@ -20,7 +22,6 @@ import 'firebase_options.dart';
 import 'generated/l10n.dart';
 import 'injection_container.dart';
 
-// TODO: AFTER FINISHING THE HABIT
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -39,6 +40,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   late HabitStreakObserver _streakObserver;
+  late HabitProgressObserver _habitProgressObserver;
 
   @override
   void initState() {
@@ -53,7 +55,15 @@ class _MyAppState extends State<MyApp> {
       cachedClient: getIt.get<CacheClient>(),
     );
 
+    getIt.registerSingleton<HabitStreakObserver>(_streakObserver);
+
     habitHistoryCrudBloc.add(CheckDailyStreaks());
+
+    final habitProgressBloc = getIt.get<HabitProgressBloc>();
+    _habitProgressObserver = HabitProgressObserver(habitProgressBloc);
+
+    getIt.registerSingleton<HabitProgressObserver>(_habitProgressObserver);
+    habitProgressBloc.add(CheckHabitDaily());
   }
 
   @override
@@ -70,9 +80,10 @@ class _MyAppState extends State<MyApp> {
           create: (_) =>
               getIt.get<AuthBloc>()..add(AuthUserSubscriptionRequest()),
         ),
-        BlocProvider(create: (context) => getIt.get<SettingsCubit>()),
-        BlocProvider(create: (context) => getIt.get<InternetBloc>()),
-        BlocProvider(create: (context) => getIt.get<ChallengeCrudBloc>()),
+        BlocProvider(create: (_) => getIt.get<SettingsCubit>()),
+        BlocProvider(create: (_) => getIt.get<InternetBloc>()),
+        BlocProvider(create: (_) => getIt.get<ChallengeCrudBloc>()),
+        BlocProvider(create: (_) => getIt.get<HabitProgressBloc>()),
       ],
       child: const AppContainer(),
     );

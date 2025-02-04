@@ -53,13 +53,11 @@ class _TodayHabitItemState extends State<TodayHabitItem> with RouteAware {
   }
 
   void _loadTodayHistory() {
-    context.read<HabitHistoryCrudBloc>().add(
-          GetTodayHabitHistory(
-            habitId: widget.habit.habitId,
-            unit: widget.habit.habitGoal.goalUnit,
-            targetValue: widget.habit.habitGoal.targetValue,
-          ),
-        );
+    context.read<HabitHistoryCrudBloc>().add(GetTodayHabitHistory(
+          habitId: widget.habit.habitId,
+          unit: widget.habit.habitGoal.goalUnit,
+          targetValue: widget.habit.habitGoal.targetValue,
+        ));
   }
 
   bool _isCompleted(HabitHistory history) {

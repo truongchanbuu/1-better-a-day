@@ -28,6 +28,7 @@ import 'features/habit/presentations/blocs/ai_habit_generate/ai_habit_generate_b
 import 'features/habit/presentations/blocs/crud/habit_crud_bloc.dart';
 import 'features/habit/presentations/blocs/distance_track/distance_track_cubit.dart';
 import 'features/habit/presentations/blocs/habit_history_crud/habit_history_crud_bloc.dart';
+import 'features/habit/presentations/blocs/habit_progress/habit_progress_bloc.dart';
 import 'features/habit/presentations/blocs/habit_time_tracker/habit_time_tracker_bloc.dart';
 import 'features/habit/presentations/blocs/review_habit_action/review_habit_action_bloc.dart';
 import 'features/habit/presentations/blocs/statistic_crud/statistic_crud_bloc.dart';
@@ -179,6 +180,7 @@ Future<void> initializeDependencies() async {
       habitHistoryRepository: getIt(),
     ),
   );
+  getIt.registerSingleton<HabitProgressBloc>(HabitProgressBloc(getIt()));
 
   // Cubit
   getIt.registerSingleton<SettingsCubit>(SettingsCubit(getIt()));

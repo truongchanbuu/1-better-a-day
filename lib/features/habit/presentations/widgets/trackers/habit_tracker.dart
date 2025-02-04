@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:animated_switcher_plus/animated_switcher_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,6 +21,7 @@ import '../../../domain/entities/habit_history.dart';
 import '../../blocs/distance_track/distance_track_cubit.dart';
 import '../../blocs/habit_history_crud/habit_history_crud_bloc.dart';
 import '../../blocs/habit_time_tracker/habit_time_tracker_bloc.dart';
+import '../../helpers/habit_streak_observer.dart';
 import '../../helpers/shared_habit_action.dart';
 import 'distance_tracker.dart';
 import 'progress_tracker.dart';
@@ -41,6 +44,7 @@ class HabitTracker extends StatefulWidget {
 class _HabitTrackerState extends State<HabitTracker> {
   late final RoundedLoadingButtonController _doneBtnController;
   late final RoundedLoadingButtonController _pauseBtnController;
+  StreamSubscription? _streakSubscription;
 
   late DayStatus trackStatus;
 
@@ -50,24 +54,39 @@ class _HabitTrackerState extends State<HabitTracker> {
 
   late HabitHistory history;
 
+  void _subscribeToStreakUpdates() {
+    final streakObserver = getIt.get<HabitStreakObserver>();
+    _streakSubscription = streakObserver.addListener(() {
+      initTracker();
+    });
+  }
+
+  void initTracker() {
+    context.read<HabitHistoryCrudBloc>().add(GetTodayHabitHistory(
+          habitId: widget.habitId,
+          unit: widget.habitGoal.goalUnit,
+          targetValue: widget.habitGoal.targetValue,
+        ));
+    trackStatus = DayStatus.inProgress;
+  }
+
   @override
   void initState() {
     super.initState();
-    context.read<HabitHistoryCrudBloc>().add(
-          GetTodayHabitHistory(
-            habitId: widget.habitId,
-            unit: widget.habitGoal.goalUnit,
-            targetValue: widget.habitGoal.targetValue,
-          ),
-        );
-
-    trackStatus = DayStatus.inProgress;
+    initTracker();
     _habitGoal = widget.habitGoal;
     _goalUnit = _habitGoal.goalUnit;
     _goalType = _habitGoal.goalType;
 
     _doneBtnController = RoundedLoadingButtonController();
     _pauseBtnController = RoundedLoadingButtonController();
+    _subscribeToStreakUpdates();
+  }
+
+  @override
+  void dispose() {
+    _streakSubscription?.cancel();
+    super.dispose();
   }
 
   @override

@@ -8,6 +8,8 @@ class HabitStreakObserver extends WidgetsBindingObserver {
   final HabitHistoryCrudBloc habitHistoryCrudBloc;
   final CacheClient cachedClient;
   Timer? _midnightTimer;
+  final _streakUpdateControllers = <StreamController<void>>{};
+
   static const String lastCheckDateKey = 'last_check_date';
 
   HabitStreakObserver({
@@ -17,6 +19,19 @@ class HabitStreakObserver extends WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
     _checkAndUpdateStreaks();
     _setupMidnightTimer();
+  }
+
+  StreamSubscription<void> addListener(void Function() onStreakUpdate) {
+    final controller = StreamController<void>.broadcast();
+    _streakUpdateControllers.add(controller);
+
+    return controller.stream.listen((_) => onStreakUpdate());
+  }
+
+  void _notifyListeners() {
+    for (final controller in _streakUpdateControllers) {
+      controller.add(null);
+    }
   }
 
   @override
@@ -31,9 +46,14 @@ class HabitStreakObserver extends WidgetsBindingObserver {
 
   void _checkAndUpdateStreaks() {
     final now = DateTime.now();
-    final lastCheckDate = DateTime.fromMillisecondsSinceEpoch(
-      cachedClient.getInt(lastCheckDateKey) ?? now.millisecondsSinceEpoch,
-    );
+    final lastCheckTimestamp = cachedClient.getInt(lastCheckDateKey);
+    if (lastCheckTimestamp == null) {
+      cachedClient.setInt(lastCheckDateKey, now.millisecondsSinceEpoch);
+      return;
+    }
+
+    final lastCheckDate =
+        DateTime.fromMillisecondsSinceEpoch(lastCheckTimestamp);
 
     final lastCheckDay = DateTime(
       lastCheckDate.year,
@@ -46,6 +66,7 @@ class HabitStreakObserver extends WidgetsBindingObserver {
     if (today.isAfter(lastCheckDay)) {
       habitHistoryCrudBloc.add(CheckDailyStreaks());
       cachedClient.setInt(lastCheckDateKey, now.millisecondsSinceEpoch);
+      _notifyListeners();
     }
   }
 
@@ -66,6 +87,9 @@ class HabitStreakObserver extends WidgetsBindingObserver {
   }
 
   void dispose() {
+    for (final controller in _streakUpdateControllers) {
+      controller.close();
+    }
     WidgetsBinding.instance.removeObserver(this);
     _midnightTimer?.cancel();
   }

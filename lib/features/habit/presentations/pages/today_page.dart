@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -11,10 +13,12 @@ import '../../../../core/enums/habit/habit_status.dart';
 import '../../../../core/enums/habit/habit_time_of_day.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../generated/l10n.dart';
+import '../../../../injection_container.dart';
 import '../../../../main.dart';
 import '../../../auth/presentations/bloc/auth_bloc/auth_bloc.dart';
 import '../../../shared/presentations/widgets/not_found_and_refresh.dart';
 import '../blocs/crud/habit_crud_bloc.dart';
+import '../helpers/habit_streak_observer.dart';
 import '../helpers/shared_habit_action.dart';
 import '../widgets/today_habit_item.dart';
 import '../widgets/today_quote.dart';
@@ -27,10 +31,21 @@ class TodayPage extends StatefulWidget {
 }
 
 class _TodayPageState extends State<TodayPage> with RouteAware {
+  StreamSubscription? _streakSubscription;
+
   @override
   void initState() {
     super.initState();
+    _subscribeToStreakUpdates();
     _loadAllHabits();
+  }
+
+  void _subscribeToStreakUpdates() {
+    final streakObserver = getIt.get<HabitStreakObserver>();
+    _streakSubscription = streakObserver.addListener(() {
+      _loadAllHabits();
+      setState(() {});
+    });
   }
 
   @override
@@ -48,6 +63,7 @@ class _TodayPageState extends State<TodayPage> with RouteAware {
   @override
   void dispose() {
     routeObserver.unsubscribe(this);
+    _streakSubscription?.cancel();
     super.dispose();
   }
 
@@ -143,7 +159,7 @@ class _TodayPageState extends State<TodayPage> with RouteAware {
         ),
       ),
       padding: const EdgeInsets.all(AppSpacing.paddingS),
-      child: const _TodayCalendar(),
+      child: _TodayCalendar(currentDate: DateTime.now()),
     );
   }
 
@@ -197,18 +213,19 @@ class _TodayPageState extends State<TodayPage> with RouteAware {
 }
 
 class _TodayCalendar extends StatelessWidget {
-  const _TodayCalendar();
+  final DateTime currentDate;
+  const _TodayCalendar({required this.currentDate});
 
   @override
   Widget build(BuildContext context) {
     return TableCalendar(
       locale: context.locale.languageCode,
       calendarFormat: CalendarFormat.week,
-      focusedDay: DateTime.now(),
-      firstDay: DateTime.now().subtract(const Duration(days: 30)),
-      lastDay: DateTime.now(),
+      focusedDay: currentDate,
+      firstDay: currentDate.subtract(const Duration(days: 30)),
+      lastDay: currentDate,
       headerVisible: false,
-      currentDay: DateTime.now(),
+      currentDay: currentDate,
       calendarStyle: const CalendarStyle(
         todayDecoration: BoxDecoration(
           color: AppColors.primary,

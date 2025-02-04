@@ -139,7 +139,6 @@ class UnitConverter {
       throw ArgumentError("Unsupported unit: $unit");
     }
 
-    print('UNIT: $unit - ${unitToBase[unit]}');
     return value * unitToBase[unit]!;
   }
 

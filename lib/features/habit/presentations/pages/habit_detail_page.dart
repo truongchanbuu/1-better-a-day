@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +17,7 @@ import '../../../../core/constants/app_common.dart';
 import '../../../../core/constants/app_font_size.dart';
 import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/enums/habit/day_status.dart';
-import '../../../../core/enums/habit/goal_type.dart';
+import '../../../../core/enums/habit/habit_status.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/num_extension.dart';
 import '../../../../core/extensions/string_extension.dart';
@@ -62,6 +64,10 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
   initState() {
     super.initState();
     currentHabit = widget.habit;
+    _getAllHabitHistories();
+  }
+
+  void _getAllHabitHistories() {
     context
         .read<HabitHistoryCrudBloc>()
         .add(HabitHistoryCrudListByHabitId(currentHabit.habitId));
@@ -163,6 +169,14 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
                 // General
                 _SectionContainer(
                   title: S.current.habit_detail,
+                  suffix: (currentHabit.habitStatus == HabitStatus.inProgress)
+                      ? null
+                      : TextWithCircleBorderContainer(
+                          title: currentHabit.habitStatus.statusName,
+                          backgroundColor:
+                              currentHabit.habitStatus.habitStatusColor,
+                          titleColor: currentHabit.habitStatus.habitStatusColor,
+                        ),
                   children: [
                     Container(
                       width: MediaQuery.of(context).size.width,
@@ -231,7 +245,7 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
                 ),
 
                 // Tracker
-                if (currentHabit.habitGoal.goalType != GoalType.custom)
+                if (currentHabit.habitStatus == HabitStatus.inProgress)
                   _SectionContainer(
                     width: MediaQuery.of(context).size.width,
                     title: S.current.tracker_section,
@@ -251,11 +265,7 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
                   title: S.current.history_section,
                   suffix: histories.isNotEmpty
                       ? IconButton(
-                          onPressed: () =>
-                              context.read<HabitHistoryCrudBloc>().add(
-                                    HabitHistoryCrudListByHabitId(
-                                        currentHabit.habitId),
-                                  ),
+                          onPressed: _getAllHabitHistories,
                           icon: const Icon(Icons.refresh),
                         )
                       : null,
@@ -265,10 +275,7 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
                         width: MediaQuery.of(context).size.width,
                         child: NotFoundAndRefresh(
                           title: S.current.history_empty,
-                          onRefresh: () => context
-                              .read<HabitHistoryCrudBloc>()
-                              .add(HabitHistoryCrudListByHabitId(
-                                  currentHabit.habitId)),
+                          onRefresh: _getAllHabitHistories,
                         ),
                       )
                     else ...<Widget>[
@@ -678,6 +685,7 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
   void _updateReminder(BuildContext context, bool isReminderEnabled) {
     currentHabit = currentHabit.copyWith(isReminderEnabled: isReminderEnabled);
 
+    print(currentHabit.reminderTimes);
     if (isReminderEnabled) {
       context.read<ReminderBloc>().add(ScheduleReminder(habit: currentHabit));
     } else {
