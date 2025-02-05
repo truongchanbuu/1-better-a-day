@@ -180,7 +180,8 @@ Future<void> initializeDependencies() async {
       habitHistoryRepository: getIt(),
     ),
   );
-  getIt.registerSingleton<HabitProgressBloc>(HabitProgressBloc(getIt()));
+  getIt.registerSingleton<HabitProgressBloc>(
+      HabitProgressBloc(getIt(), getIt()));
 
   // Cubit
   getIt.registerSingleton<SettingsCubit>(SettingsCubit(getIt()));

@@ -360,6 +360,7 @@ class HabitHistoryCrudBloc
         }
 
         var updatedHabit = habit;
+
         if (missingHistories.isNotEmpty ||
             !_hasCompletedHistoryForDate(
                 histories, now.subtract(const Duration(days: 1)))) {

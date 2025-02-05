@@ -328,6 +328,9 @@ class _PresetHabitPageState extends State<PresetHabitPage> {
       habit.copyWith(
         reminderTimes: _isReminderEnabled ? habit.reminderTimes : {},
         isReminderEnabled: _isReminderEnabled,
+        reminderStates: _isReminderEnabled && habit.reminderTimes.isNotEmpty
+            ? {for (var time in habit.reminderTimes) time: true}
+            : {},
       ),
     );
   }

@@ -116,13 +116,13 @@ class ReminderService {
   }
 
   Future<void> scheduleReminder(HabitEntity habit, String timeString) async {
-    await cancelAllHabitReminders(habit.habitId);
     if (!habit.isReminderEnabled) return;
 
     final time = TimeOfDayExtension.tryParse(timeString);
     if (time == null) {
       throw FormatException('Invalid TimeOfDay format');
     }
+    await cancelReminder(habit.habitId, timeString);
 
     int hour = time.hour;
     int minute = time.minute;
@@ -341,12 +341,12 @@ class ReminderService {
 
       // Print the details of each notification
       for (final notification in scheduledNotifications) {
-        _appLogger.i('Notification ID: ${notification.content?.id}');
-        _appLogger.i('Title: ${notification.content?.title}');
-        _appLogger.i('Body: ${notification.content?.body}');
-        _appLogger.i('Channel Key: ${notification.content?.channelKey}');
-        _appLogger.i('Schedule: ${notification.schedule}');
-        _appLogger.i('--------------------------------------');
+        print('Notification ID: ${notification.content?.id}');
+        print('Title: ${notification.content?.title}');
+        print('Body: ${notification.content?.body}');
+        print('Channel Key: ${notification.content?.channelKey}');
+        print('Schedule: ${notification.schedule}');
+        print('--------------------------------------');
       }
 
       if (scheduledNotifications.isEmpty) {

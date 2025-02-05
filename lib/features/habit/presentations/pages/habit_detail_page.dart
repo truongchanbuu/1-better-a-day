@@ -289,35 +289,36 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
                 ),
 
                 // Reminder
-                BlocConsumer<ReminderBloc, ReminderState>(
-                  listener: (context, state) {
-                    if (state is ReminderPermissionAllowed) {
-                      _executePendingAction(context);
-                    }
-                  },
-                  builder: (context, state) {
-                    return _SectionContainer(
-                      title: S.current.reminder_section,
-                      suffix: _buildSuffixButton(context, state),
-                      children: [
-                        HabitReminderItem(
-                          onItemDeleted: _handleItemDeleted,
-                          onReminderEnabled: (isReminderEnabled) =>
-                              _handleReminderEnabled(
-                            context,
-                            state,
-                            isReminderEnabled,
+                if (currentHabit.habitStatus == HabitStatus.inProgress)
+                  BlocConsumer<ReminderBloc, ReminderState>(
+                    listener: (context, state) {
+                      if (state is ReminderPermissionAllowed) {
+                        _executePendingAction(context);
+                      }
+                    },
+                    builder: (context, state) {
+                      return _SectionContainer(
+                        title: S.current.reminder_section,
+                        suffix: _buildSuffixButton(context, state),
+                        children: [
+                          HabitReminderItem(
+                            onItemDeleted: _handleItemDeleted,
+                            onReminderEnabled: (isReminderEnabled) =>
+                                _handleReminderEnabled(
+                              context,
+                              state,
+                              isReminderEnabled,
+                            ),
+                            reminderTimes: currentHabit.reminderTimes,
+                            frequency: currentHabit.habitGoal.goalFrequency,
+                            isReminderEnable: currentHabit.isReminderEnabled,
+                            timeStates: currentHabit.reminderStates,
+                            onTimeToggled: _onTimeToggled,
                           ),
-                          reminderTimes: currentHabit.reminderTimes,
-                          frequency: currentHabit.habitGoal.goalFrequency,
-                          isReminderEnable: currentHabit.isReminderEnabled,
-                          timeStates: currentHabit.reminderStates,
-                          onTimeToggled: _onTimeToggled,
-                        ),
-                      ],
-                    );
-                  },
-                ),
+                        ],
+                      );
+                    },
+                  ),
               ],
             ),
           ),
@@ -685,7 +686,6 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
   void _updateReminder(BuildContext context, bool isReminderEnabled) {
     currentHabit = currentHabit.copyWith(isReminderEnabled: isReminderEnabled);
 
-    print(currentHabit.reminderTimes);
     if (isReminderEnabled) {
       context.read<ReminderBloc>().add(ScheduleReminder(habit: currentHabit));
     } else {

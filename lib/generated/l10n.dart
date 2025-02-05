@@ -6576,6 +6576,26 @@ class S {
       args: [],
     );
   }
+
+  /// `You achieved: {habit}`
+  String habit_achieved_title(Object habit) {
+    return Intl.message(
+      'You achieved: $habit',
+      name: 'habit_achieved_title',
+      desc: '',
+      args: [habit],
+    );
+  }
+
+  /// `The habit "{habit}" is failed with only {percent}%`
+  String habit_failed_title(Object habit, Object percent) {
+    return Intl.message(
+      'The habit "$habit" is failed with only $percent%',
+      name: 'habit_failed_title',
+      desc: '',
+      args: [habit, percent],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

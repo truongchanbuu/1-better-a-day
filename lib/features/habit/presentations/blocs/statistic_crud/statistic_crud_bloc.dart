@@ -40,18 +40,25 @@ class StatisticCrudBloc extends Bloc<StatisticCrudEvent, StatisticCrudState> {
 
   Future<void> _onLoadBriefStatistic(
       LoadBriefStatistic event, Emitter<StatisticCrudState> emit) async {
-    try {
-      emit(StatisticLoading());
+    // try {
+    //   emit(StatisticLoading());
+    //
+    //   emit(BriefStatisticLoaded(
+    //     totalHabits: (await _getAllHabits()).length,
+    //     longestStreak: await _getLongestStreak(),
+    //     totalAchievements: await _getTotalAchievement(),
+    //   ));
+    // } catch (e) {
+    //   _appLogger.e(e);
+    //   emit(StatisticLoadFailed(S.current.not_found));
+    // }
+    emit(StatisticLoading());
 
-      emit(BriefStatisticLoaded(
-        totalHabits: (await _getAllHabits()).length,
-        longestStreak: await _getLongestStreak(),
-        totalAchievements: await _getTotalAchievement(),
-      ));
-    } catch (e) {
-      _appLogger.e(e);
-      emit(StatisticLoadFailed(S.current.not_found));
-    }
+    emit(BriefStatisticLoaded(
+      totalHabits: (await _getAllHabits()).length,
+      longestStreak: await _getLongestStreak(),
+      totalAchievements: await _getTotalAchievement(),
+    ));
   }
 
   Future<void> _onLoadGeneralStatistic(
@@ -227,10 +234,15 @@ class StatisticCrudBloc extends Bloc<StatisticCrudEvent, StatisticCrudState> {
   Future<List<HabitModel>> _getAllHabits() async =>
       await habitRepository.getAllHabits();
 
-  Future<int> _getLongestStreak() async => (await _getAllHabits())
-      .reduce(
-          (prev, curr) => prev.longestStreak > curr.longestStreak ? prev : curr)
-      .longestStreak;
+  Future<int> _getLongestStreak() async {
+    final allHabits = await _getAllHabits();
+
+    if (allHabits.isEmpty) return 0;
+    return allHabits
+        .reduce((prev, curr) =>
+            prev.longestStreak > curr.longestStreak ? prev : curr)
+        .longestStreak;
+  }
 
   Future<int> _getTotalAchievement() async =>
       (await achievementRepository.getAllLocalAchievements())

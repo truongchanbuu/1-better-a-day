@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,6 +23,7 @@ import 'features/shared/presentations/pages/app_view.dart';
 import 'firebase_options.dart';
 import 'generated/l10n.dart';
 import 'injection_container.dart';
+import 'services/reminder_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,6 +31,7 @@ void main() async {
   FlutterForegroundTask.initCommunicationPort();
   await initializeDependencies();
 
+  await getIt.get<ReminderService>().getAllScheduledNotifications();
   runApp(const MyApp());
 }
 
@@ -49,26 +53,22 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> _initializeApp() async {
+    final habitProgressBloc = getIt.get<HabitProgressBloc>();
+    _habitProgressObserver = HabitProgressObserver(habitProgressBloc);
+    getIt.registerSingleton<HabitProgressObserver>(_habitProgressObserver);
+
     final habitHistoryCrudBloc = getIt.get<HabitHistoryCrudBloc>();
     _streakObserver = HabitStreakObserver(
       habitHistoryCrudBloc: habitHistoryCrudBloc,
       cachedClient: getIt.get<CacheClient>(),
     );
-
     getIt.registerSingleton<HabitStreakObserver>(_streakObserver);
-
-    habitHistoryCrudBloc.add(CheckDailyStreaks());
-
-    final habitProgressBloc = getIt.get<HabitProgressBloc>();
-    _habitProgressObserver = HabitProgressObserver(habitProgressBloc);
-
-    getIt.registerSingleton<HabitProgressObserver>(_habitProgressObserver);
-    habitProgressBloc.add(CheckHabitDaily());
   }
 
   @override
   void dispose() {
     _streakObserver.dispose();
+    _habitProgressObserver.dispose();
     super.dispose();
   }
 

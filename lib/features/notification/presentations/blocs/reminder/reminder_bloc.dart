@@ -77,7 +77,6 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
       } else {
         for (final timeString in reminderTimes) {
           final isEnabled = reminderStates[timeString] ?? false;
-          print('IS: $isEnabled - $reminderStates - $timeString');
           if (isEnabled) {
             _appLogger.i("Scheduling enabled reminder for: $timeString");
             await reminderService.scheduleReminder(habit, timeString);

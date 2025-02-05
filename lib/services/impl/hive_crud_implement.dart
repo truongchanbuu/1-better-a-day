@@ -70,7 +70,18 @@ class HiveCRUDImplementation<T extends HiveBaseModel>
   @override
   Future<void> update(dynamic key, T item) async {
     try {
+      final existingValue = box.get(key);
+
+      if (existingValue == null) {
+        throw Exception('Not found');
+      }
+
       await box.put(key, item.toMap());
+
+      final updatedValue = box.get(key);
+      if (updatedValue == null) {
+        throw Exception('Update failed');
+      }
     } catch (e) {
       _appLogger.e('Cannot update: $e');
     }

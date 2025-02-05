@@ -1109,5 +1109,8 @@
   "bad_suggestion_1": "Struggled a bit",
   "bad_suggestion_2": "Could be better",
   "terrible_suggestion_1": "Should have make more effort",
-  "terrible_suggestion_2": "Need to be improved!"
+  "terrible_suggestion_2": "Need to be improved!",
+
+  "habit_achieved_title": "You achieved: {habit}",
+  "habit_failed_title": "The habit \"{habit}\" is failed with only {percent}%"
 }

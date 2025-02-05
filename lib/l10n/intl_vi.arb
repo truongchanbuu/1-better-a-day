@@ -1042,5 +1042,8 @@
   "bad_suggestion_1": "Có chút khó khăn",
   "bad_suggestion_2": "Cần cải thiện",
   "terrible_suggestion_1": "Nên nỗ lực nhiều hơn",
-  "terrible_suggestion_2": "Cần cải thiện nhiều hơn nữa!"
+  "terrible_suggestion_2": "Cần cải thiện nhiều hơn nữa!",
+
+  "habit_achieved_title": "Bạn đã hoàn thành thói quen: {habit}",
+  "habit_failed_title": "Bạn đã không hoàn thành thói quen: {habit} chỉ với {percent}%"
 }

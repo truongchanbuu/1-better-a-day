@@ -227,12 +227,8 @@ class _TodayCalendar extends StatelessWidget {
       headerVisible: false,
       currentDay: currentDate,
       calendarStyle: const CalendarStyle(
-        todayDecoration: BoxDecoration(
-          color: AppColors.primary,
-          borderRadius: BorderRadius.all(
-            Radius.circular(AppSpacing.circleRadius),
-          ),
-        ),
+        todayDecoration:
+            BoxDecoration(color: AppColors.primary, shape: BoxShape.circle),
       ),
     );
   }
