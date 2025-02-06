@@ -135,6 +135,7 @@
   "habit_detail": "Habit Details",
   "habit_category": "Habit Category",
   "statistic_section": "Statistics",
+  "current_streak": "Current Streak",
   "longest_streak": "Longest Streak",
   "trend_section": "Trend",
   "today_tasks": "Today Tasks",
@@ -1112,5 +1113,9 @@
   "terrible_suggestion_2": "Need to be improved!",
 
   "habit_achieved_title": "You achieved: {habit}",
-  "habit_failed_title": "The habit \"{habit}\" is failed with only {percent}%"
+  "habit_failed_title": "The habit \"{habit}\" is failed with only {percent}%",
+
+  "@__SHARE__": {},
+  "try_app_desc": "Track your habits with {appName}",
+  "try_app_now": "Try the app now!"
 }

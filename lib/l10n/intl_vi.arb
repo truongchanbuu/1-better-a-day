@@ -136,6 +136,7 @@
   "habit_detail": "Chi tiết thói quen",
   "statistic_section": "Thống kê",
   "longest_streak":  "Chuỗi dài nhất",
+  "current_streak":  "Chuỗi hiện tại",
   "trend_section": "Xu hướng",
   "today_tasks": "Nhiệm vụ hôm nay",
   "done_tasks": "{completedTasks}/{totalTasks}",
@@ -1045,5 +1046,9 @@
   "terrible_suggestion_2": "Cần cải thiện nhiều hơn nữa!",
 
   "habit_achieved_title": "Bạn đã hoàn thành thói quen: {habit}",
-  "habit_failed_title": "Bạn đã không hoàn thành thói quen: {habit} chỉ với {percent}%"
+  "habit_failed_title": "Bạn đã không hoàn thành thói quen: {habit} chỉ với {percent}%",
+
+  "@__SHARE__": {},
+  "try_app_desc": "Theo dõi thói quen của bạn với {appName}",
+  "try_app_now": "Hãy thử ứng dụng ngay!"
 }

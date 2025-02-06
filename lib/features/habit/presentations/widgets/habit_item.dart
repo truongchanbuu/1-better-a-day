@@ -30,6 +30,7 @@ import '../../domain/entities/habit_entity.dart';
 import '../../domain/entities/habit_icon.dart';
 import '../blocs/crud/habit_crud_bloc.dart';
 import '../blocs/habit_history_crud/habit_history_crud_bloc.dart';
+import '../helpers/shared_habit_action.dart';
 import '../pages/habit_detail_page.dart';
 import 'crud_habit/edit_template_dialog.dart';
 import 'generated_habit.dart';
@@ -89,7 +90,7 @@ class _HabitItemState extends State<HabitItem> {
         SlidableAction(
           onPressed: _onEditHabit,
           icon: FontAwesomeIcons.penToSquare,
-          foregroundColor: AppColors.lightText,
+          foregroundColor: Colors.white,
           backgroundColor: Colors.green,
           label: widget.isListView ? S.current.edit_button : null,
         ),
@@ -98,7 +99,7 @@ class _HabitItemState extends State<HabitItem> {
         SlidableAction(
           onPressed: _onDeleteHabit,
           icon: FontAwesomeIcons.trash,
-          foregroundColor: AppColors.lightText,
+          foregroundColor: Colors.white,
           backgroundColor: AppColors.error,
           label: widget.isListView ? S.current.delete_button : null,
         ),
@@ -216,45 +217,48 @@ class _HabitItemState extends State<HabitItem> {
   void _onEditHabit(BuildContext funcContext) {
     final habitCrudBloc = funcContext.read<HabitCrudBloc>();
 
-    SmartDialog.show(
-      builder: (ctx) => EditTemplateDialog(
-        child: BlocListener<HabitCrudBloc, HabitCrudState>(
-          listener: (blocCtx, state) async {
-            if (state is HabitCrudSucceed) {
-              if (state.action == HabitCrudAction.update) {
-                SmartDialog.dismiss();
-                final alertDialog = AwesomeDialog(
-                  context: context,
-                  dialogType: DialogType.success,
-                  title: S.current.success_title,
-                  desc: S.current.update_success_title,
-                  btnOkOnPress: () {},
-                )..show();
+    // TODO: CHECK UPDATE IN HABIT LIST
+    // TODO: HABIT CRUD BLOC NEED
+    showDialog(
+      context: context,
+      builder: (ctx) => BlocProvider(
+        create: (_) => habitCrudBloc,
+        child: EditTemplateDialog(
+          child: BlocListener<HabitCrudBloc, HabitCrudState>(
+            listener: (blocCtx, state) async {
+              if (state is HabitCrudSucceed) {
+                if (state.action == HabitCrudAction.update) {
+                  final alertDialog = AwesomeDialog(
+                    context: context,
+                    dialogType: DialogType.success,
+                    title: S.current.success_title,
+                    desc: S.current.update_success_title,
+                    btnOkOnPress: () => Navigator.pop(context),
+                    useRootNavigator: true,
+                  )..show();
 
-                await Future.delayed(AppCommons.alertShowDuration);
-                alertDialog.dismiss();
-
-                setState(() {
+                  await Future.delayed(AppCommons.alertShowDuration);
+                  alertDialog.dismiss();
                   currentHabit = state.habits.first;
-                });
+                }
+              } else if (state is HabitCrudFailed) {
+                AwesomeDialog(
+                  context: context,
+                  dialogType: DialogType.error,
+                  title: S.current.failure_title,
+                  desc: state.errorMessage,
+                ).show();
               }
-            } else if (state is HabitCrudFailed) {
-              AwesomeDialog(
-                context: context,
-                dialogType: DialogType.error,
-                title: S.current.failure_title,
-                desc: state.errorMessage,
-              ).show();
-            }
-          },
-          child: BlocProvider.value(
-            value: context.read<ReminderBloc>(),
-            child: GeneratedHabit(
-              habit: currentHabit,
-              onEdit: (habit) => habitCrudBloc.add(EditHabit(
-                id: currentHabit.habitId,
-                updatedHabit: habit,
-              )),
+            },
+            child: BlocProvider.value(
+              value: context.read<ReminderBloc>(),
+              child: GeneratedHabit(
+                habit: currentHabit,
+                onEdit: (habit) => habitCrudBloc.add(EditHabit(
+                  id: currentHabit.habitId,
+                  updatedHabit: habit,
+                )),
+              ),
             ),
           ),
         ),

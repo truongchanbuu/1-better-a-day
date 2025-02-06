@@ -115,7 +115,9 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m33(count) =>
       "${Intl.plural(count, zero: 'Chưa thực hiện chuỗi', one: 'Chuỗi 1', other: 'Chuối ${count} ngày')}";
 
-  static String m34(name) => "Bạn đã đạt được ${name}";
+  static String m34(appName) => "Theo dõi thói quen của bạn với ${appName}";
+
+  static String m35(name) => "Bạn đã đạt được ${name}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -346,6 +348,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Quãng đường hiện tại"),
         "current_progress":
             MessageLookupByLibrary.simpleMessage("Tiến độ hiện tại"),
+        "current_streak":
+            MessageLookupByLibrary.simpleMessage("Chuỗi hiện tại"),
         "custom_unit": MessageLookupByLibrary.simpleMessage("tùy chỉnh"),
         "daily_completed": MessageLookupByLibrary.simpleMessage(
             "Bạn đã hoàn thành thói quen cho ngày hôm nay"),
@@ -1118,6 +1122,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "trend_section": MessageLookupByLibrary.simpleMessage("Xu hướng"),
         "try_again":
             MessageLookupByLibrary.simpleMessage("Vui lòng thử lại sau"),
+        "try_app_desc": m34,
+        "try_app_now":
+            MessageLookupByLibrary.simpleMessage("Hãy thử ứng dụng ngay!"),
         "unknown_exception": MessageLookupByLibrary.simpleMessage(
             "Đã xảy ra lỗi không xác định."),
         "update_failure_title":
@@ -1153,6 +1160,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "wrong_password": MessageLookupByLibrary.simpleMessage(
             "Mật khẩu không chính xác, vui lòng thử lại."),
         "year_title": MessageLookupByLibrary.simpleMessage("Năm"),
-        "you_achieved": m34
+        "you_achieved": m35
       };
 }

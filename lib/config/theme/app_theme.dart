@@ -21,6 +21,7 @@ class AppTheme {
       cardTheme: _cardTheme(),
       bottomSheetTheme: _bottomSheetTheme(),
       inputDecorationTheme: _inputDecorationTheme(),
+      outlinedButtonTheme: _outlineButtonTheme(),
     );
   }
 
@@ -39,6 +40,7 @@ class AppTheme {
       cardTheme: _cardTheme(),
       bottomSheetTheme: _bottomSheetTheme(),
       inputDecorationTheme: _inputDecorationTheme(),
+      outlinedButtonTheme: _outlineButtonTheme(),
     );
   }
 
@@ -162,6 +164,14 @@ class AppTheme {
         borderSide: BorderSide(color: AppColors.primary),
       ),
       hintStyle: TextStyle(color: AppColors.grayText),
+    );
+  }
+
+  static OutlinedButtonThemeData _outlineButtonTheme() {
+    return OutlinedButtonThemeData(
+      style: ButtonStyle(
+        iconColor: WidgetStatePropertyAll(Colors.white),
+      ),
     );
   }
 }

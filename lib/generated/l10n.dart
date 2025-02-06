@@ -1133,6 +1133,16 @@ class S {
     );
   }
 
+  /// `Current Streak`
+  String get current_streak {
+    return Intl.message(
+      'Current Streak',
+      name: 'current_streak',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Longest Streak`
   String get longest_streak {
     return Intl.message(
@@ -6594,6 +6604,26 @@ class S {
       name: 'habit_failed_title',
       desc: '',
       args: [habit, percent],
+    );
+  }
+
+  /// `Track your habits with {appName}`
+  String try_app_desc(Object appName) {
+    return Intl.message(
+      'Track your habits with $appName',
+      name: 'try_app_desc',
+      desc: '',
+      args: [appName],
+    );
+  }
+
+  /// `Try the app now!`
+  String get try_app_now {
+    return Intl.message(
+      'Try the app now!',
+      name: 'try_app_now',
+      desc: '',
+      args: [],
     );
   }
 }

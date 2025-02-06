@@ -9,6 +9,7 @@ import '../../../../core/enums/habit/habit_status.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../injection_container.dart';
 import '../../../../main.dart';
+import '../../../notification/presentations/blocs/reminder/reminder_bloc.dart';
 import '../../../shared/presentations/widgets/not_found_and_refresh.dart';
 import '../../domain/entities/habit_entity.dart';
 import '../blocs/crud/habit_crud_bloc.dart';
@@ -88,6 +89,9 @@ class _HabitListState extends State<HabitList> with RouteAware {
               state.action == HabitCrudAction.getByKeyword) {
             habits = state.habits;
           } else if (state.action == HabitCrudAction.delete) {
+            context
+                .read<ReminderBloc>()
+                .add(CancelReminder(state.habits.first.habitId));
             habits.removeWhere(
                 (habit) => state.habits.first.habitId == habit.habitId);
           } else if (state.action == HabitCrudAction.add) {

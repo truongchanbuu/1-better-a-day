@@ -6,10 +6,12 @@ import 'package:page_transition/page_transition.dart';
 
 import '../../../../core/constants/app_color.dart';
 import '../../../../core/enums/habit/day_status.dart';
+import '../../../../core/enums/habit/habit_status.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../injection_container.dart';
 import '../../../notification/presentations/blocs/reminder/reminder_bloc.dart';
+import '../../domain/entities/habit_entity.dart';
 import '../../domain/entities/habit_history.dart';
 import '../../domain/entities/habit_icon.dart';
 import '../blocs/ai_habit_generate/ai_habit_generate_bloc.dart';
@@ -173,6 +175,21 @@ class SharedHabitAction {
       context.read<ReminderBloc>().add(GrantReminderPermission());
     } else {
       await func();
+    }
+  }
+
+  static void rescheduleAfterUpdate({
+    required BuildContext context,
+    required HabitEntity currentHabit,
+  }) {
+    if (currentHabit.habitStatus != HabitStatus.inProgress) {
+      context.read<ReminderBloc>().add(CancelReminder(currentHabit.habitId));
+    } else {
+      if (currentHabit.isReminderEnabled &&
+          currentHabit.reminderTimes.isNotEmpty &&
+          currentHabit.reminderStates.isNotEmpty) {
+        context.read<ReminderBloc>().add(ScheduleReminder(habit: currentHabit));
+      }
     }
   }
 }

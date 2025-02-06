@@ -38,6 +38,7 @@ import '../../domain/entities/habit_history.dart';
 import '../blocs/crud/habit_crud_bloc.dart';
 import '../blocs/habit_history_crud/habit_history_crud_bloc.dart';
 import '../blocs/habit_progress/habit_progress_bloc.dart';
+import '../helpers/shared_habit_action.dart';
 import '../widgets/crud_habit/edit_template_dialog.dart';
 import '../widgets/generated_habit.dart';
 import '../widgets/habit_reminder_item.dart';
@@ -98,19 +99,10 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
                     currentHabit = state.habits.first;
                   });
 
-                  if (currentHabit.habitStatus != HabitStatus.inProgress) {
-                    context
-                        .read<ReminderBloc>()
-                        .add(CancelReminder(currentHabit.habitId));
-                  } else {
-                    if (currentHabit.isReminderEnabled &&
-                        currentHabit.reminderTimes.isNotEmpty &&
-                        currentHabit.reminderStates.isNotEmpty) {
-                      context
-                          .read<ReminderBloc>()
-                          .add(ScheduleReminder(habit: currentHabit));
-                    }
-                  }
+                  SharedHabitAction.rescheduleAfterUpdate(
+                    context: context,
+                    currentHabit: currentHabit,
+                  );
                 } else if (state.action == HabitCrudAction.getById &&
                     state.habits.isNotEmpty) {
                   if (currentHabit != state.habits.first) {

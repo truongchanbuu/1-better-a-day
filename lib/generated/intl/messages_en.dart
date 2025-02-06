@@ -116,7 +116,9 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m33(count) =>
       "${Intl.plural(count, zero: 'No Streak', one: '1 Streak', other: '${count} Streaks')}";
 
-  static String m34(name) => "You achieved ${name}";
+  static String m34(appName) => "Track your habits with ${appName}";
+
+  static String m35(name) => "You achieved ${name}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -340,6 +342,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Current Distance"),
         "current_progress":
             MessageLookupByLibrary.simpleMessage("Current Progress"),
+        "current_streak":
+            MessageLookupByLibrary.simpleMessage("Current Streak"),
         "custom_unit": MessageLookupByLibrary.simpleMessage("custom"),
         "daily_completed": MessageLookupByLibrary.simpleMessage(
             "You completed this habit today"),
@@ -1092,6 +1096,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "trend_section": MessageLookupByLibrary.simpleMessage("Trend"),
         "try_again":
             MessageLookupByLibrary.simpleMessage("Please try again later"),
+        "try_app_desc": m34,
+        "try_app_now": MessageLookupByLibrary.simpleMessage("Try the app now!"),
         "unknown_exception": MessageLookupByLibrary.simpleMessage(
             "An unknown exception occurred."),
         "update_failure_title":
@@ -1125,6 +1131,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "wrong_password": MessageLookupByLibrary.simpleMessage(
             "Incorrect password, please try again."),
         "year_title": MessageLookupByLibrary.simpleMessage("Year"),
-        "you_achieved": m34
+        "you_achieved": m35
       };
 }
