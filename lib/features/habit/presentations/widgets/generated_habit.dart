@@ -132,9 +132,10 @@ class GeneratedHabitViewState extends State<GeneratedHabitView> {
           ),
           startDate: startDate,
           endDate: endDate,
-          reminderTimes: _reminderTimes,
           habitCategory: habitCategory,
           habitIcon: habitIcon,
+          isReminderEnabled: _reminderTimes.isNotEmpty,
+          reminderTimes: _reminderTimes,
           reminderStates: {for (var time in _reminderTimes) time: true},
         );
       }
@@ -341,20 +342,22 @@ class GeneratedHabitViewState extends State<GeneratedHabitView> {
                   ],
                 ),
                 _spacing,
-                if (habitFrequency.type != FrequencyType.interval)
-                  if (!_isEditMode)
-                    ReminderTimesListSection(reminderTimes: _reminderTimes)
-                  else
-                    BlocBuilder<ReminderBloc, ReminderState>(
-                      builder: (context, state) => ReminderTimesListSection(
-                        reminderTimes: _reminderTimes,
-                        onPickReminder: () async => await SharedHabitAction
-                            .onGrantPermissionAndPickReminder(
-                                context, state, _onPickReminder),
-                        onDeleteItem: (item) =>
-                            setState(() => _reminderTimes.remove(item)),
-                      ),
-                    ),
+                if (habitFrequency.type != FrequencyType.interval ||
+                    (habitFrequency.type == FrequencyType.interval &&
+                        habitFrequency.interval!.type == IntervalType.days &&
+                        _reminderTimes.isNotEmpty))
+                  (!_isEditMode)
+                      ? ReminderTimesListSection(reminderTimes: _reminderTimes)
+                      : BlocBuilder<ReminderBloc, ReminderState>(
+                          builder: (context, state) => ReminderTimesListSection(
+                            reminderTimes: _reminderTimes,
+                            onPickReminder: () async => await SharedHabitAction
+                                .onGrantPermissionAndPickReminder(
+                                    context, state, _onPickReminder),
+                            onDeleteItem: (item) =>
+                                setState(() => _reminderTimes.remove(item)),
+                          ),
+                        ),
               ],
             ),
           ),

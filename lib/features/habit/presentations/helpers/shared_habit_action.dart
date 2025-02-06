@@ -94,6 +94,7 @@ class SharedHabitAction {
   static void showDailyCompletionDialog({
     required BuildContext context,
     required HabitHistory history,
+    void Function(DismissType type)? onDismissCallback,
   }) {
     AwesomeDialog(
       context: context,
@@ -110,6 +111,7 @@ class SharedHabitAction {
       btnOkOnPress: () => onRateAndNote(context, history),
       btnCancelText: S.current.cancel_button,
       btnCancelOnPress: () {},
+      onDismissCallback: onDismissCallback,
     ).show();
   }
 

@@ -60,6 +60,12 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
       final reminderTimes = habit.reminderTimes;
       final reminderStates = habit.reminderStates;
 
+      if (specificTime == null &&
+          reminderStates.isEmpty &&
+          reminderStates.isEmpty) {
+        return;
+      }
+
       if (specificTime != null) {
         _appLogger.i("Checking reminder for specific time: $specificTime");
         final isEnabled = reminderStates[specificTime] ?? false;

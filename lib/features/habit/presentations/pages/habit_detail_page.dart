@@ -37,6 +37,7 @@ import '../../domain/entities/habit_frequency.dart';
 import '../../domain/entities/habit_history.dart';
 import '../blocs/crud/habit_crud_bloc.dart';
 import '../blocs/habit_history_crud/habit_history_crud_bloc.dart';
+import '../blocs/habit_progress/habit_progress_bloc.dart';
 import '../widgets/crud_habit/edit_template_dialog.dart';
 import '../widgets/generated_habit.dart';
 import '../widgets/habit_reminder_item.dart';
@@ -96,14 +97,34 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
                   setState(() {
                     currentHabit = state.habits.first;
                   });
+
+                  if (currentHabit.habitStatus != HabitStatus.inProgress) {
+                    context
+                        .read<ReminderBloc>()
+                        .add(CancelReminder(currentHabit.habitId));
+                  } else {
+                    if (currentHabit.isReminderEnabled &&
+                        currentHabit.reminderTimes.isNotEmpty &&
+                        currentHabit.reminderStates.isNotEmpty) {
+                      context
+                          .read<ReminderBloc>()
+                          .add(ScheduleReminder(habit: currentHabit));
+                    }
+                  }
                 } else if (state.action == HabitCrudAction.getById &&
                     state.habits.isNotEmpty) {
                   if (currentHabit != state.habits.first) {
                     setState(() {
                       currentHabit = state.habits.first;
                     });
+                    context
+                        .read<HabitProgressBloc>()
+                        .add(CheckProgress(currentHabit));
                   }
                 } else if (state.action == HabitCrudAction.delete) {
+                  context
+                      .read<ReminderBloc>()
+                      .add(CancelReminder(currentHabit.habitId));
                   Navigator.of(context).popUntil(ModalRoute.withName('/'));
                 }
               }
@@ -537,8 +558,23 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
       builder: (context) => _HabitMenuActions(
         onEdit: _onEditHabit,
         onDelete: _onDeleteHabit,
+        onPause: currentHabit.habitStatus == HabitStatus.inProgress
+            ? _onPaused
+            : null,
+        onResume:
+            currentHabit.habitStatus == HabitStatus.paused ? _onResume : null,
       ),
     );
+  }
+
+  void _onResume() {
+    Navigator.pop(context);
+    context.read<HabitCrudBloc>().add(StopPauseHabit(currentHabit));
+  }
+
+  void _onPaused() {
+    Navigator.pop(context);
+    context.read<HabitCrudBloc>().add(PauseHabit(currentHabit));
   }
 
   Future<void> _onDeleteHabit() async {
@@ -907,9 +943,14 @@ class _HabitBriefItem extends StatelessWidget {
 class _HabitMenuActions extends StatelessWidget {
   final VoidCallback onEdit;
   final VoidCallback onDelete;
+  final VoidCallback? onPause;
+  final VoidCallback? onResume;
+
   const _HabitMenuActions({
     required this.onEdit,
     required this.onDelete,
+    this.onPause,
+    this.onResume,
   });
 
   @override
@@ -940,6 +981,32 @@ class _HabitMenuActions extends StatelessWidget {
             ),
           ),
         ),
+        if (onPause != null)
+          ListTile(
+            onTap: onPause,
+            leading:
+                const Icon(FontAwesomeIcons.pause, color: AppColors.warning),
+            title: Text(
+              S.current.pause_button,
+              style: const TextStyle(
+                color: AppColors.warning,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        if (onResume != null)
+          ListTile(
+            onTap: onResume,
+            leading:
+                const Icon(FontAwesomeIcons.play, color: AppColors.success),
+            title: Text(
+              S.current.resume_button,
+              style: const TextStyle(
+                color: AppColors.success,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
       ],
     );
   }

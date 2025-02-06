@@ -32,6 +32,8 @@ class HabitCrudBloc extends Bloc<HabitCrudEvent, HabitCrudState> {
     on<SearchByKeyword>(_onSearchByKeyword);
     on<DeleteHabit>(_onDeleteHabit);
     on<EditHabit>(_onEditHabit);
+    on<PauseHabit>(_onPauseHabit);
+    on<StopPauseHabit>(_onStopPauseHabit);
   }
 
   FutureOr<void> _onAddHabit(
@@ -179,6 +181,7 @@ class HabitCrudBloc extends Bloc<HabitCrudEvent, HabitCrudState> {
         emit(HabitCrudFailed(S.current.not_found));
       } else {
         await habitRepository.deleteHabitById(event.id);
+
         emit(
           HabitCrudSucceed(
             action: HabitCrudAction.delete,
@@ -293,6 +296,65 @@ class HabitCrudBloc extends Bloc<HabitCrudEvent, HabitCrudState> {
       emit(HabitCrudSucceed(
         action: HabitCrudAction.getByKeyword,
         habits: filteredHabits,
+      ));
+    } catch (e) {
+      _appLogger.e(e);
+      emit(HabitCrudFailed(S.current.cannot_get_any_habit));
+    }
+  }
+
+  FutureOr<void> _onPauseHabit(
+    PauseHabit event,
+    Emitter<HabitCrudState> emit,
+  ) async {
+    try {
+      var updatedHabit = event.habit.copyWith(
+        habitStatus: HabitStatus.paused,
+        isReminderEnabled: false,
+        reminderStates: {
+          for (var time in event.habit.reminderStates.keys) time: false
+        },
+      );
+
+      await habitRepository.updateHabit(
+        updatedHabit.habitId,
+        HabitModel.fromEntity(updatedHabit),
+      );
+
+      emit(HabitCrudSucceed(
+        action: HabitCrudAction.update,
+        habits: [updatedHabit],
+      ));
+    } catch (e) {
+      _appLogger.e(e);
+      emit(HabitCrudFailed(S.current.cannot_get_any_habit));
+    }
+  }
+
+  FutureOr<void> _onStopPauseHabit(
+    StopPauseHabit event,
+    Emitter<HabitCrudState> emit,
+  ) async {
+    try {
+      final difference = event.habit.endDate.difference(event.habit.startDate);
+
+      var updatedHabit = event.habit.copyWith(
+        habitStatus: HabitStatus.inProgress,
+        isReminderEnabled: true,
+        reminderStates: {
+          for (var time in event.habit.reminderStates.keys) time: true
+        },
+        endDate: DateTime.now().add(difference),
+      );
+
+      await habitRepository.updateHabit(
+        updatedHabit.habitId,
+        HabitModel.fromEntity(updatedHabit),
+      );
+
+      emit(HabitCrudSucceed(
+        action: HabitCrudAction.update,
+        habits: [updatedHabit],
       ));
     } catch (e) {
       _appLogger.e(e);

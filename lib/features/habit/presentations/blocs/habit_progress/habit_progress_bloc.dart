@@ -19,6 +19,7 @@ class HabitProgressBloc extends Bloc<HabitProgressEvent, HabitProgressState> {
   HabitProgressBloc(this.habitRepository, this.reminderService)
       : super(HabitProgressInitial()) {
     on<CheckHabitDaily>(_onCheckHabitDaily);
+    on<CheckProgress>(_onCheckProgress);
   }
 
   Future<void> _onCheckHabitDaily(
@@ -45,18 +46,7 @@ class HabitProgressBloc extends Bloc<HabitProgressEvent, HabitProgressState> {
             status = HabitStatus.failed;
           }
 
-          HabitModel newHabit = habit.copyWith(
-            habitStatus: status,
-            isReminderEnabled: false,
-            reminderStates: {
-              for (var time in habit.reminderStates.keys) time: false
-            },
-          );
-
-          await habitRepository.updateHabit(
-            habit.habitId,
-            newHabit,
-          );
+          final newHabit = await _updateHabit(habit, status);
 
           await reminderService.cancelAllHabitReminders(habit.habitId);
           emit(HabitFinished(newHabit));
@@ -68,5 +58,49 @@ class HabitProgressBloc extends Bloc<HabitProgressEvent, HabitProgressState> {
       _appLogger.e(e);
       emit(CheckProgressFailed('Failed to check'));
     }
+  }
+
+  Future<void> _onCheckProgress(
+    CheckProgress event,
+    Emitter<HabitProgressState> emit,
+  ) async {
+    try {
+      final habit = HabitModel.fromEntity(event.habit);
+      final habitProgress = habit.habitProgress;
+      final habitStatus = habit.habitStatus;
+
+      if (habitProgress >= 1 && habitStatus == HabitStatus.inProgress) {
+        final newHabit = await _updateHabit(habit, HabitStatus.achieved);
+        await reminderService.cancelAllHabitReminders(habit.habitId);
+        emit(HabitFinished(newHabit));
+      }
+    } catch (e) {
+      _appLogger.e(e);
+      emit(CheckProgressFailed('Failed to check'));
+    }
+  }
+
+  Future<HabitModel> _updateHabit(
+      HabitModel currentHabit, HabitStatus status) async {
+    HabitModel newHabit = currentHabit.copyWith(
+      habitStatus: status,
+      isReminderEnabled: false,
+      reminderStates: {
+        for (var time in currentHabit.reminderStates.keys) time: false
+      },
+    );
+
+    await habitRepository.updateHabit(
+      currentHabit.habitId,
+      newHabit,
+    );
+
+    final updatedHabit =
+        await habitRepository.getHabitById(currentHabit.habitId);
+    if (updatedHabit == null) {
+      throw Exception('Failed to update habit');
+    }
+
+    return updatedHabit;
   }
 }

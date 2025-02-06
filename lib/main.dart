@@ -23,7 +23,6 @@ import 'features/shared/presentations/pages/app_view.dart';
 import 'firebase_options.dart';
 import 'generated/l10n.dart';
 import 'injection_container.dart';
-import 'services/reminder_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,7 +30,6 @@ void main() async {
   FlutterForegroundTask.initCommunicationPort();
   await initializeDependencies();
 
-  await getIt.get<ReminderService>().getAllScheduledNotifications();
   runApp(const MyApp());
 }
 

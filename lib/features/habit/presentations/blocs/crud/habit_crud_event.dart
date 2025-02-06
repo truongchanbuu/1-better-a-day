@@ -93,3 +93,19 @@ final class SearchByKeyword extends HabitCrudEvent {
   @override
   List<Object> get props => [keyword];
 }
+
+final class PauseHabit extends HabitCrudEvent {
+  final HabitEntity habit;
+  const PauseHabit(this.habit);
+
+  @override
+  List<Object> get props => [habit];
+}
+
+final class StopPauseHabit extends HabitCrudEvent {
+  final HabitEntity habit;
+  const StopPauseHabit(this.habit);
+
+  @override
+  List<Object> get props => [habit];
+}

@@ -178,7 +178,8 @@ class StatisticCrudBloc extends Bloc<StatisticCrudEvent, StatisticCrudState> {
       final failedHabits =
           allHabits.where((e) => e.habitStatus == HabitStatus.failed);
 
-      double failedRate = _calculateRateHabitsByStatus(allHabits);
+      double failedRate =
+          _calculateRateHabitsByStatus(allHabits, HabitStatus.failed);
       final habitData = _getHabitData(allHabits, HabitStatus.failed);
 
       emit(FailedStatisticLoaded(
