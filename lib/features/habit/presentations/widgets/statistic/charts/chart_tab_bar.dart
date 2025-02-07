@@ -3,6 +3,7 @@ import 'package:buttons_tabbar/buttons_tabbar.dart';
 
 import '../../../../../../core/constants/app_color.dart';
 import '../../../../../../core/constants/app_spacing.dart';
+import '../../../../../../core/extensions/context_extension.dart';
 import '../../../../../shared/domain/entities/tab_bar_item.dart';
 
 class ChartTabBar extends StatefulWidget {
@@ -10,7 +11,7 @@ class ChartTabBar extends StatefulWidget {
   final List<Widget> contentWidgets;
   final Map<int, double> heightRatios;
   final Color selectedBackgroundColor;
-  final Color unselectedBackgroundColor;
+  final Color? unselectedBackgroundColor;
   final EdgeInsets contentPadding;
   final double labelSpacing;
   final bool contentCenter;
@@ -23,7 +24,7 @@ class ChartTabBar extends StatefulWidget {
     required this.contentWidgets,
     this.heightRatios = const {},
     this.selectedBackgroundColor = AppColors.primary,
-    this.unselectedBackgroundColor = AppColors.grayBackgroundColor,
+    this.unselectedBackgroundColor,
     this.contentPadding = const EdgeInsets.all(AppSpacing.paddingS),
     this.labelSpacing = AppSpacing.marginS,
     this.contentCenter = true,
@@ -78,6 +79,11 @@ class _ChartTabBarState extends State<ChartTabBar>
 
   @override
   Widget build(BuildContext context) {
+    final unselectedBackgroundColor = widget.unselectedBackgroundColor ??
+        (context.isDarkMode
+            ? AppColors.primaryDark
+            : AppColors.grayBackgroundColor);
+
     return Column(
       children: [
         ButtonsTabBar(
@@ -87,7 +93,11 @@ class _ChartTabBarState extends State<ChartTabBar>
           contentCenter: widget.contentCenter,
           contentPadding: widget.contentPadding,
           backgroundColor: widget.selectedBackgroundColor,
-          unselectedBackgroundColor: widget.unselectedBackgroundColor,
+          unselectedBackgroundColor: unselectedBackgroundColor,
+          unselectedLabelStyle: TextStyle(
+            color:
+                context.isDarkMode ? AppColors.lightText : AppColors.darkText,
+          ),
           onTap: (index) => setState(() {
             _tabController.index = index;
           }),

@@ -112,6 +112,45 @@ enum GoalUnit {
         day => Colors.blue,
         glasses => Colors.blue,
       };
+
+  String get shortName {
+    switch (this) {
+      case reps:
+        return 'reps';
+      case sets:
+        return 'sets';
+      case l:
+        return 'l';
+      case ml:
+        return 'ml';
+      case day:
+        return 'd';
+      case second:
+        return 's';
+      case minute:
+        return 'min';
+      case hour:
+        return 'hr';
+      case page:
+        return 'pg';
+      case cm:
+        return 'cm';
+      case km:
+        return 'km';
+      case m:
+        return 'm';
+      case steps:
+        return 'steps';
+      case miles:
+        return 'miles';
+      case times:
+        return 'times';
+      case glasses:
+        return 'gls';
+      case custom:
+        return 'cust';
+    }
+  }
 }
 
 class UnitConverter {

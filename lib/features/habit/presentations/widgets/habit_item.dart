@@ -217,23 +217,27 @@ class _HabitItemState extends State<HabitItem> {
   void _onEditHabit(BuildContext funcContext) {
     final habitCrudBloc = funcContext.read<HabitCrudBloc>();
 
-    // TODO: CHECK UPDATE IN HABIT LIST
-    // TODO: HABIT CRUD BLOC NEED
-    showDialog(
+    showModalBottomSheet(
+      isScrollControlled: true,
+      useSafeArea: true,
       context: context,
-      builder: (ctx) => BlocProvider(
-        create: (_) => habitCrudBloc,
+      builder: (ctx) => BlocProvider.value(
+        value: habitCrudBloc,
         child: EditTemplateDialog(
           child: BlocListener<HabitCrudBloc, HabitCrudState>(
             listener: (blocCtx, state) async {
               if (state is HabitCrudSucceed) {
                 if (state.action == HabitCrudAction.update) {
-                  final alertDialog = AwesomeDialog(
+                  SharedHabitAction.rescheduleAfterUpdate(
                     context: context,
+                    currentHabit: currentHabit,
+                  );
+                  final alertDialog = AwesomeDialog(
+                    context: blocCtx,
                     dialogType: DialogType.success,
                     title: S.current.success_title,
                     desc: S.current.update_success_title,
-                    btnOkOnPress: () => Navigator.pop(context),
+                    btnOkOnPress: () {},
                     useRootNavigator: true,
                   )..show();
 
@@ -529,7 +533,7 @@ class _HabitMeasurementLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final unit = GoalUnit.fromString(goalUnit);
-    final unitName = unit == GoalUnit.custom ? goalUnit : unit.unitName;
+    final unitName = unit == GoalUnit.custom ? goalUnit : unit.shortName;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.paddingS),
@@ -538,8 +542,9 @@ class _HabitMeasurementLabel extends StatelessWidget {
           _buildIcon(),
           const SizedBox(width: AppSpacing.marginXS),
           Text(
-            '$targetValue ${unitName.toUpperCaseFirstLetter}',
+            '${targetValue.toStringAsFixedWithoutZero()} $unitName',
             style: textStyle,
+            maxLines: 2,
           ),
         ],
       ),

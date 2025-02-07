@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../core/enums/habit/habit_category.dart';
@@ -98,8 +99,8 @@ class HabitEntity extends Equatable {
       timeOfDay,
       startDate,
       endDate,
-      reminderTimes,
-      reminderStates,
+      DeepCollectionEquality().hash(reminderTimes),
+      DeepCollectionEquality().hash(reminderStates),
       habitStatus,
       isReminderEnabled,
     ];

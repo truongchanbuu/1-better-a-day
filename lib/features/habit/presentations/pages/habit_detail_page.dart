@@ -109,9 +109,9 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
                     setState(() {
                       currentHabit = state.habits.first;
                     });
-                    context
-                        .read<HabitProgressBloc>()
-                        .add(CheckProgress(currentHabit));
+                    // TODO: TEST
+                    context.read<HabitProgressBloc>().add(
+                        CheckProgress(currentHabit.copyWith(habitProgress: 1)));
                   }
                 } else if (state.action == HabitCrudAction.delete) {
                   context
@@ -166,6 +166,13 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
                   descTextStyle:
                       const TextStyle(overflow: TextOverflow.visible),
                 ).show();
+              }
+            },
+          ),
+          BlocListener<HabitProgressBloc, HabitProgressState>(
+            listener: (context, state) {
+              if (state is HabitFinished) {
+                currentHabit = state.habit;
               }
             },
           ),
@@ -597,6 +604,7 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
         value: context.read<HabitCrudBloc>(),
         child: BlocListener<HabitCrudBloc, HabitCrudState>(
           listener: (blocContext, state) async {
+            print(state);
             if (state is HabitCrudSucceed) {
               await updateSucceedAlert();
             } else if (state is HabitCrudFailed) {
@@ -620,8 +628,7 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
                     onEdit: (habit) async {
                       if (currentHabit != habit) {
                         context.read<HabitCrudBloc>().add(
-                              EditHabit(id: habit.habitId, updatedHabit: habit),
-                            );
+                            EditHabit(id: habit.habitId, updatedHabit: habit));
                       } else {
                         await updateSucceedAlert();
                       }
