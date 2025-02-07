@@ -92,7 +92,7 @@ class _HabitTrackerState extends State<HabitTracker> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<HabitHistoryCrudBloc, HabitHistoryCrudState>(
-      listener: (context, state) {
+      listener: (ctx, state) {
         if (state is DailyHabitCompleted) {
           trackStatus = DayStatus.completed;
 

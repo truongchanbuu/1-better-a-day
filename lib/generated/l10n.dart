@@ -6607,6 +6607,26 @@ class S {
     );
   }
 
+  /// `Share`
+  String get share_button {
+    return Intl.message(
+      'Share',
+      name: 'share_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Share to your facebook`
+  String get share_facebook_button {
+    return Intl.message(
+      'Share to your facebook',
+      name: 'share_facebook_button',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Track your habits with {appName}`
   String try_app_desc(Object appName) {
     return Intl.message(
@@ -6622,6 +6642,46 @@ class S {
     return Intl.message(
       'Try the app now!',
       name: 'try_app_now',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check out this {appName} amazing habit tracking app!`
+  String default_share_subject(Object appName) {
+    return Intl.message(
+      'Check out this $appName amazing habit tracking app!',
+      name: 'default_share_subject',
+      desc: '',
+      args: [appName],
+    );
+  }
+
+  /// `I've been using {appName} to track my habits. It's a great app to help me build better habits. You should try it out!`
+  String default_share_content(Object appName) {
+    return Intl.message(
+      'I\'ve been using $appName to track my habits. It\'s a great app to help me build better habits. You should try it out!',
+      name: 'default_share_content',
+      desc: '',
+      args: [appName],
+    );
+  }
+
+  /// `Save image to device`
+  String get store_image_to_device_button {
+    return Intl.message(
+      'Save image to device',
+      name: 'store_image_to_device_button',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Storage permission denied`
+  String get storage_permission_denied {
+    return Intl.message(
+      'Storage permission denied',
+      name: 'storage_permission_denied',
       desc: '',
       args: [],
     );

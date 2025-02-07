@@ -13,6 +13,11 @@ class PermissionHelper {
       return true;
     }
 
+    if (await permission.isPermanentlyDenied) {
+      openAppSettings();
+      return false;
+    }
+
     final status = await permission.request();
     return status.isGranted;
   }

@@ -20,3 +20,12 @@ final class ShareHabitFailure extends ShareHabitState {
   @override
   List<Object?> get props => [error];
 }
+
+class SaveSuccess extends ShareHabitState {
+  final String path;
+
+  const SaveSuccess(this.path);
+
+  @override
+  List<Object?> get props => [path];
+}

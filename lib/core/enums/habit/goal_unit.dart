@@ -120,7 +120,7 @@ enum GoalUnit {
       case sets:
         return 'sets';
       case l:
-        return 'l';
+        return 'L';
       case ml:
         return 'ml';
       case day:

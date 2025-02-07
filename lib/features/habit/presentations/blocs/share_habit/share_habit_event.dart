@@ -23,3 +23,18 @@ final class ShareHabitToFacebook extends ShareHabitEvent {
   @override
   List<Object?> get props => [screenshotKey, context, subject, content];
 }
+
+final class SaveImage extends ShareHabitEvent {
+  final String? name;
+  final GlobalKey screenshotKey;
+  final BuildContext context;
+
+  const SaveImage({
+    required this.context,
+    required this.screenshotKey,
+    this.name,
+  });
+
+  @override
+  List<Object?> get props => [screenshotKey, context, name];
+}

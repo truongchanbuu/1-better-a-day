@@ -31,6 +31,7 @@ import 'features/habit/presentations/blocs/habit_history_crud/habit_history_crud
 import 'features/habit/presentations/blocs/habit_progress/habit_progress_bloc.dart';
 import 'features/habit/presentations/blocs/habit_time_tracker/habit_time_tracker_bloc.dart';
 import 'features/habit/presentations/blocs/review_habit_action/review_habit_action_bloc.dart';
+import 'features/habit/presentations/blocs/share_habit/share_habit_bloc.dart';
 import 'features/habit/presentations/blocs/statistic_crud/statistic_crud_bloc.dart';
 import 'features/habit/presentations/blocs/validate_habit/validate_habit_bloc.dart';
 import 'features/notification/data/models/reminder_model.dart';
@@ -182,6 +183,7 @@ Future<void> initializeDependencies() async {
   );
   getIt.registerSingleton<HabitProgressBloc>(
       HabitProgressBloc(getIt(), getIt()));
+  getIt.registerFactory<ShareHabitBloc>(() => ShareHabitBloc());
 
   // Cubit
   getIt.registerSingleton<SettingsCubit>(SettingsCubit(getIt()));

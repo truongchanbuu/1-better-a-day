@@ -38,12 +38,14 @@ import '../../domain/entities/habit_history.dart';
 import '../blocs/crud/habit_crud_bloc.dart';
 import '../blocs/habit_history_crud/habit_history_crud_bloc.dart';
 import '../blocs/habit_progress/habit_progress_bloc.dart';
+import '../blocs/share_habit/share_habit_bloc.dart';
 import '../helpers/shared_habit_action.dart';
 import '../widgets/crud_habit/edit_template_dialog.dart';
 import '../widgets/generated_habit.dart';
 import '../widgets/habit_reminder_item.dart';
 import '../widgets/habit_section_container.dart';
 import '../widgets/habit_streak_calendar.dart';
+import '../widgets/social_share_habit_template.dart';
 import '../widgets/trackers/habit_tracker.dart';
 import 'habit_history_page.dart';
 
@@ -109,9 +111,9 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
                     setState(() {
                       currentHabit = state.habits.first;
                     });
-                    // TODO: TEST
-                    context.read<HabitProgressBloc>().add(
-                        CheckProgress(currentHabit.copyWith(habitProgress: 1)));
+                    context
+                        .read<HabitProgressBloc>()
+                        .add(CheckProgress(currentHabit));
                   }
                 } else if (state.action == HabitCrudAction.delete) {
                   context
@@ -170,7 +172,7 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
             },
           ),
           BlocListener<HabitProgressBloc, HabitProgressState>(
-            listener: (context, state) {
+            listener: (blocContext, state) {
               if (state is HabitFinished) {
                 currentHabit = state.habit;
               }
@@ -551,10 +553,10 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
     );
   }
 
-  void _onShowMenuBottomSheet(BuildContext context) {
+  void _onShowMenuBottomSheet(BuildContext ctx) {
     showModalBottomSheet(
-      context: context,
-      builder: (context) => _HabitMenuActions(
+      context: ctx,
+      builder: (_) => _HabitMenuActions(
         onEdit: _onEditHabit,
         onDelete: _onDeleteHabit,
         onPause: currentHabit.habitStatus == HabitStatus.inProgress
@@ -562,6 +564,21 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
             : null,
         onResume:
             currentHabit.habitStatus == HabitStatus.paused ? _onResume : null,
+        onShare: () {
+          Navigator.pop(context);
+          Navigator.push(
+              context,
+              PageTransition(
+                type: PageTransitionType.bottomToTop,
+                child: BlocProvider(
+                  create: (_) => getIt.get<ShareHabitBloc>(),
+                  child: SocialShareHabitTemplate(
+                    habit: currentHabit,
+                    screenshotKey: GlobalKey(),
+                  ),
+                ),
+              ));
+        },
       ),
     );
   }
@@ -604,7 +621,6 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
         value: context.read<HabitCrudBloc>(),
         child: BlocListener<HabitCrudBloc, HabitCrudState>(
           listener: (blocContext, state) async {
-            print(state);
             if (state is HabitCrudSucceed) {
               await updateSucceedAlert();
             } else if (state is HabitCrudFailed) {
@@ -944,42 +960,38 @@ class _HabitMenuActions extends StatelessWidget {
   final VoidCallback onDelete;
   final VoidCallback? onPause;
   final VoidCallback? onResume;
+  final VoidCallback? onShare;
 
   const _HabitMenuActions({
     required this.onEdit,
     required this.onDelete,
+    this.onShare,
     this.onPause,
     this.onResume,
   });
 
   @override
   Widget build(BuildContext context) {
+    final baseColor =
+        context.isDarkMode ? AppColors.lightText : AppColors.darkText;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        ListTile(
-          onTap: onEdit,
-          leading:
-              const Icon(FontAwesomeIcons.penToSquare, color: Colors.green),
-          title: Text(
-            S.current.edit_button,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.green,
+        if (onShare != null)
+          ListTile(
+            onTap: onShare,
+            leading: Icon(
+              FontAwesomeIcons.shareFromSquare,
+              color: baseColor,
+            ),
+            title: Text(
+              S.current.share_button,
+              style: TextStyle(
+                color: baseColor,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
-        ),
-        ListTile(
-          onTap: onDelete,
-          leading: const Icon(FontAwesomeIcons.trash, color: AppColors.error),
-          title: Text(
-            S.current.delete_button,
-            style: const TextStyle(
-              color: AppColors.error,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
         if (onPause != null)
           ListTile(
             onTap: onPause,
@@ -1006,6 +1018,29 @@ class _HabitMenuActions extends StatelessWidget {
               ),
             ),
           ),
+        ListTile(
+          onTap: onEdit,
+          leading:
+              const Icon(FontAwesomeIcons.penToSquare, color: Colors.green),
+          title: Text(
+            S.current.edit_button,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.green,
+            ),
+          ),
+        ),
+        ListTile(
+          onTap: onDelete,
+          leading: const Icon(FontAwesomeIcons.trash, color: AppColors.error),
+          title: Text(
+            S.current.delete_button,
+            style: const TextStyle(
+              color: AppColors.error,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
       ],
     );
   }

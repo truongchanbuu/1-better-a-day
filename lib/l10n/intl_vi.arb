@@ -1049,6 +1049,12 @@
   "habit_failed_title": "Bạn đã không hoàn thành thói quen: {habit} chỉ với {percent}%",
 
   "@__SHARE__": {},
+  "share_button": "Chia sẻ",
+  "share_facebook_button": "Chia sẻ đến facebook",
   "try_app_desc": "Theo dõi thói quen của bạn với {appName}",
-  "try_app_now": "Hãy thử ứng dụng ngay!"
+  "try_app_now": "Hãy thử ứng dụng ngay!",
+  "default_share_subject": "Chia sẻ thói quen của tôi với {appName}",
+  "default_share_content": "Tôi đã hoàn thành thói quen của mình với {appName}!",
+  "store_image_to_device_button": "Luư ảnh vào thiết bị",
+  "storage_permission_denied": "Ứng dụng cần quyền truy cập vào bộ nhớ để lưu ảnh. Vui lòng cấp quyền truy cập và thử lại."
 }

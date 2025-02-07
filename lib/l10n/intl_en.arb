@@ -1116,6 +1116,12 @@
   "habit_failed_title": "The habit \"{habit}\" is failed with only {percent}%",
 
   "@__SHARE__": {},
+  "share_button": "Share",
+  "share_facebook_button": "Share to your facebook",
   "try_app_desc": "Track your habits with {appName}",
-  "try_app_now": "Try the app now!"
+  "try_app_now": "Try the app now!",
+  "default_share_subject": "Check out this {appName} amazing habit tracking app!",
+  "default_share_content": "I've been using {appName} to track my habits. It's a great app to help me build better habits. You should try it out!",
+  "store_image_to_device_button": "Save image to device",
+  "storage_permission_denied": "Storage permission denied"
 }
