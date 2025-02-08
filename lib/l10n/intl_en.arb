@@ -125,6 +125,7 @@
   "dawn_tile": "Dawn",
   "afternoon_tile": "Afternoon",
   "dusk_tile": "Dusk",
+  "last_reminder_time": "Last Reminder of Day",
 
   "no_date_selected": "No Date Selected",
 

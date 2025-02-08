@@ -103,6 +103,8 @@ class _AddHabitWithAIPageState extends State<AddHabitWithAIPage> {
                               LoadingIndicator(indicatorType: Indicator.pacman),
                         ),
                       );
+                    } else if (state is AIGenerationSucceed) {
+                      habitGenerationSentenceController.clear();
                     }
                   },
                 ),
@@ -285,7 +287,6 @@ class _AddHabitWithAIPageState extends State<AddHabitWithAIPage> {
 
     context.read<AIHabitGenerateBloc>().add(GenerateSMARTHabitGoal(
         habitGenerationSentenceController.text, langCode));
-    habitGenerationSentenceController.clear();
   }
 
   void _onAddHabit() {

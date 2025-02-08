@@ -90,6 +90,7 @@ class GeneratedHabitViewState extends State<GeneratedHabitView> {
     startDate = _editedHabit.startDate;
     endDate = _editedHabit.endDate;
     habitFrequency = _editedHabit.habitGoal.goalFrequency;
+    print(habitFrequency);
     habitCategory = _editedHabit.habitCategory;
     habitIcon = _editedHabit.habitIcon;
   }
@@ -288,10 +289,12 @@ class GeneratedHabitViewState extends State<GeneratedHabitView> {
                 TextField(
                   readOnly: true,
                   enabled: _isEditMode,
+                  maxLines: null,
                   onTap: _onFrequencyChange,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: habitFrequency.getDisplayText(),
+                    hintMaxLines: 5,
                     hintStyle: TextStyle(
                       color: context.isDarkMode
                           ? AppColors.lightText

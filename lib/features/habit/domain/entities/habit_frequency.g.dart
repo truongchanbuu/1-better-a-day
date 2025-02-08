@@ -33,6 +33,6 @@ Map<String, dynamic> _$HabitFrequencyToJson(HabitFrequency instance) =>
 const _$FrequencyTypeEnumMap = {
   FrequencyType.interval: 'interval',
   FrequencyType.daily: 'daily',
-  FrequencyType.weekDays: 'weekDays',
+  FrequencyType.weekdays: 'weekdays',
   FrequencyType.monthly: 'monthly',
 };

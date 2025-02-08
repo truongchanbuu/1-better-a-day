@@ -40,7 +40,6 @@ class ReminderService {
           importance: NotificationImportance.High,
         ),
       ],
-      debug: true,
       languageCode: Intl.getCurrentLocale(),
     );
   }
@@ -163,7 +162,7 @@ class ReminderService {
         );
         break;
 
-      case FrequencyType.weekDays:
+      case FrequencyType.weekdays:
         await _scheduleWeekDayReminders(
           content: content,
           actionButtons: actionButtons,

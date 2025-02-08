@@ -58,4 +58,7 @@ class SettingHelper {
   static String get dusk =>
       cachedClient.getString(AppStorageKey.appDuskTimeCachedKey) ??
       DateTimeHelper.duskTimeString;
+  static String get lastReminderTime =>
+      cachedClient.getString(AppStorageKey.appLastReminderTime) ??
+      DateTimeHelper.lastReminderTimeString;
 }

@@ -225,9 +225,10 @@ Instructions:
 
 4. Frequency Generation Rules:
    - For daily habits: Use "daily" type and interval is not null with {"type": "days", value: 1}
-   - For weekly habits: Use "weekDays" with specific days (1=Monday to 7=Sunday)
-   - For monthly habits: Use "monthly" with specific dates (1-31)
-   - For interval-based: Use "interval" with appropriate TimeInterval
+   - For weekly habits: Use "weekdays" type with specific days (1=Monday to 7=Sunday) and "weekDays" attribute must not be null or empty, e.g: {"type": "weekdays", "weekDays": [1, 3, 5, ...]}
+   - For monthly habits: Use "monthly" type with specific dates (1-31) and "monthlyDates" attribute must not be null or empty, e.g: {"type": "monthly", "monthlyDates": [1, 2, 3, ...]}
+   - For interval-based: Use "interval" type with appropriate TimeInterval (months, days, hours, minutes) and "interval" attribute must not be null
+   * Only interval-based habits can have "interval" attribute and "interval" attribute of other types must be null
 
 5. Time of Day Guidelines:
    morning: 5:00-11:59
@@ -236,7 +237,7 @@ Instructions:
    night: 21:00-4:59
    anytime: Based on flexibility
    
-6. Every fields that have pre-defined enum must only be within those.
+6. Every fields that have pre-defined enum must only be within those and it must be spelled correctly in camel case
 
 Return a JSON string with this exact structure (no markdown, no explanation):
 {
@@ -247,7 +248,7 @@ Return a JSON string with this exact structure (no markdown, no explanation):
     "goalType": "completion"|"count"|"distance"|"duration",
     "targetValue": number,
     "goalFrequency": {
-      "type": "interval"|"daily"|"weekDays"|"monthly",
+      "type": "interval"|"daily"|"weekdays"|"monthly",
       "interval": {"value": number, "type": "months"|"days"|"hours"|"minutes"} | null,
       "monthlyDates": [number] | null,
       "weekDays": [number] | null,

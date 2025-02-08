@@ -161,7 +161,7 @@ class FrequencyValidator implements Validator<Map<String, dynamic>> {
         return {'interval': _validateInterval(data['interval'])};
       case 'monthly':
         return {'monthlyDates': _validateDates(data['monthlyDates'])};
-      case 'weekDays':
+      case 'weekdays':
         return {'weekDays': _validateDates(data['weekDays'])};
       default:
         return {'interval': HabitDefaults.intervalDefaults};

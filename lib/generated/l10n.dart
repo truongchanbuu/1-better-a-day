@@ -1060,6 +1060,16 @@ class S {
     );
   }
 
+  /// `Last Reminder of Day`
+  String get last_reminder_time {
+    return Intl.message(
+      'Last Reminder of Day',
+      name: 'last_reminder_time',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `No Date Selected`
   String get no_date_selected {
     return Intl.message(

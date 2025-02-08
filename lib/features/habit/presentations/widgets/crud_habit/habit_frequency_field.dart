@@ -81,7 +81,7 @@ class _HabitFrequencyFieldState extends State<HabitFrequencyField> {
               child: Text(S.current.freq_monthly),
             ),
             DropdownMenuItem(
-              value: FrequencyType.weekDays,
+              value: FrequencyType.weekdays,
               child: Text(S.current.weekday_title),
             ),
           ],
@@ -264,7 +264,7 @@ class _HabitFrequencyFieldState extends State<HabitFrequencyField> {
   Widget _buildFrequencyConfigSection() {
     return switch (_selectedType) {
       FrequencyType.interval => _buildIntervalInput(),
-      FrequencyType.weekDays => _buildWeekDaySelector(),
+      FrequencyType.weekdays => _buildWeekDaySelector(),
       FrequencyType.monthly => _buildMonthlyDateInput(),
       _ => const SizedBox.shrink(),
     };
@@ -284,7 +284,7 @@ class _HabitFrequencyFieldState extends State<HabitFrequencyField> {
             type: _selectedType,
             interval: const TimeInterval(value: 1, type: IntervalType.days),
           ),
-        FrequencyType.weekDays => HabitFrequency(
+        FrequencyType.weekdays => HabitFrequency(
             type: _selectedType,
             weekDays: _weekDays?.isNotEmpty ?? false ? _weekDays : {1},
           ),

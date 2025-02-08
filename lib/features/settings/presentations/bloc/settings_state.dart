@@ -7,6 +7,7 @@ sealed class SettingsState extends Equatable {
   final String dawn;
   final String afternoon;
   final String dusk;
+  final String lastReminderTime;
 
   const SettingsState({
     required this.isDarkMode,
@@ -15,6 +16,7 @@ sealed class SettingsState extends Equatable {
     required this.dawn,
     required this.afternoon,
     required this.dusk,
+    required this.lastReminderTime,
   });
 
   @override
@@ -25,6 +27,7 @@ sealed class SettingsState extends Equatable {
         dawn,
         afternoon,
         dusk,
+        lastReminderTime,
       ];
 }
 
@@ -37,6 +40,7 @@ final class SettingsInitial extends SettingsState {
           dawn: SettingHelper.dawn,
           afternoon: SettingHelper.afternoon,
           dusk: SettingHelper.dusk,
+          lastReminderTime: SettingHelper.lastReminderTime,
         );
 }
 
@@ -49,6 +53,7 @@ final class LanguageChanged extends SettingsState {
           dawn: current.dawn,
           afternoon: current.afternoon,
           dusk: current.dusk,
+          lastReminderTime: current.lastReminderTime,
         );
 }
 
@@ -61,6 +66,7 @@ final class ThemeModeChanged extends SettingsState {
           dawn: current.dawn,
           afternoon: current.afternoon,
           dusk: current.dusk,
+          lastReminderTime: current.lastReminderTime,
         );
 }
 
@@ -73,6 +79,7 @@ final class MeasurementSystemChanged extends SettingsState {
           dawn: current.dawn,
           afternoon: current.afternoon,
           dusk: current.dusk,
+          lastReminderTime: current.lastReminderTime,
         );
 }
 
@@ -82,6 +89,7 @@ class TimeChanged extends SettingsState {
     String? dawn,
     String? afternoon,
     String? dusk,
+    String? lastReminderTime,
   }) : super(
           isDarkMode: current.isDarkMode,
           language: current.language,
@@ -89,5 +97,6 @@ class TimeChanged extends SettingsState {
           dawn: dawn ?? current.dawn,
           afternoon: afternoon ?? current.afternoon,
           dusk: dusk ?? current.dusk,
+          lastReminderTime: lastReminderTime ?? current.lastReminderTime,
         );
 }

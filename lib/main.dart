@@ -12,6 +12,8 @@ import 'config/theme/app_theme.dart';
 import 'core/constants/app_common.dart';
 import 'core/helpers/cached_client.dart';
 import 'features/auth/presentations/bloc/auth_bloc/auth_bloc.dart';
+import 'features/habit/domain/repositories/habit_history_repository.dart';
+import 'features/habit/domain/repositories/habit_repository.dart';
 import 'features/habit/presentations/blocs/habit_history_crud/habit_history_crud_bloc.dart';
 import 'features/habit/presentations/blocs/habit_progress/habit_progress_bloc.dart';
 import 'features/habit/presentations/helpers/habit_progress_observer.dart';
@@ -23,6 +25,7 @@ import 'features/shared/presentations/pages/app_view.dart';
 import 'firebase_options.dart';
 import 'generated/l10n.dart';
 import 'injection_container.dart';
+import 'services/reminder_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -57,8 +60,12 @@ class _MyAppState extends State<MyApp> {
 
     final habitHistoryCrudBloc = getIt.get<HabitHistoryCrudBloc>();
     _streakObserver = HabitStreakObserver(
+      habitRepository: getIt.get<HabitRepository>(),
+      habitHistoryRepository: getIt.get<HabitHistoryRepository>(),
+      settingsCubit: getIt.get<SettingsCubit>(),
       habitHistoryCrudBloc: habitHistoryCrudBloc,
       cachedClient: getIt.get<CacheClient>(),
+      reminderService: getIt.get<ReminderService>(),
     );
     getIt.registerSingleton<HabitStreakObserver>(_streakObserver);
   }

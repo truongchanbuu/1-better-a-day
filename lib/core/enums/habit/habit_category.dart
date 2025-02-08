@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../features/habit/domain/entities/habit_statistic_entity.dart';
 import '../../../generated/l10n.dart';
 import '../../helpers/enum_helper.dart';
 import 'package:json_annotation/json_annotation.dart';

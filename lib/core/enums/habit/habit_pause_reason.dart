@@ -25,8 +25,6 @@ enum HabitPauseReason {
         return S.current.habit_pause_reason_reassessment;
       case HabitPauseReason.other:
         return S.current.habit_pause_reason_other;
-      default:
-        return S.current.habit_pause_reason_unknown;
     }
   }
 }

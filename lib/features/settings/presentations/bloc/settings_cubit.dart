@@ -45,6 +45,9 @@ class SettingsCubit extends Cubit<SettingsState> {
       case AppStorageKey.appDuskTimeCachedKey:
         emit(TimeChanged(state, dusk: value));
         break;
+      case AppStorageKey.appLastReminderTime:
+        emit(TimeChanged(state, lastReminderTime: value));
+        break;
     }
   }
 }

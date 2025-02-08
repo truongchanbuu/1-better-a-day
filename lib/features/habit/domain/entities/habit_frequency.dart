@@ -43,7 +43,7 @@ class HabitFrequency extends Equatable {
   // Predefined frequencies
   static var daily = HabitFrequency(type: FrequencyType.daily);
   static var weekly =
-      HabitFrequency(type: FrequencyType.weekDays, weekDays: {2});
+      HabitFrequency(type: FrequencyType.weekdays, weekDays: {2});
 
   // Factory methods
   static HabitFrequency everyNMinutes(int n) {
@@ -67,7 +67,7 @@ class HabitFrequency extends Equatable {
       days.every((day) => day >= 1 && day <= 7),
       'Week days must be between 1 and 7',
     );
-    return HabitFrequency(type: FrequencyType.weekDays, weekDays: days);
+    return HabitFrequency(type: FrequencyType.weekdays, weekDays: days);
   }
 
   static HabitFrequency monthlyOnDate(Set<int> date) {
@@ -93,7 +93,7 @@ class HabitFrequency extends Equatable {
     return switch (type) {
       FrequencyType.daily => S.current.freq_daily,
       FrequencyType.interval => _formatInterval,
-      FrequencyType.weekDays => _formatWeekDays,
+      FrequencyType.weekdays => _formatWeekDays,
       FrequencyType.monthly => _formatMonthly,
     };
   }
@@ -134,13 +134,13 @@ class HabitFrequency extends Equatable {
 
     final days = weekDays!
         .map((day) => switch (day) {
-              2 => 'Monday',
-              3 => 'Tuesday',
-              4 => 'Wednesday',
-              5 => 'Thursday',
-              6 => 'Friday',
-              7 => 'Saturday',
-              8 => 'Sunday',
+              1 => 'Monday',
+              2 => 'Tuesday',
+              3 => 'Wednesday',
+              4 => 'Thursday',
+              5 => 'Friday',
+              6 => 'Saturday',
+              7 => 'Sunday',
               _ => ''
             })
         .where((d) => d.isNotEmpty)
@@ -164,7 +164,7 @@ class HabitFrequency extends Equatable {
   int get frequencyInNum => switch (type) {
         FrequencyType.interval => interval?.value ?? 0,
         FrequencyType.daily => 1,
-        FrequencyType.weekDays => weekDays?.length ?? 0,
+        FrequencyType.weekdays => weekDays?.length ?? 0,
         FrequencyType.monthly => 1,
       };
 
@@ -173,7 +173,7 @@ class HabitFrequency extends Equatable {
     return switch (type) {
       FrequencyType.interval => _checkInterval(),
       FrequencyType.daily => true,
-      FrequencyType.weekDays => weekDays?.contains(date.weekday) ?? false,
+      FrequencyType.weekdays => weekDays?.contains(date.weekday) ?? false,
       FrequencyType.monthly => _checkMonthlyDate(date),
     };
   }
@@ -201,7 +201,7 @@ class HabitFrequency extends Equatable {
       FrequencyType.daily =>
         DateTime(now.year, now.month, now.day).add(const Duration(days: 1)),
       FrequencyType.interval => _getNextIntervalTime(),
-      FrequencyType.weekDays => _calculateNextWeekDay(weekDays?.first ?? 1),
+      FrequencyType.weekdays => _calculateNextWeekDay(weekDays?.first ?? 1),
       FrequencyType.monthly => _calculateNextMonthlyDate(),
     };
   }
@@ -258,9 +258,9 @@ class HabitFrequency extends Equatable {
       return date >= 1 && date <= 31;
     }
 
-    // Helper function to validate week days (2-8 represents Monday-Sunday)
+    // Helper function to validate week days (1-7 represents Monday-Sunday)
     bool isValidWeekDay(int day) {
-      return day >= 2 && day <= 8;
+      return day >= 1 && day <= 7;
     }
 
     try {
@@ -284,7 +284,7 @@ class HabitFrequency extends Equatable {
           // For daily type, interval, weekDays, and monthlyDates should be null
           return interval == null && weekDays == null && monthlyDates == null;
 
-        case FrequencyType.weekDays:
+        case FrequencyType.weekdays:
           // For weekDays type, weekDays must be provided and valid
           if (weekDays?.isEmpty ?? true) {
             return false;
@@ -293,7 +293,7 @@ class HabitFrequency extends Equatable {
           if (interval != null || monthlyDates != null) {
             return false;
           }
-          // All week days should be valid (2-8)
+          // All week days should be valid (1-7)
           return weekDays?.every(isValidWeekDay) ?? false;
 
         case FrequencyType.monthly:
@@ -363,8 +363,8 @@ enum FrequencyType {
   interval, // Covers minutes, hours, days with TimeInterval
   @JsonValue('daily')
   daily, // Special case for everyday
-  @JsonValue('weekDays')
-  weekDays, // Covers both weekly and specific week days
+  @JsonValue('weekdays')
+  weekdays, // Covers both weekly and specific week days
   @JsonValue('monthly')
   monthly, // Covers first day, last day, specific date with monthlyDates
 }

@@ -13,6 +13,7 @@ class DateTimeHelper {
   static const String afternoonTimeString = '12:00';
   static const String duskTimeString = '18:00';
   static const String nightTimeString = '21:00';
+  static const String lastReminderTimeString = '22:00';
 
   static bool isToday(DateTime? date) {
     if (date == null) return false;

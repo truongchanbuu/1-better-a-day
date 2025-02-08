@@ -34,8 +34,6 @@ enum HabitFailureReason {
         return S.current.habit_failure_reason_external_distractions;
       case HabitFailureReason.other:
         return S.current.habit_failure_reason_other;
-      default:
-        return S.current.habit_failure_reason_unknown;
     }
   }
 }

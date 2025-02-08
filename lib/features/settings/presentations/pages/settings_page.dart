@@ -80,6 +80,21 @@ class SettingsPage extends StatelessWidget {
               onPressed: (context) => _onSelectTimeOfDay(
                   context, AppStorageKey.appDuskTimeCachedKey),
             ),
+            SettingsTile.navigation(
+              title: Text(S.current.last_reminder_time, style: _titleTextStyle),
+              value: Text(defaultSettings.lastReminderTime),
+              description: Text(
+                defaultSettings.lastReminderTime,
+                style: _subTitleTextStyle,
+              ),
+              leading: const Icon(Icons.timer, color: Colors.blue),
+              backgroundColor:
+                  context.isDarkMode ? AppColors.darkText : AppColors.lightText,
+              onPressed: (context) => _onSelectTimeOfDay(
+                context,
+                AppStorageKey.appLastReminderTime,
+              ),
+            ),
           ],
         ),
 

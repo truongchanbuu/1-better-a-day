@@ -599,6 +599,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "language_tile": MessageLookupByLibrary.simpleMessage("Ngôn ngữ"),
         "last_completed_at": m22,
         "last_n_day": m23,
+        "last_reminder_time":
+            MessageLookupByLibrary.simpleMessage("Nhắc nhở lần cuối"),
         "latest_achievement_title":
             MessageLookupByLibrary.simpleMessage("Thành tựu gần đây"),
         "less_title": MessageLookupByLibrary.simpleMessage("Ít"),
