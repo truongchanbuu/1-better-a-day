@@ -15,6 +15,7 @@ import '../achievement_entity.dart';
 import '../streak_requirement.dart';
 import '../time_requirement.dart';
 
+// TODO: ADD MORE ACHIEVEMENTS
 class PreDefinedAchievements {
   static List<AchievementEntity> streakAchievements = [
     AchievementEntity(

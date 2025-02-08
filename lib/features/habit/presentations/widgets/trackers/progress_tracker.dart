@@ -230,6 +230,9 @@ class _WaterActionButtons extends StatelessWidget {
             onPressed: (context) => onSettingPressed(),
             icon: FontAwesomeIcons.gear,
             spacing: 0,
+            backgroundColor: AppColors.success,
+            borderRadius:
+                BorderRadius.all(Radius.circular(AppSpacing.circleRadius)),
           ),
         ],
       ),
