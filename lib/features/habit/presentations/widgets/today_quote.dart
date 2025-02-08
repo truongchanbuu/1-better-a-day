@@ -15,7 +15,7 @@ class TodayQuote extends StatefulWidget {
 
 class _TodayQuoteState extends State<TodayQuote> {
   bool isFinished = false;
-  late int randomQuoteNumber;
+  late String quote;
 
   List<String> get quotes => [
         S.current.habit_quote_1,
@@ -28,7 +28,7 @@ class _TodayQuoteState extends State<TodayQuote> {
   @override
   void initState() {
     super.initState();
-    randomQuoteNumber = Random().nextInt(quotes.length);
+    quote = quotes[Random().nextInt(quotes.length)];
   }
 
   @override
@@ -38,14 +38,27 @@ class _TodayQuoteState extends State<TodayQuote> {
       displayFullTextOnTap: true,
       animatedTexts: [
         TyperAnimatedText(
-          quotes[randomQuoteNumber],
-          textStyle: const TextStyle(
+          quote,
+          textStyle: TextStyle(
             overflow: TextOverflow.visible,
             fontStyle: FontStyle.italic,
             fontSize: AppFontSize.h3,
           ),
-        )
+        ),
       ],
+      onFinished: () {
+        setState(() {
+          isFinished = true;
+        });
+      },
+      onTap: () {
+        if (isFinished) {
+          setState(() {
+            quote = quotes[Random().nextInt(quotes.length)];
+            isFinished = false;
+          });
+        }
+      },
     );
   }
 }

@@ -117,66 +117,75 @@ class _MoreHabitKnowledgePageState extends State<MoreHabitKnowledgePage>
         backgroundColor: context.isDarkMode
             ? AppColors.primaryDark
             : AppColors.grayBackgroundColor,
-        body: Column(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildCarousel(
-                      items: insights
-                          .map((insight) => _SentenceTemplate(
-                              title: insight.title, subTitle: insight.desc))
-                          .toList()),
-                  Padding(
-                    padding: const EdgeInsets.all(AppSpacing.marginM),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        IconWithText(
-                          icon: FontAwesomeIcons.solidLightbulb,
-                          text: S.current.know_more_about_habit,
-                          iconColor: Colors.amber,
-                          fontSize: AppFontSize.h3,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        const SizedBox(height: AppSpacing.marginS),
-                        ButtonsTabBar(
-                          backgroundColor: AppColors.primary,
-                          controller: _tabController,
-                          contentPadding:
-                              const EdgeInsets.only(right: AppSpacing.paddingS),
-                          tabs: _tabBarItems
-                              .map((item) => Tab(
-                                    icon: Icon(item.icon),
-                                    text: item.title,
-                                  ))
-                              .toList(),
-                          onTap: (index) =>
-                              setState(() => _tabController.index = index),
-                        ),
-                        ..._getInfoList.map(
-                          (fact) => _buildHabitInfo(fact),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-            _buildCarousel(
-                items: quotes
+        bottomNavigationBar: _buildCarousel(
+          items: quotes
+              .map(
+                (quote) => _SentenceTemplate(
+                  title: quote.quote,
+                  subTitle: quote.author,
+                  backgroundColor: context.isDarkMode
+                      ? AppColors.darkText
+                      : AppColors.lightText,
+                ),
+              )
+              .toList(),
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildCarousel(
+                items: insights
                     .map(
-                      (quote) => _SentenceTemplate(
-                        title: quote.quote,
-                        subTitle: quote.author,
-                        backgroundColor: context.isDarkMode
-                            ? AppColors.darkText
-                            : AppColors.lightText,
-                      ),
+                      (insight) => _SentenceTemplate(
+                          title: insight.title, subTitle: insight.desc),
                     )
-                    .toList())
-          ],
+                    .toList(),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(AppSpacing.marginM),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    IconWithText(
+                      icon: FontAwesomeIcons.solidLightbulb,
+                      text: S.current.know_more_about_habit,
+                      iconColor: Colors.amber,
+                      fontSize: AppFontSize.h3,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    const SizedBox(height: AppSpacing.marginS),
+                    ButtonsTabBar(
+                      backgroundColor: AppColors.primary,
+                      controller: _tabController,
+                      contentPadding:
+                          const EdgeInsets.only(right: AppSpacing.paddingS),
+                      unselectedBackgroundColor: context.isDarkMode
+                          ? AppColors.darkText
+                          : AppColors.lightText,
+                      unselectedLabelStyle: TextStyle(
+                        color: context.isDarkMode
+                            ? AppColors.lightText
+                            : AppColors.darkText,
+                      ),
+                      tabs: _tabBarItems
+                          .map((item) => Tab(
+                                icon: Icon(item.icon),
+                                text: item.title,
+                              ))
+                          .toList(),
+                      onTap: (index) =>
+                          setState(() => _tabController.index = index),
+                    ),
+                    const SizedBox(height: AppSpacing.marginS),
+                    ..._getInfoList.map(
+                      (fact) => _buildHabitInfo(fact),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -218,6 +227,7 @@ class _MoreHabitKnowledgePageState extends State<MoreHabitKnowledgePage>
         enlargeCenterPage: true,
         viewportFraction: 1,
         showIndicator: false,
+        floatingIndicator: true,
       ),
     );
   }
@@ -275,8 +285,8 @@ class _SentenceTemplate extends StatelessWidget {
           _spacing,
           Text(
             subTitle,
-            style: const TextStyle(
-              color: Colors.black38,
+            style: TextStyle(
+              color: context.isDarkMode ? AppColors.lightText : Colors.black38,
               fontSize: AppFontSize.h4,
             ),
             maxLines: 3,

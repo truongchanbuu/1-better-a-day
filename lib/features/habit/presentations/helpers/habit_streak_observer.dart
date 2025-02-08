@@ -81,7 +81,6 @@ class HabitStreakObserver extends WidgetsBindingObserver {
   }
 
   Future<void> _setupLastReminderTime() async {
-    print("SETTING UP");
     final isGranted = await reminderService.requestPermission();
     if (!isGranted) return;
 
@@ -108,7 +107,6 @@ class HabitStreakObserver extends WidgetsBindingObserver {
 
     final timeUntilReminder = nextReminder.difference(now);
 
-    print("TIME: $timeUntilReminder");
     _lastReminder = Timer(timeUntilReminder, () {
       _showReminderNotification();
       _setupLastReminderTime();

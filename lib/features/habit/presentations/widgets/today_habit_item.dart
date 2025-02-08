@@ -130,6 +130,7 @@ class _TodayHabitItemState extends State<TodayHabitItem> with RouteAware {
                     fontSize: AppFontSize.labelLarge,
                     color: AppColors.grayText,
                   ),
+                  maxLines: 2,
                 ),
               ],
             ),
