@@ -265,10 +265,9 @@ class _WaterActionButtons extends StatelessWidget {
               value: context.read<HabitHistoryCrudBloc>(),
               child: _WaterActionButtonSettings(
                 onAmountSubmit: (value) {
-                  print(value);
                   context.read<HabitHistoryCrudBloc>().add(AddWaterHabitHistory(
                         habitId: habitId,
-                        quantity: value,
+                        quantity: value.toInt(),
                         targetValue: targetValue,
                       ));
                 },
@@ -279,7 +278,7 @@ class _WaterActionButtons extends StatelessWidget {
 }
 
 class _WaterActionButtonSettings extends StatefulWidget {
-  final void Function(int value) onAmountSubmit;
+  final void Function(num value) onAmountSubmit;
   final GoalUnit goalUnit;
 
   const _WaterActionButtonSettings({
@@ -347,9 +346,14 @@ class _WaterActionButtonSettingsState
                 suffixIcon: IconButton(
                   onPressed: () async {
                     SmartDialog.dismiss(tag: 'water_settings');
-                    final value =
-                        int.tryParse(_amountController.text.split(' ').first) ??
+                    num value =
+                        num.tryParse(_amountController.text.split(' ').first) ??
                             0;
+
+                    if (widget.goalUnit == GoalUnit.l) {
+                      value *= 1000;
+                    }
+
                     widget.onAmountSubmit(value);
                   },
                   icon: const Icon(
