@@ -129,6 +129,7 @@ class _ProgressTrackerState extends State<ProgressTracker> {
           const SizedBox(height: AppSpacing.marginL),
           _WaterActionButtons(
             habitId: widget.habitId,
+            goalUnit: widget.goalUnit,
             targetValue: _targetValueInLiter,
             waterAmount: waterAmount,
             onBtnPressed: () {
@@ -181,6 +182,7 @@ class _ProgressTrackerState extends State<ProgressTracker> {
 
 class _WaterActionButtons extends StatelessWidget {
   final String habitId;
+  final GoalUnit goalUnit;
   final int targetValue;
   final VoidCallback onBtnPressed;
   final int waterAmount;
@@ -190,6 +192,7 @@ class _WaterActionButtons extends StatelessWidget {
     required this.targetValue,
     required this.onBtnPressed,
     required this.waterAmount,
+    required this.goalUnit,
   });
 
   @override
@@ -262,12 +265,14 @@ class _WaterActionButtons extends StatelessWidget {
               value: context.read<HabitHistoryCrudBloc>(),
               child: _WaterActionButtonSettings(
                 onAmountSubmit: (value) {
+                  print(value);
                   context.read<HabitHistoryCrudBloc>().add(AddWaterHabitHistory(
                         habitId: habitId,
                         quantity: value,
                         targetValue: targetValue,
                       ));
                 },
+                goalUnit: goalUnit,
               ),
             ));
   }
@@ -275,7 +280,12 @@ class _WaterActionButtons extends StatelessWidget {
 
 class _WaterActionButtonSettings extends StatefulWidget {
   final void Function(int value) onAmountSubmit;
-  const _WaterActionButtonSettings({required this.onAmountSubmit});
+  final GoalUnit goalUnit;
+
+  const _WaterActionButtonSettings({
+    required this.onAmountSubmit,
+    required this.goalUnit,
+  });
 
   @override
   State<_WaterActionButtonSettings> createState() =>
@@ -285,11 +295,21 @@ class _WaterActionButtonSettings extends StatefulWidget {
 class _WaterActionButtonSettingsState
     extends State<_WaterActionButtonSettings> {
   late final TextEditingController _amountController;
+  late final List<num> _waterAmounts;
 
   @override
   void initState() {
     super.initState();
-    _amountController = TextEditingController(text: '0');
+    _amountController =
+        TextEditingController(text: '0 ${widget.goalUnit.shortName}');
+    _waterAmounts = [300, 400, 500, 1000, 2000].map((e) {
+      if (widget.goalUnit == GoalUnit.ml ||
+          widget.goalUnit == GoalUnit.glasses) {
+        return e;
+      } else {
+        return e / 1000;
+      }
+    }).toList();
   }
 
   @override
@@ -323,11 +343,14 @@ class _WaterActionButtonSettingsState
                 focusedBorder: const OutlineInputBorder(
                   borderSide: BorderSide(color: AppColors.primary),
                 ),
-                hintText: 'ml',
+                hintText: widget.goalUnit.shortName,
                 suffixIcon: IconButton(
                   onPressed: () async {
-                    widget.onAmountSubmit(
-                        int.tryParse(_amountController.text) ?? 0);
+                    SmartDialog.dismiss(tag: 'water_settings');
+                    final value =
+                        int.tryParse(_amountController.text.split(' ').first) ??
+                            0;
+                    widget.onAmountSubmit(value);
                   },
                   icon: const Icon(
                     FontAwesomeIcons.check,
@@ -335,6 +358,9 @@ class _WaterActionButtonSettingsState
                   ),
                 ),
               ),
+              onChanged: (value) {
+                _amountController.text = '$value ${widget.goalUnit.shortName}';
+              },
               inputFormatters: [
                 FilteringTextInputFormatter.digitsOnly,
                 LengthLimitingTextInputFormatter(4)
@@ -354,11 +380,12 @@ class _WaterActionButtonSettingsState
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                children: [300, 400, 500, 1000, 2000]
+                children: _waterAmounts
                     .map(
                       (e) => GestureDetector(
                         onTap: () {
-                          _amountController.text = e.toString();
+                          _amountController.text =
+                              '${e.toStringAsFixedWithoutZero()} ${widget.goalUnit.shortName}';
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(

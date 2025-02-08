@@ -4,6 +4,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/constants/app_font_size.dart';
+import '../../../../core/extensions/context_extension.dart';
 import '../../../../generated/l10n.dart';
 
 class TodayQuote extends StatefulWidget {
@@ -14,7 +15,6 @@ class TodayQuote extends StatefulWidget {
 }
 
 class _TodayQuoteState extends State<TodayQuote> {
-  bool isFinished = false;
   late String quote;
 
   List<String> get quotes => [
@@ -28,12 +28,20 @@ class _TodayQuoteState extends State<TodayQuote> {
   @override
   void initState() {
     super.initState();
-    quote = quotes[Random().nextInt(quotes.length)];
+    _getRandomQuote();
+  }
+
+  String _getRandomQuote() {
+    return quotes[Random().nextInt(quotes.length)];
   }
 
   @override
   Widget build(BuildContext context) {
+    final locale = context.locale;
+    quote = _getRandomQuote();
+
     return AnimatedTextKit(
+      key: ValueKey('today_page_quote_$locale'),
       totalRepeatCount: 1,
       displayFullTextOnTap: true,
       animatedTexts: [
@@ -46,19 +54,6 @@ class _TodayQuoteState extends State<TodayQuote> {
           ),
         ),
       ],
-      onFinished: () {
-        setState(() {
-          isFinished = true;
-        });
-      },
-      onTap: () {
-        if (isFinished) {
-          setState(() {
-            quote = quotes[Random().nextInt(quotes.length)];
-            isFinished = false;
-          });
-        }
-      },
     );
   }
 }

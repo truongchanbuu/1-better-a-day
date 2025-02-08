@@ -89,6 +89,7 @@ class _TodayPageState extends State<TodayPage> with RouteAware {
                 padding: const EdgeInsets.all(AppSpacing.marginM),
                 sliver: SliverToBoxAdapter(
                   child: Text(
+                    key: ValueKey('today_page_greeting_${context.locale}'),
                     '${HabitTimeOfDay.periodOfTheDay.greeting}, ${currentUser.username?.isEmpty ?? true ? S.current.friend_title : currentUser.username}',
                     style: const TextStyle(
                       color: AppColors.primary,
@@ -111,7 +112,7 @@ class _TodayPageState extends State<TodayPage> with RouteAware {
               SliverPadding(
                 padding: const EdgeInsets.all(AppSpacing.marginM),
                 sliver: SliverToBoxAdapter(
-                  child: _buildCalendarSection(),
+                  child: _buildCalendarSection(context.locale),
                 ),
               ),
 
@@ -123,6 +124,7 @@ class _TodayPageState extends State<TodayPage> with RouteAware {
                 ),
                 sliver: SliverToBoxAdapter(
                   child: Text(
+                    key: ValueKey('today_page_tasks_${context.locale}'),
                     S.current.today_tasks,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
@@ -136,7 +138,7 @@ class _TodayPageState extends State<TodayPage> with RouteAware {
               SliverPadding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: AppSpacing.marginM),
-                sliver: _buildTasksList(),
+                sliver: _buildTasksList(context.locale),
               ),
 
               // Bottom padding
@@ -150,7 +152,7 @@ class _TodayPageState extends State<TodayPage> with RouteAware {
     );
   }
 
-  Widget _buildCalendarSection() {
+  Widget _buildCalendarSection(Locale locale) {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(width: 0.3),
@@ -163,7 +165,7 @@ class _TodayPageState extends State<TodayPage> with RouteAware {
     );
   }
 
-  Widget _buildTasksList() {
+  Widget _buildTasksList(Locale locale) {
     return BlocBuilder<HabitCrudBloc, HabitCrudState>(
       builder: (context, habitState) {
         if (habitState is Executing) {
@@ -177,7 +179,7 @@ class _TodayPageState extends State<TodayPage> with RouteAware {
         if (habitState is HabitCrudSucceed) {
           final habits = habitState.habits;
           if (habits.isEmpty) {
-            return SliverToBoxAdapter(child: _buildEmptyTodayTask());
+            return SliverToBoxAdapter(child: _buildEmptyTodayTask(locale));
           }
 
           return SliverList(
@@ -191,13 +193,14 @@ class _TodayPageState extends State<TodayPage> with RouteAware {
           );
         }
 
-        return SliverToBoxAdapter(child: _buildEmptyTodayTask());
+        return SliverToBoxAdapter(child: _buildEmptyTodayTask(context.locale));
       },
     );
   }
 
-  Widget _buildEmptyTodayTask() {
+  Widget _buildEmptyTodayTask(Locale locale) {
     return Center(
+      key: ValueKey('today_page_empty_$locale'),
       child: NotFoundAndRefresh(
         title: S.current.no_task_today,
         onRefresh: _loadAllHabits,
