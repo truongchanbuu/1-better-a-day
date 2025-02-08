@@ -75,7 +75,10 @@ class HabitStreakObserver extends WidgetsBindingObserver {
   }
 
   void _listenToSettingsChanges() {
-    settingsCubit.stream.listen((settings) {
+    settingsCubit.stream
+        .distinct((previous, current) =>
+            previous.lastReminderTime == current.lastReminderTime)
+        .listen((settings) {
       _setupLastReminderTime();
     });
   }
@@ -115,7 +118,6 @@ class HabitStreakObserver extends WidgetsBindingObserver {
 
   Future<void> _showReminderNotification() async {
     final incompleteHabits = await _getIncompleteHabits();
-    print('Incomplete habits: $incompleteHabits');
     if (incompleteHabits.isEmpty) return;
 
     await AwesomeNotifications().createNotification(
@@ -135,8 +137,6 @@ class HabitStreakObserver extends WidgetsBindingObserver {
         ),
       ],
     );
-
-    print('Notification shown');
   }
 
   Future<List<String>> _getIncompleteHabits() async {
@@ -147,13 +147,11 @@ class HabitStreakObserver extends WidgetsBindingObserver {
     final now = DateTime.now();
     final normalizedToday = DateTime(now.year, now.month, now.day);
     for (var habit in inProgressHabits) {
-      print("HABIT:: ${habit.habitTitle}");
       final todayHistory =
           (await habitHistoryRepository.getHabitHistoriesByDateRange(
                   habitId: habit.habitId, startDate: normalizedToday))
               .firstOrNull;
 
-      print("TODAY:: ${todayHistory}");
       if (todayHistory == null ||
           todayHistory.executionStatus == DayStatus.inProgress) {
         inCompletedHabitIds.add(habit.habitId);
