@@ -8,4 +8,8 @@ class AppStorageKey {
   static const String appDuskTimeCachedKey = '__app_dusk_time__';
   static const String appLastReminderTime = '__app_last_reminder_time__';
   static const String avatarRepositoryName = 'avatar_image_repository';
+  static const String hasAskNotificationPermissionKey =
+      '__has_ask_notification_permission__';
+  static const String lastCheckDateKey = '__last_check_date__';
+  static const String lastCheckStreakKey = '__last_streak_check__';
 }

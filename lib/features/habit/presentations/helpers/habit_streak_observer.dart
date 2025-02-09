@@ -2,6 +2,7 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
+import '../../../../core/constants/app_storage_key.dart';
 import '../../../../core/enums/habit/day_status.dart';
 import '../../../../core/enums/habit/habit_status.dart';
 import '../../../../core/extensions/time_of_day_extension.dart';
@@ -23,7 +24,6 @@ class HabitStreakObserver extends WidgetsBindingObserver {
   Timer? _lastReminder;
   final _streakUpdateControllers = <StreamController<void>>{};
 
-  static const String lastCheckDateKey = 'last_check_date';
   static const String notificationChannelKey = 'habit_streak_channel';
   static const String notificationChannelName = 'Habit Streak Notifications';
   static const String notificationChannelDescription =
@@ -76,16 +76,24 @@ class HabitStreakObserver extends WidgetsBindingObserver {
 
   void _listenToSettingsChanges() {
     settingsCubit.stream
-        .distinct((previous, current) =>
-            previous.lastReminderTime == current.lastReminderTime)
-        .listen((settings) {
+        .map((settings) => settings.lastReminderTime)
+        .distinct()
+        .listen((_) {
       _setupLastReminderTime();
     });
   }
 
   Future<void> _setupLastReminderTime() async {
-    final isGranted = await reminderService.requestPermission();
-    if (!isGranted) return;
+    final hasAskedPermission =
+        cachedClient.getBool(AppStorageKey.hasAskNotificationPermissionKey) ??
+            false;
+    if (!hasAskedPermission) {
+      cachedClient.setBool(AppStorageKey.hasAskNotificationPermissionKey, true);
+      final isGranted = await reminderService.requestPermission();
+      if (!isGranted) {
+        return;
+      }
+    }
 
     _lastReminder?.cancel();
 
@@ -173,9 +181,11 @@ class HabitStreakObserver extends WidgetsBindingObserver {
 
   void _checkAndUpdateStreaks() {
     final now = DateTime.now();
-    final lastCheckTimestamp = cachedClient.getInt(lastCheckDateKey);
+    final lastCheckTimestamp =
+        cachedClient.getInt(AppStorageKey.lastCheckDateKey);
     if (lastCheckTimestamp == null) {
-      cachedClient.setInt(lastCheckDateKey, now.millisecondsSinceEpoch);
+      cachedClient.setInt(
+          AppStorageKey.lastCheckDateKey, now.millisecondsSinceEpoch);
       return;
     }
 
@@ -192,7 +202,8 @@ class HabitStreakObserver extends WidgetsBindingObserver {
 
     if (today.isAfter(lastCheckDay)) {
       habitHistoryCrudBloc.add(CheckDailyStreaks());
-      cachedClient.setInt(lastCheckDateKey, now.millisecondsSinceEpoch);
+      cachedClient.setInt(
+          AppStorageKey.lastCheckDateKey, now.millisecondsSinceEpoch);
       _notifyListeners();
     }
   }

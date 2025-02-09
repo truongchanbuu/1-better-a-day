@@ -7,6 +7,7 @@ import 'package:moment_dart/moment_dart.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../../config/log/app_logger.dart';
+import '../../../../../core/constants/app_storage_key.dart';
 import '../../../../../core/enums/habit/day_status.dart';
 import '../../../../../core/enums/habit/goal_unit.dart';
 import '../../../../../core/enums/habit/habit_status.dart';
@@ -47,7 +48,6 @@ class HabitHistoryCrudBloc
     on<CheckDailyStreaks>(_onCheckDailyStreaks);
   }
 
-  static const String lastCheckStreakKey = 'last_streak_check';
   final _appLogger = getIt.get<AppLogger>();
 
   FutureOr<void> _onCreateHistory(
@@ -300,7 +300,8 @@ class HabitHistoryCrudBloc
     Emitter<HabitHistoryCrudState> emit,
   ) async {
     try {
-      final lastCheckMillis = cacheClient.getInt(lastCheckStreakKey);
+      final lastCheckMillis =
+          cacheClient.getInt(AppStorageKey.lastCheckStreakKey);
       final now = DateTime.now();
       final lastCheck = lastCheckMillis != null
           ? DateTime.fromMillisecondsSinceEpoch(lastCheckMillis)
@@ -376,7 +377,8 @@ class HabitHistoryCrudBloc
         await habitRepository.updateHabit(updatedHabit.habitId, updatedHabit);
       }
 
-      await cacheClient.setInt(lastCheckStreakKey, now.millisecondsSinceEpoch);
+      await cacheClient.setInt(
+          AppStorageKey.lastCheckStreakKey, now.millisecondsSinceEpoch);
     } catch (e) {
       emit(HabitHistoryCrudFailure('Failed to update streaks: $e'));
     }

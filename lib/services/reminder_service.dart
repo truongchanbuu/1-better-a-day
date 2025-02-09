@@ -21,6 +21,7 @@ class ReminderService {
 
   bool _isInit = false;
   bool get isInitialized => _isInit;
+  set setInit(bool value) => _isInit = value;
 
   ReminderService._internal();
 
