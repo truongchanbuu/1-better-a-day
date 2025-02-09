@@ -12,6 +12,7 @@ import '../../../../core/extensions/string_extension.dart';
 import '../../../../core/helpers/setting_helper.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../injection_container.dart';
+import '../../../../services/reminder_service.dart';
 import '../../../auth/presentations/bloc/auth_bloc/auth_bloc.dart';
 import '../../../auth/presentations/bloc/login/login_cubit.dart';
 import '../../../auth/presentations/bloc/signup/signup_cubit.dart';
@@ -30,7 +31,6 @@ class SettingsPage extends StatelessWidget {
   static const _titleTextStyle =
       TextStyle(fontWeight: FontWeight.bold, fontSize: AppFontSize.labelLarge);
   static const _subTitleTextStyle = TextStyle(fontSize: AppFontSize.labelSmall);
-
   @override
   Widget build(BuildContext context) {
     final currentUser =
@@ -90,10 +90,17 @@ class SettingsPage extends StatelessWidget {
               leading: const Icon(Icons.timer, color: Colors.blue),
               backgroundColor:
                   context.isDarkMode ? AppColors.darkText : AppColors.lightText,
-              onPressed: (context) => _onSelectTimeOfDay(
-                context,
-                AppStorageKey.appLastReminderTime,
-              ),
+              onPressed: (context) async {
+                final ReminderService reminderService =
+                    getIt.get<ReminderService>();
+                if (await reminderService.requestPermission() &&
+                    context.mounted) {
+                  _onSelectTimeOfDay(
+                    context,
+                    AppStorageKey.appLastReminderTime,
+                  );
+                }
+              },
             ),
           ],
         ),

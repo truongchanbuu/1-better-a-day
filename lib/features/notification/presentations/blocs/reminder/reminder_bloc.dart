@@ -31,7 +31,9 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
   final _appLogger = getIt.get<AppLogger>();
 
   FutureOr<void> _onGrantPermission(
-      GrantReminderPermission event, Emitter<ReminderState> emit) async {
+    GrantReminderPermission event,
+    Emitter<ReminderState> emit,
+  ) async {
     final isGranted = await reminderService.requestPermission();
 
     if (!isGranted) {
