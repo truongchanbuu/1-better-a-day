@@ -846,7 +846,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "reading_reminder_title":
             MessageLookupByLibrary.simpleMessage("Reading Time"),
         "recovery_description": MessageLookupByLibrary.simpleMessage(
-            "An reset-password mail will be sent to your email"),
+            "An confirmation mail will be sent"),
         "regenerate_button":
             MessageLookupByLibrary.simpleMessage("Generate another habit"),
         "relevant_accomplish":

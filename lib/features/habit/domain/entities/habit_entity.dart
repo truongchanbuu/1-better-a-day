@@ -41,7 +41,7 @@ class HabitEntity extends Equatable {
     required this.habitIcon,
     this.reminderTimes = const {},
     this.habitProgress = 0,
-    this.isReminderEnabled = true,
+    this.isReminderEnabled = false,
     Map<String, bool>? reminderStates,
   }) : reminderStates =
             reminderStates ?? {for (var time in reminderTimes) time: true};

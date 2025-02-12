@@ -52,7 +52,7 @@
 
   "@__AUTHENTICATION__": {},
   "logout_button": "Log out",
-  "recovery_description": "An reset-password mail will be sent to your email",
+  "recovery_description": "An confirmation mail will be sent",
   "re_auth_with_google": "Re-authenticate with Google",
   "re_auth_with_email": "Re-authenticate with Email",
   "login_failure_title": "Login Failure",

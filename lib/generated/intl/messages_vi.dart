@@ -864,7 +864,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "reading_reminder_title":
             MessageLookupByLibrary.simpleMessage("Đến giờ đọc sách rồi"),
         "recovery_description": MessageLookupByLibrary.simpleMessage(
-            "Một email đặt lại mật khẩu sẽ được gửi tới email của bạn"),
+            "Một mail xác nhận đã được gửi"),
         "regenerate_button":
             MessageLookupByLibrary.simpleMessage("Tạo thói quen khác"),
         "relevant_accomplish":

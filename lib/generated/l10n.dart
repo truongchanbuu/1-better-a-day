@@ -440,10 +440,10 @@ class S {
     );
   }
 
-  /// `An reset-password mail will be sent to your email`
+  /// `An confirmation mail will be sent`
   String get recovery_description {
     return Intl.message(
-      'An reset-password mail will be sent to your email',
+      'An confirmation mail will be sent',
       name: 'recovery_description',
       desc: '',
       args: [],

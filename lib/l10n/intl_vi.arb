@@ -53,7 +53,7 @@
 
   "@__AUTHENTICATION__": {},
   "logout_button": "Đăng xuất",
-  "recovery_description": "Một email đặt lại mật khẩu sẽ được gửi tới email của bạn",
+  "recovery_description": "Một mail xác nhận đã được gửi",
   "re_auth_with_google": "Xác thực với Google",
   "re_auth_with_email": "Xác thực với Email",
   "login_failure_title": "Đăng nhập thất bại",

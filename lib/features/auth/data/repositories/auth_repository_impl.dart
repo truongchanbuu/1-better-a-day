@@ -25,7 +25,7 @@ class AuthRepositoryImpl implements AuthRepository {
   final _userController = StreamController<UserModel>();
   UserModel _cachedUser = UserModel.fromEntity(UserEntity.empty);
 
-  static const int _maxRetries = 3;
+  static const int _maxRetries = 1;
   static const Duration _retryDelay = Duration(seconds: 1);
 
   AuthRepositoryImpl({
