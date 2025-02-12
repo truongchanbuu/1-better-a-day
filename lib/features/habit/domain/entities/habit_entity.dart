@@ -43,8 +43,14 @@ class HabitEntity extends Equatable {
     this.habitProgress = 0,
     this.isReminderEnabled = false,
     Map<String, bool>? reminderStates,
-  }) : reminderStates =
-            reminderStates ?? {for (var time in reminderTimes) time: true};
+  }) : reminderStates = reminderStates ??
+            (reminderTimes.isNotEmpty && isReminderEnabled
+                ? reminderTimes.fold<Map<String, bool>>(
+                    {},
+                    (previousValue, element) =>
+                        {...previousValue, element: true},
+                  )
+                : {});
 
   HabitEntity copyWith({
     String? habitId,
