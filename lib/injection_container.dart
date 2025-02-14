@@ -61,7 +61,6 @@ import 'services/reminder_service.dart';
 final getIt = GetIt.I;
 
 Future<void> initializeDependencies() async {
-  await dotenv.load();
   await Hive.initFlutter();
 
   final habitBox = await Hive.openBox<Map<dynamic, dynamic>>('habits');
@@ -73,7 +72,6 @@ Future<void> initializeDependencies() async {
       () => HabitModel.init(),
     ),
   );
-
   final habitHistoryBox =
       await Hive.openBox<Map<dynamic, dynamic>>('habitHistories');
   getIt.registerSingleton<Box<Map<dynamic, dynamic>>>(habitHistoryBox,
@@ -82,6 +80,15 @@ Future<void> initializeDependencies() async {
     () => HiveCRUDImplementation<HabitHistoryModel>(
       getIt.get<Box<Map<dynamic, dynamic>>>(instanceName: 'habitHistoryBox'),
       () => HabitHistoryModel.fromEntity(HabitHistory.init()),
+    ),
+  );
+  final challengeBox = await Hive.openBox<Map<dynamic, dynamic>>('challenges');
+  getIt.registerSingleton<Box<Map<dynamic, dynamic>>>(challengeBox,
+      instanceName: 'challengeBox');
+  getIt.registerFactory<HiveCRUDInterface<AchievementModel>>(
+    () => HiveCRUDImplementation(
+      getIt.get<Box<Map<dynamic, dynamic>>>(instanceName: 'challengeBox'),
+      () => AchievementModel.fromEntity(AchievementEntity.init()),
     ),
   );
 
@@ -94,18 +101,8 @@ Future<void> initializeDependencies() async {
       () => ReminderModel.fromEntity(ReminderEntity.init()),
     ),
   );
-
-  final challengeBox = await Hive.openBox<Map<dynamic, dynamic>>('challenges');
-  getIt.registerSingleton<Box<Map<dynamic, dynamic>>>(challengeBox,
-      instanceName: 'challengeBox');
-  getIt.registerFactory<HiveCRUDInterface<AchievementModel>>(
-    () => HiveCRUDImplementation(
-      getIt.get<Box<Map<dynamic, dynamic>>>(instanceName: 'challengeBox'),
-      () => AchievementModel.fromEntity(AchievementEntity.init()),
-    ),
-  );
-
   // GEMINI
+  await dotenv.load();
   getIt.registerSingleton(GenerativeModel(
     model: 'gemini-pro',
     apiKey: dotenv.env['GEMINI_API_KEY'] ?? '',

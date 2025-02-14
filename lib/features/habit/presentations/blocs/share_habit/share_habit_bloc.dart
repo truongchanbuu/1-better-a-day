@@ -20,7 +20,7 @@ part 'share_habit_state.dart';
 
 class ShareHabitBloc extends Bloc<ShareHabitEvent, ShareHabitState> {
   ShareHabitBloc() : super(ShareHabitInitial()) {
-    on<ShareHabitToFacebook>(_onShareToFacebook);
+    on<ShareHabitToSocial>(_onShareToFacebook);
     on<SaveImage>(_onSaveImage);
   }
 
@@ -73,7 +73,7 @@ class ShareHabitBloc extends Bloc<ShareHabitEvent, ShareHabitState> {
   }
 
   Future<void> _onShareToFacebook(
-    ShareHabitToFacebook event,
+    ShareHabitToSocial event,
     Emitter<ShareHabitState> emit,
   ) async {
     try {

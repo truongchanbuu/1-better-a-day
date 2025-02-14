@@ -13,6 +13,7 @@ import '../../../../shared/presentations/widgets/icon_with_text.dart';
 import '../../blocs/distance_track/distance_track_cubit.dart';
 import '../../blocs/habit_history_crud/habit_history_crud_bloc.dart';
 
+// TODO: STORE THE CURRENT TO HISTORY
 class DistanceTracker extends StatelessWidget {
   final String historyId;
   final double targetDistance;

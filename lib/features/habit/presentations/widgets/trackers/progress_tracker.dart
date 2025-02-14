@@ -15,7 +15,6 @@ import '../../../../../core/enums/habit/day_status.dart';
 import '../../../../../core/enums/habit/goal_type.dart';
 import '../../../../../core/extensions/context_extension.dart';
 import '../../../../../core/extensions/num_extension.dart';
-import '../../../../../core/extensions/string_extension.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../shared/presentations/widgets/icon_with_text.dart';
 import '../../../../../core/enums/habit/goal_unit.dart';
@@ -53,7 +52,11 @@ class _ProgressTrackerState extends State<ProgressTracker> {
   @override
   void initState() {
     super.initState();
-    _currentValue = widget.currentValue;
+    if (widget.goalUnit == GoalUnit.l) {
+      _currentValue = widget.currentValue / 1000;
+    } else {
+      _currentValue = widget.currentValue;
+    }
   }
 
   @override
@@ -161,7 +164,7 @@ class _ProgressTrackerState extends State<ProgressTracker> {
   String _getProgressValue() {
     return _percentMode
         ? '${(percentPerTargetValue * 100).toStringAsFixedWithoutZero(1)}%'
-        : '${_currentValue.toStringAsFixedWithoutZero(2)} / ${widget.targetValue} ${widget.goalUnit.name.toUpperCaseFirstLetter}';
+        : '${_currentValue.toStringAsFixedWithoutZero(2)} / ${widget.targetValue} ${widget.goalUnit.shortName}';
   }
 
   double get percentPerTargetValue => _currentValue / widget.targetValue;

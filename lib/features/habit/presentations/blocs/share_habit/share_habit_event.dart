@@ -7,13 +7,13 @@ sealed class ShareHabitEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-final class ShareHabitToFacebook extends ShareHabitEvent {
+final class ShareHabitToSocial extends ShareHabitEvent {
   final GlobalKey screenshotKey;
   final BuildContext context;
   final String? subject;
   final String? content;
 
-  const ShareHabitToFacebook({
+  const ShareHabitToSocial({
     required this.screenshotKey,
     required this.context,
     this.subject,

@@ -78,7 +78,8 @@ class _PresetHabitPageState extends State<PresetHabitPage> {
     return SafeArea(
       child: Scaffold(
         appBar: _buildAppBar(),
-        bottomNavigationBar: _buildAddButton(),
+        bottomNavigationBar:
+            selectedHabitIds.isNotEmpty ? _buildAddButton() : null,
         body: MultiBlocListener(
           listeners: [
             BlocListener<ReminderBloc, ReminderState>(
@@ -249,7 +250,7 @@ class _PresetHabitPageState extends State<PresetHabitPage> {
     return Padding(
       padding: const EdgeInsets.all(AppSpacing.paddingS),
       child: ElevatedButton(
-        onPressed: _onAdd,
+        onPressed: selectedHabitIds.isNotEmpty ? _onAdd : null,
         child: IconWithText(
           icon: Icons.add,
           text: S.current.add_habit,

@@ -31,6 +31,8 @@ final class GetHabitById extends HabitCrudEvent {
   List<Object> get props => [habitId];
 }
 
+// ...Other methods
+
 final class GetAllHabits extends HabitCrudEvent {}
 
 final class GetListOfHabitsByIds extends HabitCrudEvent {

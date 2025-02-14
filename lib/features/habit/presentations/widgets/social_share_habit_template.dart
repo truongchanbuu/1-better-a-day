@@ -16,6 +16,7 @@ import '../../../../generated/l10n.dart';
 import '../../domain/entities/habit_entity.dart';
 import '../blocs/share_habit/share_habit_bloc.dart';
 
+// TODO: ADD TEXT AND REQUEST STORE PERMISSION
 class SocialShareHabitTemplate extends StatelessWidget {
   final HabitEntity habit;
   final GlobalKey screenshotKey;
@@ -448,7 +449,7 @@ class SocialShareHabitTemplate extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               ListTile(
-                onTap: () => _onShareFacebook(context),
+                onTap: () => _onShared(context),
                 leading: Icon(FontAwesomeIcons.shareNodes, color: Colors.black),
                 title: Text(
                   S.current.share_button,
@@ -476,10 +477,10 @@ class SocialShareHabitTemplate extends StatelessWidget {
     );
   }
 
-  void _onShareFacebook(BuildContext context) {
+  void _onShared(BuildContext context) {
     Navigator.pop(context);
     context.read<ShareHabitBloc>().add(
-        ShareHabitToFacebook(screenshotKey: screenshotKey, context: context));
+        ShareHabitToSocial(screenshotKey: screenshotKey, context: context));
   }
 
   void _onSaveImage(BuildContext context) {
