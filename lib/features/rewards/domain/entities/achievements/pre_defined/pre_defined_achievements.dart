@@ -1,6 +1,9 @@
 import 'package:colorful_iconify_flutter/icons/fluent_emoji_flat.dart';
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/icons/akar_icons.dart';
+import 'package:iconify_flutter_plus/icons/ant_design.dart';
+import 'package:iconify_flutter_plus/icons/iconoir.dart';
+import 'package:iconify_flutter_plus/icons/ion.dart';
 import 'package:iconify_flutter_plus/icons/lucide.dart';
 
 import '../../../../../../core/enums/habit/goal_unit.dart';
@@ -15,7 +18,6 @@ import '../achievement_entity.dart';
 import '../streak_requirement.dart';
 import '../time_requirement.dart';
 
-// TODO: ADD MORE ACHIEVEMENTS
 class PreDefinedAchievements {
   static List<AchievementEntity> streakAchievements = [
     AchievementEntity(
@@ -35,6 +37,63 @@ class PreDefinedAchievements {
         color: Color(0xFFC0C0C0),
       ),
       achievementLevel: AchievementLevel.common,
+      isUnlocked: false,
+    ),
+    AchievementEntity(
+      achievementId: "streak_hero_14_day_in_line",
+      achievementName: "Fortnight Hero",
+      achievementDesc:
+          "Incredible! You've maintained a 14-day streak, proving your resilience and dedication. Keep pushing your limits, hero! ⚔️🔥",
+      achievementType: AchievementType.streak,
+      achievementRequirement: StreakRequirement(
+        requiredDays: 14,
+        acceptableUnits: {GoalUnit.day},
+        baseUnit: GoalUnit.day,
+      ),
+      achievementIcon: HabitIcon(
+        key: 'streak_hero_14_day_in_line',
+        icon: AkarIcons.double_sword,
+        color: Color(0xFFFFD700),
+      ),
+      achievementLevel: AchievementLevel.rare,
+      isUnlocked: false,
+    ),
+    AchievementEntity(
+      achievementId: "streak_legend_30_day_in_line",
+      achievementName: "30-Day Legend",
+      achievementDesc:
+          "Legendary! A 30-day streak is no small feat. You've etched your name into the hall of consistency! 🏆🌟",
+      achievementType: AchievementType.streak,
+      achievementRequirement: StreakRequirement(
+        requiredDays: 30,
+        acceptableUnits: {GoalUnit.day},
+        baseUnit: GoalUnit.day,
+      ),
+      achievementIcon: HabitIcon(
+        key: 'streak_legend_30_day_in_line',
+        icon: AkarIcons.crown,
+        color: Color(0xFFFFA500),
+      ),
+      achievementLevel: AchievementLevel.epic,
+      isUnlocked: false,
+    ),
+    AchievementEntity(
+      achievementId: "streak_immortal_60_day_in_line",
+      achievementName: "Immortal Streak",
+      achievementDesc:
+          "Unstoppable! 60 days straight is a testament to your unyielding commitment. 🌟⚡",
+      achievementType: AchievementType.streak,
+      achievementRequirement: StreakRequirement(
+        requiredDays: 60,
+        acceptableUnits: {GoalUnit.day},
+        baseUnit: GoalUnit.day,
+      ),
+      achievementIcon: HabitIcon(
+        key: 'streak_immortal_60_day_in_line',
+        icon: Lucide.shield_check,
+        color: Color(0xFF00CED1),
+      ),
+      achievementLevel: AchievementLevel.legendary,
       isUnlocked: false,
     ),
   ];
@@ -63,6 +122,63 @@ class PreDefinedAchievements {
       ),
       achievementLevel: AchievementLevel.common,
     ),
+    AchievementEntity(
+      achievementId: "step_master_10000_steps",
+      achievementName: "Step Master",
+      achievementDesc:
+          "Congratulations! You've walked 10,000 steps in a single day. Every step counts on your journey to greatness! 👣🏅",
+      achievementType: AchievementType.accumulation,
+      achievementRequirement: AccumulationRequirement(
+        target: 10000,
+        acceptableUnits: {GoalUnit.steps},
+        baseUnit: GoalUnit.steps,
+      ),
+      isUnlocked: false,
+      achievementIcon: HabitIcon(
+        key: "step_master_10000_steps",
+        icon: Ion.walk,
+        color: Color(0xFF32CD32),
+      ),
+      achievementLevel: AchievementLevel.common,
+    ),
+    AchievementEntity(
+      achievementId: "reading_sage_500_pages",
+      achievementName: "Reading Sage",
+      achievementDesc:
+          "Wise one! You've read 500 pages. Knowledge is your superpower. Keep turning those pages! 📖🧠",
+      achievementType: AchievementType.accumulation,
+      achievementRequirement: AccumulationRequirement(
+        target: 500,
+        acceptableUnits: {GoalUnit.page},
+        baseUnit: GoalUnit.page,
+      ),
+      isUnlocked: false,
+      achievementIcon: HabitIcon(
+        key: "reading_sage_500_pages",
+        icon: Lucide.book_open,
+        color: Color(0xFF8B4513),
+      ),
+      achievementLevel: AchievementLevel.rare,
+    ),
+    AchievementEntity(
+      achievementId: "step_conqueror_100_km",
+      achievementName: "Foot Conqueror",
+      achievementDesc:
+          "Amazing! You've conquered 100 km in total. Every step is a victory on your journey. 🚶‍♂️🏔️",
+      achievementType: AchievementType.accumulation,
+      achievementRequirement: AccumulationRequirement(
+        target: 100,
+        acceptableUnits: {GoalUnit.km, GoalUnit.m, GoalUnit.miles},
+        baseUnit: GoalUnit.km,
+      ),
+      isUnlocked: false,
+      achievementIcon: HabitIcon(
+        key: "step_conqueror_100_km",
+        icon: FluentEmojiFlat.running_shoe,
+        color: Color(0xFF228B22),
+      ),
+      achievementLevel: AchievementLevel.legendary,
+    ),
   ];
 
   static List<AchievementEntity> timeRequirementAchievements = [
@@ -83,6 +199,63 @@ class PreDefinedAchievements {
         icon: FluentEmojiFlat.person_in_lotus_position,
       ),
       achievementLevel: AchievementLevel.common,
+    ),
+    AchievementEntity(
+      achievementId: "focus_master_120_minutes",
+      achievementName: "Focus Master",
+      achievementDesc:
+          "You've achieved 120 minutes of deep work! Laser-sharp focus is your key to success. 🎯🧠",
+      achievementType: AchievementType.time,
+      achievementRequirement: TimeRequirement(
+        targetTime: Duration(minutes: 120),
+        acceptableUnits: {GoalUnit.minute, GoalUnit.hour},
+        baseUnit: GoalUnit.minute,
+      ),
+      isUnlocked: false,
+      achievementIcon: HabitIcon(
+        key: "focus_master_120_minutes",
+        icon: AntDesign.bulb,
+        color: Color(0xFF9370DB),
+      ),
+      achievementLevel: AchievementLevel.common,
+    ),
+    AchievementEntity(
+      achievementId: "zen_guru_300_minutes",
+      achievementName: "Zen Guru",
+      achievementDesc:
+          "You've meditated for 300 minutes total! Peace flows through your veins like a gentle river. 🧘🌊",
+      achievementType: AchievementType.time,
+      achievementRequirement: TimeRequirement(
+        targetTime: Duration(minutes: 300),
+        acceptableUnits: {GoalUnit.minute, GoalUnit.hour},
+        baseUnit: GoalUnit.minute,
+      ),
+      isUnlocked: false,
+      achievementIcon: HabitIcon(
+        key: "zen_guru_300_minutes",
+        icon: FluentEmojiFlat.person_in_lotus_position,
+        color: Color(0xFF4682B4),
+      ),
+      achievementLevel: AchievementLevel.rare,
+    ),
+    AchievementEntity(
+      achievementId: "focus_grandmaster_600_minutes",
+      achievementName: "Focus Grandmaster",
+      achievementDesc:
+          "You've maintained focus for 600 minutes total! Your mind is an indomitable fortress. 🧠🏆",
+      achievementType: AchievementType.time,
+      achievementRequirement: TimeRequirement(
+        targetTime: Duration(minutes: 600),
+        acceptableUnits: {GoalUnit.minute, GoalUnit.hour},
+        baseUnit: GoalUnit.minute,
+      ),
+      isUnlocked: false,
+      achievementIcon: HabitIcon(
+        key: "focus_grandmaster_600_minutes",
+        icon: Iconoir.light_bulb_on,
+        color: Color(0xFF6A5ACD),
+      ),
+      achievementLevel: AchievementLevel.legendary,
     ),
   ];
 

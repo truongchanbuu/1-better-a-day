@@ -107,7 +107,7 @@ class DistanceTracker extends StatelessWidget {
 
   void _handleSucceed(BuildContext context) {
     context.read<HabitHistoryCrudBloc>().add(SetHabitHistoryStatus(
-          historyId: habitHistory.habitId,
+          historyId: habitHistory.id,
           status: DayStatus.completed,
         ));
   }

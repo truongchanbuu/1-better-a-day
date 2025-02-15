@@ -14,6 +14,8 @@ part 'habit_time_tracker_state.dart';
 class HabitTimeTrackerBloc
     extends Bloc<HabitTimeTrackerEvent, HabitTimeTrackerState> {
   final int targetTime;
+  bool _isForegroundAllowed = false;
+
   HabitTimeTrackerBloc(this.targetTime)
       : super(TimeInitial(targetTime: targetTime)) {
     FlutterForegroundTask.addTaskDataCallback(_onReceived);
@@ -79,7 +81,10 @@ class HabitTimeTrackerBloc
   ) async {
     final permissionResults = await _requestPermissions();
 
-    if (permissionResults.values.every((isGranted) => isGranted)) {
+    _isForegroundAllowed =
+        permissionResults.values.every((isGranted) => isGranted);
+
+    if (_isForegroundAllowed) {
       _initService();
       emit(TimeTrackAllowed(state));
       add(StartTracking());
@@ -131,7 +136,7 @@ class HabitTimeTrackerBloc
     PauseTracking event,
     Emitter<HabitTimeTrackerState> emit,
   ) async {
-    if (await FlutterForegroundTask.isRunningService) {
+    if (_isForegroundAllowed) {
       FlutterForegroundTask.sendDataToTask('pauseButton');
     } else {
       _timer?.cancel();
@@ -142,7 +147,7 @@ class HabitTimeTrackerBloc
 
   FutureOr<void> _onResumeTrack(
       ResumeTracking event, Emitter<HabitTimeTrackerState> emit) async {
-    if (await FlutterForegroundTask.isRunningService) {
+    if (_isForegroundAllowed) {
       FlutterForegroundTask.sendDataToTask('resumeButton');
     } else {
       add(StartTrackingWithoutForeground());
@@ -151,8 +156,12 @@ class HabitTimeTrackerBloc
 
   FutureOr<void> _onRestartTrack(
       RestartTracking event, Emitter<HabitTimeTrackerState> emit) async {
-    if (await FlutterForegroundTask.isRunningService) {
-      FlutterForegroundTask.sendDataToTask('restartButton');
+    if (_isForegroundAllowed) {
+      if (await FlutterForegroundTask.isRunningService) {
+        FlutterForegroundTask.sendDataToTask('restartButton');
+      } else {
+        add(StartTracking());
+      }
     } else {
       _elapsedTime = 0;
     }

@@ -192,7 +192,7 @@ class _HabitTrackerState extends State<HabitTracker> {
     return BlocProvider(
       create: (context) => getIt.get<HabitTimeTrackerBloc>(param1: time),
       child: TimeTracker(
-        historyId: history.id,
+        habitHistory: history,
         targetValue: _habitGoal.targetValue,
         goalUnit: _goalUnit,
       ),

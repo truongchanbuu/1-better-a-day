@@ -8,21 +8,21 @@ import '../../../../../core/constants/app_spacing.dart';
 import '../../../../../core/enums/habit/day_status.dart';
 import '../../../../../core/helpers/date_time_helper.dart';
 import '../../../../../core/enums/habit/goal_unit.dart';
+import '../../../domain/entities/habit_history.dart';
 import '../../blocs/habit_history_crud/habit_history_crud_bloc.dart';
 import '../../blocs/habit_time_tracker/habit_time_tracker_bloc.dart';
 
-// TODO: STORE WITH HISTORY
 class TimeTracker extends StatefulWidget {
+  final HabitHistory habitHistory;
+  final GoalUnit? goalUnit;
+  final double targetValue;
+
   const TimeTracker({
     super.key,
-    required this.historyId,
+    required this.habitHistory,
     required this.targetValue,
     required this.goalUnit,
   });
-
-  final String historyId;
-  final GoalUnit? goalUnit;
-  final double targetValue;
 
   @override
   State<TimeTracker> createState() => _TimeTrackerState();
@@ -39,7 +39,7 @@ class _TimeTrackerState extends State<TimeTracker> {
 
   void _handleCompletion(BuildContext context) {
     context.read<HabitHistoryCrudBloc>().add(SetHabitHistoryStatus(
-          historyId: widget.historyId,
+          historyId: widget.habitHistory.id,
           status: DayStatus.completed,
         ));
   }
@@ -54,39 +54,35 @@ class _TimeTrackerState extends State<TimeTracker> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<HabitTimeTrackerBloc, HabitTimeTrackerState>(
+    return BlocConsumer<HabitTimeTrackerBloc, HabitTimeTrackerState>(
       listener: (context, state) {
         if (state is TimeTrackSucceed) {
           _handleCompletion(context);
         }
       },
-      child: Column(
-        children: [
-          BlocBuilder<HabitTimeTrackerBloc, HabitTimeTrackerState>(
-            builder: (context, state) {
-              return Padding(
-                padding: const EdgeInsets.all(AppSpacing.marginS),
-                child: CircularPercentIndicator(
-                  radius: 100,
-                  center: Text(
-                    DateTimeHelper.getTimeTrackerFromSecond(state.currentTime),
-                    style: const TextStyle(fontSize: AppFontSize.h4),
-                  ),
-                  lineWidth: 25,
-                  backgroundColor: Colors.black12,
-                  progressColor: AppColors.primary,
-                  progressBorderColor: AppColors.primary,
-                  percent: state.currentTime / state.targetTime,
+      builder: (context, state) {
+        return Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(AppSpacing.marginS),
+              child: CircularPercentIndicator(
+                radius: 100,
+                center: Text(
+                  DateTimeHelper.getTimeTrackerFromSecond(state.currentTime),
+                  style: const TextStyle(fontSize: AppFontSize.h4),
                 ),
-              );
-            },
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              BlocBuilder<HabitTimeTrackerBloc, HabitTimeTrackerState>(
-                builder: (context, state) {
-                  return IconButton(
+                lineWidth: 25,
+                backgroundColor: Colors.black12,
+                progressColor: AppColors.primary,
+                progressBorderColor: AppColors.primary,
+                percent: state.currentTime / state.targetTime,
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                if (state is! TimeStop)
+                  IconButton(
                     icon: Icon(
                       state is TimePaused || state is TimeInitial
                           ? Icons.play_arrow
@@ -97,17 +93,16 @@ class _TimeTrackerState extends State<TimeTracker> {
                         : state is TimeTracking
                             ? () => _handlePause(context)
                             : () => _handleResume(context),
-                  );
-                },
-              ),
-              IconButton(
-                icon: const Icon(Icons.repeat),
-                onPressed: () => _handleRestart(context),
-              ),
-            ],
-          ),
-        ],
-      ),
+                  ),
+                IconButton(
+                  icon: const Icon(Icons.repeat),
+                  onPressed: () => _handleRestart(context),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
     );
   }
 }

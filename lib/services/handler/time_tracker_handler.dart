@@ -37,8 +37,7 @@ class TimerTaskHandler extends TaskHandler {
 
   @override
   void onNotificationDismissed() {
-    super.onNotificationDismissed();
-    FlutterForegroundTask.stopService();
+    onNotificationButtonPressed('stopButton');
   }
 
   @override
