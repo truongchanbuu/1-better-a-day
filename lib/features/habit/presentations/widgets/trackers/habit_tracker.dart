@@ -173,7 +173,7 @@ class _HabitTrackerState extends State<HabitTracker> {
       create: (context) =>
           getIt.get<DistanceTrackCubit>(param1: targetDistance),
       child: DistanceTracker(
-        historyId: history.id,
+        habitHistory: history,
         targetDistance: targetDistance,
       ),
     );

@@ -32,9 +32,12 @@ class ShareHabitBloc extends Bloc<ShareHabitEvent, ShareHabitState> {
       emit(ShareHabitLoading());
 
       // Request storage permission
-      final isGranted =
+      final status =
           await PermissionHelper.checkAndRequestPermission(Permission.photos);
-      if (!isGranted) {
+      if (status.isDenied ||
+          status.isPermanentlyDenied ||
+          status.isRestricted ||
+          status.isLimited) {
         emit(ShareHabitFailure(S.current.storage_permission_denied));
         return;
       }
@@ -58,7 +61,6 @@ class ShareHabitBloc extends Bloc<ShareHabitEvent, ShareHabitState> {
           quality: 100,
         );
 
-        print('res: $result');
         if (result['isSuccess']) {
           emit(SaveSuccess(result['filePath']));
         } else {

@@ -789,6 +789,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "notify_at":
             MessageLookupByLibrary.simpleMessage("Thông báo vào lúc: "),
         "on_your_way": m24,
+        "open_setting": MessageLookupByLibrary.simpleMessage("Mở cài đặt"),
         "operation_not_allowed": MessageLookupByLibrary.simpleMessage(
             "Hoạt động không được phép. Vui lòng liên hệ hỗ trợ."),
         "out_of_range": MessageLookupByLibrary.simpleMessage(
@@ -815,6 +816,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "paused_statistic_page":
             MessageLookupByLibrary.simpleMessage("Tạm ngưng"),
         "paused_title": MessageLookupByLibrary.simpleMessage("Tạm dừng:"),
+        "permission_required":
+            MessageLookupByLibrary.simpleMessage("Yêu cầu quyền truy cập"),
+        "permission_required_message": MessageLookupByLibrary.simpleMessage(
+            "Ứng dụng cần quyền truy cập vào bộ nhớ để lưu ảnh. Vui lòng cấp quyền truy cập trong phần cài đặt và thử lại."),
         "personal_achievements":
             MessageLookupByLibrary.simpleMessage("Thành tựu cá nhân"),
         "personal_info_section":
@@ -1173,6 +1178,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Tâm trạng trong tuần"),
         "weekly_process_section":
             MessageLookupByLibrary.simpleMessage("Hằng tuần"),
+        "write_your_message":
+            MessageLookupByLibrary.simpleMessage("Viết tin nhắn của bạn ở đây"),
         "wrong_password": MessageLookupByLibrary.simpleMessage(
             "Mật khẩu không chính xác, vui lòng thử lại."),
         "year_title": MessageLookupByLibrary.simpleMessage("Năm"),

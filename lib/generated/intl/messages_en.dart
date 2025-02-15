@@ -771,6 +771,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
         "notify_at": MessageLookupByLibrary.simpleMessage("Notify at:"),
         "on_your_way": m24,
+        "open_setting": MessageLookupByLibrary.simpleMessage("Open Settings"),
         "operation_not_allowed": MessageLookupByLibrary.simpleMessage(
             "Operation is not allowed. Please contact support."),
         "out_of_range":
@@ -795,6 +796,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "paused_habit": MessageLookupByLibrary.simpleMessage("Paused Habit"),
         "paused_statistic_page": MessageLookupByLibrary.simpleMessage("Paused"),
         "paused_title": MessageLookupByLibrary.simpleMessage("Paused:"),
+        "permission_required":
+            MessageLookupByLibrary.simpleMessage("Permission Required"),
+        "permission_required_message": MessageLookupByLibrary.simpleMessage(
+            "Please grant permission manually by open app setting to access storage to save the image"),
         "personal_achievements":
             MessageLookupByLibrary.simpleMessage("Personal Achievements"),
         "personal_info_section":
@@ -1145,6 +1150,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "weekly_mood": MessageLookupByLibrary.simpleMessage("Weekly Mood"),
         "weekly_process_section":
             MessageLookupByLibrary.simpleMessage("Weekly"),
+        "write_your_message": MessageLookupByLibrary.simpleMessage(
+            "Write your share message here"),
         "wrong_password": MessageLookupByLibrary.simpleMessage(
             "Incorrect password, please try again."),
         "year_title": MessageLookupByLibrary.simpleMessage("Year"),

@@ -17,6 +17,8 @@ class LocationTaskHandler extends TaskHandler {
   DistanceTrackingServiceData distanceData = DistanceTrackingServiceData.init();
   StreamSubscription<Position>? _positionStream;
 
+  static const String currentDistanceKey = 'currentDistance';
+
   @override
   Future<void> onDestroy(DateTime timestamp) async {
     _stopTracker();
@@ -52,6 +54,13 @@ class LocationTaskHandler extends TaskHandler {
 
   Future<void> _initLocationStream() async {
     try {
+      double currentDistance =
+          await FlutterForegroundTask.getData(key: currentDistanceKey) ?? 0;
+
+      if (currentDistance != 0) {
+        distanceData = distanceData.copyWith(currentDistance: currentDistance);
+      }
+
       _positionStream = Geolocator.getPositionStream(
         locationSettings: const LocationSettings(
           accuracy: LocationAccuracy.high,

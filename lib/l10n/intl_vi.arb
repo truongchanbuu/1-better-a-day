@@ -1057,5 +1057,9 @@
   "default_share_subject": "Chia sẻ thói quen của tôi với {appName}",
   "default_share_content": "Tôi đã hoàn thành thói quen của mình với {appName}!",
   "store_image_to_device_button": "Luư ảnh vào thiết bị",
-  "storage_permission_denied": "Ứng dụng cần quyền truy cập vào bộ nhớ để lưu ảnh. Vui lòng cấp quyền truy cập và thử lại."
+  "storage_permission_denied": "Ứng dụng cần quyền truy cập vào bộ nhớ để lưu ảnh. Vui lòng cấp quyền truy cập và thử lại.",
+  "open_setting": "Mở cài đặt",
+  "permission_required": "Yêu cầu quyền truy cập",
+  "permission_required_message": "Ứng dụng cần quyền truy cập vào bộ nhớ để lưu ảnh. Vui lòng cấp quyền truy cập trong phần cài đặt và thử lại.",
+  "write_your_message": "Viết tin nhắn của bạn ở đây"
 }

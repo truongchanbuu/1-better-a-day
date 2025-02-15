@@ -1124,5 +1124,9 @@
   "default_share_subject": "Check out this {appName} amazing habit tracking app!",
   "default_share_content": "I've been using {appName} to track my habits. It's a great app to help me build better habits. You should try it out!",
   "store_image_to_device_button": "Save image to device",
-  "storage_permission_denied": "Storage permission denied"
+  "storage_permission_denied": "Storage permission denied",
+  "open_setting": "Open Settings",
+  "permission_required": "Permission Required",
+  "permission_required_message": "Please grant permission manually by open app setting to access storage to save the image",
+  "write_your_message": "Write your share message here"
 }

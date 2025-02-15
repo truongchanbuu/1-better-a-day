@@ -20,9 +20,16 @@ class DistanceTrackCubit extends Cubit<DistanceTrackState> {
     FlutterForegroundTask.addTaskDataCallback(_onReceivedData);
   }
 
-  Future<void> startTracking() async {
+  Future<void> startTracking([double? currentTracking]) async {
     if (await isRunning) {
       await FlutterForegroundTask.stopService();
+    }
+
+    if (currentTracking != null && currentTracking != 0) {
+      await FlutterForegroundTask.saveData(
+        key: LocationTaskHandler.currentDistanceKey,
+        value: currentTracking,
+      );
     }
 
     FlutterForegroundTask.startService(
@@ -33,7 +40,10 @@ class DistanceTrackCubit extends Cubit<DistanceTrackState> {
       callback: startLocationCallback,
     );
 
-    emit(DistanceTracking(current: state, currentDistance: 0));
+    emit(DistanceTracking(
+      current: state,
+      currentDistance: currentTracking ?? 0,
+    ));
   }
 
   void pauseTracking() {

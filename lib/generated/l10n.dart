@@ -6696,6 +6696,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Open Settings`
+  String get open_setting {
+    return Intl.message(
+      'Open Settings',
+      name: 'open_setting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Permission Required`
+  String get permission_required {
+    return Intl.message(
+      'Permission Required',
+      name: 'permission_required',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please grant permission manually by open app setting to access storage to save the image`
+  String get permission_required_message {
+    return Intl.message(
+      'Please grant permission manually by open app setting to access storage to save the image',
+      name: 'permission_required_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Write your share message here`
+  String get write_your_message {
+    return Intl.message(
+      'Write your share message here',
+      name: 'write_your_message',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

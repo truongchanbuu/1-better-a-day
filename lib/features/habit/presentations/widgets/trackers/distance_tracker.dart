@@ -10,17 +10,17 @@ import '../../../../../core/enums/habit/day_status.dart';
 import '../../../../../core/extensions/num_extension.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../shared/presentations/widgets/icon_with_text.dart';
+import '../../../domain/entities/habit_history.dart';
 import '../../blocs/distance_track/distance_track_cubit.dart';
 import '../../blocs/habit_history_crud/habit_history_crud_bloc.dart';
 
-// TODO: STORE THE CURRENT TO HISTORY
 class DistanceTracker extends StatelessWidget {
-  final String historyId;
+  final HabitHistory habitHistory;
   final double targetDistance;
 
   const DistanceTracker({
     super.key,
-    required this.historyId,
+    required this.habitHistory,
     required this.targetDistance,
   });
 
@@ -47,12 +47,19 @@ class DistanceTracker extends StatelessWidget {
       builder: (context, state) {
         bool isPlaying = state is DistanceTracking;
 
+        double currentDistance = habitHistory.currentValue;
+        if (state is DistanceTracking &&
+            currentDistance != state.currentDistance) {
+          currentDistance = state.currentDistance;
+          _handleUpdateCurrentDistance(context, currentDistance);
+        }
+
         return Column(
           children: [
             _DistanceInfo(
               icon: FontAwesomeIcons.personWalking,
               title: S.current.current_distance,
-              value: '${state.currentDistance.toStringAsFixedWithoutZero()} m',
+              value: '${currentDistance.toStringAsFixedWithoutZero()} m',
               color: Colors.purple,
               titleSize: _titleSize,
               valueSize: _valueSize,
@@ -73,7 +80,11 @@ class DistanceTracker extends StatelessWidget {
                   ? context.read<DistanceTrackCubit>().stopTracking
                   : state is DistanceTrackInitial
                       ? context.read<DistanceTrackCubit>().initializeService
-                      : context.read<DistanceTrackCubit>().startTracking,
+                      : () {
+                          context
+                              .read<DistanceTrackCubit>()
+                              .startTracking(currentDistance);
+                        },
               style: ElevatedButton.styleFrom(
                   backgroundColor: isPlaying ? Colors.red : AppColors.primary),
               child: IconWithText(
@@ -96,9 +107,14 @@ class DistanceTracker extends StatelessWidget {
 
   void _handleSucceed(BuildContext context) {
     context.read<HabitHistoryCrudBloc>().add(SetHabitHistoryStatus(
-          historyId: historyId,
+          historyId: habitHistory.habitId,
           status: DayStatus.completed,
         ));
+  }
+
+  void _handleUpdateCurrentDistance(BuildContext context, double distance) {
+    context.read<HabitHistoryCrudBloc>().add(
+        HabitHistoryCrudUpdate(habitHistory.copyWith(currentValue: distance)));
   }
 }
 
