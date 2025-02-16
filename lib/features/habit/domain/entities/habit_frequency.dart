@@ -282,7 +282,10 @@ class HabitFrequency extends Equatable {
 
         case FrequencyType.daily:
           // For daily type, interval, weekDays, and monthlyDates should be null
-          return interval == null && weekDays == null && monthlyDates == null;
+          return (interval?.type == IntervalType.days &&
+                  interval?.value == 1) &&
+              weekDays == null &&
+              monthlyDates == null;
 
         case FrequencyType.weekdays:
           // For weekDays type, weekDays must be provided and valid

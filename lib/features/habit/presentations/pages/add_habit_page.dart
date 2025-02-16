@@ -118,7 +118,7 @@ class _AddHabitPageState extends State<AddHabitPage> {
                     AlertHelper.showAwesomeSnackBar(
                       context,
                       S.current.failure_title,
-                      S.current.invalid_form,
+                      '${S.current.invalid_form}: ${validateState.errorMessage}',
                       ContentType.failure,
                     );
                   } else if (validateState is ValidateSucceed) {
@@ -134,14 +134,14 @@ class _AddHabitPageState extends State<AddHabitPage> {
                       habitCrudState.action == HabitCrudAction.add) {
                     context.read<ReminderBloc>().add(
                         ScheduleReminder(habit: habitCrudState.habits.first));
-                    AwesomeDialog(
-                      context: context,
-                      dialogType: DialogType.success,
-                      title: S.current.success_title,
-                      desc: S.current.add_success,
-                      btnOkOnPress: () =>
-                          Navigator.popUntil(context, ModalRoute.withName('/')),
-                    ).show();
+                    // AwesomeDialog(
+                    //   context: context,
+                    //   dialogType: DialogType.success,
+                    //   title: S.current.success_title,
+                    //   desc: S.current.add_success,
+                    //   btnOkOnPress: () =>
+                    //       Navigator.popUntil(context, ModalRoute.withName('/')),
+                    // ).show();
                   }
                 },
               ),
