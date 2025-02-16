@@ -136,7 +136,7 @@ class ReminderService {
       body: habit.habitDesc,
       category: NotificationCategory.Reminder,
       wakeUpScreen: true,
-      actionType: ActionType.KeepOnTop,
+      actionType: ActionType.Default,
       timeoutAfter: const Duration(seconds: 30),
       groupKey: habit.habitId,
       payload: {'habitId': habit.habitId},
@@ -206,7 +206,6 @@ class ReminderService {
         schedule: NotificationCalendar(
           hour: hour,
           minute: minute,
-          repeats: true,
         ),
         actionButtons: actionButtons,
       );
@@ -236,7 +235,6 @@ class ReminderService {
             hour: hour,
             minute: minute,
             weekday: weekDay,
-            repeats: true,
           ),
           actionButtons: actionButtons,
         );
@@ -271,7 +269,6 @@ class ReminderService {
             hour: hour,
             minute: minute,
             day: date,
-            repeats: true,
           ),
           actionButtons: actionButtons,
         );
@@ -305,7 +302,6 @@ class ReminderService {
         content: content,
         schedule: NotificationInterval(
           interval: duration,
-          repeats: true,
         ),
         actionButtons: actionButtons,
       );
