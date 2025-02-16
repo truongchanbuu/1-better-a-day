@@ -131,13 +131,13 @@ class _ProgressTrackerState extends State<ProgressTracker> {
           _WaterActionButtons(
             habitId: widget.habitId,
             goalUnit: widget.goalUnit,
-            targetValue: _targetValueInLiter,
+            targetValue: widget.targetValue,
             waterAmount: waterAmount,
             onBtnPressed: () {
               context.read<HabitHistoryCrudBloc>().add(AddWaterHabitHistory(
                     habitId: widget.habitId,
                     quantity: waterAmount,
-                    targetValue: _targetValueInLiter,
+                    targetValue: widget.targetValue,
                     measurementUnit: widget.goalUnit,
                   ));
             },
@@ -172,10 +172,6 @@ class _ProgressTrackerState extends State<ProgressTracker> {
       (widget.goalType == GoalType.count ||
           widget.goalType == GoalType.completion) &&
       (widget.goalUnit == GoalUnit.l || widget.goalUnit == GoalUnit.ml);
-
-  double get _targetValueInLiter => widget.goalUnit == GoalUnit.l
-      ? (widget.targetValue * 1000)
-      : widget.targetValue;
 }
 
 class _WaterActionButtons extends StatelessWidget {

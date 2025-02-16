@@ -142,11 +142,14 @@ class HabitHistoryCrudBloc
     HabitHistoryModel history,
     AddWaterHabitHistory event,
   ) {
+    double targetValue = event.targetValue;
+
     final currentValue = history.currentValue + event.quantity;
-    final isCompleted = currentValue >= event.targetValue;
+    final isCompleted = currentValue >= targetValue;
+
     return history.copyWith(
       habitId: event.habitId,
-      targetValue: () => event.targetValue.toDouble(),
+      targetValue: () => targetValue.toDouble(),
       currentValue: currentValue,
       executionStatus: isCompleted ? DayStatus.completed : DayStatus.inProgress,
       endTime: isCompleted ? () => DateTime.now() : null,

@@ -73,16 +73,19 @@ class _TodayHabitItemState extends State<TodayHabitItem> with RouteAware {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HabitHistoryCrudBloc, HabitHistoryCrudState>(
-      buildWhen: (previous, current) {
-        if (current is HabitHistoryCrudSuccess) {
-          return current.histories.first.habitId == widget.habit.habitId;
-        }
-        return false;
-      },
+      buildWhen: (previous, current) =>
+          current is HabitHistoryCrudSuccess &&
+          current.type == HabitHistoryCrudEventType.read &&
+          current.histories.isNotEmpty &&
+          current.histories.first.habitId == widget.habit.habitId,
       builder: (context, state) {
-        final history = state is HabitHistoryCrudSuccess
+        final history = state is HabitHistoryCrudSuccess &&
+                state.type == HabitHistoryCrudEventType.read &&
+                (state.histories.isNotEmpty &&
+                    state.histories.first.habitId == widget.habit.habitId)
             ? state.histories.first
             : HabitHistory.init().copyWith(habitId: widget.habit.habitId);
+        print('state: $state - ${widget.habit.habitId}');
 
         final isCompleted = _isCompleted(history);
         final isPaused = _isPaused(history);
