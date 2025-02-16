@@ -37,8 +37,7 @@ class HabitProgressBloc extends Bloc<HabitProgressEvent, HabitProgressState> {
       final now = DateTime.now();
       for (var habit in habits) {
         HabitStatus status = habit.habitStatus;
-        if (now.isAfter(habit.endDate) &&
-            habit.habitStatus == HabitStatus.inProgress) {
+        if (now.isAfter(habit.endDate) && habit.isInProgress) {
           final habitProgress = habit.habitProgress;
           if (habitProgress >= 0.8) {
             status = HabitStatus.achieved;
@@ -67,9 +66,8 @@ class HabitProgressBloc extends Bloc<HabitProgressEvent, HabitProgressState> {
     try {
       final habit = HabitModel.fromEntity(event.habit);
       final habitProgress = habit.habitProgress;
-      final habitStatus = habit.habitStatus;
 
-      if (habitProgress >= 1 && habitStatus == HabitStatus.inProgress) {
+      if (habitProgress >= 1 && habit.isInProgress) {
         final newHabit = await _updateHabit(habit, HabitStatus.achieved);
         await reminderService.cancelAllHabitReminders(habit.habitId);
         emit(HabitFinished(newHabit));

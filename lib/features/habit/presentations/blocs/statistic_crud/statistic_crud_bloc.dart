@@ -69,14 +69,10 @@ class StatisticCrudBloc extends Bloc<StatisticCrudEvent, StatisticCrudState> {
       emit(StatisticLoading());
       // Get total habits
       final allHabits = await _getAllHabits();
-      final activeHabits =
-          allHabits.where((e) => e.habitStatus == HabitStatus.inProgress);
-      final failedHabits =
-          allHabits.where((e) => e.habitStatus == HabitStatus.failed);
-      final pausedHabits =
-          allHabits.where((e) => e.habitStatus == HabitStatus.paused);
-      final achievedHabits =
-          allHabits.where((e) => e.habitStatus == HabitStatus.achieved);
+      final activeHabits = allHabits.where((e) => e.isInProgress);
+      final failedHabits = allHabits.where((e) => e.isFailed);
+      final pausedHabits = allHabits.where((e) => e.isPaused);
+      final achievedHabits = allHabits.where((e) => e.isAchieved);
 
       // Completion Rate
       final allHistories = await habitHistoryRepository.getHabitHistories();
@@ -134,8 +130,7 @@ class StatisticCrudBloc extends Bloc<StatisticCrudEvent, StatisticCrudState> {
     try {
       final allHabits =
           (await _getAllHabits()).map((e) => e.toEntity()).toList();
-      final activeHabits =
-          allHabits.where((e) => e.habitStatus == HabitStatus.inProgress);
+      final activeHabits = allHabits.where((e) => e.isInProgress);
 
       final habitData = _getHabitData(allHabits, HabitStatus.inProgress);
 
@@ -154,8 +149,7 @@ class StatisticCrudBloc extends Bloc<StatisticCrudEvent, StatisticCrudState> {
     try {
       final allHabits =
           (await _getAllHabits()).map((e) => e.toEntity()).toList();
-      final pausedHabits =
-          allHabits.where((e) => e.habitStatus == HabitStatus.paused);
+      final pausedHabits = allHabits.where((e) => e.isPaused);
       final habitData = _getHabitData(allHabits, HabitStatus.paused);
 
       emit(PausedStatisticLoaded(
@@ -175,8 +169,7 @@ class StatisticCrudBloc extends Bloc<StatisticCrudEvent, StatisticCrudState> {
     try {
       final allHabits =
           (await _getAllHabits()).map((e) => e.toEntity()).toList();
-      final failedHabits =
-          allHabits.where((e) => e.habitStatus == HabitStatus.failed);
+      final failedHabits = allHabits.where((e) => e.isFailed);
 
       double failedRate =
           _calculateRateHabitsByStatus(allHabits, HabitStatus.failed);
@@ -200,8 +193,7 @@ class StatisticCrudBloc extends Bloc<StatisticCrudEvent, StatisticCrudState> {
     try {
       final allHabits =
           (await _getAllHabits()).map((e) => e.toEntity()).toList();
-      final achievedHabits =
-          allHabits.where((e) => e.habitStatus == HabitStatus.achieved);
+      final achievedHabits = allHabits.where((e) => e.isAchieved);
 
       List<Duration> durations =
           achievedHabits.map((entry) => entry.duration).toList();

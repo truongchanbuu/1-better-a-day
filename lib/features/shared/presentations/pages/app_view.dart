@@ -5,7 +5,6 @@ import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import '../../../../core/constants/app_font_size.dart';
 
 import '../../../../core/constants/app_color.dart';
-import '../../../../core/enums/habit/habit_status.dart';
 import '../../../../core/enums/tab_type.dart';
 import '../../../../core/helpers/alert_helper.dart';
 import '../../../../generated/l10n.dart';
@@ -37,12 +36,12 @@ class _AppViewState extends State<AppView> {
       child: BlocListener<HabitProgressBloc, HabitProgressState>(
         listener: (context, state) {
           if (state is HabitFinished) {
-            if (state.habit.habitStatus == HabitStatus.achieved) {
+            if (state.habit.isAchieved) {
               HabitFinishNotification.showSuccessNotification(
                 context,
                 state.habit,
               );
-            } else if (state.habit.habitStatus == HabitStatus.failed) {
+            } else if (state.habit.isFailed) {
               HabitFinishNotification.showFailureNotification(
                 context,
                 state.habit,

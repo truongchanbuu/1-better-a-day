@@ -17,7 +17,6 @@ import '../../../../core/constants/app_common.dart';
 import '../../../../core/constants/app_font_size.dart';
 import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/enums/habit/day_status.dart';
-import '../../../../core/enums/habit/habit_status.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/num_extension.dart';
 import '../../../../core/extensions/string_extension.dart';
@@ -191,7 +190,7 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
                 // General
                 _SectionContainer(
                   title: S.current.habit_detail,
-                  suffix: (currentHabit.habitStatus == HabitStatus.inProgress)
+                  suffix: (currentHabit.isInProgress)
                       ? null
                       : TextWithCircleBorderContainer(
                           title: currentHabit.habitStatus.statusName,
@@ -267,7 +266,7 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
                 ),
 
                 // Tracker
-                if (currentHabit.habitStatus == HabitStatus.inProgress)
+                if (currentHabit.isInProgress)
                   _SectionContainer(
                     width: MediaQuery.of(context).size.width,
                     title: S.current.tracker_section,
@@ -311,7 +310,7 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
                 ),
 
                 // Reminder
-                if (currentHabit.habitStatus == HabitStatus.inProgress)
+                if (currentHabit.isInProgress)
                   BlocConsumer<ReminderBloc, ReminderState>(
                     listener: (context, state) {
                       if (state is ReminderPermissionAllowed) {
@@ -559,11 +558,9 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
       builder: (_) => _HabitMenuActions(
         onEdit: _onEditHabit,
         onDelete: _onDeleteHabit,
-        onPause: currentHabit.habitStatus == HabitStatus.inProgress
-            ? _onPaused
-            : null,
-        onResume:
-            currentHabit.habitStatus == HabitStatus.paused ? _onResume : null,
+        onStop: currentHabit.isInProgress ? _onStop : null,
+        onPause: currentHabit.isInProgress ? _onPaused : null,
+        onResume: currentHabit.isPaused ? _onResume : null,
         onShare: () {
           Navigator.pop(context);
           Navigator.push(
@@ -585,12 +582,17 @@ class _HabitDetailPageState extends State<HabitDetailPage> {
 
   void _onResume() {
     Navigator.pop(context);
-    context.read<HabitCrudBloc>().add(StopPauseHabit(currentHabit));
+    context.read<HabitCrudBloc>().add(ResumeHabit(currentHabit));
   }
 
   void _onPaused() {
     Navigator.pop(context);
     context.read<HabitCrudBloc>().add(PauseHabit(currentHabit));
+  }
+
+  void _onStop() {
+    Navigator.pop(context);
+    context.read<HabitCrudBloc>().add(StopHabit(currentHabit));
   }
 
   Future<void> _onDeleteHabit() async {
@@ -961,6 +963,7 @@ class _HabitMenuActions extends StatelessWidget {
   final VoidCallback? onPause;
   final VoidCallback? onResume;
   final VoidCallback? onShare;
+  final VoidCallback? onStop;
 
   const _HabitMenuActions({
     required this.onEdit,
@@ -968,6 +971,7 @@ class _HabitMenuActions extends StatelessWidget {
     this.onShare,
     this.onPause,
     this.onResume,
+    this.onStop,
   });
 
   @override
@@ -1030,6 +1034,18 @@ class _HabitMenuActions extends StatelessWidget {
             ),
           ),
         ),
+        if (onStop != null)
+          ListTile(
+            onTap: onStop,
+            leading: const Icon(FontAwesomeIcons.stop, color: Colors.redAccent),
+            title: Text(
+              S.current.stop_button,
+              style: const TextStyle(
+                color: Colors.redAccent,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
         ListTile(
           onTap: onDelete,
           leading: const Icon(FontAwesomeIcons.trash, color: AppColors.error),

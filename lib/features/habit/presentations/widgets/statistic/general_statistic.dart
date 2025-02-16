@@ -281,18 +281,10 @@ class _CategoryBasedRate extends StatelessWidget {
       final categoryHabits = categoryData[category] ?? [];
 
       double total = categoryHabits.length.toDouble();
-      double achieved = categoryHabits
-          .where((h) => h.habitStatus == HabitStatus.achieved)
-          .length
-          .toDouble();
-      double failed = categoryHabits
-          .where((h) => h.habitStatus == HabitStatus.failed)
-          .length
-          .toDouble();
-      double paused = categoryHabits
-          .where((h) => h.habitStatus == HabitStatus.paused)
-          .length
-          .toDouble();
+      double achieved =
+          categoryHabits.where((h) => h.isAchieved).length.toDouble();
+      double failed = categoryHabits.where((h) => h.isFailed).length.toDouble();
+      double paused = categoryHabits.where((h) => h.isPaused).length.toDouble();
       double inProgress = total - (achieved + failed + paused);
 
       return MapEntry(

@@ -33,7 +33,8 @@ class HabitCrudBloc extends Bloc<HabitCrudEvent, HabitCrudState> {
     on<DeleteHabit>(_onDeleteHabit);
     on<EditHabit>(_onEditHabit);
     on<PauseHabit>(_onPauseHabit);
-    on<StopPauseHabit>(_onStopPauseHabit);
+    on<ResumeHabit>(_onResumeHabit);
+    on<StopHabit>(_onStopHabit);
   }
 
   FutureOr<void> _onAddHabit(
@@ -331,8 +332,8 @@ class HabitCrudBloc extends Bloc<HabitCrudEvent, HabitCrudState> {
     }
   }
 
-  FutureOr<void> _onStopPauseHabit(
-    StopPauseHabit event,
+  FutureOr<void> _onResumeHabit(
+    ResumeHabit event,
     Emitter<HabitCrudState> emit,
   ) async {
     try {
@@ -345,6 +346,34 @@ class HabitCrudBloc extends Bloc<HabitCrudEvent, HabitCrudState> {
           for (var time in event.habit.reminderStates.keys) time: true
         },
         endDate: DateTime.now().add(difference),
+      );
+
+      await habitRepository.updateHabit(
+        updatedHabit.habitId,
+        HabitModel.fromEntity(updatedHabit),
+      );
+
+      emit(HabitCrudSucceed(
+        action: HabitCrudAction.update,
+        habits: [updatedHabit],
+      ));
+    } catch (e) {
+      _appLogger.e(e);
+      emit(HabitCrudFailed(S.current.cannot_get_any_habit));
+    }
+  }
+
+  FutureOr<void> _onStopHabit(
+    StopHabit event,
+    Emitter<HabitCrudState> emit,
+  ) async {
+    try {
+      var updatedHabit = event.habit.copyWith(
+        habitStatus: HabitStatus.failed,
+        isReminderEnabled: false,
+        reminderStates: {
+          for (var time in event.habit.reminderStates.keys) time: false
+        },
       );
 
       await habitRepository.updateHabit(

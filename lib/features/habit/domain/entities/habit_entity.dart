@@ -160,4 +160,9 @@ class HabitEntity extends Equatable {
   }
 
   Duration get duration => endDate.difference(startDate);
+
+  bool get isInProgress => habitStatus == HabitStatus.inProgress;
+  bool get isPaused => habitStatus == HabitStatus.paused;
+  bool get isFailed => habitStatus == HabitStatus.failed;
+  bool get isAchieved => habitStatus == HabitStatus.achieved;
 }

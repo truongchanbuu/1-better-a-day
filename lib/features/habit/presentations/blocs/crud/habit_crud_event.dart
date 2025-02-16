@@ -104,9 +104,17 @@ final class PauseHabit extends HabitCrudEvent {
   List<Object> get props => [habit];
 }
 
-final class StopPauseHabit extends HabitCrudEvent {
+final class ResumeHabit extends HabitCrudEvent {
   final HabitEntity habit;
-  const StopPauseHabit(this.habit);
+  const ResumeHabit(this.habit);
+
+  @override
+  List<Object> get props => [habit];
+}
+
+final class StopHabit extends HabitCrudEvent {
+  final HabitEntity habit;
+  const StopHabit(this.habit);
 
   @override
   List<Object> get props => [habit];
