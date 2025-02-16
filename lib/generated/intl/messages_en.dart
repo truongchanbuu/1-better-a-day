@@ -23,7 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m0(count) =>
       "${Intl.plural(count, zero: 'Achieved: 0', one: 'Achieved: 1', other: 'Achieved: ${count}')}";
 
-  static String m1(count) => "Add ${count}ML";
+  static String m1(count) => "Add ${count} ml";
 
   static String m2(name) => "Cannot get the habit with name: ${name}";
 
@@ -103,7 +103,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m28(text) => "Paused at ${text}";
 
-  static String m29(count) => "Remove ${count}ssucML";
+  static String m29(count) => "Remove ${count} ml";
 
   static String m30(score) =>
       "Good SMART goal with minor areas for improvement. Score: ${score}%";

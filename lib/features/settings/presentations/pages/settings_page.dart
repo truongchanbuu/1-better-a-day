@@ -9,6 +9,7 @@ import '../../../../core/constants/app_font_size.dart';
 import '../../../../core/constants/app_storage_key.dart';
 import '../../../../core/extensions/context_extension.dart';
 import '../../../../core/extensions/string_extension.dart';
+import '../../../../core/extensions/time_of_day_extension.dart';
 import '../../../../core/helpers/setting_helper.dart';
 import '../../../../generated/l10n.dart';
 import '../../../../injection_container.dart';
@@ -296,7 +297,7 @@ class SettingsPage extends StatelessWidget {
 
     if (selectedTime == null) return;
 
-    final selectedTimeString = '${selectedTime.hour}:${selectedTime.minute}';
+    final selectedTimeString = selectedTime.toShortString;
     settingCubit.timeChanged(cachedKey, selectedTimeString);
   }
 

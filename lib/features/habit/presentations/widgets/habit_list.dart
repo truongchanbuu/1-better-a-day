@@ -83,7 +83,6 @@ class _HabitListState extends State<HabitList> with RouteAware {
           if (state.action == HabitCrudAction.getAll ||
               state.action == HabitCrudAction.getBySearchValues ||
               state.action == HabitCrudAction.getByKeyword) {
-            print(state);
             habits = state.habits;
           } else if (state.action == HabitCrudAction.delete) {
             context

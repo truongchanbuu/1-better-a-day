@@ -148,7 +148,7 @@ class AchievedGoalItem extends StatelessWidget {
 
   String _buildCurrentProgress(AchievementRequirement requirement) {
     if (requirement is AccumulationRequirement) {
-      return '${S.current.current_progress}: ${requirement.current.toStringAsFixedWithoutZero()} ${achievement.achievementRequirement.baseUnit.unitName.toUpperCaseFirstLetter}';
+      return '${S.current.current_progress}: ${requirement.current.toStringAsFixedWithoutZero()} ${achievement.achievementRequirement.baseUnit.shortName}';
     } else if (requirement is TimeRequirement) {
       return DateTimeHelper.formatDuration(requirement.currentTime);
     } else if (requirement is StreakRequirement) {
@@ -160,7 +160,7 @@ class AchievedGoalItem extends StatelessWidget {
 
   String _buildTarget(AchievementRequirement requirement) {
     if (requirement is AccumulationRequirement) {
-      return '${requirement.target} ${requirement.baseUnit.unitName.toUpperCaseFirstLetter}';
+      return '${requirement.target} ${requirement.baseUnit.shortName}';
     } else if (requirement is TimeRequirement) {
       return DateTimeHelper.formatDuration(requirement.targetTime);
     } else if (requirement is StreakRequirement) {

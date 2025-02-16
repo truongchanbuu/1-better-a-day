@@ -119,12 +119,17 @@ class ChallengeCrudBloc extends Bloc<ChallengeCrudEvent, ChallengeCrudState> {
           orElse: () => throw FormatException('Invalid achievement type'),
         );
 
+        print('ACH: ${achievement.achievementName}');
         double normalizeValue = event.value.toDouble();
+        print(
+            '${event.habitUnit} - ${achievement.achievementRequirement.baseUnit} - ${event.value}');
         if (event.habitUnit != achievement.achievementRequirement.baseUnit) {
-          normalizeValue = UnitConverter.normalizeValue(
+          normalizeValue = UnitConverter.convert(
             event.habitUnit,
+            achievement.achievementRequirement.baseUnit,
             event.value.toDouble(),
           );
+          print('normalize: $normalizeValue');
         }
 
         final updatedRequirement = handler.processUpdate(

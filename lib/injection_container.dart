@@ -191,6 +191,7 @@ Future<void> initializeDependencies() async {
     (targetDistance, _) => DistanceTrackCubit(targetDistance: targetDistance),
   );
 
+  await getIt.get<AchievementRepository>().deleteAll();
   await getIt.get<ReminderService>().init();
   await PreDefinedAchievements.storeAllPredefinedAchievements();
 }

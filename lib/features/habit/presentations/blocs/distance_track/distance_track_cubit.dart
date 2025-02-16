@@ -66,7 +66,7 @@ class DistanceTrackCubit extends Cubit<DistanceTrackState> {
     return super.close();
   }
 
-  Future<void> initializeService() async {
+  Future<void> initializeService([double? currentDistance]) async {
     bool isGranted = await PermissionHelper.checkAndRequestGeoLocation();
     await PermissionHelper.checkAndRequestPermission(Permission.notification);
     if (!isGranted) {
@@ -89,7 +89,7 @@ class DistanceTrackCubit extends Cubit<DistanceTrackState> {
       ),
     );
 
-    startTracking();
+    startTracking(currentDistance);
   }
 
   void _onReceivedData(Object data) {

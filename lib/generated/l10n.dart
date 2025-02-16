@@ -1827,20 +1827,20 @@ class S {
     );
   }
 
-  /// `Add {count}ML`
-  String add_water_button(Object count) {
+  /// `Add {count} ml`
+  String add_water_button(int count) {
     return Intl.message(
-      'Add ${count}ML',
+      'Add $count ml',
       name: 'add_water_button',
       desc: '',
       args: [count],
     );
   }
 
-  /// `Remove {count}ssucML`
-  String remove_water_button(Object count) {
+  /// `Remove {count} ml`
+  String remove_water_button(int count) {
     return Intl.message(
-      'Remove ${count}ssucML',
+      'Remove $count ml',
       name: 'remove_water_button',
       desc: '',
       args: [count],

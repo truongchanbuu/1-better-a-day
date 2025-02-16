@@ -45,17 +45,16 @@ class ProgressTracker extends StatefulWidget {
 
 class _ProgressTrackerState extends State<ProgressTracker> {
   bool _percentMode = false;
-  int waterAmount = 250;
+  double waterAmount = 250;
   double _currentValue = 0;
   bool _isCompleted = false;
 
   @override
   void initState() {
     super.initState();
+    _currentValue = widget.currentValue;
     if (widget.goalUnit == GoalUnit.l) {
-      _currentValue = widget.currentValue / 1000;
-    } else {
-      _currentValue = widget.currentValue;
+      waterAmount = waterAmount / 1000;
     }
   }
 
@@ -88,8 +87,7 @@ class _ProgressTrackerState extends State<ProgressTracker> {
               if (state.type == HabitHistoryCrudEventType.update ||
                   state.type == HabitHistoryCrudEventType.read) {
                 setState(() {
-                  _currentValue =
-                      _getCurrentValueOnMl(state.histories.first.currentValue);
+                  _currentValue = state.histories.first.currentValue;
                 });
               }
             }
@@ -140,6 +138,7 @@ class _ProgressTrackerState extends State<ProgressTracker> {
                     habitId: widget.habitId,
                     quantity: waterAmount,
                     targetValue: _targetValueInLiter,
+                    measurementUnit: widget.goalUnit,
                   ));
             },
           ),
@@ -169,26 +168,22 @@ class _ProgressTrackerState extends State<ProgressTracker> {
 
   double get percentPerTargetValue => _currentValue / widget.targetValue;
 
-  double _getCurrentValueOnMl(double currentValue) {
-    return widget.goalUnit == GoalUnit.l ? currentValue / 1000 : currentValue;
-  }
-
   bool get _isCircleProgressBuilt =>
       (widget.goalType == GoalType.count ||
           widget.goalType == GoalType.completion) &&
       (widget.goalUnit == GoalUnit.l || widget.goalUnit == GoalUnit.ml);
 
-  int get _targetValueInLiter => widget.goalUnit == GoalUnit.l
-      ? (widget.targetValue * 1000).toInt()
-      : widget.targetValue.toInt();
+  double get _targetValueInLiter => widget.goalUnit == GoalUnit.l
+      ? (widget.targetValue * 1000)
+      : widget.targetValue;
 }
 
 class _WaterActionButtons extends StatelessWidget {
   final String habitId;
   final GoalUnit goalUnit;
-  final int targetValue;
+  final double targetValue;
   final VoidCallback onBtnPressed;
-  final int waterAmount;
+  final double waterAmount;
 
   const _WaterActionButtons({
     required this.habitId,
@@ -202,7 +197,7 @@ class _WaterActionButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return _buildWaterInteractiveButton(
       onSettingPressed: () => _onSettingPressed(context),
-      text: S.current.add_water_button(waterAmount),
+      text: S.current.add_water_button((waterAmount * 1000).toInt()),
       backgroundColor: AppColors.success,
       icon: FontAwesomeIcons.plus,
       onBtnPressed: onBtnPressed,
@@ -270,8 +265,9 @@ class _WaterActionButtons extends StatelessWidget {
                 onAmountSubmit: (value) {
                   context.read<HabitHistoryCrudBloc>().add(AddWaterHabitHistory(
                         habitId: habitId,
-                        quantity: value.toInt(),
+                        quantity: value,
                         targetValue: targetValue,
+                        measurementUnit: goalUnit,
                       ));
                 },
                 goalUnit: goalUnit,
@@ -281,7 +277,7 @@ class _WaterActionButtons extends StatelessWidget {
 }
 
 class _WaterActionButtonSettings extends StatefulWidget {
-  final void Function(num value) onAmountSubmit;
+  final void Function(double value) onAmountSubmit;
   final GoalUnit goalUnit;
 
   const _WaterActionButtonSettings({
@@ -349,9 +345,10 @@ class _WaterActionButtonSettingsState
                 suffixIcon: IconButton(
                   onPressed: () async {
                     SmartDialog.dismiss(tag: 'water_settings');
-                    num value =
-                        num.tryParse(_amountController.text.split(' ').first) ??
-                            0;
+                    double value = double.tryParse(
+                          _amountController.text.split(' ').first,
+                        ) ??
+                        0;
 
                     if (widget.goalUnit == GoalUnit.l) {
                       value *= 1000;

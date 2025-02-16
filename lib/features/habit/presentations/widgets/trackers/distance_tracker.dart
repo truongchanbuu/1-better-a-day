@@ -7,6 +7,7 @@ import '../../../../../core/constants/app_color.dart';
 import '../../../../../core/constants/app_font_size.dart';
 import '../../../../../core/constants/app_spacing.dart';
 import '../../../../../core/enums/habit/day_status.dart';
+import '../../../../../core/enums/habit/goal_unit.dart';
 import '../../../../../core/extensions/num_extension.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../shared/presentations/widgets/icon_with_text.dart';
@@ -46,8 +47,8 @@ class DistanceTracker extends StatelessWidget {
       },
       builder: (context, state) {
         bool isPlaying = state is DistanceTracking;
-
-        double currentDistance = habitHistory.currentValue;
+        double currentDistance = UnitConverter.convert(
+            habitHistory.measurement, GoalUnit.m, habitHistory.currentValue);
         if (state is DistanceTracking &&
             currentDistance != state.currentDistance) {
           currentDistance = state.currentDistance;
@@ -79,7 +80,11 @@ class DistanceTracker extends StatelessWidget {
               onPressed: isPlaying
                   ? context.read<DistanceTrackCubit>().stopTracking
                   : state is DistanceTrackInitial
-                      ? context.read<DistanceTrackCubit>().initializeService
+                      ? () {
+                          context
+                              .read<DistanceTrackCubit>()
+                              .initializeService(currentDistance);
+                        }
                       : () {
                           context
                               .read<DistanceTrackCubit>()
@@ -113,8 +118,11 @@ class DistanceTracker extends StatelessWidget {
   }
 
   void _handleUpdateCurrentDistance(BuildContext context, double distance) {
-    context.read<HabitHistoryCrudBloc>().add(
-        HabitHistoryCrudUpdate(habitHistory.copyWith(currentValue: distance)));
+    double convertedDistance =
+        UnitConverter.convert(GoalUnit.m, habitHistory.measurement, distance);
+
+    context.read<HabitHistoryCrudBloc>().add(HabitHistoryCrudUpdate(
+        habitHistory.copyWith(currentValue: convertedDistance)));
   }
 }
 

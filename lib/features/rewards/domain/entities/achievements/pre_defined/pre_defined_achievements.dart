@@ -99,6 +99,31 @@ class PreDefinedAchievements {
   ];
 
   static List<AchievementEntity> accumulativeAchievements = [
+    // TEST:
+    AchievementEntity(
+      achievementId: "test_aqua",
+      achievementName: "Aqua Guardian TEST",
+      achievementDesc:
+          "Hydration Champion, you have proven yourself a true guardian of well-being! With every sip, you fortify your body, maintaining the balance of life 💧🛡️.",
+      achievementType: AchievementType.accumulation,
+      achievementRequirement: AccumulationRequirement(
+        target: 250,
+        acceptableUnits: {
+          GoalUnit.l,
+          GoalUnit.ml,
+          GoalUnit.glasses,
+        },
+        baseUnit: GoalUnit.ml,
+      ),
+      isUnlocked: false,
+      achievementIcon: HabitIcon(
+        key: "test_aqua",
+        icon: Lucide.droplets,
+        color: Color(0xFF0000FF),
+      ),
+      achievementLevel: AchievementLevel.common,
+    ),
+
     AchievementEntity(
       achievementId: "aqua_guardian_2_l_a_day",
       achievementName: "Aqua Guardian",
@@ -123,19 +148,19 @@ class PreDefinedAchievements {
       achievementLevel: AchievementLevel.common,
     ),
     AchievementEntity(
-      achievementId: "step_master_10000_steps",
-      achievementName: "Step Master",
+      achievementId: "run_for_100_m",
+      achievementName: "Footer Apprentice",
       achievementDesc:
-          "Congratulations! You've walked 10,000 steps in a single day. Every step counts on your journey to greatness! 👣🏅",
+          "Congratulations! You've run/walk 100m in a single day. Every step counts on your journey to greatness! 👣🏅",
       achievementType: AchievementType.accumulation,
       achievementRequirement: AccumulationRequirement(
-        target: 10000,
-        acceptableUnits: {GoalUnit.steps},
-        baseUnit: GoalUnit.steps,
+        target: 100,
+        acceptableUnits: {GoalUnit.m, GoalUnit.km, GoalUnit.miles},
+        baseUnit: GoalUnit.m,
       ),
       isUnlocked: false,
       achievementIcon: HabitIcon(
-        key: "step_master_10000_steps",
+        key: "run_for_100_m",
         icon: Ion.walk,
         color: Color(0xFF32CD32),
       ),

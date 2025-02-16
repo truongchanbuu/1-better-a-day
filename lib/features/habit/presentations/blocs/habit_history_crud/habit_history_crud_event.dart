@@ -64,13 +64,15 @@ final class HabitHistoryCrudListByHabitId extends HabitHistoryCrudEvent {
 
 final class AddWaterHabitHistory extends HabitHistoryCrudEvent {
   final String habitId;
-  final int quantity;
-  final int targetValue;
+  final double quantity;
+  final double targetValue;
+  final GoalUnit measurementUnit;
 
   AddWaterHabitHistory({
     required this.habitId,
     required this.quantity,
     required this.targetValue,
+    required this.measurementUnit,
   }) : assert(habitId.isEmpty == false, 'Habit id cannot empty');
 
   @override

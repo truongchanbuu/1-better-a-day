@@ -168,7 +168,7 @@ class _ReviewActionPageState extends State<ReviewActionPage> {
                                 (suggestion) => ActionChip(
                                   label: Text(suggestion),
                                   onPressed: () {
-                                    _noteController.text = state.note;
+                                    _noteController.text = suggestion;
                                     context
                                         .read<ReviewHabitActionBloc>()
                                         .add(ChangeNote(suggestion));
