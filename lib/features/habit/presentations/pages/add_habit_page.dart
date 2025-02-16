@@ -114,6 +114,7 @@ class _AddHabitPageState extends State<AddHabitPage> {
               ),
               BlocListener<ValidateHabitBloc, ValidateHabitState>(
                 listener: (context, validateState) {
+                  print(validateState);
                   if (validateState is ValidateFailed) {
                     AlertHelper.showAwesomeSnackBar(
                       context,
@@ -134,14 +135,14 @@ class _AddHabitPageState extends State<AddHabitPage> {
                       habitCrudState.action == HabitCrudAction.add) {
                     context.read<ReminderBloc>().add(
                         ScheduleReminder(habit: habitCrudState.habits.first));
-                    // AwesomeDialog(
-                    //   context: context,
-                    //   dialogType: DialogType.success,
-                    //   title: S.current.success_title,
-                    //   desc: S.current.add_success,
-                    //   btnOkOnPress: () =>
-                    //       Navigator.popUntil(context, ModalRoute.withName('/')),
-                    // ).show();
+                    AwesomeDialog(
+                      context: context,
+                      dialogType: DialogType.success,
+                      title: S.current.success_title,
+                      desc: S.current.add_success,
+                      btnOkOnPress: () =>
+                          Navigator.popUntil(context, ModalRoute.withName('/')),
+                    ).show();
                   }
                 },
               ),

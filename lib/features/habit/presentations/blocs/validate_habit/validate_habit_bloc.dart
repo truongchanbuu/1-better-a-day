@@ -21,7 +21,7 @@ part 'validate_habit_event.dart';
 part 'validate_habit_state.dart';
 
 class ValidateHabitBloc extends Bloc<ValidateHabitEvent, ValidateHabitState> {
-  static const Duration _debounceTime = Duration(milliseconds: 500);
+  static const Duration _debounceTime = Duration(milliseconds: 200);
 
   ValidateHabitBloc() : super(ValidateHabitInitial()) {
     on<ChangeHabitName>(

@@ -297,7 +297,7 @@ class _AddHabitWithAIPageState extends State<AddHabitWithAIPage> {
         child: MultiBlocProvider(
           providers: [
             BlocProvider.value(value: context.read<ReminderBloc>()),
-            BlocProvider.value(value: context.read<HabitCrudBloc>()),
+            BlocProvider(create: (_) => getIt.get<HabitCrudBloc>()),
             BlocProvider(create: (context) => getIt.get<ValidateHabitBloc>()),
           ],
           child: const AddHabitPage(),
