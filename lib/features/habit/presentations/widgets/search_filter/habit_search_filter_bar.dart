@@ -194,6 +194,7 @@ class _HabitSearchFilterBarState extends State<HabitSearchFilterBar> {
   }
 
   void _onSearch() {
+    FocusManager.instance.primaryFocus?.unfocus();
     final searchValue = _searchController.text;
     if (searchValue.isNotEmpty) {
       context.read<HabitCrudBloc>().add(SearchByKeyword(searchValue));

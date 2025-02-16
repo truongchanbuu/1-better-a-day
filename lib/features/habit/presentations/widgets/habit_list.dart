@@ -67,15 +67,11 @@ class _HabitListState extends State<HabitList> with RouteAware {
     if ((widget.category != null && widget.category != oldWidget.category) ||
         (widget.status != null && widget.status != oldWidget.status) ||
         widget.progress.isNotEmpty) {
-      context.read<HabitCrudBloc>().add(
-            SearchHabits(
-              category: widget.category,
-              status: widget.status,
-              progress: widget.progress,
-            ),
-          );
-    } else {
-      context.read<HabitCrudBloc>().add(GetAllHabits());
+      context.read<HabitCrudBloc>().add(SearchHabits(
+            category: widget.category,
+            status: widget.status,
+            progress: widget.progress,
+          ));
     }
   }
 
@@ -87,6 +83,7 @@ class _HabitListState extends State<HabitList> with RouteAware {
           if (state.action == HabitCrudAction.getAll ||
               state.action == HabitCrudAction.getBySearchValues ||
               state.action == HabitCrudAction.getByKeyword) {
+            print(state);
             habits = state.habits;
           } else if (state.action == HabitCrudAction.delete) {
             context

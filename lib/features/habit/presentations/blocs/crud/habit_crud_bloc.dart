@@ -287,7 +287,7 @@ class HabitCrudBloc extends Bloc<HabitCrudEvent, HabitCrudState> {
       }
 
       final filteredHabits = habits.where((habit) {
-        final keyword = event.keyword.toLowerCase();
+        final keyword = event.keyword.toLowerCase().trim();
         return habit.habitTitle.toLowerCase().contains(keyword) ||
             habit.habitDesc.toLowerCase().contains(keyword) ||
             habit.habitGoal.goalDesc.toLowerCase().contains(keyword) ||
