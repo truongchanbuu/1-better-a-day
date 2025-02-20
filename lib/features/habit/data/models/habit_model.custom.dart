@@ -18,7 +18,12 @@ HabitModel _$HabitModelFromJson(Map<String, dynamic> json) => HabitModel(
           : {},
       habitStatus: $enumDecode(_$HabitStatusEnumMap, json['habitStatus']),
       isReminderEnabled: json['isReminderEnabled'] ?? false,
-      reminderStates: json['reminderStates'],
+      reminderStates: json['reminderStates'] == null
+          ? null
+          : Map<String, bool>.from(json['reminderStates']),
+      remoteUpdatedAt: json['remoteUpdatedAt'] != null
+          ? DateTime.parse(json['remoteUpdatedAt'])
+          : null,
     );
 
 Map<String, dynamic> _$HabitModelToJson(HabitModel instance) {
@@ -39,6 +44,7 @@ Map<String, dynamic> _$HabitModelToJson(HabitModel instance) {
     'habitStatus': _$HabitStatusEnumMap[instance.habitStatus],
     'isReminderEnabled': instance.isReminderEnabled,
     'reminderStates': instance.reminderStates,
+    'remoteUpdatedAt': instance.remoteUpdatedAt?.toIso8601String(),
   };
 }
 

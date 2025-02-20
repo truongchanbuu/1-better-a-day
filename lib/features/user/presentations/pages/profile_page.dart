@@ -18,7 +18,7 @@ import '../../../../generated/l10n.dart';
 import '../../../../injection_container.dart';
 import '../../../auth/presentations/bloc/auth_bloc/auth_bloc.dart';
 import '../../../auth/presentations/bloc/login/login_cubit.dart';
-import '../../../settings/presentations/bloc/settings_cubit.dart';
+import '../../../settings/presentations/bloc/settings_cubit/settings_cubit.dart';
 import '../../../settings/presentations/widgets/re_auth_bottom_sheet.dart';
 import '../../../settings/presentations/widgets/setting_selection_bottom_sheet.dart';
 import '../bloc/update_info_cubit.dart';

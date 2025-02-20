@@ -8,7 +8,7 @@ import '../../../../core/enums/habit/habit_status.dart';
 import '../../../../core/extensions/time_of_day_extension.dart';
 import '../../../../core/helpers/cached_client.dart';
 import '../../../../services/reminder_service.dart';
-import '../../../settings/presentations/bloc/settings_cubit.dart';
+import '../../../settings/presentations/bloc/settings_cubit/settings_cubit.dart';
 import '../../domain/repositories/habit_history_repository.dart';
 import '../../domain/repositories/habit_repository.dart';
 import '../blocs/habit_history_crud/habit_history_crud_bloc.dart';

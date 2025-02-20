@@ -25,6 +25,7 @@ class HabitEntity extends Equatable {
   final Set<String> reminderTimes;
   final bool isReminderEnabled;
   final Map<String, bool> reminderStates;
+  final DateTime? remoteUpdatedAt;
 
   HabitEntity({
     required this.habitId,
@@ -42,6 +43,7 @@ class HabitEntity extends Equatable {
     this.reminderTimes = const {},
     this.habitProgress = 0,
     this.isReminderEnabled = false,
+    this.remoteUpdatedAt,
     Map<String, bool>? reminderStates,
   }) : reminderStates = reminderStates ??
             (reminderTimes.isNotEmpty && isReminderEnabled
@@ -69,6 +71,7 @@ class HabitEntity extends Equatable {
     HabitStatus? habitStatus,
     bool? isReminderEnabled,
     Map<String, bool>? reminderStates,
+    DateTime? remoteUpdatedAt,
   }) {
     return HabitEntity(
       habitId: habitId ?? this.habitId,
@@ -87,6 +90,7 @@ class HabitEntity extends Equatable {
       habitStatus: habitStatus ?? this.habitStatus,
       isReminderEnabled: isReminderEnabled ?? this.isReminderEnabled,
       reminderStates: reminderStates ?? this.reminderStates,
+      remoteUpdatedAt: remoteUpdatedAt ?? this.remoteUpdatedAt,
     );
   }
 
@@ -109,6 +113,7 @@ class HabitEntity extends Equatable {
       DeepCollectionEquality().hash(reminderStates),
       habitStatus,
       isReminderEnabled,
+      remoteUpdatedAt,
     ];
   }
 

@@ -127,6 +127,10 @@
   "dusk_tile": "Dusk",
   "last_reminder_time": "Last Reminder of Day",
 
+  "sync_data_title": "Sync Data",
+  "sync_failed": "Sync Failed",
+  "sync_success": "Sync Success",
+
   "no_date_selected": "No Date Selected",
 
   "@__HABIT__": {},

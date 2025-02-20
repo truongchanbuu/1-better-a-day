@@ -20,7 +20,7 @@ import 'features/habit/presentations/helpers/habit_progress_observer.dart';
 import 'features/habit/presentations/helpers/habit_streak_observer.dart';
 import 'features/rewards/domain/repositories/achievement_repository.dart';
 import 'features/rewards/presentations/blocs/challenge_crud/challenge_crud_bloc.dart';
-import 'features/settings/presentations/bloc/settings_cubit.dart';
+import 'features/settings/presentations/bloc/settings_cubit/settings_cubit.dart';
 import 'features/shared/presentations/blocs/internet/internet_bloc.dart';
 import 'features/shared/presentations/pages/app_view.dart';
 import 'firebase_options.dart';

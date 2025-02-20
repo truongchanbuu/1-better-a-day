@@ -21,6 +21,7 @@ class HabitHistory extends Equatable {
   final double? targetValue;
   final double currentValue;
   final GoalUnit measurement;
+  final DateTime? remoteUpdatedAt;
 
   const HabitHistory({
     required this.id,
@@ -36,6 +37,7 @@ class HabitHistory extends Equatable {
     this.mood,
     this.targetValue,
     this.currentValue = 0,
+    this.remoteUpdatedAt,
   });
 
   factory HabitHistory.init() {
@@ -86,6 +88,7 @@ class HabitHistory extends Equatable {
     ValueGetter<Mood?>? mood,
     ValueGetter<double?>? targetValue,
     ValueGetter<GoalUnit>? measurement,
+    DateTime? remoteUpdatedAt,
   }) {
     return HabitHistory(
       id: id ?? this.id,
@@ -101,6 +104,7 @@ class HabitHistory extends Equatable {
       mood: mood != null ? mood() : this.mood,
       targetValue: targetValue != null ? targetValue() : this.targetValue,
       measurement: measurement != null ? measurement() : this.measurement,
+      remoteUpdatedAt: remoteUpdatedAt ?? this.remoteUpdatedAt,
     );
   }
 
@@ -120,6 +124,7 @@ class HabitHistory extends Equatable {
       mood,
       targetValue,
       measurement,
+      remoteUpdatedAt,
     ];
   }
 

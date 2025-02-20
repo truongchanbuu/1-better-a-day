@@ -85,7 +85,6 @@ class _TodayHabitItemState extends State<TodayHabitItem> with RouteAware {
                     state.histories.first.habitId == widget.habit.habitId)
             ? state.histories.first
             : HabitHistory.init().copyWith(habitId: widget.habit.habitId);
-        print('state: $state - ${widget.habit.habitId}');
 
         final isCompleted = _isCompleted(history);
         final isPaused = _isPaused(history);

@@ -25,6 +25,7 @@ class HabitHistoryModel extends HabitHistory implements HiveBaseModel {
     super.targetValue,
     super.rating,
     super.currentValue,
+    super.remoteUpdatedAt,
   });
 
   /// Factory method to create an instance from JSON.
@@ -50,6 +51,7 @@ class HabitHistoryModel extends HabitHistory implements HiveBaseModel {
       targetValue: targetValue,
       rating: rating,
       currentValue: currentValue,
+      remoteUpdatedAt: remoteUpdatedAt,
     );
   }
 
@@ -69,6 +71,7 @@ class HabitHistoryModel extends HabitHistory implements HiveBaseModel {
       targetValue: entity.targetValue,
       rating: entity.rating,
       currentValue: entity.currentValue,
+      remoteUpdatedAt: entity.remoteUpdatedAt,
     );
   }
 
@@ -88,6 +91,7 @@ class HabitHistoryModel extends HabitHistory implements HiveBaseModel {
     ValueGetter<Mood?>? mood,
     ValueGetter<double?>? targetValue,
     ValueGetter<GoalUnit?>? measurement,
+    DateTime? remoteUpdatedAt,
   }) {
     return HabitHistoryModel(
       id: id ?? this.id,
@@ -103,6 +107,7 @@ class HabitHistoryModel extends HabitHistory implements HiveBaseModel {
       note: note?.call() ?? this.note,
       targetValue: targetValue?.call() ?? this.targetValue,
       rating: rating?.call() ?? this.rating,
+      remoteUpdatedAt: remoteUpdatedAt ?? this.remoteUpdatedAt,
     );
   }
 

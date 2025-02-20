@@ -1,6 +1,9 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_settings_ui/flutter_settings_ui.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../../../core/constants/app_color.dart';
@@ -21,7 +24,8 @@ import '../../../auth/presentations/pages/auth_page.dart';
 import '../../../habit/presentations/pages/more_habit_knowledge_page.dart';
 import '../../../user/presentations/bloc/update_info_cubit.dart';
 import '../../../user/presentations/pages/profile_page.dart';
-import '../bloc/settings_cubit.dart';
+import '../bloc/settings_cubit/settings_cubit.dart';
+import '../bloc/sync_cubit/sync_cubit.dart';
 import '../widgets/setting_selection_bottom_sheet.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -39,227 +43,280 @@ class SettingsPage extends StatelessWidget {
     final defaultSettings =
         context.select((SettingsCubit settings) => settings.state);
 
-    return SettingsList(
-      sections: [
-        // Time of day
-        SettingsSection(
-          title: Text(
-            S.current.time_of_day_section,
-            style: _sectionTextStyle,
-          ),
-          tiles: [
-            SettingsTile.navigation(
-              title: Text(S.current.dawn_tile, style: _titleTextStyle),
-              value: Text(defaultSettings.dawn),
-              description:
-                  Text(defaultSettings.dawn, style: _subTitleTextStyle),
-              leading: const Icon(Icons.wb_sunny, color: Colors.orange),
-              backgroundColor:
-                  context.isDarkMode ? AppColors.darkText : AppColors.lightText,
-              onPressed: (context) => _onSelectTimeOfDay(
-                  context, AppStorageKey.appDawnTimeCachedKey),
-            ),
-            SettingsTile.navigation(
-              title: Text(S.current.afternoon_tile, style: _titleTextStyle),
-              value: Text(defaultSettings.afternoon),
-              description:
-                  Text(defaultSettings.afternoon, style: _subTitleTextStyle),
-              leading: const Icon(Icons.cloud, color: Colors.blueAccent),
-              backgroundColor:
-                  context.isDarkMode ? AppColors.darkText : AppColors.lightText,
-              onPressed: (context) => _onSelectTimeOfDay(
-                  context, AppStorageKey.appAfternoonTimeCachedKey),
-            ),
-            SettingsTile.navigation(
-              title: Text(S.current.dusk_tile, style: _titleTextStyle),
-              value: Text(defaultSettings.dusk),
-              description:
-                  Text(defaultSettings.dusk, style: _subTitleTextStyle),
-              leading: const Icon(Icons.brightness_2, color: Colors.yellow),
-              backgroundColor:
-                  context.isDarkMode ? AppColors.darkText : AppColors.lightText,
-              onPressed: (context) => _onSelectTimeOfDay(
-                  context, AppStorageKey.appDuskTimeCachedKey),
-            ),
-            SettingsTile.navigation(
-              title: Text(S.current.last_reminder_time, style: _titleTextStyle),
-              value: Text(defaultSettings.lastReminderTime),
-              description: Text(
-                defaultSettings.lastReminderTime,
-                style: _subTitleTextStyle,
-              ),
-              leading: const Icon(Icons.timer, color: Colors.blue),
-              backgroundColor:
-                  context.isDarkMode ? AppColors.darkText : AppColors.lightText,
-              onPressed: (context) async {
-                final ReminderService reminderService =
-                    getIt.get<ReminderService>();
-                if (await reminderService.requestPermission() &&
-                    context.mounted) {
-                  _onSelectTimeOfDay(
-                    context,
-                    AppStorageKey.appLastReminderTime,
-                  );
-                }
-              },
-            ),
-          ],
-        ),
+    return BlocListener<SyncCubit, SyncState>(
+      listener: (context, state) {
+        if (state is SyncInProgress) {
+          SmartDialog.showLoading(
+            builder: (context) {
+              return SizedBox(
+                width: 200,
+                height: 200,
+                child: LoadingIndicator(indicatorType: Indicator.pacman),
+              );
+            },
+            clickMaskDismiss: false,
+          );
+        } else {
+          SmartDialog.dismiss();
+        }
 
-        // General
-        SettingsSection(
-          title: Text(
-            S.current.general_section,
-            style: _sectionTextStyle,
-          ),
-          tiles: [
-            SettingsTile.navigation(
-              title: Text(S.current.language_tile, style: _titleTextStyle),
-              value: Text(
-                  SettingHelper.langCodeToFullName(defaultSettings.language)),
-              description: Text(
-                SettingHelper.langCodeToFullName(defaultSettings.language),
-                style: _subTitleTextStyle,
-              ),
-              leading: const Icon(Icons.language, color: Colors.blue),
-              backgroundColor:
-                  context.isDarkMode ? AppColors.darkText : AppColors.lightText,
-              onPressed: _onLangChanged,
-            ),
-            SettingsTile.navigation(
-              title: Text(S.current.theme_tile, style: _titleTextStyle),
-              value: Text(defaultSettings.isDarkMode
-                  ? S.current.dark_theme
-                  : S.current.light_theme),
-              description: Text(
-                  defaultSettings.isDarkMode
-                      ? S.current.dark_theme
-                      : S.current.light_theme,
-                  style: _subTitleTextStyle),
-              leading: defaultSettings.isDarkMode
-                  ? const Icon(Icons.dark_mode, color: Colors.amber)
-                  : const Icon(Icons.light_mode, color: Colors.amber),
-              backgroundColor:
-                  context.isDarkMode ? AppColors.darkText : AppColors.lightText,
-              onPressed: _onThemeChanged,
-            ),
-            SettingsTile.navigation(
-              title: Text(
-                S.current.measurement_unit_title,
-                style: _titleTextStyle,
-              ),
-              value: Text(defaultSettings.measurementSystem ==
-                      MeasurementSystem.metric.name
-                  ? S.current.metric_unit
-                  : S.current.imperial_unit),
-              description: Text(
-                  defaultSettings.measurementSystem ==
-                          MeasurementSystem.metric.name
-                      ? S.current.metric_unit
-                      : S.current.imperial_unit,
-                  style: _subTitleTextStyle),
-              leading: const Icon(Icons.straighten, color: Colors.orange),
-              backgroundColor:
-                  context.isDarkMode ? AppColors.darkText : AppColors.lightText,
-              onPressed: _onMeasurementSystemChanged,
-            ),
-          ],
-        ),
-
-        // Account
-        SettingsSection(
-          title: Text(S.current.account_section, style: _sectionTextStyle),
-          tiles: [
-            !currentUser.isLoggedIn
-                ? SettingsTile.navigation(
-                    title: Text(
-                      S.current.authentication_choice,
-                      style: _titleTextStyle,
-                    ),
-                    leading: const Icon(Icons.login, color: Colors.blue),
-                    trailing: const Icon(
-                      Icons.keyboard_arrow_right,
-                      color: AppColors.primary,
-                    ),
-                    backgroundColor: context.isDarkMode
-                        ? AppColors.darkText
-                        : AppColors.lightText,
-                    onPressed: _authPage,
-                  )
-                : SettingsTile.navigation(
-                    title: Text(S.current.manage_account_choice,
-                        style: _titleTextStyle),
-                    leading:
-                        const Icon(Icons.manage_accounts, color: Colors.blue),
-                    trailing: const Icon(
-                      Icons.keyboard_arrow_right,
-                      color: AppColors.primary,
-                    ),
-                    backgroundColor: context.isDarkMode
-                        ? AppColors.darkText
-                        : AppColors.lightText,
-                    onPressed: _onManageAccount,
-                  ),
-          ],
-        ),
-
-        // Additional Info
-        SettingsSection(
-          title:
-              Text(S.current.additional_information, style: _sectionTextStyle),
-          tiles: [
-            SettingsTile.navigation(
-              title:
-                  Text(S.current.terms_and_conditions, style: _titleTextStyle),
-              leading: const Icon(Icons.description),
-              trailing: const Icon(
-                Icons.keyboard_arrow_right,
-                color: AppColors.primary,
-              ),
-              backgroundColor:
-                  context.isDarkMode ? AppColors.darkText : AppColors.lightText,
-              onPressed: (BuildContext context) {},
-            ),
-            SettingsTile.navigation(
-              title: Text(S.current.help_tile, style: _titleTextStyle),
-              leading: const Icon(Icons.help, color: Colors.deepPurpleAccent),
-              backgroundColor:
-                  context.isDarkMode ? AppColors.darkText : AppColors.lightText,
-              onPressed: (BuildContext context) {},
-            ),
-            SettingsTile.navigation(
-              title:
-                  Text(S.current.know_more_about_habit, style: _titleTextStyle),
-              leading: const Icon(Icons.lightbulb, color: Colors.amber),
-              backgroundColor:
-                  context.isDarkMode ? AppColors.darkText : AppColors.lightText,
-              onPressed: onMoreKnowledgePage,
-            ),
-          ],
-        ),
-
-        // TODO: STORE REMOTELY
-
-        // Logout
-        if (currentUser.isLoggedIn)
+        if (state is SyncFailure) {
+          AwesomeDialog(
+            context: context,
+            dialogType: DialogType.error,
+            title: S.current.failure_title,
+            desc: '${S.current.sync_failed}: ${state.error}',
+          ).show();
+        } else if (state is SyncSuccess) {
+          AwesomeDialog(
+            context: context,
+            dialogType: DialogType.success,
+            title: S.current.success_title,
+            desc: S.current.sync_success,
+          ).show();
+        }
+      },
+      child: SettingsList(
+        sections: [
+          // Time of day
           SettingsSection(
+            title: Text(
+              S.current.time_of_day_section,
+              style: _sectionTextStyle,
+            ),
             tiles: [
               SettingsTile.navigation(
+                title: Text(S.current.dawn_tile, style: _titleTextStyle),
+                value: Text(defaultSettings.dawn),
+                description:
+                    Text(defaultSettings.dawn, style: _subTitleTextStyle),
+                leading: const Icon(Icons.wb_sunny, color: Colors.orange),
+                backgroundColor: context.isDarkMode
+                    ? AppColors.darkText
+                    : AppColors.lightText,
+                onPressed: (context) => _onSelectTimeOfDay(
+                    context, AppStorageKey.appDawnTimeCachedKey),
+              ),
+              SettingsTile.navigation(
+                title: Text(S.current.afternoon_tile, style: _titleTextStyle),
+                value: Text(defaultSettings.afternoon),
+                description:
+                    Text(defaultSettings.afternoon, style: _subTitleTextStyle),
+                leading: const Icon(Icons.cloud, color: Colors.blueAccent),
+                backgroundColor: context.isDarkMode
+                    ? AppColors.darkText
+                    : AppColors.lightText,
+                onPressed: (context) => _onSelectTimeOfDay(
+                    context, AppStorageKey.appAfternoonTimeCachedKey),
+              ),
+              SettingsTile.navigation(
+                title: Text(S.current.dusk_tile, style: _titleTextStyle),
+                value: Text(defaultSettings.dusk),
+                description:
+                    Text(defaultSettings.dusk, style: _subTitleTextStyle),
+                leading: const Icon(Icons.brightness_2, color: Colors.yellow),
+                backgroundColor: context.isDarkMode
+                    ? AppColors.darkText
+                    : AppColors.lightText,
+                onPressed: (context) => _onSelectTimeOfDay(
+                    context, AppStorageKey.appDuskTimeCachedKey),
+              ),
+              SettingsTile.navigation(
+                title:
+                    Text(S.current.last_reminder_time, style: _titleTextStyle),
+                value: Text(defaultSettings.lastReminderTime),
+                description: Text(
+                  defaultSettings.lastReminderTime,
+                  style: _subTitleTextStyle,
+                ),
+                leading: const Icon(Icons.timer, color: Colors.blue),
+                backgroundColor: context.isDarkMode
+                    ? AppColors.darkText
+                    : AppColors.lightText,
+                onPressed: (context) async {
+                  final ReminderService reminderService =
+                      getIt.get<ReminderService>();
+                  if (await reminderService.requestPermission() &&
+                      context.mounted) {
+                    _onSelectTimeOfDay(
+                      context,
+                      AppStorageKey.appLastReminderTime,
+                    );
+                  }
+                },
+              ),
+            ],
+          ),
+
+          // General
+          SettingsSection(
+            title: Text(
+              S.current.general_section,
+              style: _sectionTextStyle,
+            ),
+            tiles: [
+              SettingsTile.navigation(
+                title: Text(S.current.language_tile, style: _titleTextStyle),
+                value: Text(
+                    SettingHelper.langCodeToFullName(defaultSettings.language)),
+                description: Text(
+                  SettingHelper.langCodeToFullName(defaultSettings.language),
+                  style: _subTitleTextStyle,
+                ),
+                leading: const Icon(Icons.language, color: Colors.blue),
+                backgroundColor: context.isDarkMode
+                    ? AppColors.darkText
+                    : AppColors.lightText,
+                onPressed: _onLangChanged,
+              ),
+              SettingsTile.navigation(
+                title: Text(S.current.theme_tile, style: _titleTextStyle),
+                value: Text(defaultSettings.isDarkMode
+                    ? S.current.dark_theme
+                    : S.current.light_theme),
+                description: Text(
+                    defaultSettings.isDarkMode
+                        ? S.current.dark_theme
+                        : S.current.light_theme,
+                    style: _subTitleTextStyle),
+                leading: defaultSettings.isDarkMode
+                    ? const Icon(Icons.dark_mode, color: Colors.amber)
+                    : const Icon(Icons.light_mode, color: Colors.amber),
+                backgroundColor: context.isDarkMode
+                    ? AppColors.darkText
+                    : AppColors.lightText,
+                onPressed: _onThemeChanged,
+              ),
+              SettingsTile.navigation(
                 title: Text(
-                  S.current.logout_button.toUpperCase(),
-                  style: const TextStyle(
-                    color: AppColors.error,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  S.current.measurement_unit_title,
+                  style: _titleTextStyle,
+                ),
+                value: Text(defaultSettings.measurementSystem ==
+                        MeasurementSystem.metric.name
+                    ? S.current.metric_unit
+                    : S.current.imperial_unit),
+                description: Text(
+                    defaultSettings.measurementSystem ==
+                            MeasurementSystem.metric.name
+                        ? S.current.metric_unit
+                        : S.current.imperial_unit,
+                    style: _subTitleTextStyle),
+                leading: const Icon(Icons.straighten, color: Colors.orange),
+                backgroundColor: context.isDarkMode
+                    ? AppColors.darkText
+                    : AppColors.lightText,
+                onPressed: _onMeasurementSystemChanged,
+              ),
+            ],
+          ),
+
+          // Account
+          SettingsSection(
+            title: Text(S.current.account_section, style: _sectionTextStyle),
+            tiles: [
+              !currentUser.isLoggedIn
+                  ? SettingsTile.navigation(
+                      title: Text(
+                        S.current.authentication_choice,
+                        style: _titleTextStyle,
+                      ),
+                      leading: const Icon(Icons.login, color: Colors.blue),
+                      trailing: const Icon(
+                        Icons.keyboard_arrow_right,
+                        color: AppColors.primary,
+                      ),
+                      backgroundColor: context.isDarkMode
+                          ? AppColors.darkText
+                          : AppColors.lightText,
+                      onPressed: _authPage,
+                    )
+                  : SettingsTile.navigation(
+                      title: Text(S.current.manage_account_choice,
+                          style: _titleTextStyle),
+                      leading:
+                          const Icon(Icons.manage_accounts, color: Colors.blue),
+                      trailing: const Icon(
+                        Icons.keyboard_arrow_right,
+                        color: AppColors.primary,
+                      ),
+                      backgroundColor: context.isDarkMode
+                          ? AppColors.darkText
+                          : AppColors.lightText,
+                      onPressed: _onManageAccount,
+                    ),
+              if (currentUser.isLoggedIn)
+                SettingsTile.navigation(
+                  title:
+                      Text(S.current.sync_data_title, style: _titleTextStyle),
+                  leading: const Icon(Icons.sync, color: Colors.blue),
+                  backgroundColor: context.isDarkMode
+                      ? AppColors.darkText
+                      : AppColors.lightText,
+                  onPressed: (context) => _onSync(context, currentUser.email),
+                ),
+            ],
+          ),
+
+          // Additional Info
+          SettingsSection(
+            title: Text(S.current.additional_information,
+                style: _sectionTextStyle),
+            tiles: [
+              SettingsTile.navigation(
+                title: Text(S.current.terms_and_conditions,
+                    style: _titleTextStyle),
+                leading: const Icon(Icons.description),
+                trailing: const Icon(
+                  Icons.keyboard_arrow_right,
+                  color: AppColors.primary,
                 ),
                 backgroundColor: context.isDarkMode
                     ? AppColors.darkText
                     : AppColors.lightText,
-                onPressed: _logout,
+                onPressed: (BuildContext context) {},
+              ),
+              SettingsTile.navigation(
+                title: Text(S.current.help_tile, style: _titleTextStyle),
+                leading: const Icon(Icons.help, color: Colors.deepPurpleAccent),
+                backgroundColor: context.isDarkMode
+                    ? AppColors.darkText
+                    : AppColors.lightText,
+                onPressed: (BuildContext context) {},
+              ),
+              SettingsTile.navigation(
+                title: Text(S.current.know_more_about_habit,
+                    style: _titleTextStyle),
+                leading: const Icon(Icons.lightbulb, color: Colors.amber),
+                backgroundColor: context.isDarkMode
+                    ? AppColors.darkText
+                    : AppColors.lightText,
+                onPressed: onMoreKnowledgePage,
               ),
             ],
           ),
-      ],
+
+          // Logout
+          if (currentUser.isLoggedIn)
+            SettingsSection(
+              tiles: [
+                SettingsTile.navigation(
+                  title: Text(
+                    S.current.logout_button.toUpperCase(),
+                    style: const TextStyle(
+                      color: AppColors.error,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  backgroundColor: context.isDarkMode
+                      ? AppColors.darkText
+                      : AppColors.lightText,
+                  onPressed: _logout,
+                ),
+              ],
+            ),
+        ],
+      ),
     );
   }
 
@@ -363,4 +420,8 @@ class SettingsPage extends StatelessWidget {
             child: const MoreHabitKnowledgePage(),
             type: PageTransitionType.leftToRight),
       );
+
+  void _onSync(BuildContext context, String? email) {
+    context.read<SyncCubit>().syncAll(email);
+  }
 }

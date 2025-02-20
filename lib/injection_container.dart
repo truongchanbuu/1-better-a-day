@@ -47,7 +47,8 @@ import 'features/rewards/domain/repositories/achievement_repository.dart';
 import 'features/rewards/presentations/blocs/challenge_crud/challenge_crud_bloc.dart';
 import 'features/rewards/presentations/blocs/collection_crud/collection_crud_bloc.dart';
 
-import 'features/settings/presentations/bloc/settings_cubit.dart';
+import 'features/settings/presentations/bloc/settings_cubit/settings_cubit.dart';
+import 'features/settings/presentations/bloc/sync_cubit/sync_cubit.dart';
 import 'features/shared/presentations/blocs/internet/internet_bloc.dart';
 import 'features/user/data/repositories/user_repository_impl.dart';
 import 'features/user/domain/repositories/user_repository.dart';
@@ -134,6 +135,20 @@ Future<void> initializeDependencies() async {
       fromJson: UserModel.fromJson,
     ),
   );
+  getIt.registerFactoryParam<ApiService<HabitModel>, String, void>(
+    (email, _) => ApiServiceImpl<HabitModel>(
+      collectionPath: 'data/$email/habits',
+      firestore: getIt(),
+      fromJson: HabitModel.fromJson,
+    ),
+  );
+  getIt.registerFactoryParam<ApiService<HabitHistoryModel>, String, void>(
+    (email, _) => ApiServiceImpl<HabitHistoryModel>(
+      collectionPath: 'data/$email/histories',
+      firestore: getIt(),
+      fromJson: HabitHistoryModel.fromJson,
+    ),
+  );
 
   // Repository
   getIt.registerSingleton<UserRepository>(UserRepositoryImpl(getIt()));
@@ -190,6 +205,7 @@ Future<void> initializeDependencies() async {
   getIt.registerFactoryParam<DistanceTrackCubit, double, void>(
     (targetDistance, _) => DistanceTrackCubit(targetDistance: targetDistance),
   );
+  getIt.registerFactory<SyncCubit>(() => SyncCubit(getIt(), getIt()));
 
   await getIt.get<ReminderService>().init();
   await PreDefinedAchievements.storeAllPredefinedAchievements();

@@ -10,7 +10,7 @@ import '../../../../core/helpers/alert_helper.dart';
 import '../../../../generated/l10n.dart';
 import '../../../habit/presentations/blocs/habit_progress/habit_progress_bloc.dart';
 import '../../../habit/presentations/helpers/habit_finish_notification.dart';
-import '../../../settings/presentations/bloc/settings_cubit.dart';
+import '../../../settings/presentations/bloc/settings_cubit/settings_cubit.dart';
 import '../widgets/drawer_slider.dart';
 
 class AppView extends StatefulWidget {

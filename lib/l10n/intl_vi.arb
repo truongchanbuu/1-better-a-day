@@ -127,6 +127,11 @@
   "dusk_tile": "Hoàng hôn",
   "last_reminder_time": "Nhắc nhở lần cuối",
 
+  "sync_data_title": "Đồng bộ",
+  "sync_failed":"Đồng bộ thất bại",
+  "sync_success": "Đồng bộ thành công",
+
+
   "no_date_selected": "Chưa ngày nào được chọn",
 
   "@__HABIT__": {},

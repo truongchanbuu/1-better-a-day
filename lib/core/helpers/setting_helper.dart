@@ -21,14 +21,15 @@ class SettingHelper {
     return language ?? Intl.getCurrentLocale().split('_').first;
   }
 
-  static List<String> get supportedLanguages => S.delegate.supportedLocales
-      .map((locale) => langCodeToFullName(locale.toString()))
-      .toList();
+  static List<String> get supportedLanguages =>
+      S.delegate.supportedLocales
+          .map((locale) => langCodeToFullName(locale.toString()))
+          .toList();
 
   static Map<String, String> get _langMap => {
-        'vi': S.current.vietnamese_choice,
-        'en': S.current.english_choice,
-      };
+    'vi': S.current.vietnamese_choice,
+    'en': S.current.english_choice,
+  };
 
   static String langCodeToFullName(String langCode) {
     return _langMap[langCode] ?? 'en';
@@ -44,8 +45,9 @@ class SettingHelper {
   }
 
   static String get measurementSystem {
-    final measurementSystem =
-        cachedClient.getString(AppStorageKey.appMeasurementUnitCachedKey);
+    final measurementSystem = cachedClient.getString(
+      AppStorageKey.appMeasurementUnitCachedKey,
+    );
     return measurementSystem ?? MeasurementSystem.metric.name;
   }
 

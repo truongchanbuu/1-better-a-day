@@ -27,6 +27,9 @@ HabitHistoryModel _$HabitHistoryModelFromJson(Map<String, dynamic> json) =>
       targetValue: (json['targetValue'] as num?)?.toDouble(),
       rating: (json['rating'] as num?)?.toDouble(),
       currentValue: (json['currentValue'] as num?)?.toDouble() ?? 0,
+      remoteUpdatedAt: json['remoteUpdatedAt'] == null
+          ? null
+          : DateTime.parse(json['remoteUpdatedAt']),
     );
 
 Map<String, dynamic> _$HabitHistoryModelToJson(HabitHistoryModel instance) =>
@@ -44,6 +47,7 @@ Map<String, dynamic> _$HabitHistoryModelToJson(HabitHistoryModel instance) =>
       'targetValue': instance.targetValue,
       'currentValue': instance.currentValue,
       'measurement': _$GoalUnitEnumMap[instance.measurement]!,
+      'remoteUpdatedAt': instance.remoteUpdatedAt?.toIso8601String(),
     };
 
 const _$DayStatusEnumMap = {

@@ -8,6 +8,7 @@ import '../../features/habit/presentations/blocs/statistic_crud/statistic_crud_b
 import '../../features/habit/presentations/pages/all_habits_page.dart';
 import '../../features/habit/presentations/pages/today_page.dart';
 import '../../features/rewards/presentations/pages/challenge_page.dart';
+import '../../features/settings/presentations/bloc/sync_cubit/sync_cubit.dart';
 import '../../features/settings/presentations/pages/settings_page.dart';
 import '../../generated/l10n.dart';
 import '../../injection_container.dart';
@@ -61,7 +62,10 @@ enum TabType {
           child: const TodayPage(),
         );
       case TabType.settings:
-        return const SettingsPage();
+        return BlocProvider(
+          create: (_) => getIt.get<SyncCubit>(),
+          child: const SettingsPage(),
+        );
       // case TabType.notifications:
       //   return const NotificationPage();
       case TabType.habits:

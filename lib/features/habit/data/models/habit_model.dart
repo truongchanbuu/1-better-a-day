@@ -29,6 +29,7 @@ class HabitModel extends HabitEntity implements HiveBaseModel<HabitModel> {
     super.isReminderEnabled,
     required super.habitStatus,
     super.reminderStates,
+    super.remoteUpdatedAt,
   }) : super(habitGoal: habitGoal.toEntity());
 
   factory HabitModel.init() {
@@ -69,6 +70,7 @@ class HabitModel extends HabitEntity implements HiveBaseModel<HabitModel> {
       reminderTimes: reminderTimes,
       isReminderEnabled: isReminderEnabled,
       reminderStates: reminderStates,
+      remoteUpdatedAt: remoteUpdatedAt,
     );
   }
 
@@ -90,6 +92,7 @@ class HabitModel extends HabitEntity implements HiveBaseModel<HabitModel> {
       habitIcon: entity.habitIcon,
       isReminderEnabled: entity.isReminderEnabled,
       reminderStates: entity.reminderStates,
+      remoteUpdatedAt: entity.remoteUpdatedAt,
     );
   }
 
@@ -116,6 +119,7 @@ class HabitModel extends HabitEntity implements HiveBaseModel<HabitModel> {
     HabitStatus? habitStatus,
     bool? isReminderEnabled,
     Map<String, bool>? reminderStates,
+    DateTime? remoteUpdatedAt,
   }) {
     return HabitModel(
       habitId: habitId ?? this.habitId,
@@ -134,6 +138,7 @@ class HabitModel extends HabitEntity implements HiveBaseModel<HabitModel> {
       habitStatus: habitStatus ?? this.habitStatus,
       isReminderEnabled: isReminderEnabled ?? this.isReminderEnabled,
       reminderStates: reminderStates ?? this.reminderStates,
+      remoteUpdatedAt: remoteUpdatedAt,
     );
   }
 
