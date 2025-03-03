@@ -105,7 +105,7 @@ Future<void> initializeDependencies() async {
   // GEMINI
   await dotenv.load();
   getIt.registerSingleton(GenerativeModel(
-    model: 'gemini-pro',
+    model: 'gemini-1.5-pro-latest',
     apiKey: dotenv.env['GEMINI_API_KEY'] ?? '',
   ));
 

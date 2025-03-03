@@ -2317,10 +2317,10 @@ class S {
     );
   }
 
-  /// `To help you build better habits, we\'d like to send you reminders.\nWould you like to enable notifications?`
+  /// `To help you build better habits, we'd like to send you reminders.\nWould you like to enable notifications?`
   String get notification_permission_request {
     return Intl.message(
-      'To help you build better habits, we\\\'d like to send you reminders.\nWould you like to enable notifications?',
+      'To help you build better habits, we\'d like to send you reminders.\nWould you like to enable notifications?',
       name: 'notification_permission_request',
       desc: '',
       args: [],

@@ -877,7 +877,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "note_title": MessageLookupByLibrary.simpleMessage("Note"),
     "notification_permission_request": MessageLookupByLibrary.simpleMessage(
-      "To help you build better habits, we\\\'d like to send you reminders.\nWould you like to enable notifications?",
+      "To help you build better habits, we\'d like to send you reminders.\nWould you like to enable notifications?",
     ),
     "notification_screen_title": MessageLookupByLibrary.simpleMessage(
       "Keep your habits on track!",
