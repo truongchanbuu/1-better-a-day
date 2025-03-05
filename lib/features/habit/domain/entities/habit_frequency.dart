@@ -41,9 +41,15 @@ class HabitFrequency extends Equatable {
         );
 
   // Predefined frequencies
-  static var daily = HabitFrequency(type: FrequencyType.daily);
+  static var daily = HabitFrequency(
+    type: FrequencyType.daily,
+    interval: TimeInterval(
+      value: 1,
+      type: IntervalType.days,
+    ),
+  );
   static var weekly =
-      HabitFrequency(type: FrequencyType.weekdays, weekDays: {2});
+      HabitFrequency(type: FrequencyType.weekdays, weekDays: {1});
 
   // Factory methods
   static HabitFrequency everyNMinutes(int n) {

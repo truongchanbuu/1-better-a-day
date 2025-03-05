@@ -1069,7 +1069,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "reminder_section": MessageLookupByLibrary.simpleMessage("Nhắc nhở"),
     "remove_water_button": m29,
-    "reps_unit": MessageLookupByLibrary.simpleMessage("lần"),
+    "reps_unit": MessageLookupByLibrary.simpleMessage("hiệp"),
     "reset_password": MessageLookupByLibrary.simpleMessage("Đặt lại mật khẩu"),
     "resume_button": MessageLookupByLibrary.simpleMessage("Tiếp tục"),
     "run_habit_desc": MessageLookupByLibrary.simpleMessage(

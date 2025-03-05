@@ -291,15 +291,6 @@ class _AddHabitPageState extends State<AddHabitPage> {
                         final goalUnit =
                             GoalUnit.fromMultiLanguageString(value);
 
-                        if (value == GoalUnit.custom.name) {
-                          final customUnit = await _showCustomUnitDialog();
-                          if (customUnit is String) {
-                            setState(() {
-                              units.add(customUnit);
-                            });
-                          }
-                        }
-
                         validateBloc.add(ChangeGoalTargetUnit(goalUnit));
                       }
                     },

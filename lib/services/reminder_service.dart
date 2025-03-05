@@ -191,7 +191,9 @@ class ReminderService {
         break;
     }
 
-    _appLogger.i('Notification scheduled: ${habit.habitTitle}');
+    _appLogger.i(
+      'Notification scheduled: ${habit.habitTitle} - ${frequency.getDisplayText()}',
+    );
   }
 
   Future<bool> _scheduleDailyReminder({
